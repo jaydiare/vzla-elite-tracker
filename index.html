@@ -8,8 +8,7 @@
     <script>window._epn = {campaign: 5339142321};</script>
     <script src="https://epnt.ebay.com/static/epn-smart-tools.js"></script>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet"/>
 
     <script id="tailwind-config">
         tailwind.config = {
@@ -17,10 +16,8 @@
             theme: {
                 extend: {
                     colors: {
-                        "primary": "#f2f20d", // Dark Yellow Accent
-                        "background-dark": "#121208",
-                        "ven-blue": "#00247d",
-                        "ven-red": "#ce1126",
+                        "primary": "#f2f20d",
+                        "background-dark": "#121212",
                     },
                     fontFamily: { "display": ["Inter", "sans-serif"] }
                 },
@@ -28,64 +25,47 @@
         }
     </script>
     <style>
-        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
-        .athlete-card-gradient { background: linear-gradient(145deg, #1e1e0a 0%, #121208 100%); }
-        .glass-nav { background: rgba(18, 18, 8, 0.8); backdrop-filter: blur(12px); }
-        .hero-pattern { background-image: radial-gradient(circle at 2px 2px, rgba(242, 242, 13, 0.05) 1px, transparent 0); background-size: 24px 24px; }
+        body { background-color: #0a0a0a; font-family: 'Inter', sans-serif; }
+        .athlete-card {
+            background: #121212;
+            border-radius: 20px;
+            padding: 24px;
+            text-align: center;
+            border: 1px solid rgba(242, 242, 13, 0.1);
+            transition: all 0.3s ease;
+        }
+        .athlete-card:hover { transform: translateY(-5px); border-color: rgba(242, 242, 13, 0.4); }
+        .sport-icon-wrapper {
+            background: rgba(242, 242, 13, 0.03);
+            border-radius: 24px;
+            padding: 35px;
+            margin-bottom: 24px;
+            border: 1px solid rgba(242, 242, 13, 0.15);
+        }
+        .athlete-name { font-style: italic; text-transform: uppercase; letter-spacing: -0.5px; }
+        .indicator-bar { display: flex; gap: 4px; justify-content: center; margin-top: 15px; }
+        .active-segment { width: 28px; height: 5px; background: #f2f20d; border-radius: 3px; }
+        .inactive-segment { width: 14px; height: 5px; background: #2a2a2a; border-radius: 3px; }
     </style>
 </head>
-<body class="bg-background-dark font-display text-slate-100 min-h-screen">
+<body class="text-slate-100 min-h-screen">
 
-    <nav class="fixed top-0 w-full z-50 glass-nav border-b border-white/5">
-        <div class="max-w-[1440px] mx-auto px-6 h-20 flex items-center justify-between">
-            <div class="flex items-center gap-12">
-                <div class="flex items-center gap-3">
-                    <div class="bg-primary text-background-dark p-1.5 rounded-lg">
-                        <span class="material-symbols-outlined block">star_half</span>
-                    </div>
-                    <h1 class="text-xl font-extrabold tracking-tighter uppercase italic">
-                        🇻🇪 Elite <span class="text-primary">Tracker</span>
-                    </h1>
-                </div>
-                <div class="hidden lg:flex items-center gap-1" id="sport-filters">
-                    <button onclick="setSport('All', this)" class="px-4 py-2 rounded-lg bg-primary/10 text-primary font-bold text-sm border border-primary/20">All Sports</button>
-                    <button onclick="setSport('Baseball', this)" class="px-4 py-2 rounded-lg hover:bg-white/5 text-slate-400 hover:text-white transition-colors font-medium text-sm">Baseball</button>
-                    <button onclick="setSport('Soccer', this)" class="px-4 py-2 rounded-lg hover:bg-white/5 text-slate-400 hover:text-white transition-colors font-medium text-sm">Soccer</button>
-                    <button onclick="setSport('Basketball', this)" class="px-4 py-2 rounded-lg hover:bg-white/5 text-slate-400 hover:text-white transition-colors font-medium text-sm">Basketball</button>
-                </div>
-            </div>
-            <div class="flex items-center bg-white/5 border border-white/10 rounded-full px-4 py-2 w-64">
-                <span class="material-symbols-outlined text-slate-400 text-sm">search</span>
-                <input id="searchBar" onkeyup="filterContent()" class="bg-transparent border-none focus:ring-0 text-sm w-full placeholder:text-slate-500" placeholder="Quick search..." type="text"/>
+    <nav class="p-6 border-b border-white/5 bg-black/50 backdrop-blur-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <h1 class="text-2xl font-black italic uppercase tracking-tighter">
+                🇻🇪 Elite <span class="text-primary">Tracker</span>
+            </h1>
+            <div class="flex gap-4" id="sport-filters">
+                <button onclick="setSport('All', this)" class="text-xs font-black uppercase text-primary">All</button>
+                <button onclick="setSport('Baseball', this)" class="text-xs font-black uppercase text-slate-500">Baseball</button>
+                <button onclick="setSport('Soccer', this)" class="text-xs font-black uppercase text-slate-500">Soccer</button>
+                <button onclick="setSport('Basketball', this)" class="text-xs font-black uppercase text-slate-500">Basketball</button>
             </div>
         </div>
     </nav>
 
-    <main class="pt-32 pb-20 px-6 max-w-[1440px] mx-auto">
-        <section class="relative mb-16 rounded-3xl overflow-hidden border border-white/5 bg-slate-900/40 p-12 hero-pattern text-center">
-            <span class="inline-block py-1 px-3 rounded-full bg-primary/10 text-primary text-xs font-bold uppercase tracking-widest mb-6 border border-primary/20">
-                Venezuela's Finest Athletes
-            </span>
-            <h2 class="text-4xl md:text-6xl font-black mb-2 leading-[1.1] tracking-tight">
-                Track The <span class="text-primary italic">Top Tier</span> Talent In Real-Time
-            </h2>
-            <p class="text-slate-400 text-sm font-bold mb-6">
-                by 
-                <a target="_blank" 
-                   href="https://www.ebay.ca/str/localherossportscards?mkcid=1&mkrid=706-53473-19255-0&siteid=2&campid=5339142305&customid=&toolid=10001&mkevt=1" 
-                   class="text-primary hover:underline transition-all">
-                   @loacalheros_sportscards
-                </a>
-            </p>
-            <p class="text-slate-400 text-lg mb-10 max-w-xl mx-auto">
-                Global database for scouting, analytics, and career tracking of Venezuela's elite sports professionals.
-            </p>
-
-            <img style="text-decoration:none;border:0;padding:0;margin:0;position:absolute;visibility:hidden;" 
-                 src="https://www.ebayadservices.com/marketingtracking/v1/impression?mpt=3030369&mkcid=1&mkrid=706-53473-19255-0&mkevt=2&siteid=2&campid=5339142305&ad_type=0&toolid=10001">
-        </section>
-
-        <div id="athletes-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+    <main class="max-w-7xl mx-auto p-8">
+        <div id="athletes-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             </div>
     </main>
 
@@ -93,98 +73,80 @@
         let athleteData = [];
         let currentSport = 'All';
 
+        const icons = {
+            'Baseball': `<circle cx="50" cy="50" r="30" fill="#f2f20d"/><path d="M30 40 Q 50 60 70 40 M30 60 Q 50 40 70 60" fill="none" stroke="#121212" stroke-width="2"/>`,
+            'Soccer': `<circle cx="50" cy="50" r="30" fill="#f2f20d"/><path d="M50 20 L60 40 L80 45 L65 60 L70 80 L50 70 L30 80 L35 60 L20 45 L40 40 Z" fill="#121212"/>`,
+            'Basketball': `<circle cx="50" cy="50" r="30" fill="#f2f20d"/><path d="M20 50 L80 50 M50 20 L50 80 M25 30 Q 50 50 25 70 M75 30 Q 50 50 75 70" fill="none" stroke="#121212" stroke-width="2"/>`
+        };
+
         async function init() {
             try {
                 const resp = await fetch('data/athletes.json');
                 athleteData = await resp.json();
                 renderGrid(athleteData);
-            } catch (e) { console.error("Error loading data", e); }
+            } catch (e) { console.error(e); }
         }
 
         function setSport(sport, btn) {
             currentSport = sport;
-            document.querySelectorAll('#sport-filters button').forEach(b => {
-                b.classList.remove('bg-primary/10', 'text-primary', 'border-primary/20');
-                b.classList.add('text-slate-400');
-            });
-            btn.classList.add('bg-primary/10', 'text-primary', 'border-primary/20');
+            document.querySelectorAll('#sport-filters button').forEach(b => b.classList.replace('text-primary', 'text-slate-500'));
+            btn.classList.replace('text-slate-500', 'text-primary');
             filterContent();
         }
 
         function filterContent() {
-            const term = document.getElementById('searchBar').value.toLowerCase();
-            const filtered = athleteData.filter(a => {
-                const matchSport = currentSport === 'All' || a.sport === currentSport;
-                const matchTerm = a.name.toLowerCase().includes(term) || a.team.toLowerCase().includes(term);
-                return matchSport && matchTerm;
-            });
+            const filtered = athleteData.filter(a => currentSport === 'All' || a.sport === currentSport);
             renderGrid(filtered);
-        }
-
-        // Helper to extract initials
-        function getInitials(name) {
-            return name.split(' ').map(n => n[0]).slice(0, 2).join('').toUpperCase();
         }
 
         function renderGrid(data) {
             const grid = document.getElementById('athletes-grid');
-            grid.innerHTML = data.map(a => {
-                const initials = getInitials(a.name);
-                const firstName = a.name.split(' ')[0];
-                const lastName = a.name.split(' ').slice(1).join(' ');
-
-                return `
-                <div class="athlete-card-gradient border border-white/10 p-1 rounded-2xl group hover:border-primary/40 transition-all duration-300">
-                    <div class="relative bg-background-dark/80 rounded-xl p-6 h-full flex flex-col overflow-hidden">
-                        
-                        <div class="aspect-square mb-6 overflow-hidden rounded-lg border border-white/5 relative bg-white/5 flex items-center justify-center">
-                            <span class="absolute inset-0 flex items-center justify-center text-5xl font-black text-white/5 italic select-none">
-                                ${initials}
-                            </span>
-                            
-                            <img src="${a.img}" 
-                                 alt="${a.name}"
-                                 class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 relative z-10"
-                                 onerror="this.style.display='none'; this.parentElement.classList.add('bg-gradient-to-br', 'from-ven-blue/20', 'to-ven-red/20')">
-                            
-                            <div class="absolute top-2 left-2 z-20">
-                                 <span class="px-2 py-0.5 bg-black/60 backdrop-blur-md border border-white/10 rounded text-[9px] font-bold text-primary italic uppercase tracking-widest">
-                                    ${a.league}
-                                 </span>
-                            </div>
-                        </div>
-
-                        <div class="mb-6 relative z-10">
-                            <p class="text-slate-500 text-[10px] font-bold mb-1 uppercase tracking-tighter">${a.sport} | ACTIVE</p>
-                            <h4 class="text-3xl font-black tracking-tight leading-tight group-hover:text-primary transition-colors">
-                                ${firstName} <br/> ${lastName}
-                            </h4>
-                        </div>
-
-                        <div class="grid grid-cols-3 gap-2 mb-8 border-t border-b border-white/5 py-4 relative z-10">
-                            <div class="text-center">
-                                <p class="text-[9px] text-slate-500 font-bold mb-1">AVG</p>
-                                <p class="text-base font-black italic">.---</p>
-                            </div>
-                            <div class="text-center border-x border-white/5">
-                                <p class="text-[9px] text-slate-500 font-bold mb-1">HR</p>
-                                <p class="text-base font-black italic">--</p>
-                            </div>
-                            <div class="text-center">
-                                <p class="text-[9px] text-slate-500 font-bold mb-1">RBI</p>
-                                <p class="text-base font-black italic">--</p>
-                            </div>
-                        </div>
-
-                        <div class="mt-auto">
-                            <a href="https://www.ebay.com/sch/i.html?_nkw=${encodeURIComponent(a.name)}" target="_blank" 
-                               class="block w-full bg-primary py-3 rounded-lg font-black text-background-dark text-center text-xs hover:shadow-[0_4px_15px_rgba(242,242,13,0.4)] transition-all">
-                                VIEW PROFILE
-                            </a>
+            grid.innerHTML = data.map(a => `
+                <div class="athlete-card group">
+                    <div class="sport-icon-wrapper">
+                        <svg viewBox="0 0 100 100" class="w-16 h-16 mx-auto">
+                            ${icons[a.sport] || icons['Baseball']}
+                        </svg>
+                        <div class="indicator-bar">
+                            <div class="active-segment"></div>
+                            <div class="inactive-segment"></div>
                         </div>
                     </div>
+
+                    <div class="bg-primary text-black text-[10px] font-black px-3 py-1 rounded-full inline-block mb-3">ELITE TIER</div>
+                    
+                    <h3 class="athlete-name text-2xl font-black text-white mb-1 leading-tight">
+                        ${a.name}
+                    </h3>
+                    
+                    <div class="text-primary text-[11px] font-bold uppercase tracking-wider mb-6">
+                        ${a.sport} • ${a.team}
+                    </div>
+
+                    <div class="grid grid-cols-3 gap-2 mb-6 border-t border-white/10 pt-4">
+                        <div>
+                            <span class="block text-[10px] text-slate-500 font-bold mb-1">RANK</span>
+                            <span class="text-lg font-black italic text-white">--</span>
+                        </div>
+                        <div class="border-x border-white/5">
+                            <span class="block text-[10px] text-slate-500 font-bold mb-1">STATUS</span>
+                            <span class="text-lg font-black italic text-white">ACT</span>
+                        </div>
+                        <div>
+                            <span class="block text-[10px] text-slate-500 font-bold mb-1">EXP</span>
+                            <span class="text-lg font-black italic text-white">--</span>
+                        </div>
+                    </div>
+
+                    <a href="https://www.ebay.com/sch/i.html?_nkw=${encodeURIComponent(a.name)}" target="_blank" 
+                       class="w-full bg-primary py-4 rounded-xl font-black text-black text-sm flex items-center justify-center gap-2 hover:shadow-[0_4px_20px_rgba(242,242,13,0.4)] transition-all">
+                        SHOP COLLECTIBLES
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </a>
                 </div>
-            `}).join('');
+            `).join('');
         }
         init();
     </script>
