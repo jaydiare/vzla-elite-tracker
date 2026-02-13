@@ -4,22 +4,23 @@ import json
 import time
 
 # Configuration
-API_KEY = "YOUR_API_KEY" # Replace with your actual key
+API_KEY = "YOUR_API_KEY"  # Replace with your actual key
 HEADERS = {"Authorization": API_KEY}
 COUNTRY = "Venezuela"
 
-# Defined leagues based on your balldontlie dashboard
+# Comprehensive list of endpoints from your dashboard
 ENDPOINTS = [
     {"league": "NBA", "url": "/v1/players/active", "field": "country", "sport": "Basketball"},
     {"league": "LA LIGA", "url": "/laliga/v1/players", "field": "citizenship", "sport": "Soccer"},
-    {"league": "MLS", "url": "/mls/v1/players", "field": "citizenship", "sport": "Soccer"}
+    {"league": "MLS", "url": "/mls/v1/players", "field": "citizenship", "sport": "Soccer"},
+    {"league": "UCL", "url": "/ucl/v1/players", "field": "citizenship", "sport": "Soccer"} # Champions League
 ]
 
 def fetch_athletes():
     all_athletes = []
     
     for ep in ENDPOINTS:
-        # per_page=100 stretches your 30-daily-call limit
+        # Max per_page=100 stretches your 30-daily-call limit
         url = f"https://api.balldontlie.io{ep['url']}?per_page=100"
         print(f"📡 Scanning {ep['league']}...")
         
@@ -28,17 +29,17 @@ def fetch_athletes():
             players = response.get('data', [])
             
             for p in players:
-                # Check specific nationality field for that sport
+                # Soccer uses 'citizenship', Basketball uses 'country'
                 if p.get(ep['field']) == COUNTRY:
                     all_athletes.append({
                         "name": f"{p['first_name']} {p['last_name']}",
                         "sport": ep['sport'],
                         "league": ep['league'],
                         "team": p.get('team', {}).get('full_name', 'Active'),
-                        "img": "" # Using icons instead of images
+                        "img": "" 
                     })
             
-            # Wait 15 seconds to stay under 5 requests/min limit
+            # Rate Limit Protection: Wait 15s (Max 4 requests/min)
             time.sleep(15) 
             
         except Exception as e:
