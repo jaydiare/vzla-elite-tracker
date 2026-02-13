@@ -4,169 +4,96 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Elite Athlete Tracker</title>
+    <script>window._epn = {campaign: 5339142321};</script>
+    <script src="https://epnt.ebay.com/static/epn-smart-tools.js"></script>
+    
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
-    
     <style>
-        :root { --ven-blue: #0033a0; --ven-yellow: #ffcc00; --ven-red: #ce1126; }
-        body { background-color: #f8f9fa; font-family: 'Inter', -apple-system, sans-serif; }
-        .hero { background: linear-gradient(135deg, var(--ven-blue), #001e5a); color: white; padding: 3rem 0; }
-        .card-athlete { border: none; border-radius: 12px; transition: 0.3s; border-bottom: 4px solid var(--ven-yellow); }
+        :root { --primary-color: #0033a0; --accent-color: #ffcc00; }
+        .hero { background: linear-gradient(135deg, var(--primary-color), #001e5a); color: white; padding: 3rem 0; }
+        .card-athlete { border: none; border-radius: 12px; transition: 0.3s; }
         .card-athlete:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
-        .img-container { height: 200px; background: #eee; overflow: hidden; }
-        .img-container img { width: 100%; height: 100%; object-fit: cover; }
-        .btn-ebay { background-color: var(--ven-yellow); color: #000; font-weight: bold; border: none; }
-        .btn-ebay:hover { background-color: #e6b800; color: #000; }
-        .view-btn.active { background-color: var(--ven-blue); color: white; }
+        .btn-ebay { background-color: var(--accent-color); font-weight: 600; border: none; }
     </style>
 </head>
 <body>
 
-<header class="hero text-center mb-5">
+<header class="hero text-center">
     <div class="container">
-        <h1 id="site-title" class="display-4 fw-bold">🇻🇪 Atletas Elite</h1>
-        <p class="lead opacity-75">Tracking Venezuelans in Major Leagues & Elite FIBA Leagues</p>
-        <span id="last-update" class="badge rounded-pill bg-light text-dark shadow-sm">Syncing Data...</span>
+        <h1>🇻🇪 Elite Athlete Tracker</h1>
+        <p>Tracking talent in MLB, NBA & International Soccer</p>
     </div>
 </header>
 
-<main class="container mb-5">
-    <div class="row g-3 mb-4 align-items-center">
-        <div class="col-md-5">
-            <div class="input-group shadow-sm">
-                <span class="input-group-text bg-white"><i class="fas fa-search"></i></span>
-                <input type="text" id="searchInput" class="form-control" placeholder="Search by name or team..." onkeyup="processFilter()">
+<main class="container my-4">
+    <div class="card p-3 mb-4 shadow-sm border-0">
+        <div class="row g-3">
+            <div class="col-md-6">
+                <input type="text" id="searchBar" class="form-control" placeholder="Search by name, team, or sport..." onkeyup="filterContent()">
             </div>
-        </div>
-        <div class="col-md-4 text-center" id="filter-buttons">
-            </div>
-        <div class="col-md-3 text-md-end">
-            <div class="btn-group shadow-sm">
-                <button class="btn btn-outline-dark view-btn active" id="btn-grid" onclick="setView('grid')"><i class="fas fa-th"></i></button>
-                <button class="btn btn-outline-dark view-btn" id="btn-table" onclick="setView('table')"><i class="fas fa-list"></i></button>
+            <div class="col-md-6 text-md-end">
+                <div class="btn-group" id="sport-filters">
+                    <button class="btn btn-outline-primary active" onclick="setSport('All', this)">All</button>
+                    <button class="btn btn-outline-primary" onclick="setSport('Baseball', this)">Baseball</button>
+                    <button class="btn btn-outline-primary" onclick="setSport('Soccer', this)">Soccer</button>
+                </div>
             </div>
         </div>
     </div>
-
     <div id="grid-view" class="row g-4"></div>
-
-    <div id="table-view" class="d-none card border-0 shadow-sm p-3">
-        <table id="statsTable" class="table table-hover align-middle" style="width:100%">
-            <thead class="table-light">
-                <tr>
-                    <th>Athlete</th>
-                    <th>Sport</th>
-                    <th>League</th>
-                    <th>Team</th>
-                    <th>Shop</th>
-                </tr>
-            </thead>
-            <tbody id="table-body"></tbody>
-        </table>
-    </div>
 </main>
-
-<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
-<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
 
 <script>
 let athleteData = [];
-let config = {};
-let activeSport = 'All';
+let currentSport = 'All';
 
-async function loadApp() {
+async function init() {
     try {
-        const [cReq, dReq] = await Promise.all([fetch('config.json'), fetch('data/athletes.json')]);
-        config = await cReq.json();
-        athleteData = await dReq.json();
-
-        document.getElementById('site-title').innerText = `${config.country_flag} ${config.site_title}`;
-        document.getElementById('last-update').innerText = `Updated: ${new Date().toLocaleDateString()}`;
-
-        renderFilters();
-        processFilter();
-    } catch (err) { console.error("Load failed", err); }
+        const resp = await fetch('data/athletes.json');
+        athleteData = await resp.json();
+        filterContent();
+    } catch (e) { console.error("Error loading data", e); }
 }
 
-function renderFilters() {
-    const sports = ['All', ...new Set(athleteData.map(a => a.sport))];
-    const container = document.getElementById('filter-buttons');
-    container.innerHTML = sports.map(s => `
-        <button class="btn btn-sm btn-outline-primary m-1 ${s==='All'?'active':''}" onclick="setSport('${s}', this)">${s}</button>
-    `).join('');
-}
-
-function setSport(s, btn) {
-    activeSport = s;
-    document.querySelectorAll('#filter-buttons .btn').forEach(b => b.classList.remove('active'));
+function setSport(sport, btn) {
+    currentSport = sport;
+    document.querySelectorAll('#sport-filters .btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
-    processFilter();
+    filterContent();
 }
 
-function processFilter() {
-    const query = document.getElementById('searchInput').value.toLowerCase();
+function filterContent() {
+    const term = document.getElementById('searchBar').value.toLowerCase();
     const filtered = athleteData.filter(a => {
-        const matchesSport = activeSport === 'All' || a.sport === activeSport;
-        const matchesName = a.name.toLowerCase().includes(query) || a.team.toLowerCase().includes(query);
-        return matchesSport && matchesName;
+        const matchSport = currentSport === 'All' || a.sport === currentSport;
+        // Search matches name, team, OR sport
+        const matchTerm = a.name.toLowerCase().includes(term) || 
+                          a.team.toLowerCase().includes(term) || 
+                          a.sport.toLowerCase().includes(term);
+        return matchSport && matchTerm;
     });
     renderGrid(filtered);
-    renderTable(filtered);
-}
-
-function getEbayUrl(name) {
-    // Dynamically appends the athlete search to your partner short link
-    return `${config.ebay_partner_link}?_nkw=${encodeURIComponent(name)}`;
 }
 
 function renderGrid(data) {
-    const container = document.getElementById('grid-view');
-    container.innerHTML = data.map(a => `
-        <div class="col-12 col-md-6 col-lg-4">
+    const grid = document.getElementById('grid-view');
+    grid.innerHTML = data.map(a => `
+        <div class="col-md-4">
             <div class="card card-athlete h-100 shadow-sm">
-                <div class="img-container">
-                    <img src="${a.img || 'https://via.placeholder.com/400x250?text=Athlete'}" alt="${a.name}">
-                </div>
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-start mb-2">
-                        <h5 class="card-title fw-bold mb-0">${a.name}</h5>
-                        <span class="badge bg-primary-subtle text-primary border border-primary-subtle">${a.league}</span>
-                    </div>
-                    <p class="text-muted small mb-3"><i class="fas fa-running me-2"></i>${a.team}</p>
-                    <a href="${getEbayUrl(a.name)}" target="_blank" class="btn btn-ebay btn-sm w-100 shadow-sm">
-                        <i class="fab fa-ebay me-2"></i>Shop Collectibles
+                <img src="${a.img}" class="card-img-top" style="height:200px; object-fit:cover;" alt="${a.name}">
+                <div class="card-body text-center">
+                    <h5 class="fw-bold">${a.name}</h5>
+                    <p class="text-muted small">${a.sport} | ${a.team}</p>
+                    <a href="https://www.ebay.com/sch/i.html?_nkw=${encodeURIComponent(a.name)}" target="_blank" class="btn btn-ebay w-100">
+                        Shop Collectibles
                     </a>
                 </div>
             </div>
         </div>
     `).join('');
 }
-
-function renderTable(data) {
-    if ($.fn.DataTable.isDataTable('#statsTable')) $('#statsTable').DataTable().destroy();
-    const body = document.getElementById('table-body');
-    body.innerHTML = data.map(a => `
-        <tr>
-            <td class="fw-bold">${a.name}</td>
-            <td>${a.sport}</td>
-            <td><span class="badge bg-light text-dark border">${a.league}</span></td>
-            <td>${a.team}</td>
-            <td><a href="${getEbayUrl(a.name)}" target="_blank" class="btn btn-sm btn-outline-warning text-dark"><i class="fab fa-ebay"></i></a></td>
-        </tr>
-    `).join('');
-    $('#statsTable').DataTable({ responsive: true, dom: 'tp', pageLength: 10 });
-}
-
-function setView(type) {
-    document.getElementById('grid-view').classList.toggle('d-none', type === 'table');
-    document.getElementById('table-view').classList.toggle('d-none', type === 'grid');
-    document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
-    document.getElementById(`btn-${type}`).classList.add('active');
-}
-
-loadApp();
+init();
 </script>
 </body>
 </html>
