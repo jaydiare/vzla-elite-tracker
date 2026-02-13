@@ -1,17 +1,17 @@
-name: Daily Athlete & Store Sync
+name: Daily Athlete Sync
 on:
   schedule:
-    - cron: '0 2 * * *' # Runs at 2:00 AM daily
-  workflow_dispatch: # Allows you to click a button to update manually
+    - cron: '0 4 * * *' # Runs at 4 AM UTC daily
+  workflow_dispatch: # Allows manual click to update
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Repository
+      - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Set up Python
+      - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.10'
@@ -19,17 +19,17 @@ jobs:
       - name: Install Dependencies
         run: pip install requests
 
-      - name: Execute Sync Script
+      - name: Sync Data
         env:
-          SPORTSDB_KEY: ${{ secrets.SPORTSDB_KEY }}
+          # This connects your secret vault to the script
           NBA_API_KEY: ${{ secrets.NBA_API_KEY }}
-          SOCCER_API_KEY: ${{ secrets.SOCCER_API_KEY }}
+          SPORTSDB_KEY: ${{ secrets.SPORTSDB_KEY }}
         run: python fetch_data.py
 
-      - name: Commit and Push Changes
+      - name: Save & Deploy
         run: |
           git config --global user.name 'GitHub Action'
           git config --global user.email 'action@github.com'
           git add data/athletes.json
-          # Only commit if the data actually changed
-          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-update athlete data & eBay links" && git push)
+          # Only push if there are changes to avoid infinite loops
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-update athlete data" && git push)
