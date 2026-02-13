@@ -16,6 +16,11 @@ ENDPOINTS = [
     {"sport": "Soccer", "url": "/ucl/v1/players", "field": "citizenship"},
     {"sport": "Soccer", "url": "/ligue1/v1/players", "field": "citizenship"},
     {"sport": "Soccer", "url": "/nfl/v1/players", "field": "country"},
+    {"sport": "Soccer", "url": "/bundesliga/v1/players", "field": "citizenship"},
+    {"sport": "Soccer", "url": "/epl/v1/players", "field": "citizenship"},
+    {"sport": "Tennis", "url": "/atp/v1/players", "field": "birth_place"},
+    {"sport": "Golf", "url": "/atp/v1/players", "field": "birthplace_country"}
+    
     # Note: Balldontlie added MLB/Baseball recently - check dashboard for specific URL
 ]
 
