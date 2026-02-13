@@ -50,6 +50,8 @@
         .active-segment { width: 28px; height: 5px; background: #f2f20d; border-radius: 3px; }
         .inactive-segment { width: 14px; height: 5px; background: #2a2a2a; border-radius: 3px; }
         .hero-pattern { background-image: radial-gradient(circle at 2px 2px, rgba(242, 242, 13, 0.05) 1px, transparent 0); background-size: 24px 24px; }
+        .status-dot { height: 8px; width: 8px; border-radius: 50%; display: inline-block; margin-right: 6px; }
+        .status-active { background-color: #00C848; } /* Professional Green */
     </style>
 </head>
 <body class="text-slate-100 min-h-screen">
@@ -79,7 +81,7 @@
             <p class="text-slate-400 text-sm font-bold mb-6">
                 by <a target="_blank" href="https://www.ebay.ca/str/localherossportscards?mkcid=1&mkrid=706-53473-19255-0&siteid=2&campid=5339142305&customid=&toolid=10001&mkevt=1" class="text-primary hover:underline transition-all">@loacalheros_sportscards</a>
             </p>
-            <p class="text-slate-400 text-lg mb-10 max-w-xl mx-auto">Global database for scouting, analytics, and career tracking of Venezuela's elite sports professionals.</p>
+            <p class="text-slate-400 text-lg mb-10 max-w-xl mx-auto">Global database for scouting and career tracking of Venezuela's elite sports professionals.</p>
             
             <img style="display:none;" src="https://www.ebayadservices.com/marketingtracking/v1/impression?mpt=3030369&mkcid=1&mkrid=706-53473-19255-0&mkevt=2&siteid=2&campid=5339142305&ad_type=0&toolid=10001">
         </section>
@@ -107,33 +109,7 @@
 
         <div id="athletes-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-20">
             </div>
-
-        <section class="mt-20 border-t border-white/5 pt-16">
-            <h3 class="text-2xl font-black flex items-center gap-3 mb-8"><span class="w-2 h-8 bg-ven-red rounded-full"></span> Premium Collections</h3>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="p-8 rounded-2xl bg-gradient-to-br from-ven-blue/20 to-black border border-ven-blue/30 relative overflow-hidden group">
-                    <span class="material-symbols-outlined absolute -bottom-10 -right-10 text-[180px] text-ven-blue opacity-10">monitoring</span>
-                    <div class="relative z-10">
-                        <h4 class="text-2xl font-black mb-2">MLB Scouting Pool</h4>
-                        <p class="text-slate-400 mb-6 max-w-sm">Deep analysis on draft-eligible prospects across Venezuelan academies.</p>
-                        <button class="bg-white/10 hover:bg-white/20 text-white px-6 py-2 rounded-lg font-bold text-sm transition-all border border-white/10">Explore Data</button>
-                    </div>
-                </div>
-                <div class="p-8 rounded-2xl bg-gradient-to-br from-ven-red/20 to-black border border-ven-red/30 relative overflow-hidden group">
-                    <span class="material-symbols-outlined absolute -bottom-10 -right-10 text-[180px] text-ven-red opacity-10">workspace_premium</span>
-                    <div class="relative z-10">
-                        <h4 class="text-2xl font-black mb-2">Olympic Tier Roster</h4>
-                        <p class="text-slate-400 mb-6 max-w-sm">Elite track and field, combat, and swimming professionals competing globally.</p>
-                        <button class="bg-white/10 hover:bg-white/20 text-white px-6 py-2 rounded-lg font-bold text-sm transition-all border border-white/10">View Roster</button>
-                    </div>
-                </div>
-            </div>
-        </section>
     </main>
-
-    <footer class="border-t border-white/5 py-12 px-6 mt-20 text-center">
-        <p class="text-xs font-black uppercase italic text-slate-600 tracking-widest">Elite Tracker © 2026 | @loacalheros_sportscards</p>
-    </footer>
 
     <script>
         let athleteData = [];
@@ -169,19 +145,41 @@
 
         function renderGrid(data) {
             const grid = document.getElementById('athletes-grid');
-            grid.innerHTML = data.map(a => `
+            grid.innerHTML = data.map(a => {
+                // Remove "• Free Agent" if it exists in the name string
+                const cleanName = a.name.replace('• Free Agent', '').trim();
+                
+                return `
                 <div class="athlete-card group">
-                    <div class="sport-icon-wrapper"><svg viewBox="0 0 100 100" class="w-16 h-16 mx-auto">${icons[a.sport] || icons['Baseball']}</svg><div class="indicator-bar"><div class="active-segment"></div><div class="inactive-segment"></div></div></div>
-                    <div class="bg-primary text-black text-[10px] font-black px-3 py-1 rounded-full inline-block mb-3">ELITE TIER</div>
-                    <h3 class="athlete-name text-2xl font-black text-white mb-1 leading-tight">${a.name}</h3>
-                    <div class="text-primary text-[11px] font-bold uppercase tracking-wider mb-6">${a.sport} • ${a.team}</div>
-                    <div class="grid grid-cols-3 gap-2 mb-6 border-t border-white/10 pt-4">
-                        <div><span class="block text-[10px] text-slate-500 font-bold mb-1">RANK</span><span class="text-lg font-black italic text-white">--</span></div>
-                        <div class="border-x border-white/5"><span class="block text-[10px] text-slate-500 font-bold mb-1">STATUS</span><span class="text-lg font-black italic text-white">ACT</span></div>
-                        <div><span class="block text-[10px] text-slate-500 font-bold mb-1">EXP</span><span class="text-lg font-black italic text-white">--</span></div>
+                    <div class="sport-icon-wrapper">
+                        <svg viewBox="0 0 100 100" class="w-16 h-16 mx-auto">${icons[a.sport] || icons['Baseball']}</svg>
+                        <div class="indicator-bar">
+                            <div class="active-segment"></div>
+                            <div class="inactive-segment"></div>
+                        </div>
                     </div>
-                    <a href="https://www.ebay.com/sch/i.html?_nkw=${encodeURIComponent(a.name)}" target="_blank" class="w-full bg-primary py-4 rounded-xl font-black text-black text-sm flex items-center justify-center gap-2 hover:shadow-[0_4px_20px_rgba(242,242,13,0.4)] transition-all">SHOP COLLECTIBLES<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
-                </div>`).join('');
+
+                    <div class="bg-primary text-black text-[10px] font-black px-3 py-1 rounded-full inline-block mb-3 uppercase tracking-widest">ELITE TIER</div>
+                    <h3 class="athlete-name text-2xl font-black text-white mb-1 leading-tight">${cleanName}</h3>
+                    <div class="text-primary text-[11px] font-bold uppercase tracking-wider mb-6">${a.sport}</div>
+
+                    <div class="flex justify-center border-t border-white/10 pt-4 mb-6">
+                        <div class="text-center">
+                            <span class="block text-[10px] text-slate-500 font-bold mb-1 uppercase tracking-tighter">STATUS</span>
+                            <span class="text-lg font-black italic text-white flex items-center justify-center">
+                                <span class="status-dot status-active"></span> ACTIVE
+                            </span>
+                        </div>
+                    </div>
+
+                    <a href="https://www.ebay.com/sch/i.html?_nkw=${encodeURIComponent(cleanName)}" target="_blank" class="w-full bg-primary py-4 rounded-xl font-black text-black text-sm flex items-center justify-center gap-2 hover:shadow-[0_4px_20px_rgba(242,242,13,0.4)] transition-all">
+                        SHOP COLLECTIBLES
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </a>
+                </div>`;
+            }).join('');
         }
         init();
     </script>
