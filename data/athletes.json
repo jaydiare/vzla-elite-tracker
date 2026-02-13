@@ -1,1 +1,26 @@
-[]
+[
+    {
+        "name": "Abel Caputo",
+        "sport": "Soccer",
+        "league": "MLS",
+        "team": "Active"
+    },
+    {
+        "name": "Alejandro Fuenmayor",
+        "sport": "Soccer",
+        "league": "MLS",
+        "team": "Active"
+    },
+    {
+        "name": "Alejandro Marqu\u00e9s",
+        "sport": "Soccer",
+        "league": "UCL",
+        "team": "Active"
+    },
+    {
+        "name": "Alejandro Moreno",
+        "sport": "Soccer",
+        "league": "MLS",
+        "team": "Active"
+    }
+]
