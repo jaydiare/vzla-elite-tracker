@@ -88,53 +88,15 @@
             <img style="display:none;" src="https://www.ebayadservices.com/marketingtracking/v1/impression?mpt=3030369&mkcid=1&mkrid=706-53473-19255-0&mkevt=2&siteid=2&campid=5339142305&ad_type=0&toolid=10001">
         </section>
 
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-16 px-4">
-            <div class="bg-white/5 border border-white/10 p-5 rounded-2xl flex items-center gap-4 min-w-0 shadow-sm">
-                <div class="flex-shrink-0 w-12 h-12 rounded-xl bg-ven-blue/20 flex items-center justify-center text-ven-blue">
-                    <span class="material-symbols-outlined text-2xl">groups</span>
-                </div>
-                <div class="overflow-hidden">
-                    <p class="text-[10px] text-slate-500 font-bold uppercase tracking-wider truncate">Total Athletes</p>
-                    <p class="text-2xl font-black text-white" id="total-count">0</p>
-                </div>
-            </div>
-
-            <div class="bg-white/5 border border-white/10 p-5 rounded-2xl flex items-center gap-4 min-w-0 shadow-sm">
-                <div class="flex-shrink-0 w-12 h-12 rounded-xl bg-primary/20 flex items-center justify-center text-primary">
-                    <span class="material-symbols-outlined text-2xl">sports_baseball</span>
-                </div>
-                <div class="overflow-hidden">
-                    <p class="text-[10px] text-slate-500 font-bold uppercase tracking-wider truncate">MLB Active</p>
-                    <p class="text-2xl font-black text-white" id="mlb-count">0</p>
-                </div>
-            </div>
-
-            <div class="bg-white/5 border border-white/10 p-5 rounded-2xl flex items-center gap-4 min-w-0 shadow-sm">
-                <div class="flex-shrink-0 w-12 h-12 rounded-xl bg-ven-red/20 flex items-center justify-center text-ven-red">
-                    <span class="material-symbols-outlined text-2xl">trending_up</span>
-                </div>
-                <div class="overflow-hidden">
-                    <p class="text-[10px] text-slate-500 font-bold uppercase tracking-wider truncate">Top Tier</p>
-                    <p class="text-2xl font-black text-white">Elite</p>
-                </div>
-            </div>
-
-            <div class="bg-white/5 border border-white/10 p-5 rounded-2xl flex items-center gap-4 min-w-0 shadow-sm">
-                <div class="flex-shrink-0 w-12 h-12 rounded-xl bg-slate-500/20 flex items-center justify-center text-slate-400">
-                    <span class="material-symbols-outlined text-2xl">public</span>
-                </div>
-                <div class="overflow-hidden">
-                    <p class="text-[10px] text-slate-500 font-bold uppercase tracking-wider truncate">Status</p>
-                    <p class="text-2xl font-black text-white">Verified</p>
-                </div>
-            </div>
-        </div>
-
         <h3 class="text-2xl font-black flex items-center gap-3 mb-8"><span class="w-2 h-8 bg-primary rounded-full"></span> Featured Athletes</h3>
 
         <div id="athletes-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-20">
             </div>
     </main>
+
+    <footer class="border-t border-white/5 py-12 px-6 mt-20 text-center">
+        <p class="text-xs font-black uppercase italic text-slate-600 tracking-widest">Elite Tracker © 2026 | @loacalheros_sportscards</p>
+    </footer>
 
     <script>
         let athleteData = [];
@@ -150,8 +112,6 @@
             try {
                 const resp = await fetch('data/athletes.json');
                 athleteData = await resp.json();
-                document.getElementById('total-count').innerText = athleteData.length;
-                document.getElementById('mlb-count').innerText = athleteData.filter(a => a.league === 'MLB').length;
                 renderGrid(athleteData);
             } catch (e) { console.error(e); }
         }
@@ -171,7 +131,6 @@
         function renderGrid(data) {
             const grid = document.getElementById('athletes-grid');
             grid.innerHTML = data.map(a => {
-                // Remove "• Free Agent" if it exists in the name string
                 const cleanName = a.name.replace('• Free Agent', '').trim();
                 
                 return `
