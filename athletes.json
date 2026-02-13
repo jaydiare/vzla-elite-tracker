@@ -1,6 +1,23 @@
-{
-  "name": "Ronald Acuña Jr.",
-  "sport": "Baseball",
-  "team": "Atlanta Braves",
-  "ebay_search": "https://www.ebay.com/sch/i.html?_nkw=Ronald+Acuna+Jr+Braves+Jersey"
-}
+[
+    {
+        "name": "Miguel Cabrera",
+        "sport": "Baseball",
+        "league": "MLB",
+        "team": "Tigers",
+        "img": ""
+    },
+    {
+        "name": "Yeferson Soteldo",
+        "sport": "Soccer",
+        "league": "LA LIGA",
+        "team": "Gremio",
+        "img": ""
+    },
+    {
+        "name": "Michael Carrera",
+        "sport": "Basketball",
+        "league": "NBA",
+        "team": "Estudiantes",
+        "img": ""
+    }
+]
