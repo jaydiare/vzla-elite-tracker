@@ -4,7 +4,6 @@ import json
 import time
 
 # --- CONFIGURATION ---
-# Access the secret key securely from GitHub Actions
 API_KEY = os.environ.get("NBA_API_KEY") 
 
 if not API_KEY:
@@ -13,8 +12,9 @@ if not API_KEY:
 
 HEADERS = {"Authorization": API_KEY}
 COUNTRY_TARGET = "Venezuela"
+FILE_PATH = 'data/athletes.json'
 
-# Official Endpoints for 2026
+# Endpoints actualizados
 ENDPOINTS = [
     {"sport": "Basketball", "url": "/v1/players", "field": "country", "league": "NBA"},
     {"sport": "Soccer", "url": "/laliga/v1/players", "field": "citizenship", "league": "La Liga"},
@@ -30,8 +30,17 @@ ENDPOINTS = [
     {"sport": "MMA", "url": "/ufc/v1/fighters", "field": "country", "league": "UFC"}
 ]
 
+def load_existing_athletes():
+    """Carga los atletas actuales para no perder datos si la API falla."""
+    if os.path.exists(FILE_PATH):
+        with open(FILE_PATH, 'r', encoding='utf-8') as f:
+            return json.load(f)
+    return []
+
 def fetch_all_venezuelans():
-    all_venezuelans = []
+    # Iniciamos con los que ya tenemos para ir construyendo la lista poco a poco
+    all_venezuelans = load_existing_athletes()
+    seen = {a['name'] for a in all_venezuelans}
     
     for entry in ENDPOINTS:
         cursor = None
@@ -39,65 +48,57 @@ def fetch_all_venezuelans():
 
         print(f"🚀 Scanning {entry['sport']} - {entry['league']}...")
 
-        while True:
+        # Limitamos a un par de páginas por ejecución para no quemar la API free
+        for _ in range(2): 
             url = f"{base_url}&cursor={cursor}" if cursor else base_url
 
             try:
                 response = requests.get(url, headers=HEADERS)
                 
-                # Handling Rate Limits for Free Tier (5 req/min)
                 if response.status_code == 429:
-                    print("⚠️ Rate limit reached. Sleeping 60 seconds...")
+                    print("⚠️ Rate limit reached. Sleeping 60s...")
                     time.sleep(60)
                     continue
                     
                 data = response.json()
                 players = data.get('data', [])
                 
-                for p in players:
-                    # Match nationality based on specific endpoint field
-                    if p.get(entry['field']) == COUNTRY_TARGET:
-                        all_venezuelans.append({
-                            "name": f"{p['first_name']} {p['last_name']}",
-                            "sport": entry['sport'],
-                            "league": entry['league'],
-                            "team": p.get('team', {}).get('full_name', 'Active')
-                        })
+                # Debug: Imprimir el primer jugador de cada página para ver el formato de país
+                if players:
+                    sample = players[0]
+                    print(f"DEBUG: Sample Player: {sample.get('first_name')} - Country Field ({entry['field']}): '{sample.get(entry['field'])}'")
 
-                # Pagination: Get next cursor ID
+                for p in players:
+                    val = p.get(entry['field'])
+                    # Aceptamos 'Venezuela' o 'VEN' por si la API cambia el formato
+                    if val in [COUNTRY_TARGET, "VEN"]:
+                        name = f"{p['first_name']} {p['last_name']}"
+                        if name not in seen:
+                            all_venezuelans.append({
+                                "name": name,
+                                "sport": entry['sport'],
+                                "league": entry['league'],
+                                "team": p.get('team', {}).get('full_name', 'Active')
+                            })
+                            seen.add(name)
+
                 cursor = data.get('meta', {}).get('next_cursor')
                 if not cursor: break
-
-                # Wait 13s between requests to stay under 5 req/min
                 time.sleep(13)
 
             except Exception as e:
                 print(f"❌ Error in {entry['league']}: {e}")
                 break
 
-    # --- DEDUPLICATION & SORTING ---
-    # 1. Remove duplicates (e.g., player in both MLS and UCL)
-    seen = set()
-    unique_list = []
-    for athlete in all_venezuelans:
-        if athlete['name'] not in seen:
-            unique_list.append(athlete)
-            seen.add(athlete['name'])
-    
-    # 2. Sort alphabetically by name
-    unique_list.sort(key=lambda x: x['name'])
-    
-    return unique_list
+    # Ordenar alfabéticamente antes de devolver
+    all_venezuelans.sort(key=lambda x: x['name'])
+    return all_venezuelans
 
 if __name__ == "__main__":
-    # Ensure data folder exists
-    if not os.path.exists('data'):
-        os.makedirs('data')
-
+    os.makedirs('data', exist_ok=True)
     vzla_list = fetch_all_venezuelans()
     
-    # Save to local database file
-    with open('data/athletes.json', 'w', encoding='utf-8') as f:
+    with open(FILE_PATH, 'w', encoding='utf-8') as f:
         json.dump(vzla_list, f, indent=4)
         
-    print(f"🏁 Finished! Found {len(vzla_list)} unique athletes.")
+    print(f"🏁 Finished! Total unique athletes in database: {len(vzla_list)}")
