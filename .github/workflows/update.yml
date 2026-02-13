@@ -2,7 +2,11 @@ name: Daily Athlete Sync
 on:
   schedule:
     - cron: '0 4 * * *' # Runs daily at 4 AM UTC
-  workflow_dispatch: # Allows you to trigger it manually from the Actions tab
+  workflow_dispatch: # Allows manual trigger
+
+# This block grants the necessary permissions to push changes back to the repo
+permissions:
+  contents: write
 
 jobs:
   build:
@@ -21,15 +25,15 @@ jobs:
 
       - name: Sync Data
         env:
-          # Critical: This maps your GitHub Secrets to the environment
+          # Maps GitHub Secrets to environment variables
           NBA_API_KEY: ${{ secrets.NBA_API_KEY }}
           SPORTSDB_KEY: ${{ secrets.SPORTSDB_KEY }}
         run: python fetch_data.py
 
       - name: Save & Deploy Changes
         run: |
-          git config --global user.name 'GitHub Action'
-          git config --global user.email 'action@github.com'
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           git add data/athletes.json
           # Prevents push errors if no data has changed
           git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-update athlete data" && git push)
