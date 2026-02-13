@@ -29,7 +29,6 @@
         .inactive-segment { width: 14px; height: 5px; background: #2a2a2a; border-radius: 3px; }
         .status-dot { height: 8px; width: 8px; border-radius: 50%; display: inline-block; margin-right: 6px; background: #00C848; }
         
-        /* Custom Social Icon Hover Colors */
         .fa-instagram:hover { color: #E4405F; }
         .fa-x-twitter:hover { color: #ffffff; }
         .fa-facebook:hover { color: #1877F2; }
@@ -50,7 +49,7 @@
             <button onclick="setSport('Baseball', this)" class="text-slate-500">Baseball</button>
             <button onclick="setSport('Soccer', this)" class="text-slate-500">Soccer</button>
             <button onclick="setSport('Basketball', this)" class="text-slate-500">Basketball</button>
-            <button onclick="setSport('Golf','Tennis', 'UFC', this)" class="text-slate-500">Other</button>
+            <button onclick="setSport('Other', this)" class="text-slate-500">Other</button>
         </div>
     </nav>
 
@@ -91,7 +90,6 @@
 
     <script>
         const athleteDataRaw = [
-            // BASEBALL - Official 2026 WBC Stars
             { name: "Ronald Acuña Jr.", sport: "Baseball", league: "MLB", team: "Braves" },
             { name: "Jackson Chourio", sport: "Baseball", league: "MLB", team: "Brewers" },
             { name: "Maikel Garcia", sport: "Baseball", league: "MLB", team: "Royals" },
@@ -105,7 +103,6 @@
             { name: "Eduardo Rodriguez", sport: "Baseball", league: "MLB", team: "Diamondbacks" },
             { name: "Francisco Alvarez", sport: "Baseball", league: "MLB", team: "Mets" },
             
-            // SOCCER - Top Active Pros
             { name: "Yeferson Soteldo", sport: "Soccer", league: "Serie A", team: "Grêmio" },
             { name: "Jon Aramburu", sport: "Soccer", league: "La Liga", team: "Real Sociedad" },
             { name: "Nahuel Ferraresi", sport: "Soccer", league: "Série A", team: "São Paulo" },
@@ -114,16 +111,16 @@
             { name: "Jefferson Savarino", sport: "Soccer", league: "Série A", team: "Botafogo" },
             { name: "David Martínez", sport: "Soccer", league: "MLS", team: "LAFC" },
 
-            // BASKETBALL - Top Active Pros
             { name: "Michael Carrera", sport: "Basketball", league: "LEB Oro", team: "Estudiantes" },
             { name: "Heissler Guillent", sport: "Basketball", league: "LNBP", team: "Astros" },
             { name: "David Cubillan", sport: "Basketball", league: "SLB", team: "Trotamundos" },
             { name: "Jose Ascanio", sport: "Basketball", league: "Liga Nacional", team: "Oberá" },
             { name: "Pedro Chourio", sport: "Basketball", league: "NBB", team: "São José" },
 
-            // OTHERS (Visible under "All")
             { name: "Jhonattan Vegas", sport: "Golf", league: "PGA", team: "Venezuela" },
-            { name: "Garbiñe Muguruza", sport: "Tennis", league: "WTA", team: "Venezuela" }
+            { name: "Garbiñe Muguruza", sport: "Tennis", league: "WTA", team: "Venezuela" },
+            { name: "Marlon Vera", sport: "MMA", league: "UFC", team: "Venezuela" },
+            { name: "Rigoberto Rivas", sport: "Football", league: "NFL", team: "Venezuela" }
         ];
 
         let athleteData = athleteDataRaw;
@@ -134,7 +131,9 @@
             'Soccer': `<circle cx="50" cy="50" r="30" fill="#f2f20d"/><path d="M50 20 L60 40 L80 45 L65 60 L70 80 L50 70 L30 80 L35 60 L20 45 L40 40 Z" fill="#121212"/>`,
             'Basketball': `<circle cx="50" cy="50" r="30" fill="#f2f20d"/><path d="M20 50 L80 50 M50 20 L50 80 M25 30 Q 50 50 25 70 M75 30 Q 50 50 75 70" fill="none" stroke="#121212" stroke-width="2"/>`,
             'Golf': `<circle cx="50" cy="50" r="30" fill="#f2f20d"/><circle cx="50" cy="50" r="5" fill="#121212"/>`,
-            'Tennis': `<circle cx="50" cy="50" r="30" fill="#f2f20d"/><path d="M35 35 Q 50 50 65 35 M35 65 Q 50 50 65 65" fill="none" stroke="#121212" stroke-width="2"/>`
+            'Tennis': `<circle cx="50" cy="50" r="30" fill="#f2f20d"/><path d="M35 35 Q 50 50 65 35 M35 65 Q 50 50 65 65" fill="none" stroke="#121212" stroke-width="2"/>`,
+            'MMA': `<circle cx="50" cy="50" r="30" fill="#f2f20d"/><path d="M30 30 L70 70 M70 30 L30 70" stroke="#121212" stroke-width="4"/>`,
+            'Football': `<ellipse cx="50" cy="50" rx="35" ry="20" fill="#f2f20d" stroke="#121212" stroke-width="2"/>`
         };
 
         function init() {
@@ -143,9 +142,22 @@
 
         function filterBySearch() {
             const query = document.getElementById('athleteSearch').value.toLowerCase();
-            const filtered = athleteData.filter(a => 
-                (currentSport === 'All' || a.sport === currentSport) && a.name.toLowerCase().includes(query)
-            );
+            const filtered = athleteData.filter(a => {
+                const matchesQuery = a.name.toLowerCase().includes(query);
+                
+                // Lógica de categoría "Other"
+                let matchesSport = false;
+                if (currentSport === 'All') {
+                    matchesSport = true;
+                } else if (currentSport === 'Other') {
+                    const mainSports = ['Baseball', 'Soccer', 'Basketball'];
+                    matchesSport = !mainSports.includes(a.sport);
+                } else {
+                    matchesSport = (a.sport === currentSport);
+                }
+                
+                return matchesQuery && matchesSport;
+            });
             renderGrid(filtered);
         }
 
@@ -162,7 +174,7 @@
             const rotationID = "706-53473-19255-0";
 
             grid.innerHTML = data.map(a => {
-                const ebaySearchURL = `https://www.ebay.ca/sch/i.html?_nkw=${encodeURIComponent(a.name + ' ')}&mkevt=1&mkcid=1&mkrid=${rotationID}&campid=${campID}&toolid=10001`;
+                const ebaySearchURL = `https://www.ebay.ca/sch/i.html?_nkw=${encodeURIComponent(a.name)}&mkevt=1&mkcid=1&mkrid=${rotationID}&campid=${campID}&toolid=10001`;
 
                 return `
                 <div class="athlete-card">
