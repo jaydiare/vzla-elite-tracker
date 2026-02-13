@@ -1,27 +1,25 @@
+import os
 import requests
 import json
 import time
-import os
 
 # --- CONFIGURATION ---
-API_KEY = "NBA_API_KEY" # Replace with your actual key
+API_KEY = os.environ.get("NBA_API_KEY") 
 HEADERS = {"Authorization": API_KEY}
 COUNTRY_TARGET = "Venezuela"
 
-# List of endpoints to scan for each sport
+# Expanded list of endpoints
 ENDPOINTS = [
-    {"sport": "Basketball", "url": "/v1/players", "field": "country"},
-    {"sport": "Soccer", "url": "/laliga/v1/players", "field": "citizenship"},
-    {"sport": "Soccer", "url": "/mls/v1/players", "field": "citizenship"},
-    {"sport": "Soccer", "url": "/ucl/v1/players", "field": "citizenship"},
-    {"sport": "Soccer", "url": "/ligue1/v1/players", "field": "citizenship"},
-    {"sport": "Soccer", "url": "/nfl/v1/players", "field": "country"},
-    {"sport": "Soccer", "url": "/bundesliga/v1/players", "field": "citizenship"},
-    {"sport": "Soccer", "url": "/epl/v1/players", "field": "citizenship"},
-    {"sport": "Tennis", "url": "/atp/v1/players", "field": "birth_place"},
-    {"sport": "Golf", "url": "/atp/v1/players", "field": "birthplace_country"}
-    
-    # Note: Balldontlie added MLB/Baseball recently - check dashboard for specific URL
+    {"sport": "Basketball", "url": "/v1/players", "field": "country", "league": "NBA"},
+    {"sport": "Soccer", "url": "/laliga/v1/players", "field": "citizenship", "league": "La Liga"},
+    {"sport": "Soccer", "url": "/mls/v1/players", "field": "citizenship", "league": "MLS"},
+    {"sport": "Soccer", "url": "/ucl/v1/players", "field": "citizenship", "league": "UCL"},
+    {"sport": "Soccer", "url": "/ligue1/v1/players", "field": "citizenship", "league": "Ligue 1"},
+    {"sport": "Soccer", "url": "/bundesliga/v1/players", "field": "citizenship", "league": "Bundesliga"},
+    {"sport": "Soccer", "url": "/epl/v1/players", "field": "citizenship", "league": "EPL"},
+    {"sport": "Football", "url": "/nfl/v1/players", "field": "country", "league": "NFL"},
+    {"sport": "Tennis", "url": "/atp/v1/players", "field": "country", "league": "ATP"},
+    {"sport": "Golf", "url": "/pga/v1/players", "field": "country", "league": "PGA"}
 ]
 
 def fetch_all_venezuelans():
@@ -29,23 +27,21 @@ def fetch_all_venezuelans():
     
     for entry in ENDPOINTS:
         cursor = None
-        page_count = 0
         sport_name = entry["sport"]
+        league_name = entry["league"]
         base_url = f"https://api.balldontlie.io{entry['url']}?per_page=100"
-        field_name = entry["field"] # Soccer uses 'citizenship'
+        field_name = entry["field"]
 
-        print(f"🚀 Starting scan for {sport_name}...")
+        print(f"🚀 Scanning {sport_name} - {league_name}...")
 
         while True:
-            url = base_url
-            if cursor:
-                url += f"&cursor={cursor}"
+            url = f"{base_url}&cursor={cursor}" if cursor else base_url
 
             try:
                 response = requests.get(url, headers=HEADERS)
                 
                 if response.status_code == 429:
-                    print("⚠️ Rate limit reached. Sleeping for 60 seconds...")
+                    print("⚠️ Rate limit reached. Sleeping...")
                     time.sleep(60)
                     continue
                     
@@ -53,35 +49,34 @@ def fetch_all_venezuelans():
                 players = data.get('data', [])
                 
                 for p in players:
-                    # Fix: Use the correct field (country or citizenship)
+                    # Robust check for nationality
                     if p.get(field_name) == COUNTRY_TARGET:
                         all_venezuelans.append({
                             "name": f"{p['first_name']} {p['last_name']}",
                             "sport": sport_name,
-                            "league": p.get('team', {}).get('conference', sport_name), # Simple fallback
-                            "team": p.get('team', {}).get('full_name', 'Active'),
+                            "league": league_name,
+                            "team": p.get('team', {}).get('full_name', 'Active')
                         })
 
                 cursor = data.get('meta', {}).get('next_cursor')
-                page_count += 1
-                print(f"✅ {sport_name}: Page {page_count} processed. Total found: {len(all_venezuelans)}")
+                if not cursor: break
 
-                if not cursor:
-                    break
-
-                # Safety delay for Free Tier
-                time.sleep(13)
+                time.sleep(13) # Free tier safety
 
             except Exception as e:
-                print(f"❌ Error in {sport_name}: {e}")
+                print(f"❌ Error in {league_name}: {e}")
                 break
 
     return all_venezuelans
 
-# Ensure directory exists
-os.makedirs('data', exist_ok=True)
-
 # Run and Save
-vzla_list = fetch_all_venezuelans()
-with open('data/athletes.json', 'w', encoding='utf-8') as f:
-    json.dump(vzla_list, f, indent=4)
+if __name__ == "__main__":
+    if not os.path.exists('data'): os.makedirs('data')
+    
+    vzla_list = fetch_all_venezuelans()
+    
+    # Save with progress log
+    with open('data/athletes.json', 'w', encoding='utf-8') as f:
+        json.dump(vzla_list, f, indent=4)
+        
+    print(f"🏁 Finished! Total Venezuelan Athletes found: {len(vzla_list)}")
