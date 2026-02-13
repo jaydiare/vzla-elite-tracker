@@ -56,35 +56,37 @@
     </main>
 
     <script>
-        // Expanded 2026 dataset
+        // Updated 2026 active roster with latest official WBC lineup news
         const athleteDataRaw = [
-            // BASEBALL
+            // BASEBALL - Official 2026 WBC Stars
             { name: "Ronald Acuña Jr.", sport: "Baseball", league: "MLB", team: "Braves" },
             { name: "Jackson Chourio", sport: "Baseball", league: "MLB", team: "Brewers" },
             { name: "Maikel Garcia", sport: "Baseball", league: "MLB", team: "Royals" },
             { name: "Salvador Perez", sport: "Baseball", league: "MLB", team: "Royals" },
             { name: "Eugenio Suárez", sport: "Baseball", league: "MLB", team: "Diamondbacks" },
-            { name: "Willson Contreras", sport: "Baseball", league: "MLB", team: "Cardinals" },
             { name: "Jose Altuve", sport: "Baseball", league: "MLB", team: "Astros" },
             { name: "Luis Arraez", sport: "Baseball", league: "MLB", team: "Padres" },
+            { name: "William Contreras", sport: "Baseball", league: "MLB", team: "Brewers" },
+            { name: "Anthony Santander", sport: "Baseball", league: "MLB", team: "Orioles" },
+            { name: "Wilyer Abreu", sport: "Baseball", league: "MLB", team: "Red Sox" },
+            { name: "Eduardo Rodriguez", sport: "Baseball", league: "MLB", team: "Diamondbacks" },
+            { name: "Francisco Alvarez", sport: "Baseball", league: "MLB", team: "Mets" },
             
-            // SOCCER
+            // SOCCER - Top Active Pros
             { name: "Yeferson Soteldo", sport: "Soccer", league: "Serie A", team: "Grêmio" },
             { name: "Jon Aramburu", sport: "Soccer", league: "La Liga", team: "Real Sociedad" },
             { name: "Nahuel Ferraresi", sport: "Soccer", league: "Série A", team: "São Paulo" },
             { name: "Cristian Cásseres Jr.", sport: "Soccer", league: "Ligue 1", team: "Toulouse" },
             { name: "Telasco Segovia", sport: "Soccer", league: "Primeira Liga", team: "Casa Pia" },
             { name: "Jefferson Savarino", sport: "Soccer", league: "Série A", team: "Botafogo" },
-            { name: "Wuilker Fariñez", sport: "Soccer", league: "Liga FUTVE", team: "Caracas FC" },
             { name: "David Martínez", sport: "Soccer", league: "MLS", team: "LAFC" },
 
-            // BASKETBALL
+            // BASKETBALL - Top Active Pros
             { name: "Michael Carrera", sport: "Basketball", league: "LEB Oro", team: "Estudiantes" },
             { name: "Heissler Guillent", sport: "Basketball", league: "LNBP", team: "Astros" },
             { name: "David Cubillan", sport: "Basketball", league: "SLB", team: "Trotamundos" },
-            { name: "Pedro Chourio", sport: "Basketball", league: "NBB", team: "São José" },
             { name: "Jose Ascanio", sport: "Basketball", league: "Liga Nacional", team: "Oberá" },
-            { name: "Luis Bethelmy", sport: "Basketball", league: "SLB", team: "Cocodrilos" }
+            { name: "Pedro Chourio", sport: "Basketball", league: "NBB", team: "São José" }
         ];
 
         let athleteData = athleteDataRaw;
@@ -117,7 +119,16 @@
 
         function renderGrid(data) {
             const grid = document.getElementById('athletes-grid');
-            grid.innerHTML = data.map(a => `
+            
+            // Your eBay affiliate campaign parameters
+            const campID = "5339142321";
+            const rotationID = "706-53473-19255-0";
+
+            grid.innerHTML = data.map(a => {
+                // Generate dynamic tracking link for each athlete search
+                const ebaySearchURL = `https://www.ebay.ca/sch/i.html?_nkw=${encodeURIComponent(a.name + ' cards')}&mkevt=1&mkcid=1&mkrid=${rotationID}&campid=${campID}&toolid=10001`;
+
+                return `
                 <div class="athlete-card">
                     <div class="sport-icon-wrapper">
                         <svg viewBox="0 0 100 100" class="w-16 h-16 mx-auto">${icons[a.sport] || icons['Baseball']}</svg>
@@ -129,8 +140,9 @@
                         <span class="status-dot"></span>
                         <span class="text-slate-500 text-[10px] font-bold uppercase tracking-widest">${a.sport} • ${a.team}</span>
                     </div>
-                    <a href="https://www.ebay.com/sch/i.html?_nkw=${encodeURIComponent(a.name)}" target="_blank" class="block w-full bg-[#f2f20d] text-black py-3 rounded-xl font-black text-xs">SHOP COLLECTIBLES</a>
-                </div>`).join('');
+                    <a href="${ebaySearchURL}" target="_blank" class="block w-full bg-[#f2f20d] text-black py-3 rounded-xl font-black text-xs hover:scale-[1.02] transition-transform">SHOP COLLECTIBLES</a>
+                </div>`;
+            }).join('');
         }
         init();
     </script>
