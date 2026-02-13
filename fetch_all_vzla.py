@@ -19,7 +19,9 @@ ENDPOINTS = [
     {"sport": "Soccer", "url": "/epl/v1/players", "field": "citizenship", "league": "EPL"},
     {"sport": "Football", "url": "/nfl/v1/players", "field": "country", "league": "NFL"},
     {"sport": "Tennis", "url": "/atp/v1/players", "field": "country", "league": "ATP"},
-    {"sport": "Golf", "url": "/pga/v1/players", "field": "country", "league": "PGA"}
+    {"sport": "Golf", "url": "/pga/v1/players", "field": "country", "league": "PGA"},
+    {"sport": "Baseball", "url": "/mlb/v1/players", "field": "country", "league": "MLB"}, # Fixed slash + field
+    {"sport": "MMA", "url": "/ufc/v1/fighters", "field": "country", "league": "UFC"} # Fixed URL + Sport + Field
 ]
 
 def fetch_all_venezuelans():
