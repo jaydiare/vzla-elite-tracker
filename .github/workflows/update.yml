@@ -21,7 +21,7 @@ jobs:
 
       - name: Run Fetch Script
         env:
-          API_KEY: ${{ secrets.BALLDONTLIE_API_KEY }} # Set this in GitHub Settings > Secrets
+          API_KEY: ${{ secrets.NBA_API_KEY }} # Set this in GitHub Settings > Secrets
         run: python fetch_all_vzla.py
 
       - name: Commit and Push changes
