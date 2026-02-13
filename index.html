@@ -8,7 +8,7 @@
     <script>window._epn = {campaign: 5339142321};</script>
     <script src="https://epnt.ebay.com/static/epn-smart-tools.js"></script>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
 
     <script id="tailwind-config">
@@ -17,7 +17,7 @@
             theme: {
                 extend: {
                     colors: {
-                        "primary": "#f2f20d",
+                        "primary": "#f2f20d", // Dark Yellow Accent
                         "background-dark": "#121208",
                         "ven-blue": "#00247d",
                         "ven-red": "#ce1126",
@@ -69,7 +69,6 @@
             <h2 class="text-4xl md:text-6xl font-black mb-2 leading-[1.1] tracking-tight">
                 Track The <span class="text-primary italic">Top Tier</span> Talent In Real-Time
             </h2>
-            
             <p class="text-slate-400 text-sm font-bold mb-6">
                 by 
                 <a target="_blank" 
@@ -78,7 +77,6 @@
                    @loacalheros_sportscards
                 </a>
             </p>
-
             <p class="text-slate-400 text-lg mb-10 max-w-xl mx-auto">
                 Global database for scouting, analytics, and career tracking of Venezuela's elite sports professionals.
             </p>
@@ -86,12 +84,6 @@
             <img style="text-decoration:none;border:0;padding:0;margin:0;position:absolute;visibility:hidden;" 
                  src="https://www.ebayadservices.com/marketingtracking/v1/impression?mpt=3030369&mkcid=1&mkrid=706-53473-19255-0&mkevt=2&siteid=2&campid=5339142305&ad_type=0&toolid=10001">
         </section>
-
-        <div class="flex items-center justify-between mb-8">
-            <h3 class="text-2xl font-black flex items-center gap-3">
-                <span class="w-2 h-8 bg-primary rounded-full"></span> Featured Athletes
-            </h3>
-        </div>
 
         <div id="athletes-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             </div>
@@ -106,7 +98,7 @@
                 const resp = await fetch('data/athletes.json');
                 athleteData = await resp.json();
                 renderGrid(athleteData);
-            } catch (e) { console.error("Error loading athletes", e); }
+            } catch (e) { console.error("Error loading data", e); }
         }
 
         function setSport(sport, btn) {
@@ -129,6 +121,7 @@
             renderGrid(filtered);
         }
 
+        // Helper to extract initials
         function getInitials(name) {
             return name.split(' ').map(n => n[0]).slice(0, 2).join('').toUpperCase();
         }
@@ -137,15 +130,20 @@
             const grid = document.getElementById('athletes-grid');
             grid.innerHTML = data.map(a => {
                 const initials = getInitials(a.name);
+                const firstName = a.name.split(' ')[0];
+                const lastName = a.name.split(' ').slice(1).join(' ');
+
                 return `
                 <div class="athlete-card-gradient border border-white/10 p-1 rounded-2xl group hover:border-primary/40 transition-all duration-300">
                     <div class="relative bg-background-dark/80 rounded-xl p-6 h-full flex flex-col overflow-hidden">
                         
                         <div class="aspect-square mb-6 overflow-hidden rounded-lg border border-white/5 relative bg-white/5 flex items-center justify-center">
-                            <span class="absolute inset-0 flex items-center justify-center text-4xl font-black text-white/10 select-none">
+                            <span class="absolute inset-0 flex items-center justify-center text-5xl font-black text-white/5 italic select-none">
                                 ${initials}
                             </span>
-                            <img src="${a.img}" alt="${a.name}"
+                            
+                            <img src="${a.img}" 
+                                 alt="${a.name}"
                                  class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 relative z-10"
                                  onerror="this.style.display='none'; this.parentElement.classList.add('bg-gradient-to-br', 'from-ven-blue/20', 'to-ven-red/20')">
                             
@@ -157,23 +155,23 @@
                         </div>
 
                         <div class="mb-6 relative z-10">
-                            <p class="text-slate-500 text-[10px] font-bold mb-1 uppercase tracking-tighter">${a.sport} | ${a.team}</p>
+                            <p class="text-slate-500 text-[10px] font-bold mb-1 uppercase tracking-tighter">${a.sport} | ACTIVE</p>
                             <h4 class="text-3xl font-black tracking-tight leading-tight group-hover:text-primary transition-colors">
-                                ${a.name.split(' ')[0]} <br/> ${a.name.split(' ').slice(1).join(' ')}
+                                ${firstName} <br/> ${lastName}
                             </h4>
                         </div>
 
                         <div class="grid grid-cols-3 gap-2 mb-8 border-t border-b border-white/5 py-4 relative z-10">
                             <div class="text-center">
-                                <p class="text-[9px] text-slate-500 font-bold mb-1">RANK</p>
-                                <p class="text-base font-black italic">--</p>
+                                <p class="text-[9px] text-slate-500 font-bold mb-1">AVG</p>
+                                <p class="text-base font-black italic">.---</p>
                             </div>
                             <div class="text-center border-x border-white/5">
-                                <p class="text-[9px] text-slate-500 font-bold mb-1">STATUS</p>
-                                <p class="text-base font-black italic">Active</p>
+                                <p class="text-[9px] text-slate-500 font-bold mb-1">HR</p>
+                                <p class="text-base font-black italic">--</p>
                             </div>
                             <div class="text-center">
-                                <p class="text-[9px] text-slate-500 font-bold mb-1">EXP</p>
+                                <p class="text-[9px] text-slate-500 font-bold mb-1">RBI</p>
                                 <p class="text-base font-black italic">--</p>
                             </div>
                         </div>
@@ -181,7 +179,7 @@
                         <div class="mt-auto">
                             <a href="https://www.ebay.com/sch/i.html?_nkw=${encodeURIComponent(a.name)}" target="_blank" 
                                class="block w-full bg-primary py-3 rounded-lg font-black text-background-dark text-center text-xs hover:shadow-[0_4px_15px_rgba(242,242,13,0.4)] transition-all">
-                                VIEW COLLECTIBLES
+                                VIEW PROFILE
                             </a>
                         </div>
                     </div>
