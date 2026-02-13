@@ -1,0 +1,11 @@
+{
+  "target_country": "Venezuela",
+  "country_flag": "🇻🇪",
+  "site_title": "Elite Athlete Tracker",
+  "ebay_partner_link": "https://ebay.us/aG7kCj",
+  "sports": {
+    "baseball": true,
+    "basketball": true,
+    "soccer": true
+  }
+}
