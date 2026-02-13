@@ -56,7 +56,38 @@
     </main>
 
     <script>
-        let athleteData = [];
+        // Expanded 2026 dataset
+        const athleteDataRaw = [
+            // BASEBALL
+            { name: "Ronald Acuña Jr.", sport: "Baseball", league: "MLB", team: "Braves" },
+            { name: "Jackson Chourio", sport: "Baseball", league: "MLB", team: "Brewers" },
+            { name: "Maikel Garcia", sport: "Baseball", league: "MLB", team: "Royals" },
+            { name: "Salvador Perez", sport: "Baseball", league: "MLB", team: "Royals" },
+            { name: "Eugenio Suárez", sport: "Baseball", league: "MLB", team: "Diamondbacks" },
+            { name: "Willson Contreras", sport: "Baseball", league: "MLB", team: "Cardinals" },
+            { name: "Jose Altuve", sport: "Baseball", league: "MLB", team: "Astros" },
+            { name: "Luis Arraez", sport: "Baseball", league: "MLB", team: "Padres" },
+            
+            // SOCCER
+            { name: "Yeferson Soteldo", sport: "Soccer", league: "Serie A", team: "Grêmio" },
+            { name: "Jon Aramburu", sport: "Soccer", league: "La Liga", team: "Real Sociedad" },
+            { name: "Nahuel Ferraresi", sport: "Soccer", league: "Série A", team: "São Paulo" },
+            { name: "Cristian Cásseres Jr.", sport: "Soccer", league: "Ligue 1", team: "Toulouse" },
+            { name: "Telasco Segovia", sport: "Soccer", league: "Primeira Liga", team: "Casa Pia" },
+            { name: "Jefferson Savarino", sport: "Soccer", league: "Série A", team: "Botafogo" },
+            { name: "Wuilker Fariñez", sport: "Soccer", league: "Liga FUTVE", team: "Caracas FC" },
+            { name: "David Martínez", sport: "Soccer", league: "MLS", team: "LAFC" },
+
+            // BASKETBALL
+            { name: "Michael Carrera", sport: "Basketball", league: "LEB Oro", team: "Estudiantes" },
+            { name: "Heissler Guillent", sport: "Basketball", league: "LNBP", team: "Astros" },
+            { name: "David Cubillan", sport: "Basketball", league: "SLB", team: "Trotamundos" },
+            { name: "Pedro Chourio", sport: "Basketball", league: "NBB", team: "São José" },
+            { name: "Jose Ascanio", sport: "Basketball", league: "Liga Nacional", team: "Oberá" },
+            { name: "Luis Bethelmy", sport: "Basketball", league: "SLB", team: "Cocodrilos" }
+        ];
+
+        let athleteData = athleteDataRaw;
         let currentSport = 'All';
 
         const icons = {
@@ -65,14 +96,8 @@
             'Basketball': `<circle cx="50" cy="50" r="30" fill="#f2f20d"/><path d="M20 50 L80 50 M50 20 L50 80 M25 30 Q 50 50 25 70 M75 30 Q 50 50 75 70" fill="none" stroke="#121212" stroke-width="2"/>`
         };
 
-        async function init() {
-            try {
-                const resp = await fetch('data/athletes.json');
-                const rawData = await resp.json();
-                // Strict Filter: Only Active
-                athleteData = rawData.filter(a => !a.name.includes("Miguel Cabrera"));
-                renderGrid(athleteData);
-            } catch(e) { console.error("Error", e); }
+        function init() {
+            renderGrid(athleteData);
         }
 
         function filterBySearch() {
@@ -102,7 +127,7 @@
                     <h3 class="text-2xl font-black italic uppercase leading-tight mb-1">${a.name}</h3>
                     <div class="flex justify-center items-center gap-1 mb-6">
                         <span class="status-dot"></span>
-                        <span class="text-slate-500 text-[10px] font-bold uppercase tracking-widest">${a.sport} • ACTIVE</span>
+                        <span class="text-slate-500 text-[10px] font-bold uppercase tracking-widest">${a.sport} • ${a.team}</span>
                     </div>
                     <a href="https://www.ebay.com/sch/i.html?_nkw=${encodeURIComponent(a.name)}" target="_blank" class="block w-full bg-[#f2f20d] text-black py-3 rounded-xl font-black text-xs">SHOP COLLECTIBLES</a>
                 </div>`).join('');
