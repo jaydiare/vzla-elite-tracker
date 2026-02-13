@@ -1,100 +1,144 @@
 <!DOCTYPE html>
-<html lang="es">
+<html class="dark" lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Elite Athlete Tracker</title>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Elite Tracker | Venezuela</title>
+    
     <script>window._epn = {campaign: 5339142321};</script>
     <script src="https://epnt.ebay.com/static/epn-smart-tools.js"></script>
-    
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#f2f20d",
+                        "background-dark": "#121208",
+                        "ven-blue": "#00247d",
+                        "ven-red": "#ce1126",
+                    },
+                    fontFamily: { "display": ["Inter", "sans-serif"] }
+                },
+            },
+        }
+    </script>
     <style>
-        :root { --primary-color: #0033a0; --accent-color: #ffcc00; }
-        .hero { background: linear-gradient(135deg, var(--primary-color), #001e5a); color: white; padding: 3rem 0; }
-        .card-athlete { border: none; border-radius: 12px; transition: 0.3s; }
-        .card-athlete:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
-        .btn-ebay { background-color: var(--accent-color); font-weight: 600; border: none; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .athlete-card-gradient { background: linear-gradient(145deg, #1e1e0a 0%, #121208 100%); }
+        .glass-nav { background: rgba(18, 18, 8, 0.8); backdrop-filter: blur(12px); }
+        .hero-pattern { background-image: radial-gradient(circle at 2px 2px, rgba(242, 242, 13, 0.05) 1px, transparent 0); background-size: 24px 24px; }
     </style>
 </head>
-<body>
+<body class="bg-background-dark font-display text-slate-100 min-h-screen">
 
-<header class="hero text-center">
-    <div class="container">
-        <h1>🇻🇪 Elite Athlete Tracker</h1>
-        <p>Tracking talent in MLB, NBA & International Soccer</p>
-    </div>
-</header>
-
-<main class="container my-4">
-    <div class="card p-3 mb-4 shadow-sm border-0">
-        <div class="row g-3">
-            <div class="col-md-6">
-                <input type="text" id="searchBar" class="form-control" placeholder="Search by name, team, or sport..." onkeyup="filterContent()">
-            </div>
-            <div class="col-md-6 text-md-end">
-                <div class="btn-group" id="sport-filters">
-                    <button class="btn btn-outline-primary active" onclick="setSport('All', this)">All</button>
-                    <button class="btn btn-outline-primary" onclick="setSport('Baseball', this)">Baseball</button>
-                    <button class="btn btn-outline-primary" onclick="setSport('Soccer', this)">Soccer</button>
-                    <button class="btn btn-outline-primary" onclick="setSport('Soccer', this)">Basketball</button>
+    <nav class="fixed top-0 w-full z-50 glass-nav border-b border-white/5">
+        <div class="max-w-[1440px] mx-auto px-6 h-20 flex items-center justify-between">
+            <div class="flex items-center gap-12">
+                <div class="flex items-center gap-3">
+                    <div class="bg-primary text-background-dark p-1.5 rounded-lg">
+                        <span class="material-symbols-outlined block">star_half</span>
+                    </div>
+                    <h1 class="text-xl font-extrabold tracking-tighter uppercase italic">
+                        🇻🇪 Elite <span class="text-primary">Tracker</span>
+                    </h1>
+                </div>
+                <div class="hidden lg:flex items-center gap-1" id="sport-filters">
+                    <button onclick="setSport('All', this)" class="px-4 py-2 rounded-lg bg-primary/10 text-primary font-bold text-sm border border-primary/20">All Sports</button>
+                    <button onclick="setSport('Baseball', this)" class="px-4 py-2 rounded-lg hover:bg-white/5 text-slate-400 hover:text-white transition-colors font-medium text-sm">Baseball</button>
+                    <button onclick="setSport('Soccer', this)" class="px-4 py-2 rounded-lg hover:bg-white/5 text-slate-400 hover:text-white transition-colors font-medium text-sm">Soccer</button>
+                    <button onclick="setSport('Basketball', this)" class="px-4 py-2 rounded-lg hover:bg-white/5 text-slate-400 hover:text-white transition-colors font-medium text-sm">Basketball</button>
                 </div>
             </div>
-        </div>
-    </div>
-    <div id="grid-view" class="row g-4"></div>
-</main>
-
-<script>
-let athleteData = [];
-let currentSport = 'All';
-
-async function init() {
-    try {
-        const resp = await fetch('data/athletes.json');
-        athleteData = await resp.json();
-        filterContent();
-    } catch (e) { console.error("Error loading data", e); }
-}
-
-function setSport(sport, btn) {
-    currentSport = sport;
-    document.querySelectorAll('#sport-filters .btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    filterContent();
-}
-
-function filterContent() {
-    const term = document.getElementById('searchBar').value.toLowerCase();
-    const filtered = athleteData.filter(a => {
-        const matchSport = currentSport === 'All' || a.sport === currentSport;
-        // Search matches name, team, OR sport
-        const matchTerm = a.name.toLowerCase().includes(term) || 
-                          a.team.toLowerCase().includes(term) || 
-                          a.sport.toLowerCase().includes(term);
-        return matchSport && matchTerm;
-    });
-    renderGrid(filtered);
-}
-
-function renderGrid(data) {
-    const grid = document.getElementById('grid-view');
-    grid.innerHTML = data.map(a => `
-        <div class="col-md-4">
-            <div class="card card-athlete h-100 shadow-sm">
-                <img src="${a.img}" class="card-img-top" style="height:200px; object-fit:cover;" alt="${a.name}">
-                <div class="card-body text-center">
-                    <h5 class="fw-bold">${a.name}</h5>
-                    <p class="text-muted small">${a.sport} | ${a.team}</p>
-                    <a href="https://www.ebay.com/sch/i.html?_nkw=${encodeURIComponent(a.name)}" target="_blank" class="btn btn-ebay w-100">
-                        Shop Collectibles
-                    </a>
-                </div>
+            <div class="flex items-center bg-white/5 border border-white/10 rounded-full px-4 py-2 w-64">
+                <span class="material-symbols-outlined text-slate-400 text-sm">search</span>
+                <input id="searchBar" onkeyup="filterContent()" class="bg-transparent border-none focus:ring-0 text-sm w-full placeholder:text-slate-500" placeholder="Quick search..." type="text"/>
             </div>
         </div>
-    `).join('');
-}
-init();
-</script>
+    </nav>
+
+    <main class="pt-32 pb-20 px-6 max-w-[1440px] mx-auto">
+        <section class="relative mb-16 rounded-3xl overflow-hidden border border-white/5 bg-slate-900/40 p-12 hero-pattern text-center">
+            <span class="inline-block py-1 px-3 rounded-full bg-primary/10 text-primary text-xs font-bold uppercase tracking-widest mb-6 border border-primary/20">Venezuela's Finest Athletes</span>
+            <h2 class="text-4xl md:text-6xl font-black mb-6 leading-[1.1] tracking-tight">
+                Track The <span class="text-primary italic">Top Tier</span> Talent In Real-Time
+            </h2>
+            <p class="text-slate-400 text-lg mb-10 max-w-xl mx-auto">Global database for scouting, analytics, and career tracking of Venezuela's elite sports professionals.</p>
+        </section>
+
+        <div class="flex items-center justify-between mb-8">
+            <h3 class="text-2xl font-black flex items-center gap-3">
+                <span class="w-2 h-8 bg-primary rounded-full"></span> Featured Athletes
+            </h3>
+        </div>
+
+        <div id="athletes-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            </div>
+    </main>
+
+    <script>
+        let athleteData = [];
+        let currentSport = 'All';
+
+        async function init() {
+            try {
+                const resp = await fetch('data/athletes.json');
+                athleteData = await resp.json();
+                renderGrid(athleteData);
+            } catch (e) { console.error("Error loading athletes", e); }
+        }
+
+        function setSport(sport, btn) {
+            currentSport = sport;
+            document.querySelectorAll('#sport-filters button').forEach(b => {
+                b.classList.remove('bg-primary/10', 'text-primary', 'border-primary/20');
+                b.classList.add('text-slate-400');
+            });
+            btn.classList.add('bg-primary/10', 'text-primary', 'border-primary/20');
+            filterContent();
+        }
+
+        function filterContent() {
+            const term = document.getElementById('searchBar').value.toLowerCase();
+            const filtered = athleteData.filter(a => {
+                const matchSport = currentSport === 'All' || a.sport === currentSport;
+                const matchTerm = a.name.toLowerCase().includes(term) || a.team.toLowerCase().includes(term);
+                return matchSport && matchTerm;
+            });
+            renderGrid(filtered);
+        }
+
+        function renderGrid(data) {
+            const grid = document.getElementById('athletes-grid');
+            grid.innerHTML = data.map(a => `
+                <div class="athlete-card-gradient border border-white/10 p-1 rounded-2xl group hover:border-primary/40 transition-all duration-300">
+                    <div class="relative bg-background-dark/80 rounded-xl p-6 h-full flex flex-col overflow-hidden">
+                        <div class="flex justify-between items-start mb-4 relative z-10">
+                            <span class="px-3 py-1 bg-ven-blue/20 text-blue-400 border border-ven-blue/30 rounded-full text-[10px] font-black uppercase tracking-tighter">${a.league}</span>
+                            <span class="material-symbols-outlined text-primary text-xl">${a.sport === 'Baseball' ? 'sports_baseball' : 'sports_soccer'}</span>
+                        </div>
+                        <div class="aspect-square mb-4 overflow-hidden rounded-lg border border-white/5">
+                            <img src="${a.img}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        </div>
+                        <div class="mb-6 relative z-10">
+                            <p class="text-slate-500 text-[10px] font-bold mb-1 uppercase">${a.sport} | ${a.team}</p>
+                            <h4 class="text-2xl font-black tracking-tight leading-tight group-hover:text-primary transition-colors">${a.name}</h4>
+                        </div>
+                        <div class="mt-auto">
+                            <a href="https://www.ebay.com/sch/i.html?_nkw=${encodeURIComponent(a.name)}" target="_blank" 
+                               class="block w-full bg-primary py-3 rounded-lg font-black text-background-dark text-center text-xs hover:shadow-[0_4px_15px_rgba(242,242,13,0.4)] transition-all">
+                                SHOP COLLECTIBLES
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+        init();
+    </script>
 </body>
 </html>
