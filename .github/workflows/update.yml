@@ -3,7 +3,7 @@ name: Automated Athlete Sync
 on:
   workflow_dispatch: # Keeps the manual button
   schedule:
-    - cron: '0 8,20 * * *' # Runs twice a day (8am and 8pm UTC)
+    - cron: '0 0 * * *' # Runs daily at midnight
 
 jobs:
   build:
