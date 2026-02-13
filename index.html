@@ -5,6 +5,7 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
     <title>Elite Tracker | Venezuela</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet"/>
     <style>
         body { background-color: #0a0a0a; font-family: 'Inter', sans-serif; color: white; }
@@ -27,6 +28,11 @@
         .active-segment { width: 28px; height: 5px; background: #f2f20d; border-radius: 3px; }
         .inactive-segment { width: 14px; height: 5px; background: #2a2a2a; border-radius: 3px; }
         .status-dot { height: 8px; width: 8px; border-radius: 50%; display: inline-block; margin-right: 6px; background: #00C848; }
+        
+        /* Custom Social Icon Hover Colors */
+        .fa-instagram:hover { color: #E4405F; }
+        .fa-x-twitter:hover { color: #ffffff; }
+        .fa-facebook:hover { color: #1877F2; }
     </style>
 </head>
 <body>
@@ -41,18 +47,32 @@
     </nav>
 
     <main class="max-w-7xl mx-auto p-8">
-       <section class="text-center mb-8 p-12 bg-white/5 rounded-3xl border border-white/10">
-    <h2 class="text-5xl font-black mb-4 uppercase leading-tight">
-        Track The Venezuelan <span class="text-[#f2f20d] italic">Top Tier</span> Talent 
-        <br> 
-        <span class="text-3xl lowercase font-bold text-slate-300">and search for their memorabilia</span>
-    </h2>
-    <p class="text-slate-400 font-bold">
-        by <a href="https://www.ebay.ca/str/localherossportscards?mkcid=1&mkrid=706-53473-19255-0&siteid=2&campid=5339142305&customid=&toolid=10001&mkevt=1" 
-              target="_blank" 
-              class="text-[#f2f20d] hover:underline transition-all">@localheros_sportscards</a>
-    </p>
-</section>
+        <section class="text-center mb-8 p-12 bg-white/5 rounded-3xl border border-white/10">
+            <h2 class="text-5xl font-black mb-4 uppercase leading-tight">
+                Track The Venezuelan <span class="text-[#f2f20d] italic">Top Tier</span> Talent 
+                <br> 
+                <span class="text-3xl lowercase font-bold text-slate-300">and search for their memorabilia</span>
+            </h2>
+            <div class="flex flex-col items-center gap-4">
+                <p class="text-slate-400 font-bold">
+                    by <a href="https://www.ebay.ca/str/localherossportscards?mkcid=1&mkrid=706-53473-19255-0&siteid=2&campid=5339142305&customid=&toolid=10001&mkevt=1" 
+                          target="_blank" 
+                          class="text-[#f2f20d] hover:underline transition-all">@localheros_sportscards</a>
+                </p>
+                
+                <div class="flex gap-6 text-2xl text-slate-400">
+                    <a href="https://www.instagram.com/localheros_sportscards/" target="_blank" title="Instagram">
+                        <i class="fa-brands fa-instagram transition-colors duration-300"></i>
+                    </a>
+                    <a href="https://x.com/jdiegorceli1?s=21" target="_blank" title="X (Twitter)">
+                        <i class="fa-brands fa-x-twitter transition-colors duration-300"></i>
+                    </a>
+                    <a href="https://facebook.com" target="_blank" title="Facebook">
+                        <i class="fa-brands fa-facebook transition-colors duration-300"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
 
         <div class="search-container">
             <input type="text" id="athleteSearch" onkeyup="filterBySearch()" placeholder="Search active athletes..." class="search-input">
@@ -62,7 +82,6 @@
     </main>
 
     <script>
-        // Updated 2026 active roster with latest official WBC lineup news
         const athleteDataRaw = [
             // BASEBALL - Official 2026 WBC Stars
             { name: "Ronald Acuña Jr.", sport: "Baseball", league: "MLB", team: "Braves" },
@@ -125,13 +144,10 @@
 
         function renderGrid(data) {
             const grid = document.getElementById('athletes-grid');
-            
-            // Your eBay affiliate campaign parameters
             const campID = "5339142321";
             const rotationID = "706-53473-19255-0";
 
             grid.innerHTML = data.map(a => {
-                // Generate dynamic tracking link for each athlete search
                 const ebaySearchURL = `https://www.ebay.ca/sch/i.html?_nkw=${encodeURIComponent(a.name + ' cards')}&mkevt=1&mkcid=1&mkrid=${rotationID}&campid=${campID}&toolid=10001`;
 
                 return `
