@@ -12,11 +12,11 @@
             background: #121212; border-radius: 20px; padding: 24px; text-align: center;
             border: 1px solid rgba(242, 242, 13, 0.1); transition: all 0.3s ease;
         }
+        .athlete-card:hover { transform: translateY(-5px); border-color: rgba(242, 242, 13, 0.4); }
         .sport-icon-wrapper {
             background: rgba(242, 242, 13, 0.03); border-radius: 24px;
             padding: 35px; margin-bottom: 24px; border: 1px solid rgba(242, 242, 13, 0.15);
         }
-        /* Search Bar Styling */
         .search-container { position: relative; width: 100%; max-width: 400px; margin: 0 auto 2rem; }
         .search-input {
             width: 100%; background: #1a1a1a; border: 1px solid #333; padding: 12px 20px;
@@ -26,9 +26,7 @@
         .indicator-bar { display: flex; gap: 4px; justify-content: center; margin-top: 15px; }
         .active-segment { width: 28px; height: 5px; background: #f2f20d; border-radius: 3px; }
         .inactive-segment { width: 14px; height: 5px; background: #2a2a2a; border-radius: 3px; }
-        .status-dot { height: 8px; width: 8px; border-radius: 50%; display: inline-block; margin-right: 6px; }
-        .dot-active { background: #00C848; }
-        .dot-retired { background: #ce1126; }
+        .status-dot { height: 8px; width: 8px; border-radius: 50%; display: inline-block; margin-right: 6px; background: #00C848; }
     </style>
 </head>
 <body>
@@ -44,15 +42,14 @@
 
     <main class="max-w-7xl mx-auto p-8">
         <section class="text-center mb-8 p-12 bg-white/5 rounded-3xl border border-white/10">
-            <h2 class="text-5xl font-black mb-4 uppercase leading-tight">Track The <span class="text-[#f2f20d] italic">Top Tier</span> Talent In Real-Time</h2>
-            
+            <h2 class="text-5xl font-black mb-4 uppercase leading-tight">Track The <span class="text-[#f2f20d] italic">Top Tier</span> Talent</h2>
             <p class="text-slate-400 font-bold">
-                by <a href="https://ebay.us/aG7kCj" target="_blank" class="text-[#f2f20d] hover:underline transition-all">@localheros_sportscards</a>
+                by <a href="https://www.ebay.ca/str/localherossportscards" target="_blank" class="text-[#f2f20d] hover:underline transition-all">@localheros_sportscards</a>
             </p>
         </section>
 
         <div class="search-container">
-            <input type="text" id="athleteSearch" onkeyup="filterBySearch()" placeholder="Search athlete by name..." class="search-input">
+            <input type="text" id="athleteSearch" onkeyup="filterBySearch()" placeholder="Search active athletes..." class="search-input">
         </div>
 
         <div id="athletes-grid" class="grid grid-cols-1 md:grid-cols-4 gap-8"></div>
@@ -71,17 +68,17 @@
         async function init() {
             try {
                 const resp = await fetch('data/athletes.json');
-                athleteData = await resp.json();
+                const rawData = await resp.json();
+                // Strict Filter: Only Active
+                athleteData = rawData.filter(a => !a.name.includes("Miguel Cabrera"));
                 renderGrid(athleteData);
-            } catch(e) { console.error("Data load failed", e); }
+            } catch(e) { console.error("Error", e); }
         }
 
-        // Search Functionality
         function filterBySearch() {
             const query = document.getElementById('athleteSearch').value.toLowerCase();
             const filtered = athleteData.filter(a => 
-                (currentSport === 'All' || a.sport === currentSport) && 
-                a.name.toLowerCase().includes(query)
+                (currentSport === 'All' || a.sport === currentSport) && a.name.toLowerCase().includes(query)
             );
             renderGrid(filtered);
         }
@@ -95,13 +92,7 @@
 
         function renderGrid(data) {
             const grid = document.getElementById('athletes-grid');
-            grid.innerHTML = data.map(a => {
-                // Retirement check for legacy legends
-                const isRetired = a.name.includes("Miguel Cabrera");
-                const statusLabel = isRetired ? "RETIRED / LEGEND" : "ACTIVE";
-                const statusClass = isRetired ? "dot-retired" : "dot-active";
-
-                return `
+            grid.innerHTML = data.map(a => `
                 <div class="athlete-card">
                     <div class="sport-icon-wrapper">
                         <svg viewBox="0 0 100 100" class="w-16 h-16 mx-auto">${icons[a.sport] || icons['Baseball']}</svg>
@@ -110,12 +101,11 @@
                     <div class="bg-[#f2f20d] text-black text-[9px] font-black px-2 py-1 rounded mb-3 inline-block">ELITE TIER</div>
                     <h3 class="text-2xl font-black italic uppercase leading-tight mb-1">${a.name}</h3>
                     <div class="flex justify-center items-center gap-1 mb-6">
-                        <span class="status-dot ${statusClass}"></span>
-                        <span class="text-slate-500 text-[10px] font-bold uppercase tracking-widest">${a.sport} • ${statusLabel}</span>
+                        <span class="status-dot"></span>
+                        <span class="text-slate-500 text-[10px] font-bold uppercase tracking-widest">${a.sport} • ACTIVE</span>
                     </div>
-                    <a href="https://www.ebay.com/sch/i.html?_nkw=${encodeURIComponent(a.name)}" target="_blank" class="block w-full bg-[#f2f20d] text-black py-3 rounded-xl font-black text-xs hover:shadow-[0_4px_15px_rgba(242,242,13,0.4)] transition-all">SHOP COLLECTIBLES</a>
-                </div>`;
-            }).join('');
+                    <a href="https://www.ebay.com/sch/i.html?_nkw=${encodeURIComponent(a.name)}" target="_blank" class="block w-full bg-[#f2f20d] text-black py-3 rounded-xl font-black text-xs">SHOP COLLECTIBLES</a>
+                </div>`).join('');
         }
         init();
     </script>
