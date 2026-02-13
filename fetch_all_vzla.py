@@ -39,8 +39,8 @@ def fetch_all_venezuelans():
                 if p.get('country') == COUNTRY_TARGET:
                     all_venezuelans.append({
                         "name": f"{p['first_name']} {p['last_name']}",
-                        "sport": "Basketball",
-                        "league": "NBA",
+                        "sport": "Basketball", "Soccer", "Baseball"
+                        "league": "NBA", "MLB", "NFL", "La Liga"
                         "team": p.get('team', {}).get('full_name', 'Active'),
                     })
 
