@@ -1,21 +1,3 @@
-import os
-import requests
-import json
-
-# --- 1. LOAD CONFIGURATION ---
-try:
-    with open('config.json', 'r') as f:
-        config = json.load(f)
-except FileNotFoundError:
-    config = {"target_country": "Venezuela", "sports": {"baseball": True, "basketball": True}}
-
-COUNTRY = config.get('target_country', 'Venezuela')
-
-# --- 2. SECURITY: LOAD KEYS FROM GITHUB SECRETS ---
-# Python pulls these from the environment variables set in your .yml file
-NBA_API_KEY = os.getenv("NBA_API_KEY")
-SPORTSDB_KEY = os.getenv("SPORTSDB_KEY", "3") # Uses '3' as default if secret is missing
-
 def fetch_mlb():
     print(f"⚾ Fetching MLB for {COUNTRY}...")
     url = "https://statsapi.mlb.com/api/v1/sports/1/players"
@@ -24,7 +6,8 @@ def fetch_mlb():
         return [{
             "name": p['fullName'], "sport": "Baseball", "league": "MLB",
             "team": p.get('currentTeam', {}).get('name', 'Free Agent'),
-            "img": f"https://img.mlbstatic.com/mlb-photos/alphabetic/at18/600x600/{p['id']}.jpg"
+            # UPDATED: Using the 'midfield' URL which is more reliable for external use
+            "img": f"https://midfield.mlbstatic.com/v1/people/{p['id']}/spots/240"
         } for p in data if p.get('birthCountry') == COUNTRY]
     except Exception as e:
         print(f"MLB Error: {e}")
@@ -46,25 +29,9 @@ def fetch_basketball():
             "name": f"{p['first_name']} {p['last_name']}",
             "sport": "Basketball", "league": "NBA",
             "team": p.get('team', {}).get('full_name', 'Active'),
-            "img": None 
+            # Fallback image since the basic API doesn't provide headshots
+            "img": "https://www.nba.com/assets/logos/teams/primary/web/NBA.svg" 
         } for p in players if p.get('country') == COUNTRY]
     except Exception as e:
         print(f"NBA Error: {e}")
         return []
-
-def main():
-    all_athletes = []
-    
-    if config['sports'].get('baseball'):
-        all_athletes.extend(fetch_mlb())
-    if config['sports'].get('basketball'):
-        all_athletes.extend(fetch_basketball())
-
-    os.makedirs('data', exist_ok=True)
-    with open('data/athletes.json', 'w', encoding='utf-8') as f:
-        json.dump(all_athletes, f, indent=4, ensure_ascii=False)
-    
-    print(f"✅ Finished! Found {len(all_athletes)} athletes.")
-
-if __name__ == "__main__":
-    main()
