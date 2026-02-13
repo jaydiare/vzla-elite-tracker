@@ -51,7 +51,7 @@
         .inactive-segment { width: 14px; height: 5px; background: #2a2a2a; border-radius: 3px; }
         .hero-pattern { background-image: radial-gradient(circle at 2px 2px, rgba(242, 242, 13, 0.05) 1px, transparent 0); background-size: 24px 24px; }
         .status-dot { height: 8px; width: 8px; border-radius: 50%; display: inline-block; margin-right: 6px; }
-        .status-active { background-color: #00C848; } /* Professional Green */
+        .status-active { background-color: #00C848; }
     </style>
 </head>
 <body class="text-slate-100 min-h-screen">
@@ -62,10 +62,10 @@
                 🇻🇪 Elite <span class="text-primary">Tracker</span>
             </h1>
             <div class="flex gap-4" id="sport-filters">
-                <button onclick="setSport('All', this)" class="text-xs font-black uppercase text-primary px-3">All</button>
-                <button onclick="setSport('Baseball', this)" class="text-xs font-black uppercase text-slate-500 px-3">Baseball</button>
-                <button onclick="setSport('Soccer', this)" class="text-xs font-black uppercase text-slate-500 px-3">Soccer</button>
-                <button onclick="setSport('Basketball', this)" class="text-xs font-black uppercase text-slate-500 px-3">Basketball</button>
+                <button onclick="setSport('All', this)" class="text-xs font-black uppercase text-primary px-3 transition-colors hover:text-primary">All</button>
+                <button onclick="setSport('Baseball', this)" class="text-xs font-black uppercase text-slate-500 px-3 transition-colors hover:text-primary">Baseball</button>
+                <button onclick="setSport('Soccer', this)" class="text-xs font-black uppercase text-slate-500 px-3 transition-colors hover:text-primary">Soccer</button>
+                <button onclick="setSport('Basketball', this)" class="text-xs font-black uppercase text-slate-500 px-3 transition-colors hover:text-primary">Basketball</button>
             </div>
         </div>
     </nav>
@@ -79,29 +79,54 @@
                 Track The <span class="text-primary italic">Top Tier</span> Talent In Real-Time
             </h2>
             <p class="text-slate-400 text-sm font-bold mb-6">
-                by <a target="_blank" href="https://www.ebay.ca/str/localherossportscards?mkcid=1&mkrid=706-53473-19255-0&siteid=2&campid=5339142305&customid=&toolid=10001&mkevt=1" class="text-primary hover:underline transition-all">@loacalheros_sportscards</a>
+                by <a target="_blank" href="https://www.ebay.ca/str/localherossportscards?mkcid=1&mkrid=706-53473-19255-0&siteid=2&campid=5339142305&customid=&toolid=10001&mkevt=1" class="text-primary hover:underline transition-all">@localheros_sportscards</a>
             </p>
-            <p class="text-slate-400 text-lg mb-10 max-w-xl mx-auto">Global database for scouting and career tracking of Venezuela's elite sports professionals.</p>
+            <p class="text-slate-400 text-lg mb-10 max-w-xl mx-auto italic">
+                Scouting and career tracking of Venezuela's elite sports professionals.
+            </p>
             
             <img style="display:none;" src="https://www.ebayadservices.com/marketingtracking/v1/impression?mpt=3030369&mkcid=1&mkrid=706-53473-19255-0&mkevt=2&siteid=2&campid=5339142305&ad_type=0&toolid=10001">
         </section>
 
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-16">
-            <div class="bg-white/5 border border-white/10 p-6 rounded-2xl flex items-center gap-4">
-                <div class="w-12 h-12 rounded-xl bg-ven-blue/20 flex items-center justify-center text-ven-blue"><span class="material-symbols-outlined">groups</span></div>
-                <div><p class="text-[10px] text-slate-500 font-bold uppercase tracking-wider">Total Athletes</p><p class="text-2xl font-black" id="total-count">0</p></div>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-16 px-4">
+            <div class="bg-white/5 border border-white/10 p-5 rounded-2xl flex items-center gap-4 min-w-0 shadow-sm">
+                <div class="flex-shrink-0 w-12 h-12 rounded-xl bg-ven-blue/20 flex items-center justify-center text-ven-blue">
+                    <span class="material-symbols-outlined text-2xl">groups</span>
+                </div>
+                <div class="overflow-hidden">
+                    <p class="text-[10px] text-slate-500 font-bold uppercase tracking-wider truncate">Total Athletes</p>
+                    <p class="text-2xl font-black text-white" id="total-count">0</p>
+                </div>
             </div>
-            <div class="bg-white/5 border border-white/10 p-6 rounded-2xl flex items-center gap-4">
-                <div class="w-12 h-12 rounded-xl bg-primary/20 flex items-center justify-center text-primary"><span class="material-symbols-outlined">sports_baseball</span></div>
-                <div><p class="text-[10px] text-slate-500 font-bold uppercase tracking-wider">MLB Active</p><p class="text-2xl font-black" id="mlb-count">0</p></div>
+
+            <div class="bg-white/5 border border-white/10 p-5 rounded-2xl flex items-center gap-4 min-w-0 shadow-sm">
+                <div class="flex-shrink-0 w-12 h-12 rounded-xl bg-primary/20 flex items-center justify-center text-primary">
+                    <span class="material-symbols-outlined text-2xl">sports_baseball</span>
+                </div>
+                <div class="overflow-hidden">
+                    <p class="text-[10px] text-slate-500 font-bold uppercase tracking-wider truncate">MLB Active</p>
+                    <p class="text-2xl font-black text-white" id="mlb-count">0</p>
+                </div>
             </div>
-            <div class="bg-white/5 border border-white/10 p-6 rounded-2xl flex items-center gap-4">
-                <div class="w-12 h-12 rounded-xl bg-ven-red/20 flex items-center justify-center text-ven-red"><span class="material-symbols-outlined">trending_up</span></div>
-                <div><p class="text-[10px] text-slate-500 font-bold uppercase tracking-wider">Top Tier</p><p class="text-2xl font-black">Elite</p></div>
+
+            <div class="bg-white/5 border border-white/10 p-5 rounded-2xl flex items-center gap-4 min-w-0 shadow-sm">
+                <div class="flex-shrink-0 w-12 h-12 rounded-xl bg-ven-red/20 flex items-center justify-center text-ven-red">
+                    <span class="material-symbols-outlined text-2xl">trending_up</span>
+                </div>
+                <div class="overflow-hidden">
+                    <p class="text-[10px] text-slate-500 font-bold uppercase tracking-wider truncate">Top Tier</p>
+                    <p class="text-2xl font-black text-white">Elite</p>
+                </div>
             </div>
-            <div class="bg-white/5 border border-white/10 p-6 rounded-2xl flex items-center gap-4">
-                <div class="w-12 h-12 rounded-xl bg-slate-500/20 flex items-center justify-center text-slate-400"><span class="material-symbols-outlined">public</span></div>
-                <div><p class="text-[10px] text-slate-500 font-bold uppercase tracking-wider">Status</p><p class="text-2xl font-black">Verified</p></div>
+
+            <div class="bg-white/5 border border-white/10 p-5 rounded-2xl flex items-center gap-4 min-w-0 shadow-sm">
+                <div class="flex-shrink-0 w-12 h-12 rounded-xl bg-slate-500/20 flex items-center justify-center text-slate-400">
+                    <span class="material-symbols-outlined text-2xl">public</span>
+                </div>
+                <div class="overflow-hidden">
+                    <p class="text-[10px] text-slate-500 font-bold uppercase tracking-wider truncate">Status</p>
+                    <p class="text-2xl font-black text-white">Verified</p>
+                </div>
             </div>
         </div>
 
