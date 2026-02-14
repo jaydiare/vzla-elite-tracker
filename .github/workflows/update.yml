@@ -25,6 +25,7 @@ jobs:
       - name: Run Fetch Script
         env:
           NBA_API_KEY: ${{ secrets.NBA_API_KEY }}
+          SPORTSDB_KEY: ${{ secrets.SPORTSDB_KEY }}
         run: python fetch_all_vzla.py
 
       - name: Commit and Push changes
