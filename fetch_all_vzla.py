@@ -18,9 +18,17 @@ BDB_BASE = "https://api.balldontlie.io"
 BDB_HEADERS = {"Authorization": BDB_KEY}
 BDB_PER_PAGE = 100
 
-# TheSportsDB key (GitHub secret: SPORTSDB_KEY)
-TSDB_KEY = os.environ.get("SPORTSDB_KEY")  # you showed you added it
+# TheSportsDB key: prefer SPORTSDB_KEY, fallback to NBA_API_KEY only if it looks like "123"
+TSDB_KEY = os.environ.get("SPORTSDB_KEY")
+
+if not TSDB_KEY:
+    # fallback only if NBA_API_KEY is numeric like the TSDB "123" key
+    maybe = os.environ.get("NBA_API_KEY", "").strip()
+    if maybe.isdigit():
+        TSDB_KEY = maybe
+
 TSDB_BASE = f"https://www.thesportsdb.com/api/v1/json/{TSDB_KEY}" if TSDB_KEY else None
+
 
 # Target
 COUNTRY_TARGET = "venezuela"
