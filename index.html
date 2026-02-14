@@ -1,73 +1,320 @@
-<script>
-  function mergeAthletes(seedList, fetchedList) {
-    const norm = (v) => (v || "").toString().trim().toLowerCase();
-
-    // Priority: fetched data wins over seed; within fetched, prefer "better" sport buckets
-    const sportPriority = (sport) => {
-      const s = norm(sport);
-      if (s === "baseball") return 1;
-      if (s === "soccer") return 2;
-      if (s === "basketball") return 3;
-      return 9; // Other
-    };
-
-    const pickBetter = (a, b) => {
-      // prefer record that has a real team
-      const aTeam = norm(a.team);
-      const bTeam = norm(b.team);
-      const aHasTeam = aTeam && aTeam !== "unknown";
-      const bHasTeam = bTeam && bTeam !== "unknown";
-      if (aHasTeam !== bHasTeam) return bHasTeam ? b : a;
-
-      // prefer one with a known league
-      const aLeague = norm(a.league);
-      const bLeague = norm(b.league);
-      const aHasLeague = aLeague && aLeague !== "unknown";
-      const bHasLeague = bLeague && bLeague !== "unknown";
-      if (aHasLeague !== bHasLeague) return bHasLeague ? b : a;
-
-      // prefer main sports over Other
-      const ap = sportPriority(a.sport);
-      const bp = sportPriority(b.sport);
-      if (ap !== bp) return bp < ap ? b : a;
-
-      // otherwise keep existing
-      return a;
-    };
-
-    const map = new Map();
-
-    // load seed first
-    for (const a of seedList) {
-      const key = norm(a.name);
-      if (!key) continue;
-      map.set(key, {
-        name: a.name || "Unknown",
-        sport: a.sport || "Other",
-        league: a.league || "",
-        team: a.team || "Unknown"
-      });
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>Elite Tracker | Venezuela</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet"/>
+  <style>
+    body { background-color: #0a0a0a; font-family: 'Inter', sans-serif; color: white; }
+    .athlete-card {
+      background: #121212; border-radius: 20px; padding: 24px; text-align: center;
+      border: 1px solid rgba(242, 242, 13, 0.1); transition: all 0.3s ease;
     }
+    .athlete-card:hover { transform: translateY(-5px); border-color: rgba(242, 242, 13, 0.4); }
+    .sport-icon-wrapper {
+      background: rgba(242, 242, 13, 0.03); border-radius: 24px;
+      padding: 35px; margin-bottom: 24px; border: 1px solid rgba(242, 242, 13, 0.15);
+    }
+    .search-container { position: relative; width: 100%; max-width: 400px; margin: 0 auto 2rem; }
+    .search-input {
+      width: 100%; background: #1a1a1a; border: 1px solid #333; padding: 12px 20px;
+      border-radius: 50px; color: white; font-size: 14px; outline: none;
+    }
+    .search-input:focus { border-color: #f2f20d; box-shadow: 0 0 10px rgba(242, 242, 13, 0.2); }
+    .indicator-bar { display: flex; gap: 4px; justify-content: center; margin-top: 15px; }
+    .active-segment { width: 28px; height: 5px; background: #f2f20d; border-radius: 3px; }
+    .inactive-segment { width: 14px; height: 5px; background: #2a2a2a; border-radius: 3px; }
+    .status-dot { height: 8px; width: 8px; border-radius: 50%; display: inline-block; margin-right: 6px; background: #00C848; }
 
-    // overlay fetched (wins when duplicate by name)
-    for (const a of fetchedList) {
-      const key = norm(a.name);
-      if (!key) continue;
+    .fa-instagram:hover { color: #E4405F; }
+    .fa-x-twitter:hover { color: #ffffff; }
+    .fa-facebook:hover { color: #1877F2; }
+  </style>
+</head>
 
-      const normalized = {
-        name: a.name || "Unknown",
-        sport: a.sport || "Other",
-        league: a.league || "",
-        team: a.team || "Unknown"
+<body>
+  <header class="bg-[#f2f20d] text-black px-6 py-2 flex justify-between items-center text-[10px] font-black uppercase tracking-tighter">
+    <span>© 2026 Elite Tracker VZLA</span>
+    <a href="https://github.com/jaydiare/vzla-elite-tracker" target="_blank" class="hover:underline flex items-center gap-1">
+      <i class="fa-brands fa-github"></i> View on GitHub
+    </a>
+  </header>
+
+  <nav class="p-6 border-b border-white/5 flex items-center justify-between sticky top-0 bg-black/80 backdrop-blur-md z-50">
+    <h1 class="text-xl font-black italic">🇻🇪 Elite <span class="text-[#f2f20d]">Tracker</span></h1>
+    <div class="flex gap-4 text-[10px] font-black uppercase tracking-widest" id="sport-filters">
+      <button onclick="setSport('All', this)" class="text-[#f2f20d]">All</button>
+      <button onclick="setSport('Baseball', this)" class="text-slate-500">Baseball</button>
+      <button onclick="setSport('Soccer', this)" class="text-slate-500">Soccer</button>
+      <button onclick="setSport('Basketball', this)" class="text-slate-500">Basketball</button>
+      <button onclick="setSport('Other', this)" class="text-slate-500">Other</button>
+    </div>
+  </nav>
+
+  <main class="max-w-7xl mx-auto p-8">
+    <section class="text-center mb-8 p-12 bg-white/5 rounded-3xl border border-white/10">
+      <h2 class="text-5xl font-black mb-4 uppercase leading-tight">
+        Track The VZLA <span class="text-[#f2f20d] italic">Top Tier Sport</span> Talent
+        <br>
+        <span class="text-3xl lowercase font-bold text-slate-300">and search for their memorabilia</span>
+      </h2>
+
+      <div class="flex flex-col items-center gap-4">
+        <p class="text-slate-400 font-bold">
+          by <a href="https://www.ebay.ca/str/localherossportscards?mkcid=1&mkrid=706-53473-19255-0&siteid=2&campid=5339142305&customid=&toolid=10001&mkevt=1"
+                target="_blank"
+                class="text-[#f2f20d] hover:underline transition-all">@localheros_sportscards</a>
+        </p>
+
+        <div class="flex gap-6 text-2xl text-slate-400">
+          <a href="https://www.instagram.com/localheros_sportscards/" target="_blank" title="Instagram">
+            <i class="fa-brands fa-instagram transition-colors duration-300"></i>
+          </a>
+          <a href="https://x.com/jdiegorceli1?s=21" target="_blank" title="X (Twitter)">
+            <i class="fa-brands fa-x-twitter transition-colors duration-300"></i>
+          </a>
+          <a href="https://www.facebook.com/share/18NzEJirJZ/?mibextid=wwXIfr" target="_blank" title="Facebook">
+            <i class="fa-brands fa-facebook transition-colors duration-300"></i>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <div class="search-container">
+      <input type="text" id="athleteSearch" onkeyup="filterBySearch()"
+             placeholder="Search active athletes..." class="search-input">
+    </div>
+
+    <div id="athletes-grid" class="grid grid-cols-1 md:grid-cols-4 gap-8"></div>
+  </main>
+
+  <script>
+    // =========================
+    // Curated Seed List (backup + fixes)
+    // =========================
+    const athleteDataRaw = [
+      { name: "Ronald Acuña Jr.", sport: "Baseball", league: "MLB", team: "Braves" },
+      { name: "Jackson Chourio", sport: "Baseball", league: "MLB", team: "Brewers" },
+      { name: "Maikel Garcia", sport: "Baseball", league: "MLB", team: "Royals" },
+      { name: "Salvador Perez", sport: "Baseball", league: "MLB", team: "Royals" },
+      { name: "Eugenio Suárez", sport: "Baseball", league: "MLB", team: "Diamondbacks" },
+      { name: "Jose Altuve", sport: "Baseball", league: "MLB", team: "Astros" },
+      { name: "Luis Arraez", sport: "Baseball", league: "MLB", team: "Padres" },
+      { name: "William Contreras", sport: "Baseball", league: "MLB", team: "Brewers" },
+      { name: "Anthony Santander", sport: "Baseball", league: "MLB", team: "Orioles" },
+      { name: "Wilyer Abreu", sport: "Baseball", league: "MLB", team: "Red Sox" },
+      { name: "Eduardo Rodriguez", sport: "Baseball", league: "MLB", team: "Diamondbacks" },
+      { name: "Francisco Alvarez", sport: "Baseball", league: "MLB", team: "Mets" },
+
+      { name: "Yeferson Soteldo", sport: "Soccer", league: "Serie A", team: "Grêmio" },
+      { name: "Jon Aramburu", sport: "Soccer", league: "La Liga", team: "Real Sociedad" },
+      { name: "Nahuel Ferraresi", sport: "Soccer", league: "Série A", team: "São Paulo" },
+      { name: "Cristian Cásseres Jr.", sport: "Soccer", league: "Ligue 1", team: "Toulouse" },
+      { name: "Telasco Segovia", sport: "Soccer", league: "Primeira Liga", team: "Casa Pia" },
+      { name: "Jefferson Savarino", sport: "Soccer", league: "Série A", team: "Botafogo" },
+      { name: "David Martínez", sport: "Soccer", league: "MLS", team: "LAFC" },
+
+      { name: "Michael Carrera", sport: "Basketball", league: "LEB Oro", team: "Estudiantes" },
+      { name: "Heissler Guillent", sport: "Basketball", league: "LNBP", team: "Astros" },
+      { name: "David Cubillan", sport: "Basketball", league: "SLB", team: "Trotamundos" },
+      { name: "Jose Ascanio", sport: "Basketball", league: "Liga Nacional", team: "Oberá" },
+      { name: "Pedro Chourio", sport: "Basketball", league: "NBB", team: "São José" },
+
+      { name: "Jhonattan Vegas", sport: "Golf", league: "PGA", team: "Venezuela" },
+      { name: "Garbiñe Muguruza", sport: "Tennis", league: "WTA", team: "Venezuela" },
+      { name: "Marlon Vera", sport: "MMA", league: "UFC", team: "Venezuela" },
+      { name: "Rigoberto Rivas", sport: "Football", league: "NFL", team: "Venezuela" }
+    ];
+
+    // =========================
+    // State
+    // =========================
+    let athleteData = [];
+    let currentSport = 'All';
+
+    // =========================
+    // Icons
+    // =========================
+    const icons = {
+      'Baseball': `<circle cx="50" cy="50" r="30" fill="#f2f20d"/><path d="M30 40 Q 50 60 70 40 M30 60 Q 50 40 70 60" fill="none" stroke="#121212" stroke-width="2"/>`,
+      'Soccer': `<circle cx="50" cy="50" r="30" fill="#f2f20d"/><path d="M50 20 L60 40 L80 45 L65 60 L70 80 L50 70 L30 80 L35 60 L20 45 L40 40 Z" fill="#121212"/>`,
+      'Basketball': `<circle cx="50" cy="50" r="30" fill="#f2f20d"/><path d="M20 50 L80 50 M50 20 L50 80 M25 30 Q 50 50 25 70 M75 30 Q 50 50 75 70" fill="none" stroke="#121212" stroke-width="2"/>`,
+      'Golf': `<circle cx="50" cy="50" r="30" fill="#f2f20d"/><circle cx="50" cy="50" r="5" fill="#121212"/>`,
+      'Tennis': `<circle cx="50" cy="50" r="30" fill="#f2f20d"/><path d="M35 35 Q 50 50 65 35 M35 65 Q 50 50 65 65" fill="none" stroke="#121212" stroke-width="2"/>`,
+      'MMA': `<circle cx="50" cy="50" r="30" fill="#f2f20d"/><path d="M30 30 L70 70 M70 30 L30 70" stroke="#121212" stroke-width="4"/>`,
+      'Football': `<ellipse cx="50" cy="50" rx="35" ry="20" fill="#f2f20d" stroke="#121212" stroke-width="2"/>`,
+      'Hockey': `<circle cx="50" cy="50" r="30" fill="#f2f20d"/><path d="M35 65 Q50 75 65 65" fill="none" stroke="#121212" stroke-width="3"/><circle cx="50" cy="50" r="6" fill="#121212"/>`,
+      'Rugby': `<circle cx="50" cy="50" r="30" fill="#f2f20d"/><path d="M30 50 Q50 30 70 50 Q50 70 30 50" fill="none" stroke="#121212" stroke-width="3"/>`,
+      'Volleyball': `<circle cx="50" cy="50" r="30" fill="#f2f20d"/><path d="M30 35 Q50 50 70 35 M30 65 Q50 50 70 65 M50 20 Q60 50 50 80" fill="none" stroke="#121212" stroke-width="2"/>`
+    };
+
+    // =========================
+    // Merge (NO DUPLICATES by NAME)
+    // =========================
+    function mergeAthletes(seedList, fetchedList) {
+      const norm = (v) => (v || "").toString().trim().toLowerCase();
+
+      const sportPriority = (sport) => {
+        const s = norm(sport);
+        if (s === "baseball") return 1;
+        if (s === "soccer") return 2;
+        if (s === "basketball") return 3;
+        return 9;
       };
 
-      if (!map.has(key)) {
-        map.set(key, normalized);
-      } else {
-        map.set(key, pickBetter(map.get(key), normalized));
+      const pickBetter = (a, b) => {
+        const aTeam = norm(a.team);
+        const bTeam = norm(b.team);
+        const aHasTeam = aTeam && aTeam !== "unknown";
+        const bHasTeam = bTeam && bTeam !== "unknown";
+        if (aHasTeam !== bHasTeam) return bHasTeam ? b : a;
+
+        const aLeague = norm(a.league);
+        const bLeague = norm(b.league);
+        const aHasLeague = aLeague && aLeague !== "unknown";
+        const bHasLeague = bLeague && bLeague !== "unknown";
+        if (aHasLeague !== bHasLeague) return bHasLeague ? b : a;
+
+        const ap = sportPriority(a.sport);
+        const bp = sportPriority(b.sport);
+        if (ap !== bp) return bp < ap ? b : a;
+
+        return a;
+      };
+
+      const map = new Map();
+
+      // Seed first
+      for (const a of seedList) {
+        const key = norm(a.name);
+        if (!key) continue;
+        map.set(key, {
+          name: a.name || "Unknown",
+          sport: a.sport || "Other",
+          league: a.league || "",
+          team: a.team || "Unknown"
+        });
       }
+
+      // Overlay fetched (wins)
+      for (const a of fetchedList) {
+        const key = norm(a.name);
+        if (!key) continue;
+
+        const normalized = {
+          name: a.name || "Unknown",
+          sport: a.sport || "Other",
+          league: a.league || "",
+          team: a.team || "Unknown"
+        };
+
+        if (!map.has(key)) {
+          map.set(key, normalized);
+        } else {
+          map.set(key, pickBetter(map.get(key), normalized));
+        }
+      }
+
+      return Array.from(map.values()).sort((a, b) => a.name.localeCompare(b.name));
     }
 
-    return Array.from(map.values()).sort((a, b) => a.name.localeCompare(b.name));
-  }
-</script>
+    // =========================
+    // Init (load JSON + merge)
+    // =========================
+    async function init() {
+      let fetched = [];
+
+      try {
+        // Cache-bust for GitHub Pages
+        const res = await fetch(`./data/athletes.json?v=${Date.now()}`, { cache: "no-store" });
+        if (res.ok) {
+          fetched = await res.json();
+        } else {
+          console.warn("athletes.json not found or not accessible:", res.status);
+        }
+      } catch (e) {
+        console.warn("Failed to load athletes.json, using seed only.", e);
+      }
+
+      athleteData = mergeAthletes(athleteDataRaw, Array.isArray(fetched) ? fetched : []);
+      renderGrid(athleteData);
+    }
+
+    // =========================
+    // Filters
+    // =========================
+    function filterBySearch() {
+      const query = document.getElementById('athleteSearch').value.toLowerCase();
+
+      const filtered = athleteData.filter(a => {
+        const matchesQuery = (a.name || "").toLowerCase().includes(query);
+
+        let matchesSport = false;
+        if (currentSport === 'All') {
+          matchesSport = true;
+        } else if (currentSport === 'Other') {
+          const mainSports = ['Baseball', 'Soccer', 'Basketball'];
+          matchesSport = !mainSports.includes(a.sport);
+        } else {
+          matchesSport = (a.sport === currentSport);
+        }
+
+        return matchesQuery && matchesSport;
+      });
+
+      renderGrid(filtered);
+    }
+
+    function setSport(sport, btn) {
+      currentSport = sport;
+      document.querySelectorAll('#sport-filters button')
+        .forEach(b => b.classList.replace('text-[#f2f20d]', 'text-slate-500'));
+      btn.classList.replace('text-slate-500', 'text-[#f2f20d]');
+      filterBySearch();
+    }
+
+    // =========================
+    // Render
+    // =========================
+    function renderGrid(data) {
+      const grid = document.getElementById('athletes-grid');
+      const campID = "5339142321";
+      const rotationID = "706-53473-19255-0";
+
+      grid.innerHTML = data.map(a => {
+        const ebaySearchURL =
+          `https://www.ebay.ca/sch/i.html?_nkw=${encodeURIComponent(a.name)}&mkevt=1&mkcid=1&mkrid=${rotationID}&campid=${campID}&toolid=10001`;
+
+        const icon = icons[a.sport] || icons['Baseball'];
+
+        return `
+          <div class="athlete-card">
+            <div class="sport-icon-wrapper">
+              <svg viewBox="0 0 100 100" class="w-16 h-16 mx-auto">${icon}</svg>
+              <div class="indicator-bar">
+                <div class="active-segment"></div>
+                <div class="inactive-segment"></div>
+              </div>
+            </div>
+            <div class="bg-[#f2f20d] text-black text-[9px] font-black px-2 py-1 rounded mb-3 inline-block">ELITE TIER</div>
+            <h3 class="text-2xl font-black italic uppercase leading-tight mb-1">${a.name}</h3>
+            <div class="flex justify-center items-center gap-1 mb-6">
+              <span class="status-dot"></span>
+              <span class="text-slate-500 text-[10px] font-bold uppercase tracking-widest">${a.sport} • ${a.team}</span>
+            </div>
+            <a href="${ebaySearchURL}" target="_blank"
+               class="block w-full bg-[#f2f20d] text-black py-3 rounded-xl font-black text-xs hover:scale-[1.02] transition-transform">
+               SHOP COLLECTIBLES
+            </a>
+          </div>
+        `;
+      }).join('');
+    }
+
+    init();
+  </script>
+</body>
+</html>
