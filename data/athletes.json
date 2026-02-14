@@ -14,6 +14,13 @@
         "provider": "balldontlie"
     },
     {
+        "name": "Andres Chaparro",
+        "sport": "Baseball",
+        "league": "MLB",
+        "team": "Nationals",
+        "provider": "balldontlie"
+    },
+    {
         "name": "Angel Zerpa",
         "sport": "Baseball",
         "league": "MLB",
@@ -25,6 +32,20 @@
         "sport": "Baseball",
         "league": "MLB",
         "team": "Brewers",
+        "provider": "balldontlie"
+    },
+    {
+        "name": "Angel Zerpa",
+        "sport": "Baseball",
+        "league": "MLB",
+        "team": "Brewers",
+        "provider": "balldontlie"
+    },
+    {
+        "name": "Antonio Senzatela",
+        "sport": "Baseball",
+        "league": "MLB",
+        "team": "Rockies",
         "provider": "balldontlie"
     },
     {
@@ -56,6 +77,13 @@
         "provider": "balldontlie"
     },
     {
+        "name": "Eduardo Rodriguez",
+        "sport": "Baseball",
+        "league": "MLB",
+        "team": "Diamondbacks",
+        "provider": "balldontlie"
+    },
+    {
         "name": "Eugenio Suarez",
         "sport": "Baseball",
         "league": "MLB",
@@ -67,6 +95,20 @@
         "sport": "Baseball",
         "league": "MLB",
         "team": "Reds",
+        "provider": "balldontlie"
+    },
+    {
+        "name": "Eugenio Suarez",
+        "sport": "Baseball",
+        "league": "MLB",
+        "team": "Reds",
+        "provider": "balldontlie"
+    },
+    {
+        "name": "Ezequiel Tovar",
+        "sport": "Baseball",
+        "league": "MLB",
+        "team": "Rockies",
         "provider": "balldontlie"
     },
     {
@@ -98,6 +140,13 @@
         "provider": "balldontlie"
     },
     {
+        "name": "Freddy Fermin",
+        "sport": "Baseball",
+        "league": "MLB",
+        "team": "Padres",
+        "provider": "balldontlie"
+    },
+    {
         "name": "Gabriel Moreno",
         "sport": "Baseball",
         "league": "MLB",
@@ -109,6 +158,20 @@
         "sport": "Baseball",
         "league": "MLB",
         "team": "Diamondbacks",
+        "provider": "balldontlie"
+    },
+    {
+        "name": "Gabriel Moreno",
+        "sport": "Baseball",
+        "league": "MLB",
+        "team": "Diamondbacks",
+        "provider": "balldontlie"
+    },
+    {
+        "name": "Jeferson Quero",
+        "sport": "Baseball",
+        "league": "MLB",
+        "team": "Brewers",
         "provider": "balldontlie"
     },
     {
@@ -140,6 +203,13 @@
         "provider": "balldontlie"
     },
     {
+        "name": "Jorge Barrosa",
+        "sport": "Baseball",
+        "league": "MLB",
+        "team": "Diamondbacks",
+        "provider": "balldontlie"
+    },
+    {
         "name": "Jose Butto",
         "sport": "Baseball",
         "league": "MLB",
@@ -151,6 +221,20 @@
         "sport": "Baseball",
         "league": "MLB",
         "team": "Giants",
+        "provider": "balldontlie"
+    },
+    {
+        "name": "Jose Butto",
+        "sport": "Baseball",
+        "league": "MLB",
+        "team": "Giants",
+        "provider": "balldontlie"
+    },
+    {
+        "name": "Keibert Ruiz",
+        "sport": "Baseball",
+        "league": "MLB",
+        "team": "Nationals",
         "provider": "balldontlie"
     },
     {
@@ -182,6 +266,13 @@
         "provider": "balldontlie"
     },
     {
+        "name": "Keider Montero",
+        "sport": "Baseball",
+        "league": "MLB",
+        "team": "Tigers",
+        "provider": "balldontlie"
+    },
+    {
         "name": "Luis Matos",
         "sport": "Baseball",
         "league": "MLB",
@@ -193,6 +284,20 @@
         "sport": "Baseball",
         "league": "MLB",
         "team": "Giants",
+        "provider": "balldontlie"
+    },
+    {
+        "name": "Luis Matos",
+        "sport": "Baseball",
+        "league": "MLB",
+        "team": "Giants",
+        "provider": "balldontlie"
+    },
+    {
+        "name": "Maikel Garcia",
+        "sport": "Baseball",
+        "league": "MLB",
+        "team": "Royals",
         "provider": "balldontlie"
     },
     {
@@ -224,6 +329,20 @@
         "provider": "balldontlie"
     },
     {
+        "name": "Miguel Rojas",
+        "sport": "Baseball",
+        "league": "MLB",
+        "team": "Dodgers",
+        "provider": "balldontlie"
+    },
+    {
+        "name": "Salvador Perez",
+        "sport": "Baseball",
+        "league": "MLB",
+        "team": "Royals",
+        "provider": "balldontlie"
+    },
+    {
         "name": "Salvador Perez",
         "sport": "Baseball",
         "league": "MLB",
@@ -249,6 +368,20 @@
         "sport": "Baseball",
         "league": "MLB",
         "team": "Brewers",
+        "provider": "balldontlie"
+    },
+    {
+        "name": "William Contreras",
+        "sport": "Baseball",
+        "league": "MLB",
+        "team": "Brewers",
+        "provider": "balldontlie"
+    },
+    {
+        "name": "Yilber Diaz",
+        "sport": "Baseball",
+        "league": "MLB",
+        "team": "Diamondbacks",
         "provider": "balldontlie"
     },
     {
@@ -270,6 +403,13 @@
         "sport": "Soccer",
         "league": "MLS",
         "team": "Active"
+    },
+    {
+        "name": "Abel Caputo",
+        "sport": "Soccer",
+        "league": "MLS",
+        "team": "Unknown",
+        "provider": "balldontlie"
     },
     {
         "name": "Abel Caputo",
@@ -290,6 +430,13 @@
         "sport": "Soccer",
         "league": "MLS",
         "team": "Active"
+    },
+    {
+        "name": "Alejandro Fuenmayor",
+        "sport": "Soccer",
+        "league": "MLS",
+        "team": "Unknown",
+        "provider": "balldontlie"
     },
     {
         "name": "Alejandro Fuenmayor",
@@ -310,6 +457,13 @@
         "sport": "Soccer",
         "league": "MLS",
         "team": "Active"
+    },
+    {
+        "name": "Alejandro Moreno",
+        "sport": "Soccer",
+        "league": "MLS",
+        "team": "Unknown",
+        "provider": "balldontlie"
     },
     {
         "name": "Alejandro Moreno",
@@ -334,6 +488,20 @@
     },
     {
         "name": "Alejandro Marqués",
+        "sport": "Soccer",
+        "league": "Serie A",
+        "team": "Unknown",
+        "provider": "balldontlie"
+    },
+    {
+        "name": "Alejandro Marqués",
+        "sport": "Soccer",
+        "league": "Serie A",
+        "team": "Unknown",
+        "provider": "balldontlie"
+    },
+    {
+        "name": "Alessandro Milani",
         "sport": "Soccer",
         "league": "Serie A",
         "team": "Unknown",
@@ -358,6 +526,13 @@
         "sport": "Soccer",
         "league": "UCL",
         "team": "Active"
+    },
+    {
+        "name": "Alejandro Marqués",
+        "sport": "Soccer",
+        "league": "UCL",
+        "team": "Unknown",
+        "provider": "balldontlie"
     },
     {
         "name": "Alejandro Marqués",
