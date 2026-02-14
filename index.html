@@ -7,23 +7,28 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet"/>
+
   <style>
     body { background-color: #0a0a0a; font-family: 'Inter', sans-serif; color: white; }
+
     .athlete-card {
       background: #121212; border-radius: 20px; padding: 24px; text-align: center;
       border: 1px solid rgba(242, 242, 13, 0.1); transition: all 0.3s ease;
     }
     .athlete-card:hover { transform: translateY(-5px); border-color: rgba(242, 242, 13, 0.4); }
+
     .sport-icon-wrapper {
       background: rgba(242, 242, 13, 0.03); border-radius: 24px;
       padding: 35px; margin-bottom: 24px; border: 1px solid rgba(242, 242, 13, 0.15);
     }
+
     .search-container { position: relative; width: 100%; max-width: 400px; margin: 0 auto 2rem; }
     .search-input {
       width: 100%; background: #1a1a1a; border: 1px solid #333; padding: 12px 20px;
       border-radius: 50px; color: white; font-size: 14px; outline: none;
     }
     .search-input:focus { border-color: #f2f20d; box-shadow: 0 0 10px rgba(242, 242, 13, 0.2); }
+
     .indicator-bar { display: flex; gap: 4px; justify-content: center; margin-top: 15px; }
     .active-segment { width: 28px; height: 5px; background: #f2f20d; border-radius: 3px; }
     .inactive-segment { width: 14px; height: 5px; background: #2a2a2a; border-radius: 3px; }
@@ -32,6 +37,39 @@
     .fa-instagram:hover { color: #E4405F; }
     .fa-x-twitter:hover { color: #ffffff; }
     .fa-facebook:hover { color: #1877F2; }
+
+    /* Footer banner spacing so it doesn't overlap content */
+    .footer-banner-spacer {
+      height: 110px;
+    }
+
+    .ebay-footer {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 9999;
+      background: rgba(0,0,0,0.85);
+      backdrop-filter: blur(10px);
+      border-top: 1px solid rgba(255,255,255,0.08);
+      padding: 12px 16px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .ebay-banner-img {
+      width: min(728px, 95vw);
+      height: auto;
+      border-radius: 10px;
+      overflow: hidden;
+      display: block;
+      border: 1px solid rgba(255,255,255,0.08);
+      transition: transform 0.2s ease;
+    }
+
+    .ebay-banner-img:hover {
+      transform: scale(1.01);
+    }
   </style>
 </head>
 
@@ -89,7 +127,28 @@
     </div>
 
     <div id="athletes-grid" class="grid grid-cols-1 md:grid-cols-4 gap-8"></div>
+
+    <!-- spacer so content doesn't hide behind fixed footer -->
+    <div class="footer-banner-spacer"></div>
   </main>
+
+  <!-- =========================
+       EBAY AFFILIATE FOOTER BANNER
+       ========================= -->
+  <footer class="ebay-footer">
+    <a
+      href="https://www.ebay.ca/sch/i.html?_nkw=trading+cards&mkevt=1&mkcid=1&mkrid=706-53473-19255-0&campid=5339142321&toolid=10001"
+      target="_blank"
+      rel="noopener noreferrer"
+      title="Shop Trading Cards on eBay"
+    >
+      <img
+        src="./assets/Baseball-728x90.jpg"
+        alt="Collect more. Spend less. Shop Trading Cards on eBay."
+        class="ebay-banner-img"
+      />
+    </a>
+  </footer>
 
   <script>
     // =========================
