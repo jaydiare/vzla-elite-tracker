@@ -16,33 +16,21 @@ FILE_PATH = 'data/athletes.json'
 
 # Endpoints actualizados
 ENDPOINTS: List[Dict[str, Any]] = [
-    # Core majors (Free-safe)
-    {"sport": "Basketball", "league": "NBA",  "path": "/nba/v1/players"},
-    {"sport": "Football",   "league": "NFL",  "path": "/nfl/v1/players"},
-    {"sport": "Baseball",   "league": "MLB",  "path": "/mlb/v1/players"},  # includes birth_place + active flag in records :contentReference[oaicite:6]{index=6}
-    {"sport": "Hockey",     "league": "NHL",  "path": "/nhl/v1/players"},
+    # --- BALLDONTLIE (Free-safe) ---
+    {"sport": "Basketball", "league": "NBA",  "provider": "balldontlie", "path": "/nba/v1/players", "field": "birth_place"},
+    {"sport": "Football",   "league": "NFL",  "provider": "balldontlie", "path": "/nfl/v1/players", "field": "birth_place"},
+    {"sport": "Baseball",   "league": "MLB",  "provider": "balldontlie", "path": "/mlb/v1/players", "field": "birth_place", "active_field": "active"},
+    {"sport": "Hockey",     "league": "NHL",  "provider": "balldontlie", "path": "/nhl/v1/players", "field": "birth_place"},
 
-    # College (if enabled for your key)
-    {"sport": "Basketball", "league": "NCAAB","path": "/ncaab/v1/players"},
-    {"sport": "Basketball", "league": "NCAAW","path": "/ncaaw/v1/players"},
-    {"sport": "Football",   "league": "NCAAF","path": "/ncaaf/v1/players"},
+    # Soccer (balldontlie)
+    {"sport": "Soccer", "league": "EPL",        "provider": "balldontlie", "path": "/epl/v2/players", "field": "birth_place"},
+    {"sport": "Soccer", "league": "La Liga",    "provider": "balldontlie", "path": "/laliga/v1/players", "field": "birth_place"},
+    {"sport": "Soccer", "league": "MLS",        "provider": "balldontlie", "path": "/mls/v1/players", "field": "birth_place"},
+    {"sport": "Soccer", "league": "UCL",        "provider": "balldontlie", "path": "/ucl/v1/players", "field": "birth_place"},
+    {"sport": "Soccer", "league": "Ligue 1",    "provider": "balldontlie", "path": "/ligue1/v1/players", "field": "birth_place"},
+    {"sport": "Soccer", "league": "Bundesliga", "provider": "balldontlie", "path": "/bundesliga/v1/players", "field": "birth_place"},
+    {"sport": "Soccer", "league": "Serie A",    "provider": "balldontlie", "path": "/seriea/v1/players", "field": "birth_place"},
 
-    # Soccer (if enabled for your key)
-    {"sport": "Soccer", "league": "EPL",        "path": "/epl/v2/players"},
-    {"sport": "Soccer", "league": "La Liga",    "path": "/laliga/v1/players"},
-    {"sport": "Soccer", "league": "MLS",        "path": "/mls/v1/players"},
-    {"sport": "Soccer", "league": "UCL",        "path": "/ucl/v1/players"},
-    {"sport": "Soccer", "league": "Ligue 1",    "path": "/ligue1/v1/players"},
-    {"sport": "Soccer", "league": "Bundesliga", "path": "/bundesliga/v1/players"},
-    {"sport": "Soccer", "league": "Serie A",    "path": "/seriea/v1/players"},
-
-    # Optional (only if your key has access)
-    {"sport": "Basketball", "league": "WNBA", "path": "/wnba/v1/players"},
-    {"sport": "MMA", "league": "MMA", "path": "/mma/v1/fighters"},
-    {"sport": "Motorsport", "league": "F1", "path": "/f1/v1/drivers"},
-    {"sport": "Tennis", "league": "ATP", "path": "/atp/v1/players"},
-    {"sport": "Tennis", "league": "WTA", "path": "/wta/v1/players"},
-    {"sport": "Golf", "league": "PGA Tour", "path": "/pga/v1/players"},
 ]
 
 
