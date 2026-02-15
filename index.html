@@ -5,6 +5,25 @@
   <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
   <title>Venezuela</title>
 
+  <!-- ✅ Google Analytics (GA4) + Consent Mode (default denied) -->
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+
+    // Default: deny until user chooses
+    gtag('consent', 'default', {
+      ad_storage: 'denied',
+      ad_user_data: 'denied',
+      ad_personalization: 'denied',
+      analytics_storage: 'denied'
+    });
+  </script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-3SCYEVBB9B"></script>
+  <script>
+    gtag('js', new Date());
+    gtag('config', 'G-3SCYEVBB9B', { anonymize_ip: true });
+  </script>
+
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet"/>
@@ -99,6 +118,64 @@
     }
 
     .ebay-banner-img:hover { transform: scale(1.01); }
+
+    /* ✅ Cookie banner (positioned above footer banner) */
+    .cookie-banner {
+      position: fixed;
+      left: 16px;
+      right: 16px;
+      bottom: 110px; /* above footer */
+      z-index: 10000;
+
+      background: rgba(18,18,18,0.96);
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 16px;
+      padding: 14px 14px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+      display: none;
+    }
+
+    @media (min-width: 768px) {
+      .cookie-banner {
+        left: auto;
+        right: 24px;
+        width: 420px;
+        bottom: 120px;
+      }
+    }
+
+    .cookie-actions {
+      display: flex;
+      gap: 8px;
+      justify-content: flex-end;
+      margin-top: 10px;
+    }
+
+    .cookie-btn {
+      padding: 10px 12px;
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: #1a1a1a;
+      color: white;
+    }
+
+    .cookie-btn-accept {
+      background: #f2f20d;
+      color: #000;
+      border-color: rgba(242,242,13,0.4);
+    }
+
+    .cookie-link {
+      color: rgba(242,242,13,0.95);
+      text-decoration: underline;
+      cursor: pointer;
+      font-weight: 800;
+    }
   </style>
 </head>
 
@@ -108,7 +185,7 @@
   </header>
 
   <nav class="p-6 border-b border-white/5 flex items-center justify-between sticky top-0 bg-black/80 backdrop-blur-md z-50">
-    <h1 class="text-xl font-black italic">🇻🇪</span></h1>
+    <h1 class="text-xl font-black italic">🇻🇪</h1>
     <div class="flex gap-4 text-[10px] font-black uppercase tracking-widest px-2 md:px-0" id="sport-filters">
       <button onclick="setSport('All', this)" class="text-[#f2f20d]">All</button>
       <button onclick="setSport('Baseball', this)" class="text-slate-500">Baseball</button>
@@ -140,9 +217,14 @@
           <a href="https://x.com/jdiegorceli1?s=21" target="_blank" title="X (Twitter)">
             <i class="fa-brands fa-x-twitter transition-colors duration-300"></i>
           </a>
-          <a href="https://www.facebook.com/share/18NzEJirJZ/?mibextid=wwXIfr" target="_blank" title="Facebook">
+          <a href="https://www.facebook.com/share/wwXIfr" target="_blank" title="Facebook">
             <i class="fa-brands fa-facebook transition-colors duration-300"></i>
           </a>
+        </div>
+
+        <!-- ✅ Cookie settings link -->
+        <div class="text-[11px] text-slate-500 font-bold">
+          <span class="cookie-link" id="cookie-manage">Manage cookies</span>
         </div>
       </div>
     </section>
@@ -156,6 +238,18 @@
 
     <div class="footer-banner-spacer"></div>
   </main>
+
+  <!-- ✅ COOKIE BANNER -->
+  <div id="cookie-banner" class="cookie-banner" role="dialog" aria-live="polite" aria-label="Cookie consent">
+    <div class="text-sm font-black mb-1">Cookies</div>
+    <div class="text-xs text-slate-300 leading-relaxed">
+      We use cookies to measure traffic and improve the site. You can accept or decline.
+    </div>
+    <div class="cookie-actions">
+      <button id="cookie-decline" class="cookie-btn" type="button">Decline</button>
+      <button id="cookie-accept" class="cookie-btn cookie-btn-accept" type="button">Accept</button>
+    </div>
+  </div>
 
   <!-- EBAY AFFILIATE FOOTER BANNER -->
   <footer class="ebay-footer">
@@ -175,6 +269,66 @@
   </footer>
 
   <script>
+    // -------------------------
+    // ✅ Cookie banner logic + Google Consent Mode updates
+    // -------------------------
+    (function () {
+      const KEY = "vzla_cookie_consent_v1"; // accepted | declined
+      const banner = document.getElementById("cookie-banner");
+      const btnAccept = document.getElementById("cookie-accept");
+      const btnDecline = document.getElementById("cookie-decline");
+      const btnManage = document.getElementById("cookie-manage");
+
+      function setConsent(granted) {
+        const v = granted ? "granted" : "denied";
+        if (typeof gtag === "function") {
+          gtag("consent", "update", {
+            ad_storage: v,
+            ad_user_data: v,
+            ad_personalization: v,
+            analytics_storage: v
+          });
+        }
+      }
+
+      function save(choice) {
+        try { localStorage.setItem(KEY, choice); } catch (e) {}
+      }
+      function load() {
+        try { return localStorage.getItem(KEY); } catch (e) { return null; }
+      }
+
+      const existing = load();
+      if (!existing) {
+        banner.style.display = "block";
+      } else {
+        setConsent(existing === "accepted");
+      }
+
+      btnAccept.addEventListener("click", () => {
+        save("accepted");
+        setConsent(true);
+        banner.style.display = "none";
+      });
+
+      btnDecline.addEventListener("click", () => {
+        save("declined");
+        setConsent(false);
+        banner.style.display = "none";
+      });
+
+      // "Manage cookies" => show banner again
+      if (btnManage) {
+        btnManage.addEventListener("click", () => {
+          banner.style.display = "block";
+        });
+      }
+    })();
+
+    // -------------------------
+    // App logic (your existing code)
+    // -------------------------
+
     // Fallback list (used if data/athletes.json can't be loaded)
     const athleteDataRaw = [
       { name: "Ronald Acuña Jr.", sport: "Baseball", league: "MLB", team: "Braves" },
@@ -226,7 +380,7 @@
       'Volleyball': `<circle cx="50" cy="50" r="30" fill="#f2f20d"/><path d="M30 35 Q50 50 70 35 M30 65 Q50 50 70 65 M50 20 Q60 50 50 80" fill="none" stroke="#121212" stroke-width="2"/>`
     };
 
-    // ✅ Deduplicate by (name + sport + league + team) so TSDB/BDB duplicates never show
+    // ✅ Deduplicate by (name + sport + league + team)
     function dedupeAthletes(list) {
       const norm = (v) => (v || "").toString().trim().toLowerCase();
       const map = new Map();
@@ -248,7 +402,6 @@
     function mergeAthletes(fallbackList, fetchedList) {
       const norm = (v) => (v || "").toString().trim().toLowerCase();
 
-      // Index fallback by name only (so fetched can “upgrade” details)
       const byName = new Map();
       for (const a of (fallbackList || [])) {
         const k = norm(a.name);
@@ -266,7 +419,6 @@
           continue;
         }
 
-        // Upgrade logic
         const cur = byName.get(k);
         const curTeam = norm(cur.team);
         const newTeam = norm(incoming.team);
@@ -275,28 +427,22 @@
 
         if (!curHasTeam && newHasTeam) byName.set(k, incoming);
         else {
-          // Prefer incoming league if current league empty
           const curLeague = norm(cur.league);
           const newLeague = norm(incoming.league);
           if (!curLeague && newLeague) byName.set(k, { ...cur, league: incoming.league, team: incoming.team, sport: incoming.sport });
         }
       }
 
-      // After merge-by-name, allow multiple entries for same name across leagues/teams via dedupeAthletes
       return dedupeAthletes(Array.from(byName.values()));
     }
 
     async function init() {
       let fetched = [];
       try {
-        // cache-bust so mobile doesn't stick to stale JSON
         const res = await fetch(`./data/athletes.json?v=${Date.now()}`, { cache: "no-store" });
         if (res.ok) fetched = await res.json();
-      } catch (e) {
-        // fallback is fine
-      }
+      } catch (e) {}
 
-      // Normalize fetched objects to what UI expects
       const fetchedNormalized = Array.isArray(fetched)
         ? fetched.map(a => ({
             name: a.name || "Unknown",
@@ -307,7 +453,6 @@
         : [];
 
       athleteData = mergeAthletes(athleteDataRaw, fetchedNormalized);
-
       renderGrid(athleteData);
     }
 
@@ -374,4 +519,3 @@
   </script>
 </body>
 </html>
-      
