@@ -87,7 +87,6 @@
       border: 1px solid rgba(255,255,255,0.08);
       transition: transform 0.2s ease;
 
-      /* Prevent huge banners taking over */
       max-height: 72px;
       object-fit: contain;
     }
@@ -161,9 +160,7 @@
     <div class="footer-banner-spacer"></div>
   </main>
 
-  <!-- =========================
-       EBAY AFFILIATE FOOTER BANNER (Responsive)
-       ========================= -->
+  <!-- EBAY AFFILIATE FOOTER BANNER (uses the ONE file that exists in repo) -->
   <footer class="ebay-footer">
     <a
       href="https://www.ebay.ca/sch/i.html?_nkw=trading+cards&mkevt=1&mkcid=1&mkrid=706-53473-19255-0&campid=5339142321&toolid=10001"
@@ -171,25 +168,16 @@
       rel="noopener noreferrer"
       title="Shop Trading Cards on eBay"
     >
-      <picture>
-        <!-- Mobile -->
-        <source media="(max-width: 480px)" srcset="./assets/Baseball-300x250.jpg">
-        <!-- Large desktop -->
-        <source media="(min-width: 1200px)" srcset="./assets/Baseball-970x250.jpg">
-        <!-- Default -->
-        <img
-          src="./assets/Baseball-728x90.jpg"
-          alt="Collect more. Spend less. Shop Trading Cards on eBay."
-          class="ebay-banner-img"
-        />
-      </picture>
+      <img
+        src="./assets/Baseball-728x90.jpg"
+        alt="Collect more. Spend less. Shop Trading Cards on eBay."
+        class="ebay-banner-img"
+        loading="eager"
+      />
     </a>
   </footer>
 
   <script>
-    // =========================
-    // Curated Seed List (backup + fixes)
-    // =========================
     const athleteDataRaw = [
       { name: "Ronald Acuña Jr.", sport: "Baseball", league: "MLB", team: "Braves" },
       { name: "Jackson Chourio", sport: "Baseball", league: "MLB", team: "Brewers" },
@@ -224,15 +212,9 @@
       { name: "Rigoberto Rivas", sport: "Football", league: "NFL", team: "Venezuela" }
     ];
 
-    // =========================
-    // State
-    // =========================
     let athleteData = [];
     let currentSport = 'All';
 
-    // =========================
-    // Icons
-    // =========================
     const icons = {
       'Baseball': `<circle cx="50" cy="50" r="30" fill="#f2f20d"/><path d="M30 40 Q 50 60 70 40 M30 60 Q 50 40 70 60" fill="none" stroke="#121212" stroke-width="2"/>`,
       'Soccer': `<circle cx="50" cy="50" r="30" fill="#f2f20d"/><path d="M50 20 L60 40 L80 45 L65 60 L70 80 L50 70 L30 80 L35 60 L20 45 L40 40 Z" fill="#121212"/>`,
@@ -246,120 +228,59 @@
       'Volleyball': `<circle cx="50" cy="50" r="30" fill="#f2f20d"/><path d="M30 35 Q50 50 70 35 M30 65 Q50 50 70 65 M50 20 Q60 50 50 80" fill="none" stroke="#121212" stroke-width="2"/>`
     };
 
-    // =========================
-    // Merge (NO DUPLICATES by NAME)
-    // =========================
     function mergeAthletes(seedList, fetchedList) {
       const norm = (v) => (v || "").toString().trim().toLowerCase();
-
-      const sportPriority = (sport) => {
-        const s = norm(sport);
-        if (s === "baseball") return 1;
-        if (s === "soccer") return 2;
-        if (s === "basketball") return 3;
-        return 9;
-      };
-
-      const pickBetter = (a, b) => {
-        const aTeam = norm(a.team);
-        const bTeam = norm(b.team);
-        const aHasTeam = aTeam && aTeam !== "unknown";
-        const bHasTeam = bTeam && bTeam !== "unknown";
-        if (aHasTeam !== bHasTeam) return bHasTeam ? b : a;
-
-        const aLeague = norm(a.league);
-        const bLeague = norm(b.league);
-        const aHasLeague = aLeague && aLeague !== "unknown";
-        const bHasLeague = bLeague && bLeague !== "unknown";
-        if (aHasLeague !== bHasLeague) return bHasLeague ? b : a;
-
-        const ap = sportPriority(a.sport);
-        const bp = sportPriority(b.sport);
-        if (ap !== bp) return bp < ap ? b : a;
-
-        return a;
-      };
-
       const map = new Map();
 
-      // Seed first
       for (const a of seedList) {
         const key = norm(a.name);
         if (!key) continue;
-        map.set(key, {
-          name: a.name || "Unknown",
-          sport: a.sport || "Other",
-          league: a.league || "",
-          team: a.team || "Unknown"
-        });
+        map.set(key, { name: a.name || "Unknown", sport: a.sport || "Other", league: a.league || "", team: a.team || "Unknown" });
       }
 
-      // Overlay fetched (wins)
       for (const a of fetchedList) {
         const key = norm(a.name);
         if (!key) continue;
-
-        const normalized = {
-          name: a.name || "Unknown",
-          sport: a.sport || "Other",
-          league: a.league || "",
-          team: a.team || "Unknown"
-        };
-
-        if (!map.has(key)) {
-          map.set(key, normalized);
-        } else {
-          map.set(key, pickBetter(map.get(key), normalized));
+        const normalized = { name: a.name || "Unknown", sport: a.sport || "Other", league: a.league || "", team: a.team || "Unknown" };
+        if (!map.has(key)) map.set(key, normalized);
+        else {
+          const cur = map.get(key);
+          const curTeam = norm(cur.team);
+          const newTeam = norm(normalized.team);
+          const curHasTeam = curTeam && curTeam !== "unknown";
+          const newHasTeam = newTeam && newTeam !== "unknown";
+          if (!curHasTeam && newHasTeam) map.set(key, normalized);
         }
       }
 
       return Array.from(map.values()).sort((a, b) => a.name.localeCompare(b.name));
     }
 
-    // =========================
-    // Init (load JSON + merge)
-    // =========================
     async function init() {
       let fetched = [];
-
       try {
-        // Cache-bust for GitHub Pages
         const res = await fetch(`./data/athletes.json?v=${Date.now()}`, { cache: "no-store" });
-        if (res.ok) {
-          fetched = await res.json();
-        } else {
-          console.warn("athletes.json not found or not accessible:", res.status);
-        }
-      } catch (e) {
-        console.warn("Failed to load athletes.json, using seed only.", e);
-      }
+        if (res.ok) fetched = await res.json();
+      } catch (e) {}
 
       athleteData = mergeAthletes(athleteDataRaw, Array.isArray(fetched) ? fetched : []);
       renderGrid(athleteData);
     }
 
-    // =========================
-    // Filters
-    // =========================
     function filterBySearch() {
       const query = document.getElementById('athleteSearch').value.toLowerCase();
-
       const filtered = athleteData.filter(a => {
         const matchesQuery = (a.name || "").toLowerCase().includes(query);
 
         let matchesSport = false;
-        if (currentSport === 'All') {
-          matchesSport = true;
-        } else if (currentSport === 'Other') {
+        if (currentSport === 'All') matchesSport = true;
+        else if (currentSport === 'Other') {
           const mainSports = ['Baseball', 'Soccer', 'Basketball'];
           matchesSport = !mainSports.includes(a.sport);
-        } else {
-          matchesSport = (a.sport === currentSport);
-        }
+        } else matchesSport = (a.sport === currentSport);
 
         return matchesQuery && matchesSport;
       });
-
       renderGrid(filtered);
     }
 
@@ -371,9 +292,6 @@
       filterBySearch();
     }
 
-    // =========================
-    // Render
-    // =========================
     function renderGrid(data) {
       const grid = document.getElementById('athletes-grid');
       const campID = "5339142321";
@@ -382,7 +300,6 @@
       grid.innerHTML = data.map(a => {
         const ebaySearchURL =
           `https://www.ebay.ca/sch/i.html?_nkw=${encodeURIComponent(a.name)}&mkevt=1&mkcid=1&mkrid=${rotationID}&campid=${campID}&toolid=10001`;
-
         const icon = icons[a.sport] || icons['Baseball'];
 
         return `
@@ -401,8 +318,8 @@
               <span class="text-slate-500 text-[10px] font-bold uppercase tracking-widest">${a.sport} • ${a.team}</span>
             </div>
             <a href="${ebaySearchURL}" target="_blank"
-               class="block w-full bg-[#f2f20d] text-black py-3 rounded-xl font-black text-xs hover:scale-[1.02] transition-transform">
-               SHOP COLLECTIBLES
+              class="block w-full bg-[#f2f20d] text-black py-3 rounded-xl font-black text-xs hover:scale-[1.02] transition-transform">
+              SHOP COLLECTIBLES
             </a>
           </div>
         `;
