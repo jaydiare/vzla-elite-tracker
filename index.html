@@ -20,125 +20,127 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet"/>
 
   <style>
-    body {
-      background-color: #0a0a0a;
-      font-family: 'Inter', sans-serif;
-      color: white;
+    :root{
+      --vzla-yellow:#f2f20d;
+      --bg:#0a0a0a;
+      --panel:rgba(255,255,255,0.05);
+      --stroke:rgba(255,255,255,0.08);
+      --muted:rgba(148,163,184,0.85);
+      --shadow:0 20px 60px rgba(0,0,0,0.55);
+    }
+
+    body{
+      background-color: var(--bg);
+      font-family:'Inter', sans-serif;
+      color:#fff;
     }
 
     /* =========================
        LAYOUT (SIDE BANNERS)
        ========================= */
 
-    .page-shell {
-      display: grid;
-      grid-template-columns: 260px 1fr 260px; /* skinnier */
-      gap: 24px;
-      max-width: 1600px;
+    .page-shell{
+      display:grid;
+      grid-template-columns: 210px 1fr 210px; /* skinnier rails */
+      gap: 22px;
+      max-width: 1500px;
       margin: 0 auto;
-      padding: 0 16px;
+      padding: 0 14px;
     }
 
-    @media (max-width: 1200px) {
-      .page-shell {
-        grid-template-columns: 220px 1fr 220px;
-      }
+    @media (max-width: 1280px){
+      .page-shell{ grid-template-columns: 180px 1fr 180px; }
+    }
+    @media (max-width: 1100px){
+      .page-shell{ grid-template-columns: 1fr; }
     }
 
-    @media (max-width: 1024px) {
-      .page-shell {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    .side-banner {
+    .side-banner{
       position: sticky;
-      top: 100px;
+      top: 92px;
       height: fit-content;
-      display: flex;
-      justify-content: center;
+      display:flex;
+      justify-content:center;
+    }
+    @media (max-width: 1100px){
+      .side-banner{ display:none; }
     }
 
-    @media (max-width: 1024px) {
-      .side-banner {
-        display: none;
-      }
-    }
-
-    .side-banner img {
-      width: 240px; /* skinnier than 300 */
+    .side-banner img{
+      width: 180px;              /* slimmer than your previous 240 */
       max-width: 100%;
       height: auto;
-      border-radius: 26px;
-      border: 1px solid rgba(255,255,255,0.08);
-      box-shadow: 0 30px 70px rgba(0,0,0,0.55);
-      transition: transform 0.2s ease;
+      border-radius: 22px;
+      border: 1px solid var(--stroke);
+      box-shadow: var(--shadow);
+      transition: transform 0.18s ease;
+      filter: saturate(0.95) contrast(1.02);
     }
-
-    .side-banner img:hover {
-      transform: scale(1.01);
-    }
+    .side-banner img:hover{ transform: scale(1.01); }
 
     /* =========================
        SEARCH
        ========================= */
 
-    .search-container {
-      position: relative;
-      width: 100%;
-      max-width: 420px;
+    .search-container{
+      position:relative;
+      width:100%;
+      max-width: 460px;
       margin: 0 auto 2rem;
     }
 
-    .search-input {
-      width: 100%;
-      background: #121212;
+    .search-input{
+      width:100%;
+      background: rgba(255,255,255,0.05);
       border: 1px solid rgba(255,255,255,0.10);
       padding: 12px 18px;
       border-radius: 999px;
-      color: white;
+      color:#fff;
       font-size: 14px;
-      outline: none;
+      outline:none;
     }
-
-    .search-input:focus {
-      border-color: #f2f20d;
-      box-shadow: 0 0 10px rgba(242, 242, 13, 0.15);
+    .search-input:focus{
+      border-color: var(--vzla-yellow);
+      box-shadow: 0 0 12px rgba(242,242,13,0.12);
     }
 
     /* =========================
-       ATHLETE CARD (NEW STYLE)
+       ATHLETE CARDS (FIXED)
        ========================= */
 
-    .athlete-card {
-      background: radial-gradient(circle at top, rgba(255,255,255,0.06), rgba(0,0,0,0.25));
-      border-radius: 26px;
-      padding: 22px 18px 18px;
-      text-align: center;
+    .athlete-card{
+      background: radial-gradient(circle at top, rgba(255,255,255,0.08), rgba(0,0,0,0.25));
+      border-radius: 30px;
+      padding: 18px 18px 16px;
+      text-align:center;
       border: 1px solid rgba(255,255,255,0.06);
-      box-shadow: 0 20px 50px rgba(0,0,0,0.45);
-      transition: transform 0.2s ease, border-color 0.2s ease;
-      overflow: hidden;
-      position: relative;
+      box-shadow: 0 18px 45px rgba(0,0,0,0.5);
+      transition: transform 0.18s ease, border-color 0.18s ease;
+      overflow:hidden;
+      position:relative;
+      min-height: 250px;
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
     }
 
-    .athlete-card:hover {
+    .athlete-card:hover{
       transform: translateY(-4px);
-      border-color: rgba(242, 242, 13, 0.35);
+      border-color: rgba(242,242,13,0.35);
     }
 
-    .elite-pill {
-      display: inline-block;
-      background: #f2f20d;
-      color: black;
+    .elite-pill{
+      display:inline-block;
+      background: var(--vzla-yellow);
+      color:#000;
       font-size: 10px;
       font-weight: 700;
       letter-spacing: 0.12em;
       padding: 6px 14px;
       border-radius: 999px;
       text-transform: uppercase;
-      margin-bottom: 16px;
-      box-shadow: 0 0 25px rgba(242, 242, 13, 0.15);
+      box-shadow: 0 0 24px rgba(242,242,13,0.12);
+      margin: 2px auto 14px;
     }
 
      .athlete-name {
@@ -156,20 +158,20 @@
       word-break: break-word;
     }
 
-    .status-row {
-      display: flex;
-      justify-content: center;
-      align-items: center;
+    .status-row{
+      display:flex;
+      justify-content:center;
+      align-items:center;
       gap: 10px;
-      margin-bottom: 16px;
+      margin-bottom: 14px;
     }
 
-    .status-dot {
+    .status-dot{
       height: 10px;
       width: 10px;
       border-radius: 999px;
       background: #00C848;
-      box-shadow: 0 0 14px rgba(0,200,72,0.3);
+      box-shadow: 0 0 12px rgba(0,200,72,0.25);
     }
 
     .status-text {
@@ -177,7 +179,8 @@
       font-weight: 600;
       letter-spacing: 0.14em;
       text-transform: uppercase;
-      color: rgba(148,163,184,0.85);
+      color: var(--muted);
+      white-space: nowrap;
     }
 
     .shop-btn {
@@ -191,60 +194,50 @@
       font-size: 14px;
       letter-spacing: 0.06em;
       text-transform: uppercase;
-      transition: transform 0.15s ease;
+      transition: transform 0.14s ease;
     }
 
-    .shop-btn:hover {
-      transform: scale(1.02);
-    }
+    .shop-btn:hover{ transform: scale(1.02); }
 
     /* =========================
        FOOTER BANNER
        ========================= */
 
-    .footer-banner-spacer { height: 120px; }
-    @media (max-width: 768px) { .footer-banner-spacer { height: 105px; } }
+    .footer-banner-spacer{ height: 120px; }
+    @media (max-width: 768px){ .footer-banner-spacer{ height: 105px; } }
 
-    .ebay-footer {
+    .ebay-footer{
       position: fixed;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      z-index: 9999;
+      left:0; right:0; bottom:0;
+      z-index:9999;
       background: rgba(0,0,0,0.85);
       backdrop-filter: blur(10px);
       border-top: 1px solid rgba(255,255,255,0.08);
-      display: flex;
-      justify-content: center;
+      display:flex;
+      justify-content:center;
       padding: 10px 10px;
       padding-bottom: calc(10px + env(safe-area-inset-bottom));
       transform: translateZ(0);
     }
 
-    .ebay-banner-img {
+    .ebay-banner-img{
       width: min(970px, 96vw);
-      height: auto;
+      height:auto;
       border-radius: 12px;
-      display: block;
+      display:block;
       border: 1px solid rgba(255,255,255,0.08);
-      transition: transform 0.2s ease;
+      transition: transform 0.18s ease;
       max-height: 72px;
       object-fit: contain;
     }
-
-    @media (max-width: 480px) {
-      .ebay-banner-img {
-        max-height: 56px;
-        width: 96vw;
-      }
+    @media (max-width: 480px){
+      .ebay-banner-img{ max-height: 56px; width: 96vw; }
     }
-
-    .ebay-banner-img:hover { transform: scale(1.01); }
+    .ebay-banner-img:hover{ transform: scale(1.01); }
   </style>
 </head>
 
 <body>
-
   <!-- Google Tag Manager (noscript) -->
   <noscript>
     <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MMQ86CNB"
@@ -267,7 +260,6 @@
     </div>
   </nav>
 
-  <!-- MAIN GRID WITH SIDE BANNERS -->
   <div class="page-shell">
 
     <!-- LEFT SIDE BANNER -->
@@ -318,7 +310,10 @@
               placeholder="Search active athletes..." class="search-input">
       </div>
 
-      <div id="athletes-grid" class="grid grid-cols-1 md:grid-cols-4 gap-8"></div>
+      <!-- Responsive grid: 1 col mobile, 2 cols md, 3 cols xl
+           (No forced 4 columns — this is what was making it ugly)
+      -->
+      <div id="athletes-grid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8"></div>
 
       <div class="footer-banner-spacer"></div>
     </main>
@@ -393,16 +388,15 @@
     let athleteData = [];
     let currentSport = 'All';
 
-    // Deduplicate by (name + sport + league + team)
     function dedupeAthletes(list) {
       const norm = (v) => (v || "").toString().trim().toLowerCase();
       const map = new Map();
 
       for (const a of (list || [])) {
-        const name = (a && a.name) ? a.name : "Unknown";
-        const sport = (a && a.sport) ? a.sport : "Other";
-        const league = (a && a.league) ? a.league : "";
-        const team = (a && a.team) ? a.team : "Unknown";
+        const name = a?.name || "Unknown";
+        const sport = a?.sport || "Other";
+        const league = a?.league || "";
+        const team = a?.team || "Unknown";
 
         const key = `${norm(name)}|${norm(sport)}|${norm(league)}|${norm(team)}`;
         if (!map.has(key)) map.set(key, { name, sport, league, team });
@@ -411,12 +405,10 @@
       return Array.from(map.values()).sort((a, b) => a.name.localeCompare(b.name));
     }
 
-    // Merge fallback + fetched, prefer fetched if it has better team/league fields
     function mergeAthletes(fallbackList, fetchedList) {
       const norm = (v) => (v || "").toString().trim().toLowerCase();
-
-      // Index fallback by name only
       const byName = new Map();
+
       for (const a of (fallbackList || [])) {
         const k = norm(a.name);
         if (!k) continue;
@@ -434,7 +426,6 @@
           continue;
         }
 
-        // Upgrade logic
         const cur = byName.get(k);
         const curTeam = norm(cur.team);
         const newTeam = norm(incoming.team);
@@ -476,7 +467,6 @@
 
     function filterBySearch() {
       const query = (document.getElementById('athleteSearch').value || "").toLowerCase();
-
       const filtered = athleteData.filter(a => {
         const matchesQuery = (a.name || "").toLowerCase().includes(query);
 
@@ -512,13 +502,14 @@
 
         return `
           <div class="athlete-card">
-            <div class="elite-pill">ELITE TIER</div>
+            <div>
+              <div class="elite-pill">ELITE TIER</div>
+              <h3 class="athlete-name">${a.name}</h3>
 
-            <h3 class="athlete-name">${a.name}</h3>
-
-            <div class="status-row">
-              <span class="status-dot"></span>
-              <span class="status-text">${a.sport} • ACTIVE</span>
+              <div class="status-row">
+                <span class="status-dot"></span>
+                <span class="status-text">${a.sport} • ACTIVE</span>
+              </div>
             </div>
 
             <a href="${ebaySearchURL}" target="_blank" class="shop-btn">
