@@ -105,7 +105,7 @@ TSDB_GOLF_TOP_TOURS: List[Dict[str, str]] = [
     {"league_id": "4486", "league": "European Tour"},
     {"league_id": "4425", "league": "PGA Tour"},
     {"league_id": "4553", "league": "LPGA Tour"},
-    {"league_id": "4426", "league": "European Tour"},# example: TSDB golf tours often exist; verify on thesportsdb.com/league/<id>
+    {"league_id": "4426", "league": "European Tour"}, # example: TSDB golf tours often exist; verify on thesportsdb.com/league/<id>
 ]
 
 # =========================
