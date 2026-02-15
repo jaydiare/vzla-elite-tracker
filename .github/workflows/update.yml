@@ -33,6 +33,7 @@ jobs:
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
           git add data/athletes.json
+          git add data/athletes.json data/tsdb_cache.json
           git status # This will show you if the file was actually modified
           git commit -m "Automated sync: Updated Venezuelan athletes" || echo "No changes to commit"
           git push
