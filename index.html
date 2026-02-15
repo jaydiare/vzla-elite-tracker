@@ -3,180 +3,205 @@
 <head>
   <meta charset="utf-8"/>
   <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-  <title>Venezuela</title>
+  <title>VZLA Sports Elite</title>
+
+  <!-- Google Tag Manager -->
+  <script>
+    (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-MMQ86CNB');
+  </script>
+  <!-- End Google Tag Manager -->
 
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet"/>
 
-  <!-- Google Tag Manager -->
-  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-  })(window,document,'script','dataLayer','GTM-MMQ86CNB');</script>
-  <!-- End Google Tag Manager -->
-
   <style>
-    body { background-color: #0a0a0a; font-family: 'Inter', sans-serif; color: white; }
+    body {
+      background-color: #0a0a0a;
+      font-family: 'Inter', sans-serif;
+      color: white;
+    }
 
-    /* =========================================
-       LAYOUT: side banners (desktop only)
-       ========================================= */
-    .page-shell{
+    /* =========================
+       LAYOUT (SIDE BANNERS)
+       ========================= */
+
+    .page-shell {
+      display: grid;
+      grid-template-columns: 260px 1fr 260px; /* skinnier */
+      gap: 24px;
       max-width: 1600px;
       margin: 0 auto;
+      padding: 0 16px;
     }
-    /* Reserve space for side banners on desktop */
-    @media (min-width: 1024px) {
-      .page-shell{
-        padding-left: 340px;
-        padding-right: 340px;
+
+    @media (max-width: 1200px) {
+      .page-shell {
+        grid-template-columns: 220px 1fr 220px;
       }
     }
 
-    .side-ad {
-      position: fixed;
-      top: 140px; /* below header/nav */
-      width: 300px;
-      z-index: 40;
-      display: none;
-    }
-    @media (min-width: 1024px) {
-      .side-ad { display: block; }
-      .side-ad.left { left: 24px; }
-      .side-ad.right { right: 24px; }
+    @media (max-width: 1024px) {
+      .page-shell {
+        grid-template-columns: 1fr;
+      }
     }
 
-    .side-ad-card{
-      border-radius: 28px;
-      overflow: hidden;
-      border: 1px solid rgba(255,255,255,0.08);
-      background: rgba(0,0,0,0.35);
-      backdrop-filter: blur(10px);
-      box-shadow: 0 18px 60px rgba(0,0,0,0.45);
-      transform: translateZ(0);
+    .side-banner {
+      position: sticky;
+      top: 100px;
+      height: fit-content;
+      display: flex;
+      justify-content: center;
     }
 
-    .side-ad-card img{
-      width: 100%;
+    @media (max-width: 1024px) {
+      .side-banner {
+        display: none;
+      }
+    }
+
+    .side-banner img {
+      width: 240px; /* skinnier than 300 */
+      max-width: 100%;
       height: auto;
-      display: block;
+      border-radius: 26px;
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: 0 30px 70px rgba(0,0,0,0.55);
+      transition: transform 0.2s ease;
     }
 
-    /* =========================================
-       CARD: new design (matches your screenshot)
-       ========================================= */
-    .athlete-card {
-      background: radial-gradient(120% 120% at 50% 0%, rgba(255,255,255,0.06), rgba(255,255,255,0.02) 55%, rgba(0,0,0,0.0) 100%),
-                  #0f0f0f;
-      border-radius: 28px;
-      padding: 22px;
-      text-align: center;
-      border: 1px solid rgba(255, 255, 255, 0.07);
-      box-shadow: 0 18px 60px rgba(0,0,0,0.45);
-      transition: transform 0.25s ease, border-color 0.25s ease;
+    .side-banner img:hover {
+      transform: scale(1.01);
+    }
+
+    /* =========================
+       SEARCH
+       ========================= */
+
+    .search-container {
       position: relative;
-      overflow: hidden;
-      transform: translateZ(0);
-      min-height: 240px;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-    }
-    .athlete-card:hover {
-      transform: translateY(-4px);
-      border-color: rgba(242, 242, 13, 0.25);
-    }
-
-    .elite-badge {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 8px 12px;
-      border-radius: 10px;
-      font-size: 10px;
-      font-weight: 900;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      background: #f2f20d;
-      color: #0a0a0a;
-      width: max-content;
-      margin: 0 auto 18px;
-      box-shadow: 0 12px 30px rgba(242,242,13,0.15);
-    }
-
-    .athlete-name {
-      font-size: 34px;
-      line-height: 1.05;
-      font-weight: 900;
-      font-style: italic;
-      text-transform: uppercase;
-      letter-spacing: -0.02em;
-      margin-bottom: 12px;
-    }
-
-    .athlete-meta {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      margin-bottom: 18px;
-      color: #6b7280; /* slate-ish */
-      font-weight: 800;
-      font-size: 12px;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-    }
-
-    .status-dot {
-      height: 10px;
-      width: 10px;
-      border-radius: 50%;
-      display: inline-block;
-      background: #00C848;
-      box-shadow: 0 0 0 6px rgba(0,200,72,0.08);
-      flex: 0 0 auto;
-    }
-
-    .cta-btn {
-      display: block;
       width: 100%;
-      background: #f2f20d;
-      color: #0a0a0a;
-      padding: 16px 16px;
-      border-radius: 16px;
-      font-weight: 900;
-      text-transform: uppercase;
-      letter-spacing: 0.02em;
-      transition: transform 0.15s ease;
-      user-select: none;
+      max-width: 420px;
+      margin: 0 auto 2rem;
     }
-    .cta-btn:hover { transform: scale(1.01); }
 
-    /* Search */
-    .search-container { position: relative; width: 100%; max-width: 420px; margin: 0 auto 2rem; }
     .search-input {
       width: 100%;
-      background: #111;
+      background: #121212;
       border: 1px solid rgba(255,255,255,0.10);
-      padding: 14px 18px;
+      padding: 12px 18px;
       border-radius: 999px;
       color: white;
       font-size: 14px;
       outline: none;
     }
-    .search-input:focus { border-color: rgba(242,242,13,0.7); box-shadow: 0 0 0 6px rgba(242, 242, 13, 0.08); }
 
-    .fa-instagram:hover { color: #E4405F; }
-    .fa-x-twitter:hover { color: #ffffff; }
-    .fa-facebook:hover { color: #1877F2; }
+    .search-input:focus {
+      border-color: #f2f20d;
+      box-shadow: 0 0 10px rgba(242, 242, 13, 0.15);
+    }
 
-    /* Spacer so content doesn't hide behind fixed footer */
+    /* =========================
+       ATHLETE CARD (NEW STYLE)
+       ========================= */
+
+    .athlete-card {
+      background: radial-gradient(circle at top, rgba(255,255,255,0.06), rgba(0,0,0,0.25));
+      border-radius: 26px;
+      padding: 22px 18px 18px;
+      text-align: center;
+      border: 1px solid rgba(255,255,255,0.06);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.45);
+      transition: transform 0.2s ease, border-color 0.2s ease;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .athlete-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(242, 242, 13, 0.35);
+    }
+
+    .elite-pill {
+      display: inline-block;
+      background: #f2f20d;
+      color: black;
+      font-size: 10px;
+      font-weight: 900;
+      letter-spacing: 0.12em;
+      padding: 6px 14px;
+      border-radius: 999px;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+      box-shadow: 0 0 25px rgba(242, 242, 13, 0.15);
+    }
+
+    .athlete-name {
+      font-weight: 900;
+      font-style: italic;
+      text-transform: uppercase;
+      line-height: 0.95;
+      margin-bottom: 12px;
+
+      /* IMPORTANT: keeps font under control */
+      font-size: clamp(22px, 2vw, 34px);
+      word-break: break-word;
+    }
+
+    .status-row {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .status-dot {
+      height: 10px;
+      width: 10px;
+      border-radius: 999px;
+      background: #00C848;
+      box-shadow: 0 0 14px rgba(0,200,72,0.3);
+    }
+
+    .status-text {
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(148,163,184,0.85);
+    }
+
+    .shop-btn {
+      display: block;
+      width: 100%;
+      background: #f2f20d;
+      color: black;
+      font-weight: 900;
+      border-radius: 18px;
+      padding: 16px 14px;
+      font-size: 14px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      transition: transform 0.15s ease;
+    }
+
+    .shop-btn:hover {
+      transform: scale(1.02);
+    }
+
+    /* =========================
+       FOOTER BANNER
+       ========================= */
+
     .footer-banner-spacer { height: 120px; }
     @media (max-width: 768px) { .footer-banner-spacer { height: 105px; } }
 
-    /* Footer Banner */
     .ebay-footer {
       position: fixed;
       left: 0;
@@ -203,46 +228,26 @@
       max-height: 72px;
       object-fit: contain;
     }
+
     @media (max-width: 480px) {
-      .ebay-banner-img { max-height: 56px; width: 96vw; }
+      .ebay-banner-img {
+        max-height: 56px;
+        width: 96vw;
+      }
     }
+
     .ebay-banner-img:hover { transform: scale(1.01); }
   </style>
 </head>
 
 <body>
+
   <!-- Google Tag Manager (noscript) -->
-  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MMQ86CNB"
-  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <noscript>
+    <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MMQ86CNB"
+      height="0" width="0" style="display:none;visibility:hidden"></iframe>
+  </noscript>
   <!-- End Google Tag Manager (noscript) -->
-
-  <!-- SIDE BANNERS (desktop only) -->
-  <aside class="side-ad left" aria-label="eBay affiliate banner left">
-    <div class="side-ad-card">
-      <a
-        href="https://www.ebay.ca/sch/i.html?_nkw=trading+cards&mkevt=1&mkcid=1&mkrid=706-53473-19255-0&campid=5339142321&toolid=10001"
-        target="_blank"
-        rel="noopener noreferrer"
-        title="Shop Trading Cards on eBay"
-      >
-        <!-- Uses your existing assets; pick whichever you uploaded -->
-        <img src="./assets/Baseball-300x600.jpg" alt="eBay banner" loading="eager" onerror="this.src='./assets/Baseball-300x250.jpg';" />
-      </a>
-    </div>
-  </aside>
-
-  <aside class="side-ad right" aria-label="eBay affiliate banner right">
-    <div class="side-ad-card">
-      <a
-        href="https://www.ebay.ca/sch/i.html?_nkw=trading+cards&mkevt=1&mkcid=1&mkrid=706-53473-19255-0&campid=5339142321&toolid=10001"
-        target="_blank"
-        rel="noopener noreferrer"
-        title="Shop Trading Cards on eBay"
-      >
-        <img src="./assets/Baseball-300x600.jpg" alt="eBay banner" loading="eager" onerror="this.src='./assets/Baseball-300x250.jpg';" />
-      </a>
-    </div>
-  </aside>
 
   <header class="bg-[#f2f20d] text-black px-6 py-2 flex justify-between items-center text-[10px] font-black uppercase tracking-tighter">
     <span>© 2026 VZLA Sports Elite</span>
@@ -259,8 +264,24 @@
     </div>
   </nav>
 
+  <!-- MAIN GRID WITH SIDE BANNERS -->
   <div class="page-shell">
-    <main class="max-w-7xl mx-auto p-8">
+
+    <!-- LEFT SIDE BANNER -->
+    <aside class="side-banner">
+      <a
+        href="https://www.ebay.ca/sch/i.html?_nkw=trading+cards&mkevt=1&mkcid=1&mkrid=706-53473-19255-0&campid=5339142321&toolid=10001"
+        target="_blank"
+        rel="noopener noreferrer"
+        title="Shop Trading Cards on eBay"
+      >
+        <img src="./assets/ebay-300x600-left.jpg" alt="Shop Trading Cards on eBay">
+      </a>
+    </aside>
+
+    <!-- CENTER CONTENT -->
+    <main class="max-w-7xl mx-auto w-full p-8">
+
       <section class="text-center mb-8 p-12 bg-white/5 rounded-3xl border border-white/10">
         <h2 class="text-5xl font-black mb-4 uppercase leading-tight">
           VZLA <span class="text-[#f2f20d] italic">Top Tier Sport</span> Talent
@@ -298,6 +319,19 @@
 
       <div class="footer-banner-spacer"></div>
     </main>
+
+    <!-- RIGHT SIDE BANNER -->
+    <aside class="side-banner">
+      <a
+        href="https://www.ebay.ca/sch/i.html?_nkw=trading+cards&mkevt=1&mkcid=1&mkrid=706-53473-19255-0&campid=5339142321&toolid=10001"
+        target="_blank"
+        rel="noopener noreferrer"
+        title="Shop Trading Cards on eBay"
+      >
+        <img src="./assets/ebay-300x600-right.jpg" alt="Shop Trading Cards on eBay">
+      </a>
+    </aside>
+
   </div>
 
   <!-- EBAY AFFILIATE FOOTER BANNER -->
@@ -356,7 +390,7 @@
     let athleteData = [];
     let currentSport = 'All';
 
-    // ✅ Deduplicate by (name + sport + league + team) so TSDB/BDB duplicates never show
+    // Deduplicate by (name + sport + league + team)
     function dedupeAthletes(list) {
       const norm = (v) => (v || "").toString().trim().toLowerCase();
       const map = new Map();
@@ -378,7 +412,7 @@
     function mergeAthletes(fallbackList, fetchedList) {
       const norm = (v) => (v || "").toString().trim().toLowerCase();
 
-      // Index fallback by name only (so fetched can “upgrade” details)
+      // Index fallback by name only
       const byName = new Map();
       for (const a of (fallbackList || [])) {
         const k = norm(a.name);
@@ -391,6 +425,7 @@
         if (!k) continue;
 
         const incoming = { name: a.name || "Unknown", sport: a.sport || "Other", league: a.league || "", team: a.team || "Unknown" };
+
         if (!byName.has(k)) {
           byName.set(k, incoming);
           continue;
@@ -400,26 +435,25 @@
         const cur = byName.get(k);
         const curTeam = norm(cur.team);
         const newTeam = norm(incoming.team);
+
         const curHasTeam = curTeam && curTeam !== "unknown";
         const newHasTeam = newTeam && newTeam !== "unknown";
 
-        if (!curHasTeam && newHasTeam) byName.set(k, incoming);
-        else {
-          // Prefer incoming league if current league empty
+        if (!curHasTeam && newHasTeam) {
+          byName.set(k, incoming);
+        } else {
           const curLeague = norm(cur.league);
           const newLeague = norm(incoming.league);
           if (!curLeague && newLeague) byName.set(k, { ...cur, league: incoming.league, team: incoming.team, sport: incoming.sport });
         }
       }
 
-      // After merge-by-name, allow multiple entries for same name across leagues/teams via dedupeAthletes
       return dedupeAthletes(Array.from(byName.values()));
     }
 
     async function init() {
       let fetched = [];
       try {
-        // cache-bust so mobile doesn't stick to stale JSON
         const res = await fetch(`./data/athletes.json?v=${Date.now()}`, { cache: "no-store" });
         if (res.ok) fetched = await res.json();
       } catch (e) {}
@@ -439,6 +473,7 @@
 
     function filterBySearch() {
       const query = (document.getElementById('athleteSearch').value || "").toLowerCase();
+
       const filtered = athleteData.filter(a => {
         const matchesQuery = (a.name || "").toLowerCase().includes(query);
 
@@ -451,6 +486,7 @@
 
         return matchesQuery && matchesSport;
       });
+
       renderGrid(filtered);
     }
 
@@ -471,20 +507,20 @@
         const ebaySearchURL =
           `https://www.ebay.ca/sch/i.html?_nkw=${encodeURIComponent(a.name)}&mkevt=1&mkcid=1&mkrid=${rotationID}&campid=${campID}&toolid=10001`;
 
-        const sportLabel = (a.sport || "Other").toString().toUpperCase();
-        const subLabel = (a.team && a.team !== "Unknown") ? a.team.toString().toUpperCase() : "ACTIVE";
-
         return `
           <div class="athlete-card">
-            <div>
-              <div class="elite-badge">ELITE TIER</div>
-              <div class="athlete-name">${a.name || "Unknown"}</div>
-              <div class="athlete-meta">
-                <span class="status-dot"></span>
-                <span>${sportLabel} • ${subLabel}</span>
-              </div>
+            <div class="elite-pill">ELITE TIER</div>
+
+            <h3 class="athlete-name">${a.name}</h3>
+
+            <div class="status-row">
+              <span class="status-dot"></span>
+              <span class="status-text">${a.sport} • ACTIVE</span>
             </div>
-            <a href="${ebaySearchURL}" target="_blank" class="cta-btn">SHOP COLLECTIBLES</a>
+
+            <a href="${ebaySearchURL}" target="_blank" class="shop-btn">
+              SHOP COLLECTIBLES
+            </a>
           </div>
         `;
       }).join('');
