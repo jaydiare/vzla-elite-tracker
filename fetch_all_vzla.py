@@ -1,7 +1,7 @@
 import os
 import json
 import time
-from typing import Any, Dict, List, Optional, Set, Tuple
+from typing import Any, Dict, List, Optional, Tuple
 import requests
 
 # =========================
@@ -18,91 +18,98 @@ BDB_BASE = "https://api.balldontlie.io"
 BDB_HEADERS = {"Authorization": BDB_KEY}
 BDB_PER_PAGE = 100
 
-# TheSportsDB key (GitHub secret: SPORTSDB_KEY)
-TSDB_KEY = os.environ.get("SPORTSDB_KEY")
-if not TSDB_KEY:
-    maybe = os.environ.get("NBA_API_KEY", "").strip()
-    if maybe.isdigit():
-        TSDB_KEY = maybe
-
+# TheSportsDB key (GitHub secret: SPORTSDB_KEY). Free keys are typically numeric.
+TSDB_KEY = os.environ.get("SPORTSDB_KEY", "").strip() or None
 TSDB_BASE = f"https://www.thesportsdb.com/api/v1/json/{TSDB_KEY}" if TSDB_KEY else None
 
+# Target
 COUNTRY_TARGET = "venezuela"
 FILE_PATH = "data/athletes.json"
 
 # Free-tier safety
-BDB_SLEEP_SEC = 13
-TSDB_SLEEP_SEC = 2.0
-BDB_MAX_PAGES_PER_ENDPOINT = 2
+BDB_SLEEP_SEC = 13          # conservative for BDB free tier
+TSDB_SLEEP_SEC = 1.25       # conservative for TSDB free tier
+BDB_MAX_PAGES_PER_ENDPOINT = 2  # keep your “cheap run” behavior
 
-# TSDB country scan targets
-TSDB_COUNTRIES = ["Mexico", "Argentina", "Brazil", "Chile"]
-TSDB_SPORTS_COUNTRY = ["Soccer", "Basketball", "Baseball"]
-
-# ✅ TSDB top divisions only (adjust names to match what TSDB returns)
-TSDB_TOP_LEAGUES: Dict[Tuple[str, str], Set[str]] = {
-    # Soccer
-    ("Mexico", "Soccer"): {"Liga MX", "Mexican Primera League", "Primera Division Mexico"},
-    ("Argentina", "Soccer"): {"Argentine Primera Division", "Liga Profesional", "Primera División Argentina"},
-    ("Brazil", "Soccer"): {"Brazilian Serie A", "Campeonato Brasileiro Série A", "Brasileirão Série A"},
-    ("Chile", "Soccer"): {"Chilean Primera Division", "Primera División de Chile", "Campeonato Nacional"},
-
-    # Basketball (best guesses; TSDB naming varies)
-    ("Mexico", "Basketball"): {"LNBP", "Liga Nacional de Baloncesto Profesional"},
-    ("Argentina", "Basketball"): {"Liga Nacional de Básquet", "Liga Nacional de Basquet", "Liga Nacional"},
-    ("Brazil", "Basketball"): {"NBB", "Novo Basquete Brasil"},
-    ("Chile", "Basketball"): {"Liga Nacional de Básquetbol", "Liga Nacional de Basquetbol"},
-
-    # Baseball (TSDB coverage varies; keep Mexico top league, others empty = skip)
-    ("Mexico", "Baseball"): {"Liga Mexicana de Beisbol", "Mexican League", "LMB"},
-    ("Argentina", "Baseball"): set(),
-    ("Brazil", "Baseball"): set(),
-    ("Chile", "Baseball"): set(),
-}
-
-# ✅ TSDB Golf: Sport → top tours only
-TSDB_GOLF_TOP_TOURS: Set[str] = {
-    "PGA Tour",
-    "European Tour",
-    "DP World Tour",
-    "LPGA Tour",
-    "LIV Golf",
-}
+REQUEST_TIMEOUT = 30
 
 # =========================
-# BALLDONTLIE ENDPOINTS
+# BALLDONTLIE ENDPOINTS (free-safe list)
+# NOTE: do NOT use /active endpoints except MLB local field filter (active=True)
 # =========================
+BDB_ENDPOINTS: List[Dict[str, Any]] = [
+    {"sport": "Basketball", "league": "NBA",   "provider": "balldontlie", "path": "/nba/v1/players",      "field": "birth_place"},
+    {"sport": "Basketball", "league": "NCAAB", "provider": "balldontlie", "path": "/ncaab/v1/players",    "field": "birth_place"},
+    {"sport": "Basketball", "league": "NCAAW", "provider": "balldontlie", "path": "/ncaaw/v1/players",    "field": "birth_place"},
 
-ENDPOINTS: List[Dict[str, Any]] = [
-    {"sport": "Basketball", "league": "NBA",   "provider": "balldontlie", "path": "/nba/v1/players", "field": "birth_place"},
-    {"sport": "Basketball", "league": "WNBA",  "provider": "balldontlie", "path": "/wnba/v1/players/active", "field": "birth_place"},
-    {"sport": "Basketball", "league": "NCAAB", "provider": "balldontlie", "path": "/ncaab/v1/players", "field": "birth_place"},
-    {"sport": "Basketball", "league": "NCAAW", "provider": "balldontlie", "path": "/ncaaw/v1/players", "field": "birth_place"},
+    {"sport": "Football",   "league": "NFL",   "provider": "balldontlie", "path": "/nfl/v1/players",      "field": "birth_place"},
+    {"sport": "Football",   "league": "NCAAF", "provider": "balldontlie", "path": "/ncaaf/v1/players",    "field": "birth_place"},
 
-    {"sport": "Football", "league": "NFL",   "provider": "balldontlie", "path": "/nfl/v1/players", "field": "birth_place"},
-    {"sport": "Football", "league": "NCAAF", "provider": "balldontlie", "path": "/ncaaf/v1/players/active", "field": "birth_place"},
+    # MLB: filter active=True locally if field exists in record
+    {"sport": "Baseball",   "league": "MLB",   "provider": "balldontlie", "path": "/mlb/v1/players",      "field": "birth_place", "active_field": "active"},
 
-    {"sport": "Baseball", "league": "MLB", "provider": "balldontlie", "path": "/mlb/v1/players", "field": "birth_place", "active_field": "active"},
+    {"sport": "Hockey",     "league": "NHL",   "provider": "balldontlie", "path": "/nhl/v1/players",      "field": "birth_place"},
 
-    {"sport": "Hockey", "league": "NHL", "provider": "balldontlie", "path": "/nhl/v1/players", "field": "birth_place"},
-
-    {"sport": "Soccer", "league": "EPL",        "provider": "balldontlie", "path": "/epl/v2/players", "field": "birth_place"},
-    {"sport": "Soccer", "league": "La Liga",    "provider": "balldontlie", "path": "/laliga/v1/players", "field": "birth_place"},
-    {"sport": "Soccer", "league": "MLS",        "provider": "balldontlie", "path": "/mls/v1/players", "field": "birth_place"},
-    {"sport": "Soccer", "league": "UCL",        "provider": "balldontlie", "path": "/ucl/v1/players", "field": "birth_place"},
-    {"sport": "Soccer", "league": "Ligue 1",    "provider": "balldontlie", "path": "/ligue1/v1/players", "field": "birth_place"},
+    {"sport": "Soccer", "league": "EPL",        "provider": "balldontlie", "path": "/epl/v2/players",        "field": "birth_place"},
+    {"sport": "Soccer", "league": "La Liga",    "provider": "balldontlie", "path": "/laliga/v1/players",     "field": "birth_place"},
+    {"sport": "Soccer", "league": "MLS",        "provider": "balldontlie", "path": "/mls/v1/players",        "field": "birth_place"},
+    {"sport": "Soccer", "league": "UCL",        "provider": "balldontlie", "path": "/ucl/v1/players",        "field": "birth_place"},
+    {"sport": "Soccer", "league": "Ligue 1",    "provider": "balldontlie", "path": "/ligue1/v1/players",     "field": "birth_place"},
     {"sport": "Soccer", "league": "Bundesliga", "provider": "balldontlie", "path": "/bundesliga/v1/players", "field": "birth_place"},
-    {"sport": "Soccer", "league": "Serie A",    "provider": "balldontlie", "path": "/seriea/v1/players", "field": "birth_place"},
+    {"sport": "Soccer", "league": "Serie A",    "provider": "balldontlie", "path": "/seriea/v1/players",     "field": "birth_place"},
 
-    {"sport": "MMA", "league": "MMA", "provider": "balldontlie", "path": "/mma/v1/fighters", "field": "birth_place"},
-    {"sport": "Golf", "league": "PGA Tour", "provider": "balldontlie", "path": "/pga/v1/players", "field": "birth_place"},
-    {"sport": "Tennis", "league": "ATP", "provider": "balldontlie", "path": "/atp/v1/players", "field": "birth_place"},
-    {"sport": "Tennis", "league": "WTA", "provider": "balldontlie", "path": "/wta/v1/players", "field": "birth_place"},
-    {"sport": "Motorsport", "league": "F1", "provider": "balldontlie", "path": "/f1/v1/drivers", "field": "birth_place"},
+    {"sport": "MMA",        "league": "MMA",       "provider": "balldontlie", "path": "/mma/v1/fighters",   "field": "birth_place"},
+    {"sport": "Golf",       "league": "PGA Tour",  "provider": "balldontlie", "path": "/pga/v1/players",    "field": "birth_place"},
+    {"sport": "Tennis",     "league": "ATP",       "provider": "balldontlie", "path": "/atp/v1/players",    "field": "birth_place"},
+    {"sport": "Tennis",     "league": "WTA",       "provider": "balldontlie", "path": "/wta/v1/players",    "field": "birth_place"},
+    {"sport": "Motorsport", "league": "F1",        "provider": "balldontlie", "path": "/f1/v1/drivers",     "field": "birth_place"},
 ]
 
 # =========================
-# FILE HELPERS
+# THESPORTSDB TOP DIVISIONS (IDs are the most reliable)
+# Only top divisions, only Mexico/Argentina/Brazil/Chile, only Soccer/Basketball/Baseball
+# Sources for several IDs:
+# - Mexican Primera League: 4350
+# - Argentinian Primera Division: 4406
+# - Brazilian Serie A: 4351
+# - Chile Primera Division: 4627
+# - Mexican LNBP (top basketball Mexico): 5119
+# - Argentine LNB (top basketball Argentina): 4734
+# - Liga Mexicana de Béisbol (top baseball Mexico): 5064
+# - Mexican Pacific League (top winter baseball Mexico): 5109
+# =========================
+TSDB_TOP_DIVISIONS: List[Dict[str, Any]] = [
+    # Soccer
+    {"sport": "Soccer", "country": "Mexico",    "league": "Mexican Primera League",       "league_id": "4350"},
+    {"sport": "Soccer", "country": "Argentina", "league": "Argentinian Primera Division", "league_id": "4406"},
+    {"sport": "Soccer", "country": "Brazil",    "league": "Brazilian Serie A",            "league_id": "4351"},
+    {"sport": "Soccer", "country": "Chile",     "league": "Chile Primera Division",       "league_id": "4627"},
+
+    # Basketball
+    {"sport": "Basketball", "country": "Mexico",    "league": "Mexican LNBP",  "league_id": "5119"},
+    {"sport": "Basketball", "country": "Argentina", "league": "Argentine LNB", "league_id": "4734"},
+    # Brazil/Chile top basketball leagues may exist in TSDB, but names/coverage vary a lot.
+    # Add league_id(s) here once you confirm them on thesportsdb.com/league/<id>
+
+    # Baseball (Mexico only reliably in TSDB)
+    {"sport": "Baseball", "country": "Mexico", "league": "Liga Mexicana de Béisbol", "league_id": "5064"},
+    {"sport": "Baseball", "country": "Mexico", "league": "Mexican Pacific League",   "league_id": "5109"},
+    {"sport": "Baseball", "country": "Japan", "league": "Nippon Baseball League",   "league_id": "4591"},
+    {"sport": "Baseball", "country": "Korea", "league": "Korean KBO League",   "league_id": "4830"},
+]
+
+# Optional TSDB golf (league->teams(golfers)->filter Venezuelans)
+TSDB_GOLF_TOP_TOURS: List[Dict[str, str]] = [
+    # These can change; if a tour returns no teams, it just won’t add anyone.
+    # Add/remove based on what TSDB actually has populated.
+    {"league_id": "4486", "league": "European Tour"},
+    {"league_id": "4425", "league": "PGA Tour"},
+    {"league_id": "4553", "league": "LPGA Tour"},
+    {"league_id": "4426", "league": "European Tour"},# example: TSDB golf tours often exist; verify on thesportsdb.com/league/<id>
+]
+
+# =========================
+# HELPERS
 # =========================
 
 def load_existing_athletes() -> List[Dict[str, Any]]:
@@ -116,38 +123,24 @@ def save_athletes(items: List[Dict[str, Any]]) -> None:
     with open(FILE_PATH, "w", encoding="utf-8") as f:
         json.dump(items, f, indent=4, ensure_ascii=False)
 
-# =========================
-# MATCHERS / NORMALIZERS
-# =========================
-
 def contains_venezuela(text: Optional[str]) -> bool:
-    return isinstance(text, str) and COUNTRY_TARGET in text.lower()
+    return isinstance(text, str) and (COUNTRY_TARGET in text.lower())
 
 def is_venezuelan_bdb(rec: Dict[str, Any], birthplace_field: str) -> bool:
     if contains_venezuela(rec.get(birthplace_field)):
         return True
+    # fallback keys
     for k in ("country", "nationality", "citizenship", "country_code"):
         v = rec.get(k)
         if isinstance(v, str):
             s = v.strip().lower()
-            if s == "venezuela" or s == "ven" or "venezuela" in s:
+            if s == "venezuela" or s == "ven":
+                return True
+            if "venezuela" in s:
                 return True
     return False
 
-def normalize_name_bdb(rec: Dict[str, Any]) -> str:
-    fn = rec.get("first_name") or ""
-    ln = rec.get("last_name") or ""
-    full = rec.get("full_name") or rec.get("name") or ""
-    name = (f"{fn} {ln}").strip()
-    return name if name else (full.strip() if isinstance(full, str) and full.strip() else "Unknown")
-
-def normalize_team_bdb(rec: Dict[str, Any]) -> str:
-    team = rec.get("team")
-    if isinstance(team, dict):
-        return team.get("full_name") or team.get("name") or "Unknown"
-    return rec.get("team_name") or rec.get("club") or "Unknown"
-
-def is_venezuelan_tsdb(player: Dict[str, Any]) -> bool:
+def is_venezuelan_tsdb_player(player: Dict[str, Any]) -> bool:
     nat = (player.get("strNationality") or "").strip().lower()
     if nat == "venezuela":
         return True
@@ -157,8 +150,67 @@ def is_venezuelan_tsdb(player: Dict[str, Any]) -> bool:
         return True
     return False
 
+def is_venezuelan_tsdb_team_as_player(team_obj: Dict[str, Any]) -> bool:
+    # For some TSDB sports (notably Golf), “teams” can represent athletes.
+    # Try both strCountry and strTeam (sometimes includes “..., Venezuela”).
+    c = (team_obj.get("strCountry") or "").strip().lower()
+    if c == "venezuela":
+        return True
+    if contains_venezuela(team_obj.get("strTeam")):
+        return True
+    return False
+
+def normalize_name_bdb(rec: Dict[str, Any]) -> str:
+    fn = (rec.get("first_name") or "").strip()
+    ln = (rec.get("last_name") or "").strip()
+    name = (f"{fn} {ln}").strip()
+    return name if name else (rec.get("name") or "Unknown")
+
+def normalize_team_bdb(rec: Dict[str, Any]) -> str:
+    team = rec.get("team")
+    if isinstance(team, dict):
+        return team.get("full_name") or team.get("name") or "Unknown"
+    return rec.get("team_name") or rec.get("club") or "Unknown"
+
+def tsdb_get_json(path: str, params: Dict[str, Any]) -> Optional[Dict[str, Any]]:
+    if not TSDB_BASE:
+        return None
+    url = f"{TSDB_BASE}/{path}"
+    try:
+        r = requests.get(url, params=params, timeout=REQUEST_TIMEOUT)
+        if r.status_code == 429:
+            time.sleep(5)
+            r = requests.get(url, params=params, timeout=REQUEST_TIMEOUT)
+        r.raise_for_status()
+        return r.json()
+    except Exception as e:
+        print(f"❌ TSDB error {path} params={params}: {e}")
+        return None
+
+def tsdb_lookup_teams_by_league_id(league_id: str) -> List[Dict[str, Any]]:
+    # This is the key fix vs search_all_teams.php?l=... (which often fails for cups/tours)
+    payload = tsdb_get_json("lookup_all_teams.php", {"id": league_id})
+    if not payload:
+        return []
+    return payload.get("teams") or []
+
+def tsdb_lookup_all_players(team_id: str) -> List[Dict[str, Any]]:
+    payload = tsdb_get_json("lookup_all_players.php", {"id": team_id})
+    if not payload:
+        return []
+    return payload.get("player") or []
+
+def tsdb_lookupleague_name(league_id: str) -> Optional[str]:
+    payload = tsdb_get_json("lookupleague.php", {"id": league_id})
+    if not payload:
+        return None
+    leagues = payload.get("leagues") or []
+    if not leagues:
+        return None
+    return leagues[0].get("strLeague")
+
 # =========================
-# BALLDONTLIE SCANNER
+# SCANNERS
 # =========================
 
 def scan_balldontlie(entry: Dict[str, Any], out: List[Dict[str, Any]], seen: set) -> None:
@@ -179,15 +231,15 @@ def scan_balldontlie(entry: Dict[str, Any], out: List[Dict[str, Any]], seen: set
             params["cursor"] = cursor
 
         try:
-            resp = requests.get(f"{BDB_BASE}{path}", headers=BDB_HEADERS, params=params, timeout=30)
+            resp = requests.get(f"{BDB_BASE}{path}", headers=BDB_HEADERS, params=params, timeout=REQUEST_TIMEOUT)
 
             if resp.status_code == 429:
                 print("⚠️ BDB rate limit reached. Sleeping 60s...")
                 time.sleep(60)
                 continue
 
+            # If an endpoint is restricted, just skip quietly (no 🔒 spam)
             if resp.status_code in (401, 403):
-                # Silent skip if your tier doesn't include the endpoint
                 return
 
             resp.raise_for_status()
@@ -196,23 +248,24 @@ def scan_balldontlie(entry: Dict[str, Any], out: List[Dict[str, Any]], seen: set
             print(f"❌ Error in BDB {entry['league']}: {e}")
             return
 
-        items = data.get("data", []) or []
+        players = data.get("data", []) or []
 
-        for rec in items:
-            if active_field and rec.get(active_field) is not True:
+        for p in players:
+            # MLB active-only filter
+            if active_field and p.get(active_field) is not True:
                 continue
 
-            if is_venezuelan_bdb(rec, birthplace_field):
-                name = normalize_name_bdb(rec)
-                team = normalize_team_bdb(rec)
-                key = f"bdb::{entry['sport']}::{entry['league']}::{team}::{name}".lower()
+            if is_venezuelan_bdb(p, birthplace_field):
+                name = normalize_name_bdb(p)
+                key = f"balldontlie::{entry['league']}::{name}::{normalize_team_bdb(p)}"
                 if key in seen:
                     continue
+
                 out.append({
                     "name": name,
                     "sport": entry["sport"],
                     "league": entry["league"],
-                    "team": team,
+                    "team": normalize_team_bdb(p),
                     "provider": "balldontlie",
                 })
                 seen.add(key)
@@ -224,196 +277,93 @@ def scan_balldontlie(entry: Dict[str, Any], out: List[Dict[str, Any]], seen: set
 
         time.sleep(BDB_SLEEP_SEC)
 
-# =========================
-# THESPORTSDB HELPERS
-# =========================
-
-def tsdb_get_json(path: str, params: Dict[str, Any]) -> Optional[Dict[str, Any]]:
+def scan_tsdb_top_division(division: Dict[str, Any], out: List[Dict[str, Any]], seen: set) -> None:
     if not TSDB_BASE:
-        return None
-    try:
-        r = requests.get(f"{TSDB_BASE}/{path}", params=params, timeout=30)
-        if r.status_code == 429:
-            time.sleep(5)
-            r = requests.get(f"{TSDB_BASE}/{path}", params=params, timeout=30)
-        r.raise_for_status()
-        return r.json()
-    except Exception as e:
-        print(f"❌ TSDB error {path} params={params}: {e}")
-        return None
+        print("⚠️ SPORTSDB_KEY missing. Skipping TSDB.")
+        return
 
-def tsdb_list_leagues_by_country(country: str, sport: str) -> List[Dict[str, Any]]:
-    payload = tsdb_get_json("search_all_leagues.php", {"c": country, "s": sport})
-    if not payload:
-        return []
-    # TSDB sometimes uses "countries" for leagues list
-    return payload.get("countries") or payload.get("countrys") or payload.get("leagues") or []
+    league_id = division["league_id"]
+    league_label = division["league"]
+    sport = division["sport"]
+    country = division["country"]
 
-def tsdb_list_leagues_by_sport(sport: str) -> List[Dict[str, Any]]:
-    payload = tsdb_get_json("search_all_leagues.php", {"s": sport})
-    if not payload:
-        return []
-    return payload.get("countries") or payload.get("countrys") or payload.get("leagues") or []
+    # Resolve official name (nice-to-have)
+    resolved = tsdb_lookupleague_name(league_id) or league_label
 
-def tsdb_lookup_all_teams_by_league_id(league_id: str) -> List[Dict[str, Any]]:
-    payload = tsdb_get_json("lookup_all_teams.php", {"id": league_id})
-    if not payload:
-        return []
-    return payload.get("teams") or []
+    print(f"🌎 Scanning (TSDB) {sport} TOP DIVISION in {country}: {resolved} (id={league_id}) ...")
 
-def tsdb_search_all_teams_by_league_name(league_name: str) -> List[Dict[str, Any]]:
-    payload = tsdb_get_json("search_all_teams.php", {"l": league_name})
-    if not payload:
-        return []
-    return payload.get("teams") or []
+    teams = tsdb_lookup_teams_by_league_id(league_id)
+    time.sleep(TSDB_SLEEP_SEC)
 
-def tsdb_lookup_all_players(team_id: str) -> List[Dict[str, Any]]:
-    payload = tsdb_get_json("lookup_all_players.php", {"id": team_id})
-    if not payload:
-        return []
-    return payload.get("player") or []
+    if not teams:
+        print(f"   ⚠️ No teams found for league_id={league_id} ({resolved}).")
+        return
 
-def _normalize_leagues(raw: List[Dict[str, Any]]) -> List[Dict[str, str]]:
-    out: List[Dict[str, str]] = []
-    for l in raw:
-        lid = l.get("idLeague") or l.get("idleague") or l.get("id")
-        lname = l.get("strLeague") or l.get("strleague") or l.get("name") or l.get("strLeagueAlternate")
-        if lid and lname:
-            out.append({"idLeague": str(lid), "strLeague": str(lname)})
-    # de-dupe by id
-    seen_ids = set()
-    uniq = []
-    for l in out:
-        if l["idLeague"] in seen_ids:
+    for t in teams:
+        team_id = t.get("idTeam")
+        team_name = (t.get("strTeam") or "Unknown").strip()
+        if not team_id:
             continue
-        uniq.append(l)
-        seen_ids.add(l["idLeague"])
-    return uniq
 
-# =========================
-# TSDB SCANNERS
-# =========================
-
-def scan_tsdb_country_top_divisions(country: str, sport: str, out: List[Dict[str, Any]], seen: set) -> None:
-    if not TSDB_BASE:
-        return
-
-    allow = TSDB_TOP_LEAGUES.get((country, sport), set())
-    if allow is not None and len(allow) == 0:
-        # explicitly skip this combo
-        return
-
-    print(f"🌎 Scanning (TSDB) TOP DIVISIONS: {sport} in {country} ...")
-
-    leagues = _normalize_leagues(tsdb_list_leagues_by_country(country, sport))
-    time.sleep(TSDB_SLEEP_SEC)
-
-    # filter to allowlist only
-    leagues = [l for l in leagues if l["strLeague"] in allow]
-    if not leagues:
-        print(f"   ⚠️ No matching TOP division leagues for {sport} in {country}.")
-        return
-
-    print(f"   ✅ Matched leagues: {[l['strLeague'] for l in leagues]}")
-    time.sleep(TSDB_SLEEP_SEC)
-
-    for league in leagues:
-        league_id = league["idLeague"]
-        league_name = league["strLeague"]
-
-        teams = tsdb_lookup_all_teams_by_league_id(league_id)
+        players = tsdb_lookup_all_players(team_id)
         time.sleep(TSDB_SLEEP_SEC)
-        if not teams:
-            teams = tsdb_search_all_teams_by_league_name(league_name)
-            time.sleep(TSDB_SLEEP_SEC)
-        if not teams:
+
+        # Some teams/leagues have incomplete player rosters in TSDB.
+        if not players:
             continue
 
-        for t in teams:
-            team_id = t.get("idTeam")
-            team_name = t.get("strTeam") or "Unknown"
-            if not team_id:
-                continue
+        for p in players:
+            if is_venezuelan_tsdb_player(p):
+                name = (p.get("strPlayer") or "").strip() or "Unknown"
+                key = f"thesportsdb::{resolved}::{name}::{team_id}"
+                if key in seen:
+                    continue
 
-            players = tsdb_lookup_all_players(team_id)
-            time.sleep(TSDB_SLEEP_SEC)
-            if not players:
-                continue
+                out.append({
+                    "name": name,
+                    "sport": sport,
+                    "league": resolved,
+                    "team": team_name,
+                    "provider": "thesportsdb",
+                    "country_context": country,
+                    "nationality": p.get("strNationality"),
+                    "birth_location": p.get("strBirthLocation") or p.get("strBirthPlace"),
+                })
+                seen.add(key)
 
-            for p in players:
-                if is_venezuelan_tsdb(p):
-                    name = (p.get("strPlayer") or "").strip() or "Unknown"
-                    key = f"tsdb::{sport}::{country}::{league_name}::{team_id}::{name}".lower()
-                    if key in seen:
-                        continue
-                    out.append({
-                        "name": name,
-                        "sport": sport,
-                        "league": league_name,
-                        "team": team_name,
-                        "provider": "thesportsdb",
-                        "country_scan": country,
-                        "nationality": p.get("strNationality"),
-                        "birth_location": p.get("strBirthLocation") or p.get("strBirthPlace"),
-                    })
-                    seen.add(key)
-
-def scan_tsdb_golf_top_tours(out: List[Dict[str, Any]], seen: set) -> None:
+def scan_tsdb_golf(out: List[Dict[str, Any]], seen: set) -> None:
     if not TSDB_BASE:
         return
 
-    print("🏌️ Scanning (TSDB) Golf → TOP Tours → Teams → Players ...")
+    print("🏌️ Scanning (TSDB) Golf → Tours → (Teams-as-golfers) → filter Venezuelans ...")
 
-    leagues = _normalize_leagues(tsdb_list_leagues_by_sport("Golf"))
-    time.sleep(TSDB_SLEEP_SEC)
+    for tour in TSDB_GOLF_TOP_TOURS:
+        league_id = tour["league_id"]
+        league_name = tsdb_lookupleague_name(league_id) or tour.get("league", f"Golf Tour {league_id}")
 
-    leagues = [l for l in leagues if l["strLeague"] in TSDB_GOLF_TOP_TOURS]
-    if not leagues:
-        print("   ⚠️ No TSDB Golf top tours matched. (Names may differ in TSDB.)")
-        return
-
-    print(f"   ✅ Matched Golf tours: {[l['strLeague'] for l in leagues]}")
-    time.sleep(TSDB_SLEEP_SEC)
-
-    for league in leagues:
-        league_id = league["idLeague"]
-        league_name = league["strLeague"]
-
-        teams = tsdb_lookup_all_teams_by_league_id(league_id)
+        teams = tsdb_lookup_teams_by_league_id(league_id)
         time.sleep(TSDB_SLEEP_SEC)
-        if not teams:
-            teams = tsdb_search_all_teams_by_league_name(league_name)
-            time.sleep(TSDB_SLEEP_SEC)
+
         if not teams:
             continue
 
-        for t in teams:
-            team_id = t.get("idTeam")
-            team_name = t.get("strTeam") or "Unknown"
-            if not team_id:
-                continue
+        # In TSDB, some golf tours list golfers under "teams"
+        for golfer in teams:
+            if is_venezuelan_tsdb_team_as_player(golfer):
+                name = (golfer.get("strTeam") or "Unknown").strip()
+                key = f"thesportsdb::{league_name}::{name}::golfteam"
+                if key in seen:
+                    continue
 
-            players = tsdb_lookup_all_players(team_id)
-            time.sleep(TSDB_SLEEP_SEC)
-            if not players:
-                continue
-
-            for p in players:
-                if is_venezuelan_tsdb(p):
-                    name = (p.get("strPlayer") or "").strip() or "Unknown"
-                    key = f"tsdb::golf::{league_name}::{team_id}::{name}".lower()
-                    if key in seen:
-                        continue
-                    out.append({
-                        "name": name,
-                        "sport": "Golf",
-                        "league": league_name,
-                        "team": team_name,
-                        "provider": "thesportsdb",
-                        "nationality": p.get("strNationality"),
-                        "birth_location": p.get("strBirthLocation") or p.get("strBirthPlace"),
-                    })
-                    seen.add(key)
+                out.append({
+                    "name": name,
+                    "sport": "Golf",
+                    "league": league_name,
+                    "team": "Venezuela",
+                    "provider": "thesportsdb",
+                    "nationality": golfer.get("strCountry"),
+                })
+                seen.add(key)
 
 # =========================
 # MAIN
@@ -422,28 +372,26 @@ def scan_tsdb_golf_top_tours(out: List[Dict[str, Any]], seen: set) -> None:
 def fetch_all_venezuelans() -> List[Dict[str, Any]]:
     out = load_existing_athletes()
 
-    # De-dupe across runs/providers
+    # De-dupe across runs (provider+league+name+team)
     seen = set()
     for a in out:
-        key = f"{a.get('provider','?')}::{a.get('sport','?')}::{a.get('league','?')}::{a.get('team','?')}::{a.get('name','?')}".lower()
+        key = f"{a.get('provider','?')}::{a.get('league','?')}::{a.get('name','?')}::{a.get('team','?')}"
         seen.add(key)
 
-    # 1) BallDontLie
-    for entry in ENDPOINTS:
-        scan_balldontlie(entry, out, seen)
+    # BallDontLie scan
+    for ep in BDB_ENDPOINTS:
+        scan_balldontlie(ep, out, seen)
 
-    # 2) TSDB: top divisions only for country sports
+    # TheSportsDB scan (top divisions only)
     if TSDB_BASE:
-        for country in TSDB_COUNTRIES:
-            for sport in TSDB_SPORTS_COUNTRY:
-                scan_tsdb_country_top_divisions(country, sport, out, seen)
+        for div in TSDB_TOP_DIVISIONS:
+            scan_tsdb_top_division(div, out, seen)
 
-        # 3) TSDB: Golf (top tours only)
-        scan_tsdb_golf_top_tours(out, seen)
-    else:
-        print("⚠️ SPORTSDB_KEY missing. Skipping TSDB scans.")
+        # Optional TSDB golf
+        scan_tsdb_golf(out, seen)
 
-    out.sort(key=lambda x: (x.get("sport", ""), x.get("league", ""), x.get("team", ""), x.get("name", "")))
+    # Stable sort
+    out.sort(key=lambda x: (x.get("sport", ""), x.get("league", ""), x.get("name", "")))
     return out
 
 if __name__ == "__main__":
