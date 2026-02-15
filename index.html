@@ -5,67 +5,168 @@
   <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
   <title>Venezuela</title>
 
-  <!-- ✅ Google Analytics (GA4) + Consent Mode (default denied) -->
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-
-    // Default: deny until user chooses
-    gtag('consent', 'default', {
-      ad_storage: 'denied',
-      ad_user_data: 'denied',
-      ad_personalization: 'denied',
-      analytics_storage: 'denied'
-    });
-  </script>
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-3SCYEVBB9B"></script>
-  <script>
-    gtag('js', new Date());
-    gtag('config', 'G-3SCYEVBB9B', { anonymize_ip: true });
-  </script>
-
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet"/>
 
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-MMQ86CNB');</script>
+  <!-- End Google Tag Manager -->
+
   <style>
     body { background-color: #0a0a0a; font-family: 'Inter', sans-serif; color: white; }
 
+    /* =========================================
+       LAYOUT: side banners (desktop only)
+       ========================================= */
+    .page-shell{
+      max-width: 1600px;
+      margin: 0 auto;
+    }
+    /* Reserve space for side banners on desktop */
+    @media (min-width: 1024px) {
+      .page-shell{
+        padding-left: 340px;
+        padding-right: 340px;
+      }
+    }
+
+    .side-ad {
+      position: fixed;
+      top: 140px; /* below header/nav */
+      width: 300px;
+      z-index: 40;
+      display: none;
+    }
+    @media (min-width: 1024px) {
+      .side-ad { display: block; }
+      .side-ad.left { left: 24px; }
+      .side-ad.right { right: 24px; }
+    }
+
+    .side-ad-card{
+      border-radius: 28px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(0,0,0,0.35);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 18px 60px rgba(0,0,0,0.45);
+      transform: translateZ(0);
+    }
+
+    .side-ad-card img{
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* =========================================
+       CARD: new design (matches your screenshot)
+       ========================================= */
     .athlete-card {
-      background: #121212;
-      border-radius: 20px;
-      padding: 24px;
+      background: radial-gradient(120% 120% at 50% 0%, rgba(255,255,255,0.06), rgba(255,255,255,0.02) 55%, rgba(0,0,0,0.0) 100%),
+                  #0f0f0f;
+      border-radius: 28px;
+      padding: 22px;
       text-align: center;
-      border: 1px solid rgba(242, 242, 13, 0.1);
-      transition: all 0.3s ease;
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      box-shadow: 0 18px 60px rgba(0,0,0,0.45);
+      transition: transform 0.25s ease, border-color 0.25s ease;
+      position: relative;
+      overflow: hidden;
+      transform: translateZ(0);
+      min-height: 240px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
     }
-    .athlete-card:hover { transform: translateY(-5px); border-color: rgba(242, 242, 13, 0.4); }
-
-    .sport-icon-wrapper {
-      background: rgba(242, 242, 13, 0.03);
-      border-radius: 24px;
-      padding: 35px;
-      margin-bottom: 24px;
-      border: 1px solid rgba(242, 242, 13, 0.15);
+    .athlete-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(242, 242, 13, 0.25);
     }
 
-    .search-container { position: relative; width: 100%; max-width: 400px; margin: 0 auto 2rem; }
+    .elite-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px 12px;
+      border-radius: 10px;
+      font-size: 10px;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: #f2f20d;
+      color: #0a0a0a;
+      width: max-content;
+      margin: 0 auto 18px;
+      box-shadow: 0 12px 30px rgba(242,242,13,0.15);
+    }
+
+    .athlete-name {
+      font-size: 34px;
+      line-height: 1.05;
+      font-weight: 900;
+      font-style: italic;
+      text-transform: uppercase;
+      letter-spacing: -0.02em;
+      margin-bottom: 12px;
+    }
+
+    .athlete-meta {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 18px;
+      color: #6b7280; /* slate-ish */
+      font-weight: 800;
+      font-size: 12px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    .status-dot {
+      height: 10px;
+      width: 10px;
+      border-radius: 50%;
+      display: inline-block;
+      background: #00C848;
+      box-shadow: 0 0 0 6px rgba(0,200,72,0.08);
+      flex: 0 0 auto;
+    }
+
+    .cta-btn {
+      display: block;
+      width: 100%;
+      background: #f2f20d;
+      color: #0a0a0a;
+      padding: 16px 16px;
+      border-radius: 16px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+      transition: transform 0.15s ease;
+      user-select: none;
+    }
+    .cta-btn:hover { transform: scale(1.01); }
+
+    /* Search */
+    .search-container { position: relative; width: 100%; max-width: 420px; margin: 0 auto 2rem; }
     .search-input {
       width: 100%;
-      background: #1a1a1a;
-      border: 1px solid #333;
-      padding: 12px 20px;
-      border-radius: 50px;
+      background: #111;
+      border: 1px solid rgba(255,255,255,0.10);
+      padding: 14px 18px;
+      border-radius: 999px;
       color: white;
       font-size: 14px;
       outline: none;
     }
-    .search-input:focus { border-color: #f2f20d; box-shadow: 0 0 10px rgba(242, 242, 13, 0.2); }
-
-    .indicator-bar { display: flex; gap: 4px; justify-content: center; margin-top: 15px; }
-    .active-segment { width: 28px; height: 5px; background: #f2f20d; border-radius: 3px; }
-    .inactive-segment { width: 14px; height: 5px; background: #2a2a2a; border-radius: 3px; }
-    .status-dot { height: 8px; width: 8px; border-radius: 50%; display: inline-block; margin-right: 6px; background: #00C848; }
+    .search-input:focus { border-color: rgba(242,242,13,0.7); box-shadow: 0 0 0 6px rgba(242, 242, 13, 0.08); }
 
     .fa-instagram:hover { color: #E4405F; }
     .fa-x-twitter:hover { color: #ffffff; }
@@ -73,9 +174,7 @@
 
     /* Spacer so content doesn't hide behind fixed footer */
     .footer-banner-spacer { height: 120px; }
-    @media (max-width: 768px) {
-      .footer-banner-spacer { height: 105px; }
-    }
+    @media (max-width: 768px) { .footer-banner-spacer { height: 105px; } }
 
     /* Footer Banner */
     .ebay-footer {
@@ -84,14 +183,11 @@
       right: 0;
       bottom: 0;
       z-index: 9999;
-
       background: rgba(0,0,0,0.85);
       backdrop-filter: blur(10px);
       border-top: 1px solid rgba(255,255,255,0.08);
-
       display: flex;
       justify-content: center;
-
       padding: 10px 10px;
       padding-bottom: calc(10px + env(safe-area-inset-bottom));
       transform: translateZ(0);
@@ -100,86 +196,54 @@
     .ebay-banner-img {
       width: min(970px, 96vw);
       height: auto;
-
       border-radius: 12px;
       display: block;
       border: 1px solid rgba(255,255,255,0.08);
       transition: transform 0.2s ease;
-
       max-height: 72px;
       object-fit: contain;
     }
-
     @media (max-width: 480px) {
-      .ebay-banner-img {
-        max-height: 56px;
-        width: 96vw;
-      }
+      .ebay-banner-img { max-height: 56px; width: 96vw; }
     }
-
     .ebay-banner-img:hover { transform: scale(1.01); }
-
-    /* ✅ Cookie banner (positioned above footer banner) */
-    .cookie-banner {
-      position: fixed;
-      left: 16px;
-      right: 16px;
-      bottom: 110px; /* above footer */
-      z-index: 10000;
-
-      background: rgba(18,18,18,0.96);
-      border: 1px solid rgba(255,255,255,0.10);
-      border-radius: 16px;
-      padding: 14px 14px;
-      backdrop-filter: blur(10px);
-      box-shadow: 0 10px 30px rgba(0,0,0,0.35);
-      display: none;
-    }
-
-    @media (min-width: 768px) {
-      .cookie-banner {
-        left: auto;
-        right: 24px;
-        width: 420px;
-        bottom: 120px;
-      }
-    }
-
-    .cookie-actions {
-      display: flex;
-      gap: 8px;
-      justify-content: flex-end;
-      margin-top: 10px;
-    }
-
-    .cookie-btn {
-      padding: 10px 12px;
-      font-size: 11px;
-      font-weight: 900;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      border-radius: 12px;
-      border: 1px solid rgba(255,255,255,0.12);
-      background: #1a1a1a;
-      color: white;
-    }
-
-    .cookie-btn-accept {
-      background: #f2f20d;
-      color: #000;
-      border-color: rgba(242,242,13,0.4);
-    }
-
-    .cookie-link {
-      color: rgba(242,242,13,0.95);
-      text-decoration: underline;
-      cursor: pointer;
-      font-weight: 800;
-    }
   </style>
 </head>
 
 <body>
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MMQ86CNB"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+
+  <!-- SIDE BANNERS (desktop only) -->
+  <aside class="side-ad left" aria-label="eBay affiliate banner left">
+    <div class="side-ad-card">
+      <a
+        href="https://www.ebay.ca/sch/i.html?_nkw=trading+cards&mkevt=1&mkcid=1&mkrid=706-53473-19255-0&campid=5339142321&toolid=10001"
+        target="_blank"
+        rel="noopener noreferrer"
+        title="Shop Trading Cards on eBay"
+      >
+        <!-- Uses your existing assets; pick whichever you uploaded -->
+        <img src="./assets/Baseball-300x600.jpg" alt="eBay banner" loading="eager" onerror="this.src='./assets/Baseball-300x250.jpg';" />
+      </a>
+    </div>
+  </aside>
+
+  <aside class="side-ad right" aria-label="eBay affiliate banner right">
+    <div class="side-ad-card">
+      <a
+        href="https://www.ebay.ca/sch/i.html?_nkw=trading+cards&mkevt=1&mkcid=1&mkrid=706-53473-19255-0&campid=5339142321&toolid=10001"
+        target="_blank"
+        rel="noopener noreferrer"
+        title="Shop Trading Cards on eBay"
+      >
+        <img src="./assets/Baseball-300x600.jpg" alt="eBay banner" loading="eager" onerror="this.src='./assets/Baseball-300x250.jpg';" />
+      </a>
+    </div>
+  </aside>
+
   <header class="bg-[#f2f20d] text-black px-6 py-2 flex justify-between items-center text-[10px] font-black uppercase tracking-tighter">
     <span>© 2026 VZLA Sports Elite</span>
   </header>
@@ -195,60 +259,45 @@
     </div>
   </nav>
 
-  <main class="max-w-7xl mx-auto p-8">
-    <section class="text-center mb-8 p-12 bg-white/5 rounded-3xl border border-white/10">
-      <h2 class="text-5xl font-black mb-4 uppercase leading-tight">
-        VZLA <span class="text-[#f2f20d] italic">Top Tier Sport</span> Talent
-        <br>
-        <span class="text-3xl lowercase font-bold text-slate-300">search for their memorabilia</span>
-      </h2>
+  <div class="page-shell">
+    <main class="max-w-7xl mx-auto p-8">
+      <section class="text-center mb-8 p-12 bg-white/5 rounded-3xl border border-white/10">
+        <h2 class="text-5xl font-black mb-4 uppercase leading-tight">
+          VZLA <span class="text-[#f2f20d] italic">Top Tier Sport</span> Talent
+          <br>
+          <span class="text-3xl lowercase font-bold text-slate-300">search for their memorabilia</span>
+        </h2>
 
-      <div class="flex flex-col items-center gap-4">
-        <p class="text-slate-400 font-bold">
-          by <a href="https://www.ebay.ca/str/localherossportscards?mkcid=1&mkrid=706-53473-19255-0&siteid=2&campid=5339142305&customid=&toolid=10001&mkevt=1"
-                target="_blank"
-                class="text-[#f2f20d] hover:underline transition-all">@localheros_sportscards</a>
-        </p>
+        <div class="flex flex-col items-center gap-4">
+          <p class="text-slate-400 font-bold">
+            by <a href="https://www.ebay.ca/str/localherossportscards?mkcid=1&mkrid=706-53473-19255-0&siteid=2&campid=5339142305&customid=&toolid=10001&mkevt=1"
+                  target="_blank"
+                  class="text-[#f2f20d] hover:underline transition-all">@localheros_sportscards</a>
+          </p>
 
-        <div class="flex gap-6 text-2xl text-slate-400">
-          <a href="https://www.instagram.com/localheros_sportscards/" target="_blank" title="Instagram">
-            <i class="fa-brands fa-instagram transition-colors duration-300"></i>
-          </a>
-          <a href="https://x.com/jdiegorceli1?s=21" target="_blank" title="X (Twitter)">
-            <i class="fa-brands fa-x-twitter transition-colors duration-300"></i>
-          </a>
-          <a href="https://www.facebook.com/share/wwXIfr" target="_blank" title="Facebook">
-            <i class="fa-brands fa-facebook transition-colors duration-300"></i>
-          </a>
+          <div class="flex gap-6 text-2xl text-slate-400">
+            <a href="https://www.instagram.com/localheros_sportscards/" target="_blank" title="Instagram">
+              <i class="fa-brands fa-instagram transition-colors duration-300"></i>
+            </a>
+            <a href="https://x.com/jdiegorceli1?s=21" target="_blank" title="X (Twitter)">
+              <i class="fa-brands fa-x-twitter transition-colors duration-300"></i>
+            </a>
+            <a href="https://www.facebook.com/share/18NzEJirJZ/?mibextid=wwXIfr" target="_blank" title="Facebook">
+              <i class="fa-brands fa-facebook transition-colors duration-300"></i>
+            </a>
+          </div>
         </div>
+      </section>
 
-        <!-- ✅ Cookie settings link -->
-        <div class="text-[11px] text-slate-500 font-bold">
-          <span class="cookie-link" id="cookie-manage">Manage cookies</span>
-        </div>
+      <div class="search-container">
+        <input type="text" id="athleteSearch" onkeyup="filterBySearch()"
+              placeholder="Search active athletes..." class="search-input">
       </div>
-    </section>
 
-    <div class="search-container">
-      <input type="text" id="athleteSearch" onkeyup="filterBySearch()"
-             placeholder="Search active athletes..." class="search-input">
-    </div>
+      <div id="athletes-grid" class="grid grid-cols-1 md:grid-cols-4 gap-8"></div>
 
-    <div id="athletes-grid" class="grid grid-cols-1 md:grid-cols-4 gap-8"></div>
-
-    <div class="footer-banner-spacer"></div>
-  </main>
-
-  <!-- ✅ COOKIE BANNER -->
-  <div id="cookie-banner" class="cookie-banner" role="dialog" aria-live="polite" aria-label="Cookie consent">
-    <div class="text-sm font-black mb-1">Cookies</div>
-    <div class="text-xs text-slate-300 leading-relaxed">
-      We use cookies to measure traffic and improve the site. You can accept or decline.
-    </div>
-    <div class="cookie-actions">
-      <button id="cookie-decline" class="cookie-btn" type="button">Decline</button>
-      <button id="cookie-accept" class="cookie-btn cookie-btn-accept" type="button">Accept</button>
-    </div>
+      <div class="footer-banner-spacer"></div>
+    </main>
   </div>
 
   <!-- EBAY AFFILIATE FOOTER BANNER -->
@@ -269,66 +318,6 @@
   </footer>
 
   <script>
-    // -------------------------
-    // ✅ Cookie banner logic + Google Consent Mode updates
-    // -------------------------
-    (function () {
-      const KEY = "vzla_cookie_consent_v1"; // accepted | declined
-      const banner = document.getElementById("cookie-banner");
-      const btnAccept = document.getElementById("cookie-accept");
-      const btnDecline = document.getElementById("cookie-decline");
-      const btnManage = document.getElementById("cookie-manage");
-
-      function setConsent(granted) {
-        const v = granted ? "granted" : "denied";
-        if (typeof gtag === "function") {
-          gtag("consent", "update", {
-            ad_storage: v,
-            ad_user_data: v,
-            ad_personalization: v,
-            analytics_storage: v
-          });
-        }
-      }
-
-      function save(choice) {
-        try { localStorage.setItem(KEY, choice); } catch (e) {}
-      }
-      function load() {
-        try { return localStorage.getItem(KEY); } catch (e) { return null; }
-      }
-
-      const existing = load();
-      if (!existing) {
-        banner.style.display = "block";
-      } else {
-        setConsent(existing === "accepted");
-      }
-
-      btnAccept.addEventListener("click", () => {
-        save("accepted");
-        setConsent(true);
-        banner.style.display = "none";
-      });
-
-      btnDecline.addEventListener("click", () => {
-        save("declined");
-        setConsent(false);
-        banner.style.display = "none";
-      });
-
-      // "Manage cookies" => show banner again
-      if (btnManage) {
-        btnManage.addEventListener("click", () => {
-          banner.style.display = "block";
-        });
-      }
-    })();
-
-    // -------------------------
-    // App logic (your existing code)
-    // -------------------------
-
     // Fallback list (used if data/athletes.json can't be loaded)
     const athleteDataRaw = [
       { name: "Ronald Acuña Jr.", sport: "Baseball", league: "MLB", team: "Braves" },
@@ -367,20 +356,7 @@
     let athleteData = [];
     let currentSport = 'All';
 
-    const icons = {
-      'Baseball': `<circle cx="50" cy="50" r="30" fill="#f2f20d"/><path d="M30 40 Q 50 60 70 40 M30 60 Q 50 40 70 60" fill="none" stroke="#121212" stroke-width="2"/>`,
-      'Soccer': `<circle cx="50" cy="50" r="30" fill="#f2f20d"/><path d="M50 20 L60 40 L80 45 L65 60 L70 80 L50 70 L30 80 L35 60 L20 45 L40 40 Z" fill="#121212"/>`,
-      'Basketball': `<circle cx="50" cy="50" r="30" fill="#f2f20d"/><path d="M20 50 L80 50 M50 20 L50 80 M25 30 Q 50 50 25 70 M75 30 Q 50 50 75 70" fill="none" stroke="#121212" stroke-width="2"/>`,
-      'Golf': `<circle cx="50" cy="50" r="30" fill="#f2f20d"/><circle cx="50" cy="50" r="5" fill="#121212"/>`,
-      'Tennis': `<circle cx="50" cy="50" r="30" fill="#f2f20d"/><path d="M35 35 Q 50 50 65 35 M35 65 Q 50 50 65 65" fill="none" stroke="#121212" stroke-width="2"/>`,
-      'MMA': `<circle cx="50" cy="50" r="30" fill="#f2f20d"/><path d="M30 30 L70 70 M70 30 L30 70" stroke="#121212" stroke-width="4"/>`,
-      'Football': `<ellipse cx="50" cy="50" rx="35" ry="20" fill="#f2f20d" stroke="#121212" stroke-width="2"/>`,
-      'Hockey': `<circle cx="50" cy="50" r="30" fill="#f2f20d"/><path d="M35 65 Q50 75 65 65" fill="none" stroke="#121212" stroke-width="3"/><circle cx="50" cy="50" r="6" fill="#121212"/>`,
-      'Rugby': `<circle cx="50" cy="50" r="30" fill="#f2f20d"/><path d="M30 50 Q50 30 70 50 Q50 70 30 50" fill="none" stroke="#121212" stroke-width="3"/>`,
-      'Volleyball': `<circle cx="50" cy="50" r="30" fill="#f2f20d"/><path d="M30 35 Q50 50 70 35 M30 65 Q50 50 70 65 M50 20 Q60 50 50 80" fill="none" stroke="#121212" stroke-width="2"/>`
-    };
-
-    // ✅ Deduplicate by (name + sport + league + team)
+    // ✅ Deduplicate by (name + sport + league + team) so TSDB/BDB duplicates never show
     function dedupeAthletes(list) {
       const norm = (v) => (v || "").toString().trim().toLowerCase();
       const map = new Map();
@@ -402,6 +378,7 @@
     function mergeAthletes(fallbackList, fetchedList) {
       const norm = (v) => (v || "").toString().trim().toLowerCase();
 
+      // Index fallback by name only (so fetched can “upgrade” details)
       const byName = new Map();
       for (const a of (fallbackList || [])) {
         const k = norm(a.name);
@@ -419,6 +396,7 @@
           continue;
         }
 
+        // Upgrade logic
         const cur = byName.get(k);
         const curTeam = norm(cur.team);
         const newTeam = norm(incoming.team);
@@ -427,18 +405,21 @@
 
         if (!curHasTeam && newHasTeam) byName.set(k, incoming);
         else {
+          // Prefer incoming league if current league empty
           const curLeague = norm(cur.league);
           const newLeague = norm(incoming.league);
           if (!curLeague && newLeague) byName.set(k, { ...cur, league: incoming.league, team: incoming.team, sport: incoming.sport });
         }
       }
 
+      // After merge-by-name, allow multiple entries for same name across leagues/teams via dedupeAthletes
       return dedupeAthletes(Array.from(byName.values()));
     }
 
     async function init() {
       let fetched = [];
       try {
+        // cache-bust so mobile doesn't stick to stale JSON
         const res = await fetch(`./data/athletes.json?v=${Date.now()}`, { cache: "no-store" });
         if (res.ok) fetched = await res.json();
       } catch (e) {}
@@ -489,27 +470,21 @@
       grid.innerHTML = (data || []).map(a => {
         const ebaySearchURL =
           `https://www.ebay.ca/sch/i.html?_nkw=${encodeURIComponent(a.name)}&mkevt=1&mkcid=1&mkrid=${rotationID}&campid=${campID}&toolid=10001`;
-        const icon = icons[a.sport] || icons['Baseball'];
+
+        const sportLabel = (a.sport || "Other").toString().toUpperCase();
+        const subLabel = (a.team && a.team !== "Unknown") ? a.team.toString().toUpperCase() : "ACTIVE";
 
         return `
           <div class="athlete-card">
-            <div class="sport-icon-wrapper">
-              <svg viewBox="0 0 100 100" class="w-16 h-16 mx-auto">${icon}</svg>
-              <div class="indicator-bar">
-                <div class="active-segment"></div>
-                <div class="inactive-segment"></div>
+            <div>
+              <div class="elite-badge">ELITE TIER</div>
+              <div class="athlete-name">${a.name || "Unknown"}</div>
+              <div class="athlete-meta">
+                <span class="status-dot"></span>
+                <span>${sportLabel} • ${subLabel}</span>
               </div>
             </div>
-            <div class="bg-[#f2f20d] text-black text-[9px] font-black px-2 py-1 rounded mb-3 inline-block">ELITE TIER</div>
-            <h3 class="text-2xl font-black italic uppercase leading-tight mb-1">${a.name}</h3>
-            <div class="flex justify-center items-center gap-1 mb-6">
-              <span class="status-dot"></span>
-              <span class="text-slate-500 text-[10px] font-bold uppercase tracking-widest">${a.sport} • ${a.team}</span>
-            </div>
-            <a href="${ebaySearchURL}" target="_blank"
-              class="block w-full bg-[#f2f20d] text-black py-3 rounded-xl font-black text-xs hover:scale-[1.02] transition-transform">
-              SHOP COLLECTIBLES
-            </a>
+            <a href="${ebaySearchURL}" target="_blank" class="cta-btn">SHOP COLLECTIBLES</a>
           </div>
         `;
       }).join('');
