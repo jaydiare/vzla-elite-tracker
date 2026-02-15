@@ -30,19 +30,18 @@ FILE_PATH = "data/athletes.json"
 TSDB_CACHE_PATH = "data/tsdb_cache.json"
 
 # Free-tier safety
-BDB_SLEEP_SEC = 13          # conservative for BDB free tier
-BDB_MAX_PAGES_PER_ENDPOINT = 2  # keep your “cheap run” behavior
+BDB_SLEEP_SEC = 13
+BDB_MAX_PAGES_PER_ENDPOINT = 2
 
-# TSDB free-tier safety (IMPORTANT: your 1.25s is still too fast for lookup_all_players per team)
-TSDB_SLEEP_SEC = 4.0            # base pacing between TSDB requests
-TSDB_MAX_TEAMS_PER_LEAGUE = 6   # scan N new teams per league per run
+# TSDB safety (free-tier is strict)
+TSDB_SLEEP_SEC = 4.0
+TSDB_MAX_TEAMS_PER_LEAGUE = 6
 TSDB_MAX_RETRIES = 7
-TSDB_BACKOFF_START = 5.0        # backoff base seconds
+TSDB_BACKOFF_START = 5.0
 REQUEST_TIMEOUT = 30
 
 # =========================
 # BALLDONTLIE ENDPOINTS (free-safe list)
-# NOTE: do NOT use /active endpoints except MLB local field filter (active=True)
 # =========================
 BDB_ENDPOINTS: List[Dict[str, Any]] = [
     {"sport": "Basketball", "league": "NBA",   "provider": "balldontlie", "path": "/nba/v1/players",      "field": "birth_place"},
@@ -52,7 +51,6 @@ BDB_ENDPOINTS: List[Dict[str, Any]] = [
     {"sport": "Football",   "league": "NFL",   "provider": "balldontlie", "path": "/nfl/v1/players",      "field": "birth_place"},
     {"sport": "Football",   "league": "NCAAF", "provider": "balldontlie", "path": "/ncaaf/v1/players",    "field": "birth_place"},
 
-    # MLB: filter active=True locally if field exists in record
     {"sport": "Baseball",   "league": "MLB",   "provider": "balldontlie", "path": "/mlb/v1/players",      "field": "birth_place", "active_field": "active"},
 
     {"sport": "Hockey",     "league": "NHL",   "provider": "balldontlie", "path": "/nhl/v1/players",      "field": "birth_place"},
@@ -73,27 +71,23 @@ BDB_ENDPOINTS: List[Dict[str, Any]] = [
 ]
 
 # =========================
-# THESPORTSDB TOP DIVISIONS (IDs are the most reliable)
+# THESPORTSDB TOP DIVISIONS
 # =========================
 TSDB_TOP_DIVISIONS: List[Dict[str, Any]] = [
-    # Soccer
     {"sport": "Soccer", "country": "Mexico",    "league": "Mexican Primera League",       "league_id": "4350"},
     {"sport": "Soccer", "country": "Argentina", "league": "Argentinian Primera Division", "league_id": "4406"},
     {"sport": "Soccer", "country": "Brazil",    "league": "Brazilian Serie A",            "league_id": "4351"},
     {"sport": "Soccer", "country": "Chile",     "league": "Chile Primera Division",       "league_id": "4627"},
 
-    # Basketball
     {"sport": "Basketball", "country": "Mexico",    "league": "Mexican LNBP",  "league_id": "5119"},
     {"sport": "Basketball", "country": "Argentina", "league": "Argentine LNB", "league_id": "4734"},
 
-    # Baseball
     {"sport": "Baseball", "country": "Mexico", "league": "Liga Mexicana de Béisbol", "league_id": "5064"},
     {"sport": "Baseball", "country": "Mexico", "league": "Mexican Pacific League",   "league_id": "5109"},
-    {"sport": "Baseball", "country": "Japan", "league": "Nippon Baseball League",    "league_id": "4591"},
-    {"sport": "Baseball", "country": "Korea", "league": "Korean KBO League",         "league_id": "4830"},
+    {"sport": "Baseball", "country": "Japan",  "league": "Nippon Baseball League",    "league_id": "4591"},
+    {"sport": "Baseball", "country": "Korea",  "league": "Korean KBO League",         "league_id": "4830"},
 ]
 
-# Optional TSDB golf (league->teams(golfers)->filter Venezuelans)
 TSDB_GOLF_TOP_TOURS: List[Dict[str, str]] = [
     {"league_id": "4486", "league": "European Tour"},
     {"league_id": "4425", "league": "PGA Tour"},
@@ -120,7 +114,10 @@ def load_tsdb_cache() -> Dict[str, Any]:
     if os.path.exists(TSDB_CACHE_PATH):
         try:
             with open(TSDB_CACHE_PATH, "r", encoding="utf-8") as f:
-                return json.load(f)
+                data = json.load(f)
+            if isinstance(data, dict):
+                data.setdefault("scanned_team_ids", [])
+                return data
         except Exception:
             pass
     return {"scanned_team_ids": []}
@@ -190,7 +187,6 @@ def tsdb_get_json(path: str, params: Dict[str, Any]) -> Optional[Dict[str, Any]]
             r = requests.get(url, params=params, timeout=REQUEST_TIMEOUT)
 
             if r.status_code == 429:
-                # Exponential backoff with cap
                 wait = min(60.0, backoff)
                 print(f"⚠️ TSDB 429 on {path} {params}. Sleeping {wait:.1f}s (attempt {attempt+1}/{TSDB_MAX_RETRIES})...")
                 time.sleep(wait)
@@ -201,11 +197,9 @@ def tsdb_get_json(path: str, params: Dict[str, Any]) -> Optional[Dict[str, Any]]
             return r.json()
 
         except requests.HTTPError as e:
-            # Non-429 HTTP errors -> log once and stop retrying
             print(f"❌ TSDB HTTP error {path} params={params}: {e}")
             return None
         except Exception as e:
-            # transient network errors: small wait then retry
             wait = min(20.0, backoff)
             print(f"❌ TSDB error {path} params={params}: {e} (sleep {wait:.1f}s)")
             time.sleep(wait)
@@ -301,7 +295,13 @@ def scan_balldontlie(entry: Dict[str, Any], out: List[Dict[str, Any]], seen: set
 
         time.sleep(BDB_SLEEP_SEC)
 
-def scan_tsdb_top_division(division: Dict[str, Any], out: List[Dict[str, Any]], seen: set, cache: Dict[str, Any]) -> None:
+def scan_tsdb_top_division(
+    division: Dict[str, Any],
+    out: List[Dict[str, Any]],
+    seen: set,
+    scanned_team_ids: set,
+    max_new_teams: int,
+) -> None:
     if not TSDB_BASE:
         print("⚠️ SPORTSDB_KEY missing. Skipping TSDB.")
         return
@@ -321,26 +321,24 @@ def scan_tsdb_top_division(division: Dict[str, Any], out: List[Dict[str, Any]], 
         print(f"   ⚠️ No teams found for league_id={league_id} ({resolved}).")
         return
 
-    scanned_team_ids = set(str(x) for x in (cache.get("scanned_team_ids") or []))
-
     new_scanned = 0
     for t in teams:
-        if new_scanned >= TSDB_MAX_TEAMS_PER_LEAGUE:
+        if new_scanned >= max_new_teams:
             break
 
-        team_id = t.get("idTeam")
+        team_id_raw = t.get("idTeam")
         team_name = (t.get("strTeam") or "Unknown").strip()
-        if not team_id:
+        if not team_id_raw:
             continue
 
-        team_id = str(team_id)
+        team_id = str(team_id_raw).strip()
         if team_id in scanned_team_ids:
-            continue  # already processed in previous runs
+            continue  # ✅ already processed in previous runs
 
         players = tsdb_lookup_all_players(team_id)
         time.sleep(TSDB_SLEEP_SEC)
 
-        # Mark as scanned even if roster empty (prevents infinite retries)
+        # ✅ mark as scanned even if roster empty (prevents infinite retries)
         scanned_team_ids.add(team_id)
         new_scanned += 1
 
@@ -365,8 +363,6 @@ def scan_tsdb_top_division(division: Dict[str, Any], out: List[Dict[str, Any]], 
                     "birth_location": p.get("strBirthLocation") or p.get("strBirthPlace"),
                 })
                 seen.add(key)
-
-    cache["scanned_team_ids"] = sorted(scanned_team_ids)
 
 def scan_tsdb_golf(out: List[Dict[str, Any]], seen: set) -> None:
     if not TSDB_BASE:
@@ -418,18 +414,27 @@ def fetch_all_venezuelans() -> List[Dict[str, Any]]:
     for ep in BDB_ENDPOINTS:
         scan_balldontlie(ep, out, seen)
 
-    # TheSportsDB scan (top divisions only) + cache
+    # TheSportsDB scan + GLOBAL cache (shared across ALL TSDB leagues)
     if TSDB_BASE:
         cache = load_tsdb_cache()
-        for div in TSDB_TOP_DIVISIONS:
-            scan_tsdb_top_division(div, out, seen, cache)
+        scanned_team_ids = set(str(x) for x in (cache.get("scanned_team_ids") or []))
 
+        for div in TSDB_TOP_DIVISIONS:
+            scan_tsdb_top_division(
+                div,
+                out,
+                seen,
+                scanned_team_ids,
+                max_new_teams=TSDB_MAX_TEAMS_PER_LEAGUE,
+            )
+
+        # Save cache ONCE (safer)
+        cache["scanned_team_ids"] = sorted(scanned_team_ids)
         save_tsdb_cache(cache)
 
-        # Optional TSDB golf
+        # Optional TSDB golf (no cache here yet; can be added if needed)
         scan_tsdb_golf(out, seen)
 
-    # Stable sort
     out.sort(key=lambda x: (x.get("sport", ""), x.get("league", ""), x.get("name", "")))
     return out
 
