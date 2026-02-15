@@ -113,7 +113,6 @@
   <nav class="p-6 border-b border-white/5 flex items-center justify-between sticky top-0 bg-black/80 backdrop-blur-md z-50">
     <h1 class="text-xl font-black italic">🇻🇪 Elite <span class="text-[#f2f20d]">Tracker</span></h1>
     <div class="flex gap-4 text-[10px] font-black uppercase tracking-widest px-2 md:px-0" id="sport-filters">
-
       <button onclick="setSport('All', this)" class="text-[#f2f20d]">All</button>
       <button onclick="setSport('Baseball', this)" class="text-slate-500">Baseball</button>
       <button onclick="setSport('Soccer', this)" class="text-slate-500">Soccer</button>
@@ -161,7 +160,7 @@
     <div class="footer-banner-spacer"></div>
   </main>
 
-  <!-- EBAY AFFILIATE FOOTER BANNER (uses the ONE file that exists in repo) -->
+  <!-- EBAY AFFILIATE FOOTER BANNER -->
   <footer class="ebay-footer">
     <a
       href="https://www.ebay.ca/sch/i.html?_nkw=trading+cards&mkevt=1&mkcid=1&mkrid=706-53473-19255-0&campid=5339142321&toolid=10001"
@@ -179,6 +178,7 @@
   </footer>
 
   <script>
+    // Fallback list (used if data/athletes.json can't be loaded)
     const athleteDataRaw = [
       { name: "Ronald Acuña Jr.", sport: "Baseball", league: "MLB", team: "Braves" },
       { name: "Jackson Chourio", sport: "Baseball", league: "MLB", team: "Brewers" },
@@ -229,47 +229,93 @@
       'Volleyball': `<circle cx="50" cy="50" r="30" fill="#f2f20d"/><path d="M30 35 Q50 50 70 35 M30 65 Q50 50 70 65 M50 20 Q60 50 50 80" fill="none" stroke="#121212" stroke-width="2"/>`
     };
 
-    function mergeAthletes(seedList, fetchedList) {
+    // ✅ Deduplicate by (name + sport + league + team) so TSDB/BDB duplicates never show
+    function dedupeAthletes(list) {
       const norm = (v) => (v || "").toString().trim().toLowerCase();
       const map = new Map();
 
-      for (const a of seedList) {
-        const key = norm(a.name);
-        if (!key) continue;
-        map.set(key, { name: a.name || "Unknown", sport: a.sport || "Other", league: a.league || "", team: a.team || "Unknown" });
-      }
+      for (const a of (list || [])) {
+        const name = (a && a.name) ? a.name : "Unknown";
+        const sport = (a && a.sport) ? a.sport : "Other";
+        const league = (a && a.league) ? a.league : "";
+        const team = (a && a.team) ? a.team : "Unknown";
 
-      for (const a of fetchedList) {
-        const key = norm(a.name);
-        if (!key) continue;
-        const normalized = { name: a.name || "Unknown", sport: a.sport || "Other", league: a.league || "", team: a.team || "Unknown" };
-        if (!map.has(key)) map.set(key, normalized);
-        else {
-          const cur = map.get(key);
-          const curTeam = norm(cur.team);
-          const newTeam = norm(normalized.team);
-          const curHasTeam = curTeam && curTeam !== "unknown";
-          const newHasTeam = newTeam && newTeam !== "unknown";
-          if (!curHasTeam && newHasTeam) map.set(key, normalized);
-        }
+        const key = `${norm(name)}|${norm(sport)}|${norm(league)}|${norm(team)}`;
+        if (!map.has(key)) map.set(key, { name, sport, league, team });
       }
 
       return Array.from(map.values()).sort((a, b) => a.name.localeCompare(b.name));
     }
 
+    // Merge fallback + fetched, prefer fetched if it has better team/league fields
+    function mergeAthletes(fallbackList, fetchedList) {
+      const norm = (v) => (v || "").toString().trim().toLowerCase();
+
+      // Index fallback by name only (so fetched can “upgrade” details)
+      const byName = new Map();
+      for (const a of (fallbackList || [])) {
+        const k = norm(a.name);
+        if (!k) continue;
+        byName.set(k, { name: a.name || "Unknown", sport: a.sport || "Other", league: a.league || "", team: a.team || "Unknown" });
+      }
+
+      for (const a of (fetchedList || [])) {
+        const k = norm(a.name);
+        if (!k) continue;
+
+        const incoming = { name: a.name || "Unknown", sport: a.sport || "Other", league: a.league || "", team: a.team || "Unknown" };
+        if (!byName.has(k)) {
+          byName.set(k, incoming);
+          continue;
+        }
+
+        // Upgrade logic
+        const cur = byName.get(k);
+        const curTeam = norm(cur.team);
+        const newTeam = norm(incoming.team);
+        const curHasTeam = curTeam && curTeam !== "unknown";
+        const newHasTeam = newTeam && newTeam !== "unknown";
+
+        if (!curHasTeam && newHasTeam) byName.set(k, incoming);
+        else {
+          // Prefer incoming league if current league empty
+          const curLeague = norm(cur.league);
+          const newLeague = norm(incoming.league);
+          if (!curLeague && newLeague) byName.set(k, { ...cur, league: incoming.league, team: incoming.team, sport: incoming.sport });
+        }
+      }
+
+      // After merge-by-name, allow multiple entries for same name across leagues/teams via dedupeAthletes
+      return dedupeAthletes(Array.from(byName.values()));
+    }
+
     async function init() {
       let fetched = [];
       try {
+        // cache-bust so mobile doesn't stick to stale JSON
         const res = await fetch(`./data/athletes.json?v=${Date.now()}`, { cache: "no-store" });
         if (res.ok) fetched = await res.json();
-      } catch (e) {}
+      } catch (e) {
+        // fallback is fine
+      }
 
-      athleteData = mergeAthletes(athleteDataRaw, Array.isArray(fetched) ? fetched : []);
+      // Normalize fetched objects to what UI expects
+      const fetchedNormalized = Array.isArray(fetched)
+        ? fetched.map(a => ({
+            name: a.name || "Unknown",
+            sport: a.sport || "Other",
+            league: a.league || "",
+            team: a.team || "Unknown"
+          }))
+        : [];
+
+      athleteData = mergeAthletes(athleteDataRaw, fetchedNormalized);
+
       renderGrid(athleteData);
     }
 
     function filterBySearch() {
-      const query = document.getElementById('athleteSearch').value.toLowerCase();
+      const query = (document.getElementById('athleteSearch').value || "").toLowerCase();
       const filtered = athleteData.filter(a => {
         const matchesQuery = (a.name || "").toLowerCase().includes(query);
 
@@ -298,7 +344,7 @@
       const campID = "5339142321";
       const rotationID = "706-53473-19255-0";
 
-      grid.innerHTML = data.map(a => {
+      grid.innerHTML = (data || []).map(a => {
         const ebaySearchURL =
           `https://www.ebay.ca/sch/i.html?_nkw=${encodeURIComponent(a.name)}&mkevt=1&mkcid=1&mkrid=${rotationID}&campid=${campID}&toolid=10001`;
         const icon = icons[a.sport] || icons['Baseball'];
