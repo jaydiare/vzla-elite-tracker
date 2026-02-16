@@ -16,10 +16,9 @@ permissions:
 jobs:
   update:
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0   # required for rebase
 
       - uses: actions/setup-node@v4
         with:
@@ -35,15 +34,12 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-          # Ensure we're on the latest main before committing/pushing
-          git fetch origin main
-          git rebase origin/main
-
           git add data/ebay-avg.json
-          git commit -m "Update eBay sold averages" || echo "No changes"
 
-          # In case main moved while we were committing
-          git fetch origin main
-          git rebase origin/main
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+            exit 0
+          fi
 
-          git push origin HEAD:main
+          git commit -m "Update eBay sold averages"
+          git push origin main
