@@ -1,7 +1,7 @@
 import os
 import json
 import time
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Tuple
 import requests
 
 # =========================
@@ -39,6 +39,9 @@ TSDB_MAX_TEAMS_PER_LEAGUE = 6
 TSDB_MAX_RETRIES = 7
 TSDB_BACKOFF_START = 5.0
 REQUEST_TIMEOUT = 30
+
+# If a team roster call fails (429/give-up), wait before retrying that team on future runs
+TSDB_TEAM_RETRY_COOLDOWN_SEC = 6 * 60 * 60  # 6 hours
 
 # =========================
 # BALLDONTLIE ENDPOINTS (free-safe list)
@@ -111,16 +114,34 @@ def save_athletes(items: List[Dict[str, Any]]) -> None:
         json.dump(items, f, indent=4, ensure_ascii=False)
 
 def load_tsdb_cache() -> Dict[str, Any]:
+    """
+    Backward-compatible cache loader.
+
+    Old schema:
+      { "scanned_team_ids": [ ... ] }
+
+    New schema:
+      {
+        "scanned_team_ids": [ ... ],
+        "team_next_retry": { "TEAM_ID": UNIX_TS, ... }
+      }
+    """
     if os.path.exists(TSDB_CACHE_PATH):
         try:
             with open(TSDB_CACHE_PATH, "r", encoding="utf-8") as f:
                 data = json.load(f)
             if isinstance(data, dict):
                 data.setdefault("scanned_team_ids", [])
+                data.setdefault("team_next_retry", {})
+                # normalize types
+                if not isinstance(data["scanned_team_ids"], list):
+                    data["scanned_team_ids"] = []
+                if not isinstance(data["team_next_retry"], dict):
+                    data["team_next_retry"] = {}
                 return data
         except Exception:
             pass
-    return {"scanned_team_ids": []}
+    return {"scanned_team_ids": [], "team_next_retry": {}}
 
 def save_tsdb_cache(cache: Dict[str, Any]) -> None:
     os.makedirs(os.path.dirname(TSDB_CACHE_PATH), exist_ok=True)
@@ -172,12 +193,17 @@ def normalize_team_bdb(rec: Dict[str, Any]) -> str:
     return rec.get("team_name") or rec.get("club") or "Unknown"
 
 # =========================
-# TSDB REQUEST (backoff on 429)
+# TSDB REQUEST (backoff on 429) + SUCCESS FLAG
 # =========================
 
-def tsdb_get_json(path: str, params: Dict[str, Any]) -> Optional[Dict[str, Any]]:
+def tsdb_get_json_with_ok(path: str, params: Dict[str, Any]) -> Tuple[Optional[Dict[str, Any]], bool]:
+    """
+    Returns (payload, ok)
+    ok=True means we got a valid HTTP 2xx JSON response.
+    ok=False means we failed (429 gave up, HTTP error, network error, etc.)
+    """
     if not TSDB_BASE:
-        return None
+        return None, False
 
     url = f"{TSDB_BASE}/{path}"
     backoff = TSDB_BACKOFF_START
@@ -194,11 +220,11 @@ def tsdb_get_json(path: str, params: Dict[str, Any]) -> Optional[Dict[str, Any]]
                 continue
 
             r.raise_for_status()
-            return r.json()
+            return r.json(), True
 
         except requests.HTTPError as e:
             print(f"❌ TSDB HTTP error {path} params={params}: {e}")
-            return None
+            return None, False
         except Exception as e:
             wait = min(20.0, backoff)
             print(f"❌ TSDB error {path} params={params}: {e} (sleep {wait:.1f}s)")
@@ -206,23 +232,23 @@ def tsdb_get_json(path: str, params: Dict[str, Any]) -> Optional[Dict[str, Any]]
             backoff *= 2
 
     print(f"❌ TSDB gave up after retries: {path} params={params}")
-    return None
+    return None, False
 
-def tsdb_lookup_teams_by_league_id(league_id: str) -> List[Dict[str, Any]]:
-    payload = tsdb_get_json("lookup_all_teams.php", {"id": league_id})
-    if not payload:
-        return []
-    return payload.get("teams") or []
+def tsdb_lookup_teams_by_league_id(league_id: str) -> Tuple[List[Dict[str, Any]], bool]:
+    payload, ok = tsdb_get_json_with_ok("lookup_all_teams.php", {"id": league_id})
+    if not ok or not payload:
+        return [], ok
+    return payload.get("teams") or [], ok
 
-def tsdb_lookup_all_players(team_id: str) -> List[Dict[str, Any]]:
-    payload = tsdb_get_json("lookup_all_players.php", {"id": team_id})
-    if not payload:
-        return []
-    return payload.get("player") or []
+def tsdb_lookup_all_players(team_id: str) -> Tuple[List[Dict[str, Any]], bool]:
+    payload, ok = tsdb_get_json_with_ok("lookup_all_players.php", {"id": team_id})
+    if not ok or not payload:
+        return [], ok
+    return payload.get("player") or [], ok
 
 def tsdb_lookupleague_name(league_id: str) -> Optional[str]:
-    payload = tsdb_get_json("lookupleague.php", {"id": league_id})
-    if not payload:
+    payload, ok = tsdb_get_json_with_ok("lookupleague.php", {"id": league_id})
+    if not ok or not payload:
         return None
     leagues = payload.get("leagues") or []
     if not leagues:
@@ -299,8 +325,7 @@ def scan_tsdb_top_division(
     division: Dict[str, Any],
     out: List[Dict[str, Any]],
     seen: set,
-    scanned_team_ids: set,
-    max_new_teams: int,
+    cache: Dict[str, Any],
 ) -> None:
     if not TSDB_BASE:
         print("⚠️ SPORTSDB_KEY missing. Skipping TSDB.")
@@ -314,16 +339,24 @@ def scan_tsdb_top_division(
     resolved = tsdb_lookupleague_name(league_id) or league_label
     print(f"🌎 Scanning (TSDB) {sport} TOP DIVISION in {country}: {resolved} (id={league_id}) ...")
 
-    teams = tsdb_lookup_teams_by_league_id(league_id)
+    teams, teams_ok = tsdb_lookup_teams_by_league_id(league_id)
     time.sleep(TSDB_SLEEP_SEC)
+
+    if not teams_ok:
+        print(f"   ⚠️ TSDB teams fetch failed for league_id={league_id} ({resolved}). Will retry next run.")
+        return
 
     if not teams:
         print(f"   ⚠️ No teams found for league_id={league_id} ({resolved}).")
         return
 
-    new_scanned = 0
+    scanned_team_ids = set(str(x) for x in (cache.get("scanned_team_ids") or []))
+    team_next_retry = cache.get("team_next_retry") or {}
+    now = int(time.time())
+
+    new_attempts = 0
     for t in teams:
-        if new_scanned >= max_new_teams:
+        if new_attempts >= TSDB_MAX_TEAMS_PER_LEAGUE:
             break
 
         team_id_raw = t.get("idTeam")
@@ -332,15 +365,32 @@ def scan_tsdb_top_division(
             continue
 
         team_id = str(team_id_raw).strip()
-        if team_id in scanned_team_ids:
-            continue  # ✅ already processed in previous runs
 
-        players = tsdb_lookup_all_players(team_id)
+        # already successfully scanned in a prior run
+        if team_id in scanned_team_ids:
+            continue
+
+        # cooldown if previously failed
+        next_ok = int(team_next_retry.get(team_id, 0) or 0)
+        if next_ok and now < next_ok:
+            continue
+
+        players, ok = tsdb_lookup_all_players(team_id)
         time.sleep(TSDB_SLEEP_SEC)
 
-        # ✅ mark as scanned even if roster empty (prevents infinite retries)
+        new_attempts += 1
+
+        if not ok:
+            # IMPORTANT FIX:
+            # Do NOT mark scanned on failure. Just set a cooldown so we don't hammer.
+            team_next_retry[team_id] = now + TSDB_TEAM_RETRY_COOLDOWN_SEC
+            continue
+
+        # SUCCESS:
+        # Mark scanned even if roster is empty (that's a real "done" state).
         scanned_team_ids.add(team_id)
-        new_scanned += 1
+        if team_id in team_next_retry:
+            team_next_retry.pop(team_id, None)
 
         if not players:
             continue
@@ -364,6 +414,10 @@ def scan_tsdb_top_division(
                 })
                 seen.add(key)
 
+    # write back into cache dict (caller saves once)
+    cache["scanned_team_ids"] = sorted(scanned_team_ids)
+    cache["team_next_retry"] = team_next_retry
+
 def scan_tsdb_golf(out: List[Dict[str, Any]], seen: set) -> None:
     if not TSDB_BASE:
         return
@@ -374,10 +428,10 @@ def scan_tsdb_golf(out: List[Dict[str, Any]], seen: set) -> None:
         league_id = tour["league_id"]
         league_name = tsdb_lookupleague_name(league_id) or tour.get("league", f"Golf Tour {league_id}")
 
-        teams = tsdb_lookup_teams_by_league_id(league_id)
+        teams, ok = tsdb_lookup_teams_by_league_id(league_id)
         time.sleep(TSDB_SLEEP_SEC)
 
-        if not teams:
+        if not ok or not teams:
             continue
 
         for golfer in teams:
@@ -414,25 +468,16 @@ def fetch_all_venezuelans() -> List[Dict[str, Any]]:
     for ep in BDB_ENDPOINTS:
         scan_balldontlie(ep, out, seen)
 
-    # TheSportsDB scan + GLOBAL cache (shared across ALL TSDB leagues)
+    # TheSportsDB scan + cache
     if TSDB_BASE:
         cache = load_tsdb_cache()
-        scanned_team_ids = set(str(x) for x in (cache.get("scanned_team_ids") or []))
 
         for div in TSDB_TOP_DIVISIONS:
-            scan_tsdb_top_division(
-                div,
-                out,
-                seen,
-                scanned_team_ids,
-                max_new_teams=TSDB_MAX_TEAMS_PER_LEAGUE,
-            )
+            scan_tsdb_top_division(div, out, seen, cache)
 
-        # Save cache ONCE (safer)
-        cache["scanned_team_ids"] = sorted(scanned_team_ids)
         save_tsdb_cache(cache)
 
-        # Optional TSDB golf (no cache here yet; can be added if needed)
+        # Optional TSDB golf
         scan_tsdb_golf(out, seen)
 
     out.sort(key=lambda x: (x.get("sport", ""), x.get("league", ""), x.get("name", "")))
