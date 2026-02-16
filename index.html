@@ -38,16 +38,14 @@
     /* =========================
        LAYOUT (SIDE BANNERS)
        ========================= */
-
     .page-shell{
       display:grid;
-      grid-template-columns: 210px 1fr 210px; /* skinnier rails */
+      grid-template-columns: 210px 1fr 210px;
       gap: 22px;
       max-width: 1500px;
       margin: 0 auto;
       padding: 0 14px;
     }
-
     @media (max-width: 1280px){
       .page-shell{ grid-template-columns: 180px 1fr 180px; }
     }
@@ -81,7 +79,6 @@
     /* =========================
        SEARCH
        ========================= */
-
     .search-container{
       position:relative;
       width:100%;
@@ -107,7 +104,6 @@
     /* =========================
        ATHLETE CARDS
        ========================= */
-
     .athlete-card{
       background: radial-gradient(circle at top, rgba(255,255,255,0.08), rgba(0,0,0,0.25));
       border-radius: 30px;
@@ -143,17 +139,15 @@
       margin: 2px auto 14px;
     }
 
-    /* ✅ FIXED: your .athlete-name CSS was broken by an extra brace/lines */
+    /* FIXED: this block was broken in your last file */
     .athlete-name{
       font-weight: 900;
       font-style: italic;
       text-transform: uppercase;
       line-height: 1.05;
-      margin-bottom: 6px;
+      margin-bottom: 10px;
       word-break: break-word;
-
-      /* IMPORTANT: keeps font under control */
-      font-size: clamp(20px, 2.2vw, 32px);
+      font-size: clamp(18px, 2.2vw, 28px);
     }
 
     .status-row{
@@ -162,6 +156,7 @@
       align-items:center;
       gap: 10px;
       margin-bottom: 14px;
+      flex-wrap: wrap;
     }
 
     .status-dot{
@@ -170,37 +165,36 @@
       border-radius: 999px;
       background: #00C848;
       box-shadow: 0 0 12px rgba(0,200,72,0.25);
+      flex: 0 0 auto;
     }
 
     .status-text{
-      font-size: 12px;
-      font-weight: 600;
+      font-size: 11px;
+      font-weight: 700;
       letter-spacing: 0.14em;
       text-transform: uppercase;
       color: var(--muted);
-      white-space: nowrap;
+      text-align: center;
     }
 
     .shop-btn{
-      display: block;
-      width: 100%;
-      background: #f2f20d;
-      color: black;
-      font-weight: 700;
+      display:block;
+      width:100%;
+      background: var(--vzla-yellow);
+      color:#000;
+      font-weight: 800;
       border-radius: 18px;
-      padding: 16px 14px;
-      font-size: 14px;
-      letter-spacing: 0.06em;
+      padding: 14px 14px;
+      font-size: 13px;
+      letter-spacing: 0.08em;
       text-transform: uppercase;
       transition: transform 0.14s ease;
     }
-
     .shop-btn:hover{ transform: scale(1.02); }
 
     /* =========================
        FOOTER BANNER
        ========================= */
-
     .footer-banner-spacer{ height: 120px; }
     @media (max-width: 768px){ .footer-banner-spacer{ height: 105px; } }
 
@@ -259,13 +253,11 @@
   </nav>
 
   <div class="page-shell">
-
     <!-- LEFT SIDE BANNER -->
     <aside class="side-banner">
       <a
         href="https://www.ebay.ca/sch/i.html?_nkw=trading+cards&mkevt=1&mkcid=1&mkrid=706-53473-19255-0&campid=5339142321&toolid=10001"
-        target="_blank"
-        rel="noopener noreferrer"
+        target="_blank" rel="noopener noreferrer"
         title="Shop Trading Cards on eBay"
       >
         <img src="./assets/ebay-300x600-left.jpg" alt="Shop Trading Cards on eBay">
@@ -274,7 +266,6 @@
 
     <!-- CENTER CONTENT -->
     <main class="max-w-7xl mx-auto w-full p-8">
-
       <section class="text-center mb-8 p-12 bg-white/5 rounded-3xl border border-white/10">
         <h2 class="text-5xl font-black mb-4 uppercase leading-tight">
           VZLA <span class="text-[#f2f20d] italic">Top Tier Sport</span> Talent
@@ -305,9 +296,10 @@
 
       <div class="search-container">
         <input type="text" id="athleteSearch" onkeyup="filterBySearch()"
-              placeholder="Search active athletes..." class="search-input">
+              placeholder="Search athletes..." class="search-input">
       </div>
 
+      <!-- Responsive grid: 1 col mobile, 2 cols md, 3 cols xl -->
       <div id="athletes-grid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8"></div>
 
       <div class="footer-banner-spacer"></div>
@@ -317,22 +309,19 @@
     <aside class="side-banner">
       <a
         href="https://www.ebay.ca/sch/i.html?_nkw=trading+cards&mkevt=1&mkcid=1&mkrid=706-53473-19255-0&campid=5339142321&toolid=10001"
-        target="_blank"
-        rel="noopener noreferrer"
+        target="_blank" rel="noopener noreferrer"
         title="Shop Trading Cards on eBay"
       >
         <img src="./assets/ebay-300x600-right.jpg" alt="Shop Trading Cards on eBay">
       </a>
     </aside>
-
   </div>
 
   <!-- EBAY AFFILIATE FOOTER BANNER -->
   <footer class="ebay-footer">
     <a
       href="https://www.ebay.ca/sch/i.html?_nkw=trading+cards&mkevt=1&mkcid=1&mkrid=706-53473-19255-0&campid=5339142321&toolid=10001"
-      target="_blank"
-      rel="noopener noreferrer"
+      target="_blank" rel="noopener noreferrer"
       title="Shop Trading Cards on eBay"
     >
       <img
@@ -345,10 +334,7 @@
   </footer>
 
   <script>
-    // ✅ Force athletes.json to always load from WWW (even if the page redirects)
-    const JSON_URL = "https://www.vzlasportselite.com/data/athletes.json";
-
-    // Fallback list (used if athletes.json can't be loaded)
+    // FULL fixed fallback list (exactly as you pasted)
     const athleteDataRaw = [
       { name: "Ronald Acuña Jr.", sport: "Baseball", league: "MLB", team: "Braves" },
       { name: "Jackson Chourio", sport: "Baseball", league: "MLB", team: "Brewers" },
@@ -361,101 +347,101 @@
       { name: "Anthony Santander", sport: "Baseball", league: "MLB", team: "Orioles" },
       { name: "Wilyer Abreu", sport: "Baseball", league: "MLB", team: "Red Sox" },
       { name: "Eduardo Rodriguez", sport: "Baseball", league: "MLB", team: "Diamondbacks" },
-      { name: "Francisco Alvarez", sport: "Baseball", league: "MLB", team: "Mets" }
+      { name: "Francisco Alvarez", sport: "Baseball", league: "MLB", team: "Mets" },
+
+      { name: "Yeferson Soteldo", sport: "Soccer", league: "Serie A", team: "Grêmio" },
+      { name: "Jon Aramburu", sport: "Soccer", league: "La Liga", team: "Real Sociedad" },
+      { name: "Nahuel Ferraresi", sport: "Soccer", league: "Série A", team: "São Paulo" },
+      { name: "Cristian Cásseres Jr.", sport: "Soccer", league: "Ligue 1", team: "Toulouse" },
+      { name: "Telasco Segovia", sport: "Soccer", league: "Primeira Liga", team: "Casa Pia" },
+      { name: "Jefferson Savarino", sport: "Soccer", league: "Série A", team: "Botafogo" },
+      { name: "David Martínez", sport: "Soccer", league: "MLS", team: "LAFC" },
+
+      { name: "Michael Carrera", sport: "Basketball", league: "LEB Oro", team: "Estudiantes" },
+      { name: "Heissler Guillent", sport: "Basketball", league: "LNBP", team: "Astros" },
+      { name: "David Cubillan", sport: "Basketball", league: "SLB", team: "Trotamundos" },
+      { name: "Jose Ascanio", sport: "Basketball", league: "Liga Nacional", team: "Oberá" },
+      { name: "Pedro Chourio", sport: "Basketball", league: "NBB", team: "São José" },
+
+      { name: "Jhonattan Vegas", sport: "Golf", league: "PGA", team: "Venezuela" },
+      { name: "Garbiñe Muguruza", sport: "Tennis", league: "WTA", team: "Venezuela" },
+      { name: "Marlon Vera", sport: "MMA", league: "UFC", team: "Venezuela" },
+      { name: "Andres Borregales", sport: "Football", league: "NFL", team: "New England Patriots" }
     ];
 
     let athleteData = [];
-    let currentSport = 'All';
+    let currentSport = "All";
 
+    // Dedupe by (name + sport + league + team)
     function dedupeAthletes(list) {
       const norm = (v) => (v || "").toString().trim().toLowerCase();
       const map = new Map();
 
       for (const a of (list || [])) {
-        const name = a?.name || "Unknown";
+        const name  = a?.name  || "Unknown";
         const sport = a?.sport || "Other";
-        const league = a?.league || "";
-        const team = a?.team || "Unknown";
-
+        const league= a?.league|| "";
+        const team  = a?.team  || "Unknown";
         const key = `${norm(name)}|${norm(sport)}|${norm(league)}|${norm(team)}`;
         if (!map.has(key)) map.set(key, { name, sport, league, team });
       }
 
-      return Array.from(map.values()).sort((a, b) => a.name.localeCompare(b.name));
+      return Array.from(map.values()).sort((a,b) => a.name.localeCompare(b.name));
     }
 
-    function mergeAthletes(fallbackList, fetchedList) {
-      const norm = (v) => (v || "").toString().trim().toLowerCase();
-      const byName = new Map();
-
-      for (const a of (fallbackList || [])) {
-        const k = norm(a.name);
-        if (!k) continue;
-        byName.set(k, { name: a.name || "Unknown", sport: a.sport || "Other", league: a.league || "", team: a.team || "Unknown" });
-      }
-
-      for (const a of (fetchedList || [])) {
-        const k = norm(a.name);
-        if (!k) continue;
-
-        const incoming = { name: a.name || "Unknown", sport: a.sport || "Other", league: a.league || "", team: a.team || "Unknown" };
-
-        if (!byName.has(k)) {
-          byName.set(k, incoming);
-          continue;
-        }
-
-        const cur = byName.get(k);
-        const curTeam = norm(cur.team);
-        const newTeam = norm(incoming.team);
-
-        const curHasTeam = curTeam && curTeam !== "unknown";
-        const newHasTeam = newTeam && newTeam !== "unknown";
-
-        if (!curHasTeam && newHasTeam) {
-          byName.set(k, incoming);
-        } else {
-          const curLeague = norm(cur.league);
-          const newLeague = norm(incoming.league);
-          if (!curLeague && newLeague) byName.set(k, { ...cur, league: incoming.league, team: incoming.team, sport: incoming.sport });
-        }
-      }
-
-      return dedupeAthletes(Array.from(byName.values()));
-    }
-
-    async function init() {
-      let fetched = [];
-      try {
-        const res = await fetch(`${JSON_URL}?v=${Date.now()}`, { cache: "no-store" });
-        console.log("Fetching athletes from:", res.url, "status:", res.status);
-        if (res.ok) fetched = await res.json();
-      } catch (e) {
-        console.warn("Failed to load athletes.json, using fallback list.", e);
-      }
-
-      const fetchedNormalized = Array.isArray(fetched)
-        ? fetched.map(a => ({
-            name: a.name || "Unknown",
-            sport: a.sport || "Other",
-            league: a.league || "",
-            team: a.team || "Unknown"
+    function combineFixedAndFetched(fixedList, fetchedList) {
+      const fetchedNormalized = Array.isArray(fetchedList)
+        ? fetchedList.map(a => ({
+            name: a?.name || "Unknown",
+            sport: a?.sport || "Other",
+            league: a?.league || "",
+            team: a?.team || "Unknown"
           }))
         : [];
 
-      athleteData = mergeAthletes(athleteDataRaw, fetchedNormalized);
+      return dedupeAthletes([...(fixedList || []), ...fetchedNormalized]);
+    }
+
+    async function fetchAthletesJsonWithFallback() {
+      const cacheBust = `v=${Date.now()}`;
+
+      const origins = Array.from(new Set([
+        window.location.origin,
+        window.location.origin.replace("://www.", "://"),
+        window.location.origin.includes("://www.")
+          ? window.location.origin
+          : window.location.origin.replace("://", "://www.")
+      ]));
+
+      const paths = origins.map(o => `${o}/data/athletes.json?${cacheBust}`);
+      // Also try relative as last resort (works on GitHub Pages)
+      paths.push(`./data/athletes.json?${cacheBust}`);
+
+      for (const url of paths) {
+        try {
+          const res = await fetch(url, { cache: "no-store" });
+          if (res.ok) return await res.json();
+        } catch (e) {}
+      }
+      return null;
+    }
+
+    async function init() {
+      const fetched = await fetchAthletesJsonWithFallback();
+      athleteData = combineFixedAndFetched(athleteDataRaw, fetched);
       renderGrid(athleteData);
     }
 
     function filterBySearch() {
-      const query = (document.getElementById('athleteSearch').value || "").toLowerCase();
+      const query = (document.getElementById("athleteSearch").value || "").toLowerCase();
+
       const filtered = athleteData.filter(a => {
         const matchesQuery = (a.name || "").toLowerCase().includes(query);
 
         let matchesSport = false;
-        if (currentSport === 'All') matchesSport = true;
-        else if (currentSport === 'Other') {
-          const mainSports = ['Baseball', 'Soccer', 'Basketball'];
+        if (currentSport === "All") matchesSport = true;
+        else if (currentSport === "Other") {
+          const mainSports = ["Baseball","Soccer","Basketball"];
           matchesSport = !mainSports.includes(a.sport);
         } else matchesSport = (a.sport === currentSport);
 
@@ -467,14 +453,14 @@
 
     function setSport(sport, btn) {
       currentSport = sport;
-      document.querySelectorAll('#sport-filters button')
-        .forEach(b => b.classList.replace('text-[#f2f20d]', 'text-slate-500'));
-      btn.classList.replace('text-slate-500', 'text-[#f2f20d]');
+      document.querySelectorAll("#sport-filters button")
+        .forEach(b => b.classList.replace("text-[#f2f20d]", "text-slate-500"));
+      btn.classList.replace("text-slate-500", "text-[#f2f20d]");
       filterBySearch();
     }
 
     function renderGrid(data) {
-      const grid = document.getElementById('athletes-grid');
+      const grid = document.getElementById("athletes-grid");
       const campID = "5339142321";
       const rotationID = "706-53473-19255-0";
 
@@ -490,7 +476,7 @@
 
               <div class="status-row">
                 <span class="status-dot"></span>
-                <span class="status-text">${a.sport} • ACTIVE</span>
+                <span class="status-text">${a.sport} • ${a.team}</span>
               </div>
             </div>
 
@@ -499,7 +485,7 @@
             </a>
           </div>
         `;
-      }).join('');
+      }).join("");
     }
 
     init();
