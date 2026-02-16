@@ -34,10 +34,10 @@ BDB_SLEEP_SEC = 13
 BDB_MAX_PAGES_PER_ENDPOINT = 2
 
 # TSDB safety (free-tier is strict)
-TSDB_SLEEP_SEC = 4.0
-TSDB_MAX_TEAMS_PER_LEAGUE = 8
+TSDB_SLEEP_SEC = 8.0
+TSDB_MAX_TEAMS_PER_LEAGUE = 10
 TSDB_MAX_RETRIES = 7
-TSDB_BACKOFF_START = 5.0
+TSDB_BACKOFF_START = 6.0
 REQUEST_TIMEOUT = 30
 
 # If a team roster call fails (429/give-up), wait before retrying that team on future runs
