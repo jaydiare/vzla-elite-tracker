@@ -67,7 +67,7 @@
     }
 
     .side-banner img{
-      width: 180px;              /* slimmer than your previous 240 */
+      width: 180px;
       max-width: 100%;
       height: auto;
       border-radius: 22px;
@@ -105,7 +105,7 @@
     }
 
     /* =========================
-       ATHLETE CARDS (FIXED)
+       ATHLETE CARDS
        ========================= */
 
     .athlete-card{
@@ -143,19 +143,17 @@
       margin: 2px auto 14px;
     }
 
-     .athlete-name {
+    /* ✅ FIXED: your .athlete-name CSS was broken by an extra brace/lines */
+    .athlete-name{
       font-weight: 900;
       font-style: italic;
       text-transform: uppercase;
       line-height: 1.05;
       margin-bottom: 6px;
       word-break: break-word;
-      font-size: clamp(22px, 3vw, 34px);
-}
 
       /* IMPORTANT: keeps font under control */
-      font-size: clamp(22px, 2vw, 34px);
-      word-break: break-word;
+      font-size: clamp(20px, 2.2vw, 32px);
     }
 
     .status-row{
@@ -174,7 +172,7 @@
       box-shadow: 0 0 12px rgba(0,200,72,0.25);
     }
 
-    .status-text {
+    .status-text{
       font-size: 12px;
       font-weight: 600;
       letter-spacing: 0.14em;
@@ -183,7 +181,7 @@
       white-space: nowrap;
     }
 
-    .shop-btn {
+    .shop-btn{
       display: block;
       width: 100%;
       background: #f2f20d;
@@ -310,9 +308,6 @@
               placeholder="Search active athletes..." class="search-input">
       </div>
 
-      <!-- Responsive grid: 1 col mobile, 2 cols md, 3 cols xl
-           (No forced 4 columns — this is what was making it ugly)
-      -->
       <div id="athletes-grid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8"></div>
 
       <div class="footer-banner-spacer"></div>
@@ -350,7 +345,10 @@
   </footer>
 
   <script>
-    // Fallback list (used if data/athletes.json can't be loaded)
+    // ✅ Force athletes.json to always load from WWW (even if the page redirects)
+    const JSON_URL = "https://www.vzlasportselite.com/data/athletes.json";
+
+    // Fallback list (used if athletes.json can't be loaded)
     const athleteDataRaw = [
       { name: "Ronald Acuña Jr.", sport: "Baseball", league: "MLB", team: "Braves" },
       { name: "Jackson Chourio", sport: "Baseball", league: "MLB", team: "Brewers" },
@@ -363,26 +361,7 @@
       { name: "Anthony Santander", sport: "Baseball", league: "MLB", team: "Orioles" },
       { name: "Wilyer Abreu", sport: "Baseball", league: "MLB", team: "Red Sox" },
       { name: "Eduardo Rodriguez", sport: "Baseball", league: "MLB", team: "Diamondbacks" },
-      { name: "Francisco Alvarez", sport: "Baseball", league: "MLB", team: "Mets" },
-
-      { name: "Yeferson Soteldo", sport: "Soccer", league: "Serie A", team: "Grêmio" },
-      { name: "Jon Aramburu", sport: "Soccer", league: "La Liga", team: "Real Sociedad" },
-      { name: "Nahuel Ferraresi", sport: "Soccer", league: "Série A", team: "São Paulo" },
-      { name: "Cristian Cásseres Jr.", sport: "Soccer", league: "Ligue 1", team: "Toulouse" },
-      { name: "Telasco Segovia", sport: "Soccer", league: "Primeira Liga", team: "Casa Pia" },
-      { name: "Jefferson Savarino", sport: "Soccer", league: "Série A", team: "Botafogo" },
-      { name: "David Martínez", sport: "Soccer", league: "MLS", team: "LAFC" },
-
-      { name: "Michael Carrera", sport: "Basketball", league: "LEB Oro", team: "Estudiantes" },
-      { name: "Heissler Guillent", sport: "Basketball", league: "LNBP", team: "Astros" },
-      { name: "David Cubillan", sport: "Basketball", league: "SLB", team: "Trotamundos" },
-      { name: "Jose Ascanio", sport: "Basketball", league: "Liga Nacional", team: "Oberá" },
-      { name: "Pedro Chourio", sport: "Basketball", league: "NBB", team: "São José" },
-
-      { name: "Jhonattan Vegas", sport: "Golf", league: "PGA", team: "Venezuela" },
-      { name: "Garbiñe Muguruza", sport: "Tennis", league: "WTA", team: "Venezuela" },
-      { name: "Marlon Vera", sport: "MMA", league: "UFC", team: "Venezuela" },
-      { name: "Andres Borregales", sport: "Football", league: "NFL", team: "New England Patriots" }
+      { name: "Francisco Alvarez", sport: "Baseball", league: "MLB", team: "Mets" }
     ];
 
     let athleteData = [];
@@ -448,9 +427,12 @@
     async function init() {
       let fetched = [];
       try {
-        const res = await fetch(`./data/athletes.json?v=${Date.now()}`, { cache: "no-store" });
+        const res = await fetch(`${JSON_URL}?v=${Date.now()}`, { cache: "no-store" });
+        console.log("Fetching athletes from:", res.url, "status:", res.status);
         if (res.ok) fetched = await res.json();
-      } catch (e) {}
+      } catch (e) {
+        console.warn("Failed to load athletes.json, using fallback list.", e);
+      }
 
       const fetchedNormalized = Array.isArray(fetched)
         ? fetched.map(a => ({
