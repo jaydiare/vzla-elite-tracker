@@ -86,6 +86,7 @@ TSDB_TOP_DIVISIONS: List[Dict[str, Any]] = [
 
     {"sport": "Basketball", "country": "Mexico",    "league": "Mexican LNBP",  "league_id": "5119"},
     {"sport": "Basketball", "country": "Argentina", "league": "Argentine LNB", "league_id": "4734"},
+    {"sport": "Basketball", "country": "Europe",    "league": "EuroLeague Basketball",  "league_id": "4546"},
 
     {"sport": "Baseball", "country": "Mexico", "league": "Liga Mexicana de Béisbol", "league_id": "5064"},
     {"sport": "Baseball", "country": "Mexico", "league": "Mexican Pacific League",   "league_id": "5109"},
