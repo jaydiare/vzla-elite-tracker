@@ -7,16 +7,29 @@ const ROOT = process.cwd();
 const ATHLETES_PATH = path.join(ROOT, "data", "athletes.json");
 const OUTPUT_PATH = path.join(ROOT, "data", "ebay-avg.json");
 
-// Fixed filters for “athlete cards”
+// ✅ Both categories included
+const CATEGORY_SPORTS_MEM_CARDS_FAN_SHOP = 888;  // Sports Mem, Cards & Fan Shop (parent)
+const CATEGORY_SPORTS_TRADING_CARDS = 261328;    // Sports Trading Cards (subcategory)
+
+// Default behavior: cards-focused search (like your example URL)
+const DEFAULT_CATEGORY = CATEGORY_SPORTS_TRADING_CARDS;
+
+// Fixed filters
 const EBAY_HOST = "www.ebay.ca";
-const CATEGORY_SPORTS_TRADING_CARDS = 261328;
 const CARD_SIZE_STANDARD = "Standard";
-const FCID_CANADA = 2;
+
+// eBay "Preferred Location": 2 = Canada
+const PREF_LOC_CANADA = "2";
+
+// Optional filters (toggle if you want)
+const INCLUDE_FREE_SHIPPING_FILTER = true; // _fsrp=1
+const INCLUDE_NO_CORRECTIONS = true;       // rt=nc
 
 // Tuning
 const MAX_PRICES_PER_ATHLETE = 60;
-const TRIM_FRACTION = 0.10; // drop top/bottom 10%
+const TRIM_FRACTION = 0.10; // drop top/bottom 10% outliers
 const SLEEP_MS_BETWEEN = 1200;
+const MIN_SAMPLE_SIZE = 1; // still write avg even if small; UI can enforce min n
 
 function sleep(ms) {
   return new Promise((r) => setTimeout(r, ms));
@@ -40,39 +53,74 @@ function encodePlus(s) {
   return s.trim().split(/\s+/).map(encodeURIComponent).join("+");
 }
 
-function buildEbaySoldUrl({ name, keywords }) {
-  const kw = encodePlus((keywords && String(keywords)) || String(name));
+/**
+ * Build eBay sold/completed URL for an athlete.
+ *
+ * athletes.json supports optional fields:
+ * - keywords: string (defaults to name)
+ * - category: number (defaults to DEFAULT_CATEGORY)
+ * - cardSize: string (defaults to "Standard"; set null to omit)
+ * - prefLoc: string (defaults to Canada "2"; set null to omit)
+ * - freeShipping: boolean (override INCLUDE_FREE_SHIPPING_FILTER)
+ * - noCorrections: boolean (override INCLUDE_NO_CORRECTIONS)
+ */
+function buildEbaySoldUrl(athlete) {
+  const name = String(athlete?.name || "").trim();
+  if (!name) throw new Error("Athlete missing name");
 
-  // We set the fixed card filters + sold/completed.
-  // Add Player/Athlete aspect filter too, using the athlete name.
+  const kw = encodePlus(String(athlete?.keywords || name));
+
+  const category = Number.isFinite(Number(athlete?.category))
+    ? Number(athlete.category)
+    : DEFAULT_CATEGORY;
+
+  const cardSize = athlete?.cardSize === undefined ? CARD_SIZE_STANDARD : athlete.cardSize;
+  const prefLoc = athlete?.prefLoc === undefined ? PREF_LOC_CANADA : athlete.prefLoc;
+
+  const freeShipping =
+    athlete?.freeShipping === undefined ? INCLUDE_FREE_SHIPPING_FILTER : !!athlete.freeShipping;
+
+  const noCorrections =
+    athlete?.noCorrections === undefined ? INCLUDE_NO_CORRECTIONS : !!athlete.noCorrections;
+
   const params = new URLSearchParams();
+
+  // Core filters
+  params.set("_dcat", String(category));
   params.set("_nkw", kw);
-  params.set("_dcat", String(CATEGORY_SPORTS_TRADING_CARDS));
-  params.set("_sop", "13"); // ended recently
-  params.set("_svsrch", "1");
   params.set("LH_Complete", "1");
   params.set("LH_Sold", "1");
-  params.set("_fcid", String(FCID_CANADA));
-  params.set("Card Size", CARD_SIZE_STANDARD);
 
-  // Player/Athlete aspect key must preserve the slash in the key.
-  // URLSearchParams will encode it as Player%2FAthlete automatically,
-  // but it can be finicky; we append it manually for consistency.
+  // Optional filters to match your example
+  if (freeShipping) params.set("_fsrp", "1");
+  if (noCorrections) params.set("rt", "nc");
+  if (prefLoc != null && String(prefLoc).trim() !== "") params.set("LH_PrefLoc", String(prefLoc));
+
+  // Card size filter (optional; set null/"" per athlete to omit)
+  if (cardSize != null && String(cardSize).trim() !== "") {
+    params.set("Card Size", String(cardSize));
+  }
+
   const base = `https://${EBAY_HOST}/sch/i.html?${params.toString()}`;
-  const playerAspect = `&Player%2FAthlete=${encodeURIComponent(String(name))}`;
+
+  // Player/Athlete aspect filter
+  // Use single-encoded key: Player%2FAthlete
+  const playerAspect = `&Player%2FAthlete=${encodeURIComponent(name)}`;
 
   return base + playerAspect;
 }
 
+// CodeQL-friendly stripTags: allow attributes/whitespace in closing tags
 function stripTags(html) {
   return html
-    .replace(/<script[\s\S]*?<\/script[^<]*>/gi, " ")
-    .replace(/<style[\s\S]*?<\/style[^<]*>/gi, " ")
-    .replace(/<noscript[\s\S]*?<\/noscript[^<]*>/gi, " ")
+    .replace(/<script[\s\S]*?<\/script[^>]*>/gi, " ")
+    .replace(/<style[\s\S]*?<\/style[^>]*>/gi, " ")
+    .replace(/<noscript[\s\S]*?<\/noscript[^>]*>/gi, " ")
     .replace(/<[^>]+>/g, "\n");
 }
 
 function parseCadValues(line) {
+  // Extract occurrences like "C $12.34" or "C $1,234.56"
   const matches = [...line.matchAll(/C\s*\$\s*([\d,.]+)/g)];
   return matches
     .map((m) => Number(m[1].replace(/,/g, "")))
@@ -105,101 +153,4 @@ async function fetchHtml(url) {
   return await res.text();
 }
 
-function extractSoldCadPricesFromHtml(html, maxPrices = 60) {
-  const text = stripTags(html);
-  const lines = text
-    .split("\n")
-    .map((s) => s.replace(/\s+/g, " ").trim())
-    .filter(Boolean);
-
-  const prices = [];
-
-  for (let i = 0; i < lines.length && prices.length < maxPrices; i++) {
-    if (lines[i].startsWith("Sold ")) {
-      // Look ahead for a CAD sold price line near the "Sold <date>" marker.
-      for (let j = i + 1; j < Math.min(i + 14, lines.length); j++) {
-        const l = lines[j];
-
-        // Skip ranges like "C $1.35 to C $5.43"
-        if (/\bto\b/i.test(l) && /C\s*\$\s*[\d,.]+\s+to\s+C\s*\$\s*[\d,.]+/i.test(l)) {
-          continue;
-        }
-
-        const nums = parseCadValues(l);
-        if (nums.length) {
-          prices.push(nums[nums.length - 1]);
-          break;
-        }
-      }
-    }
-  }
-
-  return prices;
-}
-
-async function main() {
-  const athletes = readAthletes();
-
-  ensureDirExists(path.dirname(OUTPUT_PATH));
-
-  const out = {};
-  const nowIso = new Date().toISOString();
-
-  for (let idx = 0; idx < athletes.length; idx++) {
-    const a = athletes[idx];
-    const name = a?.name?.trim();
-    if (!name) continue;
-
-    const url = buildEbaySoldUrl(a);
-
-    try {
-      const html = await fetchHtml(url);
-      const prices = extractSoldCadPricesFromHtml(html, MAX_PRICES_PER_ATHLETE);
-      const avg = trimmedMean(prices, TRIM_FRACTION);
-
-      out[name] = {
-        avg: avg != null ? round2(avg) : null,
-        n: prices.length,
-        currency: "CAD",
-        asOf: nowIso,
-        source: url,
-        method: `trimmed_mean_${Math.round(TRIM_FRACTION * 100)}pct`,
-        filters: {
-          category: CATEGORY_SPORTS_TRADING_CARDS,
-          cardSize: CARD_SIZE_STANDARD,
-          sold: true,
-          completed: true,
-          sort: "ended_recently",
-          site: "ebay.ca",
-        },
-      };
-
-      console.log(
-        `[${idx + 1}/${athletes.length}] ${name}: n=${prices.length} avg=${
-          avg != null ? `C$${round2(avg)}` : "null"
-        }`
-      );
-    } catch (e) {
-      out[name] = {
-        avg: null,
-        n: 0,
-        currency: "CAD",
-        asOf: nowIso,
-        source: url,
-        error: String(e?.message || e),
-      };
-      console.warn(`[${idx + 1}/${athletes.length}] ${name}: ERROR ${e?.message || e}`);
-    }
-
-    if (idx < athletes.length - 1) await sleep(SLEEP_MS_BETWEEN);
-  }
-
-  fs.writeFileSync(OUTPUT_PATH, JSON.stringify(out, null, 2) + "\n", "utf8");
-  console.log(`Wrote ${OUTPUT_PATH}`);
-}
-
-main().catch((err) => {
-  console.error(err);
-  process.exit(1);
-});
-
+function extractSoldCadPricesFromHtml(html, maxPrices
