@@ -188,6 +188,7 @@
       letter-spacing: 0.08em;
       text-transform: uppercase;
       transition: transform 0.14s ease;
+      line-height: 1.2;
     }
     .shop-btn:hover{ transform: scale(1.02); }
 
@@ -374,6 +375,10 @@
     let athleteData = [];
     let currentSport = "All";
 
+    // ---- NEW: ebay averages cache (loaded from data/ebay-avg.json) ----
+    let ebayAvgByName = {}; // { "Salomon Rondon": { avg, n, currency, ... }, ... }
+    const MIN_EBAY_SAMPLE_SIZE = 5;
+
     const norm = (v) => (v || "").toString().trim().toLowerCase();
     const isUnknown = (v) => {
       const s = norm(v);
@@ -453,9 +458,40 @@
       return null;
     }
 
+    // ---- NEW: load ebay averages json with fallback ----
+    async function fetchEbayAvgJsonWithFallback() {
+      const cacheBust = `v=${Date.now()}`;
+
+      const origins = Array.from(new Set([
+        window.location.origin,
+        window.location.origin.replace("://www.", "://"),
+        window.location.origin.includes("://www.")
+          ? window.location.origin
+          : window.location.origin.replace("://", "://www.")
+      ]));
+
+      const paths = origins.map(o => `${o}/data/ebay-avg.json?${cacheBust}`);
+      paths.push(`./data/ebay-avg.json?${cacheBust}`);
+
+      for (const url of paths) {
+        try {
+          const res = await fetch(url, { cache: "no-store" });
+          if (res.ok) return await res.json();
+        } catch (e) {}
+      }
+      return null;
+    }
+
     async function init() {
-      const fetched = await fetchAthletesJsonWithFallback();
-      athleteData = mergeByNameSportKeepBest(athleteDataRaw, fetched);
+      // Load athletes + ebay averages in parallel
+      const [fetchedAthletes, fetchedEbayAvg] = await Promise.all([
+        fetchAthletesJsonWithFallback(),
+        fetchEbayAvgJsonWithFallback()
+      ]);
+
+      athleteData = mergeByNameSportKeepBest(athleteDataRaw, fetchedAthletes);
+      ebayAvgByName = fetchedEbayAvg && typeof fetchedEbayAvg === "object" ? fetchedEbayAvg : {};
+
       renderGrid(athleteData);
     }
 
@@ -485,6 +521,22 @@
       filterBySearch();
     }
 
+    function formatCad(n) {
+      // Keep it simple and consistent with your UI: "C$12.34"
+      const num = Number(n);
+      if (!Number.isFinite(num)) return null;
+      return `C$${num.toFixed(2)}`;
+    }
+
+    function getShopLabelForAthlete(name) {
+      const rec = ebayAvgByName?.[name];
+      if (!rec) return "SHOP COLLECTIBLES";
+      if (!rec.avg || !rec.n || Number(rec.n) < MIN_EBAY_SAMPLE_SIZE) return "SHOP COLLECTIBLES";
+      const money = formatCad(rec.avg);
+      if (!money) return "SHOP COLLECTIBLES";
+      return `SHOP COLLECTIBLES (AVG SOLD: ${money})`;
+    }
+
     function renderGrid(data) {
       const grid = document.getElementById("athletes-grid");
       const campID = "5339142321";
@@ -495,6 +547,7 @@
           `https://www.ebay.ca/sch/i.html?_nkw=${encodeURIComponent(a.name)}&mkevt=1&mkcid=1&mkrid=${rotationID}&campid=${campID}&toolid=10001`;
 
         const teamLabel = isUnknown(a.team) ? "Unknown" : a.team;
+        const shopLabel = getShopLabelForAthlete(a.name);
 
         return `
           <div class="athlete-card">
@@ -509,7 +562,7 @@
             </div>
 
             <a href="${ebaySearchURL}" target="_blank" class="shop-btn">
-              SHOP COLLECTIBLES
+              ${shopLabel}
             </a>
           </div>
         `;
