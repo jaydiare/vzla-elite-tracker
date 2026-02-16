@@ -139,7 +139,6 @@
       margin: 2px auto 14px;
     }
 
-    /* FIXED: this block was broken in your last file */
     .athlete-name{
       font-weight: 900;
       font-style: italic;
@@ -374,34 +373,60 @@
     let athleteData = [];
     let currentSport = "All";
 
-    // Dedupe by (name + sport + league + team)
-    function dedupeAthletes(list) {
-      const norm = (v) => (v || "").toString().trim().toLowerCase();
-      const map = new Map();
+    const norm = (v) => (v || "").toString().trim().toLowerCase();
+    const isUnknown = (v) => {
+      const s = norm(v);
+      return !s || s === "unknown" || s === "n/a" || s === "na" || s === "-";
+    };
 
-      for (const a of (list || [])) {
-        const name  = a?.name  || "Unknown";
-        const sport = a?.sport || "Other";
-        const league= a?.league|| "";
-        const team  = a?.team  || "Unknown";
-        const key = `${norm(name)}|${norm(sport)}|${norm(league)}|${norm(team)}`;
-        if (!map.has(key)) map.set(key, { name, sport, league, team });
-      }
-
-      return Array.from(map.values()).sort((a,b) => a.name.localeCompare(b.name));
+    // Pick the "best" record for the same athlete+sport
+    // Prefer: real team > Unknown, real league > empty/Unknown
+    function scoreAthlete(a) {
+      let score = 0;
+      if (!isUnknown(a?.team)) score += 3;
+      if (!isUnknown(a?.league)) score += 2;
+      if (!isUnknown(a?.sport)) score += 1;
+      return score;
     }
 
-    function combineFixedAndFetched(fixedList, fetchedList) {
-      const fetchedNormalized = Array.isArray(fetchedList)
-        ? fetchedList.map(a => ({
+    // ✅ FIX: merge by (name + sport) and keep the best version
+    function mergeByNameSportKeepBest(fixedList, fetchedList) {
+      const all = [];
+
+      // Normalize fixed
+      for (const a of (fixedList || [])) {
+        all.push({
+          name: a?.name || "Unknown",
+          sport: a?.sport || "Other",
+          league: a?.league || "",
+          team: a?.team || "Unknown",
+        });
+      }
+
+      // Normalize fetched
+      if (Array.isArray(fetchedList)) {
+        for (const a of fetchedList) {
+          all.push({
             name: a?.name || "Unknown",
             sport: a?.sport || "Other",
             league: a?.league || "",
-            team: a?.team || "Unknown"
-          }))
-        : [];
+            team: a?.team || "Unknown",
+          });
+        }
+      }
 
-      return dedupeAthletes([...(fixedList || []), ...fetchedNormalized]);
+      const map = new Map();
+      for (const a of all) {
+        const key = `${norm(a.name)}|${norm(a.sport)}`; // << only name + sport
+        if (!map.has(key)) {
+          map.set(key, a);
+          continue;
+        }
+        const cur = map.get(key);
+        if (scoreAthlete(a) > scoreAthlete(cur)) map.set(key, a);
+      }
+
+      return Array.from(map.values()).sort((x, y) => x.name.localeCompare(y.name));
     }
 
     async function fetchAthletesJsonWithFallback() {
@@ -416,7 +441,6 @@
       ]));
 
       const paths = origins.map(o => `${o}/data/athletes.json?${cacheBust}`);
-      // Also try relative as last resort (works on GitHub Pages)
       paths.push(`./data/athletes.json?${cacheBust}`);
 
       for (const url of paths) {
@@ -430,13 +454,12 @@
 
     async function init() {
       const fetched = await fetchAthletesJsonWithFallback();
-      athleteData = combineFixedAndFetched(athleteDataRaw, fetched);
+      athleteData = mergeByNameSportKeepBest(athleteDataRaw, fetched);
       renderGrid(athleteData);
     }
 
     function filterBySearch() {
       const query = (document.getElementById("athleteSearch").value || "").toLowerCase();
-
       const filtered = athleteData.filter(a => {
         const matchesQuery = (a.name || "").toLowerCase().includes(query);
 
@@ -470,6 +493,8 @@
         const ebaySearchURL =
           `https://www.ebay.ca/sch/i.html?_nkw=${encodeURIComponent(a.name)}&mkevt=1&mkcid=1&mkrid=${rotationID}&campid=${campID}&toolid=10001`;
 
+        const teamLabel = isUnknown(a.team) ? "Unknown" : a.team;
+
         return `
           <div class="athlete-card">
             <div>
@@ -478,7 +503,7 @@
 
               <div class="status-row">
                 <span class="status-dot"></span>
-                <span class="status-text">${a.sport} • ${a.team}</span>
+                <span class="status-text">${a.sport} • ${teamLabel}</span>
               </div>
             </div>
 
