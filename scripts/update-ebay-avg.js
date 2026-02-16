@@ -1,4 +1,19 @@
 #!/usr/bin/env node
+/**
+ * scripts/update-ebay-avg.js
+ *
+ * Option A (your choice):
+ * - This script reads ONLY ./data/athletes.json
+ * - Make sure "Jackson Chourio" is added there so he gets an avg entry.
+ *
+ * What it does:
+ * - Builds an eBay.ca SOLD + COMPLETED search URL per athlete (cards-focused)
+ * - Extracts sold prices (supports CAD "C $" AND USD "US $")
+ * - Prefers CAD if available, otherwise uses USD
+ * - Computes a trimmed mean (drops top/bottom 10%) to reduce outliers
+ * - Writes ./data/ebay-avg.json keyed by athlete name
+ */
+
 import fs from "node:fs";
 import path from "node:path";
 
@@ -7,29 +22,23 @@ const ROOT = process.cwd();
 const ATHLETES_PATH = path.join(ROOT, "data", "athletes.json");
 const OUTPUT_PATH = path.join(ROOT, "data", "ebay-avg.json");
 
-// ✅ Both categories included
-const CATEGORY_SPORTS_MEM_CARDS_FAN_SHOP = 888;  // Sports Mem, Cards & Fan Shop (parent)
-const CATEGORY_SPORTS_TRADING_CARDS = 261328;    // Sports Trading Cards (subcategory)
+// ✅ Both categories included (override per athlete via athletes.json "category" if desired)
+const CATEGORY_SPORTS_MEM_CARDS_FAN_SHOP = 888; // parent
+const CATEGORY_SPORTS_TRADING_CARDS = 261328;   // cards-focused
 
-// Default behavior: cards-focused search (like your example URL)
+// Default: cards-only signal
 const DEFAULT_CATEGORY = CATEGORY_SPORTS_TRADING_CARDS;
 
-// Fixed filters
+// Fixed search settings (matching your preferred URL style)
 const EBAY_HOST = "www.ebay.ca";
+const PREF_LOC_CANADA = "2";      // LH_PrefLoc=2
 const CARD_SIZE_STANDARD = "Standard";
-
-// eBay "Preferred Location": 2 = Canada
-const PREF_LOC_CANADA = "2";
-
-// Optional filters (toggle if you want)
-const INCLUDE_FREE_SHIPPING_FILTER = true; // _fsrp=1
-const INCLUDE_NO_CORRECTIONS = true;       // rt=nc
+const RT_NO_CORRECTIONS = "nc";   // rt=nc
 
 // Tuning
 const MAX_PRICES_PER_ATHLETE = 60;
-const TRIM_FRACTION = 0.10; // drop top/bottom 10% outliers
+const TRIM_FRACTION = 0.10;       // drop top/bottom 10%
 const SLEEP_MS_BETWEEN = 1200;
-const MIN_SAMPLE_SIZE = 1; // still write avg even if small; UI can enforce min n
 
 function sleep(ms) {
   return new Promise((r) => setTimeout(r, ms));
@@ -53,35 +62,26 @@ function encodePlus(s) {
   return s.trim().split(/\s+/).map(encodeURIComponent).join("+");
 }
 
+function categoryForAthlete(athlete) {
+  const n = Number(athlete?.category);
+  return Number.isFinite(n) ? n : DEFAULT_CATEGORY;
+}
+
 /**
- * Build eBay sold/completed URL for an athlete.
- *
- * athletes.json supports optional fields:
+ * athletes.json supports optional:
  * - keywords: string (defaults to name)
  * - category: number (defaults to DEFAULT_CATEGORY)
- * - cardSize: string (defaults to "Standard"; set null to omit)
- * - prefLoc: string (defaults to Canada "2"; set null to omit)
- * - freeShipping: boolean (override INCLUDE_FREE_SHIPPING_FILTER)
- * - noCorrections: boolean (override INCLUDE_NO_CORRECTIONS)
+ *
+ * Example athletes.json entry:
+ * { "name": "Jackson Chourio" }
+ * { "name": "Player X", "keywords": "player x rookie card", "category": 888 }
  */
 function buildEbaySoldUrl(athlete) {
   const name = String(athlete?.name || "").trim();
   if (!name) throw new Error("Athlete missing name");
 
   const kw = encodePlus(String(athlete?.keywords || name));
-
-  const category = Number.isFinite(Number(athlete?.category))
-    ? Number(athlete.category)
-    : DEFAULT_CATEGORY;
-
-  const cardSize = athlete?.cardSize === undefined ? CARD_SIZE_STANDARD : athlete.cardSize;
-  const prefLoc = athlete?.prefLoc === undefined ? PREF_LOC_CANADA : athlete.prefLoc;
-
-  const freeShipping =
-    athlete?.freeShipping === undefined ? INCLUDE_FREE_SHIPPING_FILTER : !!athlete.freeShipping;
-
-  const noCorrections =
-    athlete?.noCorrections === undefined ? INCLUDE_NO_CORRECTIONS : !!athlete.noCorrections;
+  const category = categoryForAthlete(athlete);
 
   const params = new URLSearchParams();
 
@@ -91,26 +91,24 @@ function buildEbaySoldUrl(athlete) {
   params.set("LH_Complete", "1");
   params.set("LH_Sold", "1");
 
-  // Optional filters to match your example
-  if (freeShipping) params.set("_fsrp", "1");
-  if (noCorrections) params.set("rt", "nc");
-  if (prefLoc != null && String(prefLoc).trim() !== "") params.set("LH_PrefLoc", String(prefLoc));
+  // Canada-only pricing pool
+  params.set("LH_PrefLoc", PREF_LOC_CANADA);
 
-  // Card size filter (optional; set null/"" per athlete to omit)
-  if (cardSize != null && String(cardSize).trim() !== "") {
-    params.set("Card Size", String(cardSize));
-  }
+  // No autocorrect
+  params.set("rt", RT_NO_CORRECTIONS);
+
+  // Card size filter (fixed)
+  params.set("Card Size", CARD_SIZE_STANDARD);
 
   const base = `https://${EBAY_HOST}/sch/i.html?${params.toString()}`;
 
-  // Player/Athlete aspect filter
-  // Use single-encoded key: Player%2FAthlete
+  // Player/Athlete aspect filter (single-encoded key)
   const playerAspect = `&Player%2FAthlete=${encodeURIComponent(name)}`;
 
   return base + playerAspect;
 }
 
-// CodeQL-friendly stripTags: allow attributes/whitespace in closing tags
+// CodeQL-friendly tag stripper: allow attributes/whitespace in closing tags
 function stripTags(html) {
   return html
     .replace(/<script[\s\S]*?<\/script[^>]*>/gi, " ")
@@ -119,12 +117,19 @@ function stripTags(html) {
     .replace(/<[^>]+>/g, "\n");
 }
 
-function parseCadValues(line) {
-  // Extract occurrences like "C $12.34" or "C $1,234.56"
-  const matches = [...line.matchAll(/C\s*\$\s*([\d,.]+)/g)];
-  return matches
-    .map((m) => Number(m[1].replace(/,/g, "")))
-    .filter((n) => Number.isFinite(n) && n > 0);
+/**
+ * Extract money from a line:
+ * - CAD: "C $12.34"
+ * - USD: "US $12.34"
+ */
+function parseMoneyValues(line) {
+  const out = [];
+  for (const m of line.matchAll(/\b(C|US)\s*\$\s*([\d,.]+)/g)) {
+    const currency = m[1] === "C" ? "CAD" : "USD";
+    const value = Number(m[2].replace(/,/g, ""));
+    if (Number.isFinite(value) && value > 0) out.push({ currency, value });
+  }
+  return out;
 }
 
 function trimmedMean(values, trimFraction = 0.10) {
@@ -153,4 +158,121 @@ async function fetchHtml(url) {
   return await res.text();
 }
 
-function extractSoldCadPricesFromHtml(html, maxPrices
+function extractSoldMoneyFromHtml(html, maxItems = 60) {
+  // Parse based on “Sold <date>” markers visible in eBay sold search results.
+  const text = stripTags(html);
+  const lines = text
+    .split("\n")
+    .map((s) => s.replace(/\s+/g, " ").trim())
+    .filter(Boolean);
+
+  /** @type {{currency:"CAD"|"USD", value:number}[]} */
+  const picks = [];
+
+  for (let i = 0; i < lines.length && picks.length < maxItems; i++) {
+    if (lines[i].startsWith("Sold ")) {
+      // Look ahead for a money line near the "Sold ..." marker
+      for (let j = i + 1; j < Math.min(i + 14, lines.length); j++) {
+        const l = lines[j];
+
+        // Skip ranges like "C $1.35 to C $5.43"
+        if (/\bto\b/i.test(l) && /\b(C|US)\s*\$\s*[\d,.]+\s+to\s+\b(C|US)\s*\$\s*[\d,.]+/i.test(l)) {
+          continue;
+        }
+
+        const vals = parseMoneyValues(l);
+        if (vals.length) {
+          // If multiple money values appear, take the last
+          picks.push(vals[vals.length - 1]);
+          break;
+        }
+      }
+    }
+  }
+
+  return picks;
+}
+
+function chooseCurrencyAndAvg(picks) {
+  const cad = picks.filter(p => p.currency === "CAD").map(p => p.value);
+  const usd = picks.filter(p => p.currency === "USD").map(p => p.value);
+
+  // Prefer CAD if we have any CAD samples, otherwise use USD
+  if (cad.length) {
+    const avg = trimmedMean(cad, TRIM_FRACTION);
+    return { currency: "CAD", n: cad.length, avg };
+  }
+  if (usd.length) {
+    const avg = trimmedMean(usd, TRIM_FRACTION);
+    return { currency: "USD", n: usd.length, avg };
+  }
+  return { currency: "CAD", n: 0, avg: null };
+}
+
+async function main() {
+  const athletes = readAthletes();
+
+  ensureDirExists(path.dirname(OUTPUT_PATH));
+
+  const out = {};
+  const nowIso = new Date().toISOString();
+
+  for (let idx = 0; idx < athletes.length; idx++) {
+    const a = athletes[idx];
+    const name = a?.name?.trim();
+    if (!name) continue;
+
+    const url = buildEbaySoldUrl(a);
+    const categoryUsed = categoryForAthlete(a);
+
+    try {
+      const html = await fetchHtml(url);
+      const picks = extractSoldMoneyFromHtml(html, MAX_PRICES_PER_ATHLETE);
+      const chosen = chooseCurrencyAndAvg(picks);
+
+      out[name] = {
+        avg: chosen.avg != null ? round2(chosen.avg) : null,
+        n: chosen.n,
+        currency: chosen.currency,
+        asOf: nowIso,
+        source: url,
+        method: `trimmed_mean_${Math.round(TRIM_FRACTION * 100)}pct`,
+        filters: {
+          category: categoryUsed,
+          cardSize: CARD_SIZE_STANDARD,
+          prefLoc: PREF_LOC_CANADA,
+          sold: true,
+          completed: true,
+          rt: RT_NO_CORRECTIONS,
+          site: "ebay.ca",
+        },
+      };
+
+      console.log(
+        `[${idx + 1}/${athletes.length}] ${name}: n=${chosen.n} avg=${
+          chosen.avg != null ? `${chosen.currency === "USD" ? "US$" : "C$"}${round2(chosen.avg)}` : "null"
+        }`
+      );
+    } catch (e) {
+      out[name] = {
+        avg: null,
+        n: 0,
+        currency: "CAD",
+        asOf: nowIso,
+        source: url,
+        error: String(e?.message || e),
+      };
+      console.warn(`[${idx + 1}/${athletes.length}] ${name}: ERROR ${e?.message || e}`);
+    }
+
+    if (idx < athletes.length - 1) await sleep(SLEEP_MS_BETWEEN);
+  }
+
+  fs.writeFileSync(OUTPUT_PATH, JSON.stringify(out, null, 2) + "\n", "utf8");
+  console.log(`Wrote ${OUTPUT_PATH}`);
+}
+
+main().catch((err) => {
+  console.error(err);
+  process.exit(1);
+});
