@@ -290,21 +290,14 @@
         "name": "Abel Caputo",
         "sport": "Soccer",
         "league": "MLS",
-        "team": "Unknown",
+        "team": "Inter Miami",
         "provider": "balldontlie"
     },
     {
         "name": "Alejandro Fuenmayor",
         "sport": "Soccer",
         "league": "MLS",
-        "team": "Unknown",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Alejandro Moreno",
-        "sport": "Soccer",
-        "league": "MLS",
-        "team": "Unknown",
+        "team": "Phoenix Rising FC",
         "provider": "balldontlie"
     },
     {
