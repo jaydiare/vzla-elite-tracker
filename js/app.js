@@ -42,8 +42,11 @@ let athleteData = [];
 let currentSport = "All";
 
 // ebay averages cache
-// New format expected (preferred): { "Name": { avgSold, nSold, avgListing, nListing, currency, ... }, ... }
-let ebayAvgByName = {};
+// NOTE: we now support lookup by (name + sport) key (more accurate),
+// but we keep the old by-name fallback for backward compatibility.
+let ebayAvgRaw = {};      // raw JSON object from data/ebay-avg.json
+let ebayAvgByKey = {};    // normalized "name|sport" -> record
+let ebayAvgByName = {};   // exact name -> record (legacy)
 const MIN_EBAY_SAMPLE_SIZE = 5;
 
 const campID = "5339142321";
@@ -57,6 +60,13 @@ const isUnknown = (v) => {
 
 function stripDiacritics(s) {
   return String(s).normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+}
+
+// Build a stable matching key (name + sport), ignoring accents/case
+function makeNameSportKey(name, sport) {
+  const n = stripDiacritics(norm(name));
+  const sp = stripDiacritics(norm(sport));
+  return `${n}|${sp}`;
 }
 
 // Prefer best duplicate record for same (name+sport)
@@ -136,35 +146,63 @@ function formatCad(n) {
 
 /**
  * Button label:
- * - Requires sold sample size to show any pricing
- * - Shows AVG SOLD and (if available) AVG LIST
- * - CAD-only (keeps your current rule)
+ * - Requires a minimum active-listing sample size to show pricing
+ * - Shows AVG LIST (and also AVG SOLD if your JSON still contains it from older runs)
+ * - CAD-only
+ *
+ * IMPORTANT: now matches by (name + sport) first, then falls back to old by-name key.
  */
-function getShopLabelForAthlete(name) {
-  const rec = ebayAvgByName?.[name];
+function getShopLabelForAthlete(athlete) {
+  const name = athlete?.name || "";
+  const sport = athlete?.sport || "";
+
+  // 1) Most accurate: normalized name|sport
+  const key = makeNameSportKey(name, sport);
+  let rec = ebayAvgByKey?.[key];
+
+  // 2) Back-compat fallback: exact name key if older JSON was keyed that way
+  if (!rec) rec = ebayAvgByName?.[name];
+
   if (!rec) return "SHOP COLLECTIBLES";
 
-  // Back-compat if old keys exist
-  const avgSold = Number(rec.avgSold ?? rec.avg ?? NaN);
-  const nSold = Number(rec.nSold ?? rec.n ?? 0);
+  // ---- Active listing (what you have scope for now) ----
+  // Support a few possible field names, depending on what your script writes.
+  const avgListing = Number(
+    rec.avgListing ??
+    rec.avgActive ??
+    rec.avgList ??
+    NaN
+  );
 
-  if (!Number.isFinite(avgSold) || !nSold || nSold < MIN_EBAY_SAMPLE_SIZE) {
+  const nListing = Number(
+    rec.nListing ??
+    rec.nActive ??
+    rec.nList ??
+    rec.n ??
+    0
+  );
+
+  if (!Number.isFinite(avgListing) || !nListing || nListing < MIN_EBAY_SAMPLE_SIZE) {
     return "SHOP COLLECTIBLES";
   }
 
   // Keep label consistent in CAD only
   if (rec.currency && rec.currency !== "CAD") return "SHOP COLLECTIBLES";
 
-  const soldMoney = formatCad(avgSold);
-  if (!soldMoney) return "SHOP COLLECTIBLES";
+  const listingMoney = formatCad(avgListing);
+  if (!listingMoney) return "SHOP COLLECTIBLES";
 
-  const avgListing = Number(rec.avgListing ?? NaN);
-  const listingMoney = Number.isFinite(avgListing) ? formatCad(avgListing) : null;
+  // ---- Optional: Sold fields still displayed if present from an old file ----
+  const avgSold = Number(rec.avgSold ?? rec.avg ?? NaN);
+  const nSold = Number(rec.nSold ?? 0);
 
-  if (listingMoney) {
+  const soldOk = Number.isFinite(avgSold) && nSold >= MIN_EBAY_SAMPLE_SIZE;
+  const soldMoney = soldOk ? formatCad(avgSold) : null;
+
+  if (soldMoney) {
     return `SHOP COLLECTIBLES (AVG SOLD: ${soldMoney} • AVG LIST: ${listingMoney})`;
   }
-  return `SHOP COLLECTIBLES (AVG SOLD: ${soldMoney})`;
+  return `SHOP COLLECTIBLES (AVG LIST: ${listingMoney})`;
 }
 
 function filterBySearch() {
@@ -211,7 +249,9 @@ function renderGrid(data) {
       `https://www.ebay.ca/sch/i.html?_nkw=${encodeURIComponent(`${a.name} ${a.sport}`)}&mkevt=1&mkcid=1&mkrid=${rotationID}&campid=${campID}&toolid=10001`;
 
     const teamLabel = isUnknown(a.team) ? "Unknown" : a.team;
-    const shopLabel = getShopLabelForAthlete(a.name);
+
+    // NOTE: pass the whole athlete so we can match by name + sport
+    const shopLabel = getShopLabelForAthlete(a);
 
     return `
       <div class="athlete-card">
@@ -233,6 +273,58 @@ function renderGrid(data) {
   }).join("");
 }
 
+/**
+ * Normalize whatever ebay-avg.json shape you have into:
+ * - ebayAvgByKey: normalized "name|sport" -> record
+ * - ebayAvgByName: exact name -> record (legacy fallback)
+ *
+ * Supports:
+ *  A) Object keyed by "name|sport"
+ *  B) Object keyed by athlete name
+ *  C) Array of records with { name, sport, ... }
+ */
+function buildEbayIndexes(raw) {
+  ebayAvgByKey = {};
+  ebayAvgByName = {};
+
+  if (!raw) return;
+
+  // If array: [{name, sport, ...}, ...]
+  if (Array.isArray(raw)) {
+    for (const rec of raw) {
+      const name = rec?.name;
+      const sport = rec?.sport;
+      if (name && sport) {
+        ebayAvgByKey[makeNameSportKey(name, sport)] = rec;
+      }
+      if (name && !ebayAvgByName[name]) {
+        ebayAvgByName[name] = rec;
+      }
+    }
+    return;
+  }
+
+  // If object
+  if (typeof raw === "object") {
+    for (const [k, rec] of Object.entries(raw)) {
+      // If key already looks like "name|sport", try to treat it as such
+      if (k.includes("|")) {
+        ebayAvgByKey[k] = rec;
+        continue;
+      }
+
+      // Otherwise assume legacy keyed by exact name
+      const name = k;
+      ebayAvgByName[name] = rec;
+
+      // If record contains sport too, also index by normalized key
+      if (rec?.sport) {
+        ebayAvgByKey[makeNameSportKey(name, rec.sport)] = rec;
+      }
+    }
+  }
+}
+
 async function init() {
   const [fetchedAthletes, fetchedEbayAvg] = await Promise.all([
     fetchJsonWithFallback("data/athletes.json"),
@@ -241,18 +333,8 @@ async function init() {
 
   athleteData = mergeByNameSportKeepBest(athleteDataRaw, fetchedAthletes);
 
-  // Support BOTH shapes:
-  // 1) new: { byName: { "Name": {...} }, updatedAt: "..." }
-  // 2) old: { "Name": {...} }
-  if (fetchedEbayAvg && typeof fetchedEbayAvg === "object") {
-    if (fetchedEbayAvg.byName && typeof fetchedEbayAvg.byName === "object") {
-      ebayAvgByName = fetchedEbayAvg.byName;
-    } else {
-      ebayAvgByName = fetchedEbayAvg;
-    }
-  } else {
-    ebayAvgByName = {};
-  }
+  ebayAvgRaw = fetchedEbayAvg && typeof fetchedEbayAvg === "object" ? fetchedEbayAvg : {};
+  buildEbayIndexes(ebayAvgRaw);
 
   renderGrid(athleteData);
 }
