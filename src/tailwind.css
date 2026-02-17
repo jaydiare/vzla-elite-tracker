@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
-/* Tell Tailwind v4 exactly where to scan class names */
-@source "./index.html";
-@source "./js/**/*.js";
+/* Tailwind v4: explicitly tell it what files to scan */
+@source "../index.html";
+@source "../js/**/*.js";
+@source "../data/**/*.json";
+
