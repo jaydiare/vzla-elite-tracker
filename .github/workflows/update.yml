@@ -37,6 +37,8 @@ jobs:
         run: python scripts/fetch_all_vzla.py
 
       - name: Inject Twitter URL
+        env:
+          TWITTER_URL: ${{ vars.TWITTER_URL }}
         run: |
           sed -i "s|__TWITTER_URL__|${TWITTER_URL}|g" index.html
 
