@@ -1,786 +1,674 @@
 {
-  "Andres Chaparro": {
-    "sport": "Baseball",
-    "league": "MLB",
-    "team": "Nationals",
-    "avg": 2.46,
-    "n": 10,
-    "currency": "CAD",
-    "asOf": "2026-02-17T14:38:42.968Z",
-    "source": "https://www.ebay.ca/sch/i.html?_nkw=Andres+Chaparro+Baseball+card&LH_Complete=1&LH_Sold=1&rt=nc&_sacat=261328&Card+Size=Standard",
-    "finalUrl": "https://www.ebay.ca/sch/i.html?_nkw=Andres+Chaparro+Baseball+card&LH_Complete=1&LH_Sold=1&rt=nc&_sacat=261328&Card+Size=Standard",
-    "strategy": "cat+kw+size",
-    "method": "trimmed_mean_10pct",
-    "filters": {
-      "category": 261328,
-      "cardSize": "Standard",
-      "sold": true,
-      "completed": true,
-      "rt": "nc",
-      "site": "ebay.ca",
-      "prefLoc": "worldwide"
-    }
-  },
   "Andres Gimenez": {
     "sport": "Baseball",
-    "league": "MLB",
-    "team": "Blue Jays",
-    "avg": 1.35,
-    "n": 10,
-    "currency": "CAD",
-    "asOf": "2026-02-17T14:38:42.968Z",
-    "source": "https://www.ebay.ca/sch/i.html?_nkw=Andres+Gimenez+Baseball+card&LH_Complete=1&LH_Sold=1&rt=nc&_sacat=261328&Card+Size=Standard",
-    "finalUrl": "https://www.ebay.ca/sch/i.html?_nkw=Andres+Gimenez+Baseball+card&LH_Complete=1&LH_Sold=1&rt=nc&_sacat=261328&Card+Size=Standard",
-    "strategy": "cat+kw+size",
-    "method": "trimmed_mean_10pct",
-    "filters": {
-      "category": 261328,
-      "cardSize": "Standard",
-      "sold": true,
-      "completed": true,
-      "rt": "nc",
-      "site": "ebay.ca",
-      "prefLoc": "worldwide"
-    }
+    "marketplaces": {
+      "EBAY_US": {
+        "activeListingPriceAverage": 25.176399999999987,
+        "activeListingCount": 100,
+        "soldPriceAverage": 25.176399999999987,
+        "soldCount": 100,
+        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
+        "passedAspectGate": true
+      },
+      "EBAY_CA": {
+        "activeListingPriceAverage": 40.6185,
+        "activeListingCount": 100,
+        "soldPriceAverage": 40.6867,
+        "soldCount": 100,
+        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
+        "passedAspectGate": true
+      }
+    },
+    "asOf": "2026-02-17T17:08:17.355Z",
+    "method": "mean_fixed_price_only; sold_avg_best_effort",
+    "categoryId": "261328"
   },
   "Angel Zerpa": {
     "sport": "Baseball",
-    "league": "MLB",
-    "team": "Brewers",
-    "avg": 1.4,
-    "n": 10,
-    "currency": "CAD",
-    "asOf": "2026-02-17T14:38:42.968Z",
-    "source": "https://www.ebay.ca/sch/i.html?_nkw=Angel+Zerpa+Baseball+card&LH_Complete=1&LH_Sold=1&rt=nc&_sacat=261328&Card+Size=Standard",
-    "finalUrl": "https://www.ebay.ca/sch/i.html?_nkw=Angel+Zerpa+Baseball+card&LH_Complete=1&LH_Sold=1&rt=nc&_sacat=261328&Card+Size=Standard",
-    "strategy": "cat+kw+size",
-    "method": "trimmed_mean_10pct",
-    "filters": {
-      "category": 261328,
-      "cardSize": "Standard",
-      "sold": true,
-      "completed": true,
-      "rt": "nc",
-      "site": "ebay.ca",
-      "prefLoc": "worldwide"
-    }
+    "marketplaces": {
+      "EBAY_US": {
+        "activeListingPriceAverage": 11.361500000000003,
+        "activeListingCount": 100,
+        "soldPriceAverage": 11.360500000000004,
+        "soldCount": 100,
+        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
+        "passedAspectGate": true
+      },
+      "EBAY_CA": {
+        "activeListingPriceAverage": 24.252899999999997,
+        "activeListingCount": 100,
+        "soldPriceAverage": 24.252899999999997,
+        "soldCount": 100,
+        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
+        "passedAspectGate": true
+      }
+    },
+    "asOf": "2026-02-17T17:08:17.355Z",
+    "method": "mean_fixed_price_only; sold_avg_best_effort",
+    "categoryId": "261328"
   },
   "Anthony Santander": {
     "sport": "Baseball",
-    "league": "MLB",
-    "team": "Orioles",
-    "avg": 1.35,
-    "n": 10,
-    "currency": "CAD",
-    "asOf": "2026-02-17T14:38:42.968Z",
-    "source": "https://www.ebay.ca/sch/i.html?_nkw=Anthony+Santander+Baseball+card&LH_Complete=1&LH_Sold=1&rt=nc&_sacat=261328&Card+Size=Standard",
-    "finalUrl": "https://www.ebay.ca/sch/i.html?_nkw=Anthony+Santander+Baseball+card&LH_Complete=1&LH_Sold=1&rt=nc&_sacat=261328&Card+Size=Standard",
-    "strategy": "cat+kw+size",
-    "method": "trimmed_mean_10pct",
-    "filters": {
-      "category": 261328,
-      "cardSize": "Standard",
-      "sold": true,
-      "completed": true,
-      "rt": "nc",
-      "site": "ebay.ca",
-      "prefLoc": "worldwide"
-    }
+    "marketplaces": {
+      "EBAY_US": {
+        "activeListingPriceAverage": 11.151900000000005,
+        "activeListingCount": 100,
+        "soldPriceAverage": 11.243700000000004,
+        "soldCount": 100,
+        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
+        "passedAspectGate": true
+      },
+      "EBAY_CA": {
+        "activeListingPriceAverage": 20.67450000000001,
+        "activeListingCount": 100,
+        "soldPriceAverage": 19.719300000000004,
+        "soldCount": 100,
+        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
+        "passedAspectGate": true
+      }
+    },
+    "asOf": "2026-02-17T17:08:17.355Z",
+    "method": "mean_fixed_price_only; sold_avg_best_effort",
+    "categoryId": "261328"
   },
   "Antonio Senzatela": {
     "sport": "Baseball",
-    "league": "MLB",
-    "team": "Rockies",
-    "avg": 1.45,
-    "n": 10,
-    "currency": "CAD",
-    "asOf": "2026-02-17T14:38:42.968Z",
-    "source": "https://www.ebay.ca/sch/i.html?_nkw=Antonio+Senzatela+Baseball+card&LH_Complete=1&LH_Sold=1&rt=nc&_sacat=261328&Card+Size=Standard",
-    "finalUrl": "https://www.ebay.ca/sch/i.html?_nkw=Antonio+Senzatela+Baseball+card&LH_Complete=1&LH_Sold=1&rt=nc&_sacat=261328&Card+Size=Standard",
-    "strategy": "cat+kw+size",
-    "method": "trimmed_mean_10pct",
-    "filters": {
-      "category": 261328,
-      "cardSize": "Standard",
-      "sold": true,
-      "completed": true,
-      "rt": "nc",
-      "site": "ebay.ca",
-      "prefLoc": "worldwide"
-    }
+    "marketplaces": {
+      "EBAY_US": {
+        "activeListingPriceAverage": 4.123400000000003,
+        "activeListingCount": 100,
+        "soldPriceAverage": 4.013400000000003,
+        "soldCount": 100,
+        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
+        "passedAspectGate": true
+      },
+      "EBAY_CA": {
+        "activeListingPriceAverage": 5.075100000000002,
+        "activeListingCount": 100,
+        "soldPriceAverage": 4.874700000000002,
+        "soldCount": 100,
+        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
+        "passedAspectGate": true
+      }
+    },
+    "asOf": "2026-02-17T17:08:17.355Z",
+    "method": "mean_fixed_price_only; sold_avg_best_effort",
+    "categoryId": "261328"
   },
   "Eduardo Rodriguez": {
     "sport": "Baseball",
-    "league": "MLB",
-    "team": "Diamondbacks",
-    "avg": 1.35,
-    "n": 10,
-    "currency": "CAD",
-    "asOf": "2026-02-17T14:38:42.968Z",
-    "source": "https://www.ebay.ca/sch/i.html?_nkw=Eduardo+Rodriguez+Baseball+card&LH_Complete=1&LH_Sold=1&rt=nc&_sacat=261328&Card+Size=Standard",
-    "finalUrl": "https://www.ebay.ca/sch/i.html?_nkw=Eduardo+Rodriguez+Baseball+card&LH_Complete=1&LH_Sold=1&rt=nc&_sacat=261328&Card+Size=Standard",
-    "strategy": "cat+kw+size",
-    "method": "trimmed_mean_10pct",
-    "filters": {
-      "category": 261328,
-      "cardSize": "Standard",
-      "sold": true,
-      "completed": true,
-      "rt": "nc",
-      "site": "ebay.ca",
-      "prefLoc": "worldwide"
-    }
+    "marketplaces": {
+      "EBAY_US": {
+        "activeListingPriceAverage": 7.567200000000002,
+        "activeListingCount": 100,
+        "soldPriceAverage": 7.567200000000002,
+        "soldCount": 100,
+        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
+        "passedAspectGate": true
+      },
+      "EBAY_CA": {
+        "activeListingPriceAverage": 7.061700000000002,
+        "activeListingCount": 100,
+        "soldPriceAverage": 7.053200000000003,
+        "soldCount": 100,
+        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
+        "passedAspectGate": true
+      }
+    },
+    "asOf": "2026-02-17T17:08:17.355Z",
+    "method": "mean_fixed_price_only; sold_avg_best_effort",
+    "categoryId": "261328"
   },
   "Eugenio Suarez": {
     "sport": "Baseball",
-    "league": "MLB",
-    "team": "Reds",
-    "avg": 1.35,
-    "n": 10,
-    "currency": "CAD",
-    "asOf": "2026-02-17T14:38:42.968Z",
-    "source": "https://www.ebay.ca/sch/i.html?_nkw=Eugenio+Suarez+Baseball+card&LH_Complete=1&LH_Sold=1&rt=nc&_sacat=261328&Card+Size=Standard",
-    "finalUrl": "https://www.ebay.ca/sch/i.html?_nkw=Eugenio+Suarez+Baseball+card&LH_Complete=1&LH_Sold=1&rt=nc&_sacat=261328&Card+Size=Standard",
-    "strategy": "cat+kw+size",
-    "method": "trimmed_mean_10pct",
-    "filters": {
-      "category": 261328,
-      "cardSize": "Standard",
-      "sold": true,
-      "completed": true,
-      "rt": "nc",
-      "site": "ebay.ca",
-      "prefLoc": "worldwide"
-    }
+    "marketplaces": {
+      "EBAY_US": {
+        "activeListingPriceAverage": 22.4306,
+        "activeListingCount": 100,
+        "soldPriceAverage": 22.4306,
+        "soldCount": 100,
+        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
+        "passedAspectGate": true
+      },
+      "EBAY_CA": {
+        "activeListingPriceAverage": 46.7196,
+        "activeListingCount": 100,
+        "soldPriceAverage": 82.7534,
+        "soldCount": 100,
+        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
+        "passedAspectGate": true
+      }
+    },
+    "asOf": "2026-02-17T17:08:17.355Z",
+    "method": "mean_fixed_price_only; sold_avg_best_effort",
+    "categoryId": "261328"
   },
   "Eugenio Suárez": {
     "sport": "Baseball",
-    "league": "MLB",
-    "team": "Diamondbacks",
-    "avg": 1.35,
-    "n": 10,
-    "currency": "CAD",
-    "asOf": "2026-02-17T14:38:42.968Z",
-    "source": "https://www.ebay.ca/sch/i.html?_nkw=Eugenio+Suarez+Baseball+card&LH_Complete=1&LH_Sold=1&rt=nc&_sacat=261328&Card+Size=Standard",
-    "finalUrl": "https://www.ebay.ca/sch/i.html?_nkw=Eugenio+Suarez+Baseball+card&LH_Complete=1&LH_Sold=1&rt=nc&_sacat=261328&Card+Size=Standard",
-    "strategy": "cat+kw+size",
-    "method": "trimmed_mean_10pct",
-    "filters": {
-      "category": 261328,
-      "cardSize": "Standard",
-      "sold": true,
-      "completed": true,
-      "rt": "nc",
-      "site": "ebay.ca",
-      "prefLoc": "worldwide"
-    }
+    "marketplaces": {
+      "EBAY_US": {
+        "activeListingPriceAverage": 9.975500000000004,
+        "activeListingCount": 100,
+        "soldPriceAverage": 9.945500000000003,
+        "soldCount": 100,
+        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
+        "passedAspectGate": true
+      },
+      "EBAY_CA": {
+        "activeListingPriceAverage": 17.3809,
+        "activeListingCount": 100,
+        "soldPriceAverage": 17.3809,
+        "soldCount": 100,
+        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
+        "passedAspectGate": true
+      }
+    },
+    "asOf": "2026-02-17T17:08:17.355Z",
+    "method": "mean_fixed_price_only; sold_avg_best_effort",
+    "categoryId": "261328"
   },
   "Ezequiel Tovar": {
     "sport": "Baseball",
-    "league": "MLB",
-    "team": "Rockies",
-    "avg": 1.4,
-    "n": 10,
-    "currency": "CAD",
-    "asOf": "2026-02-17T14:38:42.968Z",
-    "source": "https://www.ebay.ca/sch/i.html?_nkw=Ezequiel+Tovar+Baseball+card&LH_Complete=1&LH_Sold=1&rt=nc&_sacat=261328&Card+Size=Standard",
-    "finalUrl": "https://www.ebay.ca/sch/i.html?_nkw=Ezequiel+Tovar+Baseball+card&LH_Complete=1&LH_Sold=1&rt=nc&_sacat=261328&Card+Size=Standard",
-    "strategy": "cat+kw+size",
-    "method": "trimmed_mean_10pct",
-    "filters": {
-      "category": 261328,
-      "cardSize": "Standard",
-      "sold": true,
-      "completed": true,
-      "rt": "nc",
-      "site": "ebay.ca",
-      "prefLoc": "worldwide"
-    }
+    "marketplaces": {
+      "EBAY_US": {
+        "activeListingPriceAverage": 34.08559999999996,
+        "activeListingCount": 100,
+        "soldPriceAverage": 34.16059999999995,
+        "soldCount": 100,
+        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
+        "passedAspectGate": true
+      },
+      "EBAY_CA": {
+        "activeListingPriceAverage": 67.13640000000004,
+        "activeListingCount": 100,
+        "soldPriceAverage": 70.22260000000003,
+        "soldCount": 100,
+        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
+        "passedAspectGate": true
+      }
+    },
+    "asOf": "2026-02-17T17:08:17.355Z",
+    "method": "mean_fixed_price_only; sold_avg_best_effort",
+    "categoryId": "261328"
   },
   "Francisco Alvarez": {
     "sport": "Baseball",
-    "league": "MLB",
-    "team": "Mets",
-    "avg": 1.35,
-    "n": 10,
-    "currency": "CAD",
-    "asOf": "2026-02-17T14:38:42.968Z",
-    "source": "https://www.ebay.ca/sch/i.html?_nkw=Francisco+Alvarez+Baseball+card&LH_Complete=1&LH_Sold=1&rt=nc&_sacat=261328&Card+Size=Standard",
-    "finalUrl": "https://www.ebay.ca/sch/i.html?_nkw=Francisco+Alvarez+Baseball+card&LH_Complete=1&LH_Sold=1&rt=nc&_sacat=261328&Card+Size=Standard",
-    "strategy": "cat+kw+size",
-    "method": "trimmed_mean_10pct",
-    "filters": {
-      "category": 261328,
-      "cardSize": "Standard",
-      "sold": true,
-      "completed": true,
-      "rt": "nc",
-      "site": "ebay.ca",
-      "prefLoc": "worldwide"
-    }
+    "marketplaces": {
+      "EBAY_US": {
+        "activeListingPriceAverage": 27.394199999999987,
+        "activeListingCount": 100,
+        "soldPriceAverage": 27.14559999999998,
+        "soldCount": 100,
+        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
+        "passedAspectGate": true
+      },
+      "EBAY_CA": {
+        "activeListingPriceAverage": 72.895,
+        "activeListingCount": 100,
+        "soldPriceAverage": 74.39150000000001,
+        "soldCount": 100,
+        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
+        "passedAspectGate": true
+      }
+    },
+    "asOf": "2026-02-17T17:08:17.355Z",
+    "method": "mean_fixed_price_only; sold_avg_best_effort",
+    "categoryId": "261328"
   },
   "Freddy Fermin": {
     "sport": "Baseball",
-    "league": "MLB",
-    "team": "Padres",
-    "avg": 1.35,
-    "n": 10,
-    "currency": "CAD",
-    "asOf": "2026-02-17T14:38:42.968Z",
-    "source": "https://www.ebay.ca/sch/i.html?_nkw=Freddy+Fermin+Baseball+card&LH_Complete=1&LH_Sold=1&rt=nc&_sacat=261328&Card+Size=Standard",
-    "finalUrl": "https://www.ebay.ca/sch/i.html?_nkw=Freddy+Fermin+Baseball+card&LH_Complete=1&LH_Sold=1&rt=nc&_sacat=261328&Card+Size=Standard",
-    "strategy": "cat+kw+size",
-    "method": "trimmed_mean_10pct",
-    "filters": {
-      "category": 261328,
-      "cardSize": "Standard",
-      "sold": true,
-      "completed": true,
-      "rt": "nc",
-      "site": "ebay.ca",
-      "prefLoc": "worldwide"
-    }
+    "marketplaces": {
+      "EBAY_US": {
+        "activeListingPriceAverage": 14.656600000000005,
+        "activeListingCount": 100,
+        "soldPriceAverage": 14.656600000000003,
+        "soldCount": 100,
+        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
+        "passedAspectGate": true
+      },
+      "EBAY_CA": {
+        "activeListingPriceAverage": 23.7047,
+        "activeListingCount": 100,
+        "soldPriceAverage": 24.205599999999993,
+        "soldCount": 100,
+        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
+        "passedAspectGate": true
+      }
+    },
+    "asOf": "2026-02-17T17:08:17.355Z",
+    "method": "mean_fixed_price_only; sold_avg_best_effort",
+    "categoryId": "261328"
   },
   "Gabriel Moreno": {
     "sport": "Baseball",
-    "league": "MLB",
-    "team": "Diamondbacks",
-    "avg": 1.35,
-    "n": 10,
-    "currency": "CAD",
-    "asOf": "2026-02-17T14:38:42.968Z",
-    "source": "https://www.ebay.ca/sch/i.html?_nkw=Gabriel+Moreno+Baseball+card&LH_Complete=1&LH_Sold=1&rt=nc&_sacat=261328&Card+Size=Standard",
-    "finalUrl": "https://www.ebay.ca/sch/i.html?_nkw=Gabriel+Moreno+Baseball+card&LH_Complete=1&LH_Sold=1&rt=nc&_sacat=261328&Card+Size=Standard",
-    "strategy": "cat+kw+size",
-    "method": "trimmed_mean_10pct",
-    "filters": {
-      "category": 261328,
-      "cardSize": "Standard",
-      "sold": true,
-      "completed": true,
-      "rt": "nc",
-      "site": "ebay.ca",
-      "prefLoc": "worldwide"
-    }
+    "marketplaces": {
+      "EBAY_US": {
+        "activeListingPriceAverage": 17.640100000000007,
+        "activeListingCount": 100,
+        "soldPriceAverage": 17.640100000000007,
+        "soldCount": 100,
+        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
+        "passedAspectGate": true
+      },
+      "EBAY_CA": {
+        "activeListingPriceAverage": 38.21229999999998,
+        "activeListingCount": 100,
+        "soldPriceAverage": 38.59869999999998,
+        "soldCount": 100,
+        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
+        "passedAspectGate": true
+      }
+    },
+    "asOf": "2026-02-17T17:08:17.355Z",
+    "method": "mean_fixed_price_only; sold_avg_best_effort",
+    "categoryId": "261328"
   },
   "Jackson Chourio": {
     "sport": "Baseball",
-    "league": "MLB",
-    "team": "Brewers",
-    "avg": 1.16,
-    "n": 10,
-    "currency": "CAD",
-    "asOf": "2026-02-17T14:38:42.968Z",
-    "source": "https://www.ebay.ca/sch/i.html?_nkw=Jackson+Chourio+Baseball+card&LH_Complete=1&LH_Sold=1&rt=nc&_sacat=261328&Card+Size=Standard",
-    "finalUrl": "https://www.ebay.ca/sch/i.html?_nkw=Jackson+Chourio+Baseball+card&LH_Complete=1&LH_Sold=1&rt=nc&_sacat=261328&Card+Size=Standard",
-    "strategy": "cat+kw+size",
-    "method": "trimmed_mean_10pct",
-    "filters": {
-      "category": 261328,
-      "cardSize": "Standard",
-      "sold": true,
-      "completed": true,
-      "rt": "nc",
-      "site": "ebay.ca",
-      "prefLoc": "worldwide"
-    }
+    "marketplaces": {
+      "EBAY_US": {
+        "activeListingPriceAverage": 53.397599999999976,
+        "activeListingCount": 100,
+        "soldPriceAverage": 53.177499999999974,
+        "soldCount": 100,
+        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
+        "passedAspectGate": true
+      },
+      "EBAY_CA": {
+        "activeListingPriceAverage": 72.26459999999997,
+        "activeListingCount": 100,
+        "soldPriceAverage": 71.03749999999997,
+        "soldCount": 100,
+        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
+        "passedAspectGate": true
+      }
+    },
+    "asOf": "2026-02-17T17:08:17.355Z",
+    "method": "mean_fixed_price_only; sold_avg_best_effort",
+    "categoryId": "261328"
   },
   "Jeferson Quero": {
     "sport": "Baseball",
-    "league": "MLB",
-    "team": "Brewers",
-    "avg": 1.4,
-    "n": 10,
-    "currency": "CAD",
-    "asOf": "2026-02-17T14:38:42.968Z",
-    "source": "https://www.ebay.ca/sch/i.html?_nkw=Jeferson+Quero+Baseball+card&LH_Complete=1&LH_Sold=1&rt=nc&_sacat=261328&Card+Size=Standard",
-    "finalUrl": "https://www.ebay.ca/sch/i.html?_nkw=Jeferson+Quero+Baseball+card&LH_Complete=1&LH_Sold=1&rt=nc&_sacat=261328&Card+Size=Standard",
-    "strategy": "cat+kw+size",
-    "method": "trimmed_mean_10pct",
-    "filters": {
-      "category": 261328,
-      "cardSize": "Standard",
-      "sold": true,
-      "completed": true,
-      "rt": "nc",
-      "site": "ebay.ca",
-      "prefLoc": "worldwide"
-    }
+    "marketplaces": {
+      "EBAY_US": {
+        "activeListingPriceAverage": 27.914999999999967,
+        "activeListingCount": 100,
+        "soldPriceAverage": 27.914999999999967,
+        "soldCount": 100,
+        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
+        "passedAspectGate": true
+      },
+      "EBAY_CA": {
+        "activeListingPriceAverage": 70.53260000000002,
+        "activeListingCount": 100,
+        "soldPriceAverage": 70.34520000000002,
+        "soldCount": 100,
+        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
+        "passedAspectGate": true
+      }
+    },
+    "asOf": "2026-02-17T17:08:17.355Z",
+    "method": "mean_fixed_price_only; sold_avg_best_effort",
+    "categoryId": "261328"
   },
   "Jorge Barrosa": {
     "sport": "Baseball",
-    "league": "MLB",
-    "team": "Diamondbacks",
-    "avg": 1.35,
-    "n": 10,
-    "currency": "CAD",
-    "asOf": "2026-02-17T14:38:42.968Z",
-    "source": "https://www.ebay.ca/sch/i.html?_nkw=Jorge+Barrosa+Baseball+card&LH_Complete=1&LH_Sold=1&rt=nc&_sacat=261328&Card+Size=Standard",
-    "finalUrl": "https://www.ebay.ca/sch/i.html?_nkw=Jorge+Barrosa+Baseball+card&LH_Complete=1&LH_Sold=1&rt=nc&_sacat=261328&Card+Size=Standard",
-    "strategy": "cat+kw+size",
-    "method": "trimmed_mean_10pct",
-    "filters": {
-      "category": 261328,
-      "cardSize": "Standard",
-      "sold": true,
-      "completed": true,
-      "rt": "nc",
-      "site": "ebay.ca",
-      "prefLoc": "worldwide"
-    }
+    "marketplaces": {
+      "EBAY_US": {
+        "activeListingPriceAverage": 26.538499999999985,
+        "activeListingCount": 100,
+        "soldPriceAverage": 26.608499999999985,
+        "soldCount": 100,
+        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
+        "passedAspectGate": true
+      },
+      "EBAY_CA": {
+        "activeListingPriceAverage": 48.90200000000001,
+        "activeListingCount": 100,
+        "soldPriceAverage": 49.01140000000001,
+        "soldCount": 100,
+        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
+        "passedAspectGate": true
+      }
+    },
+    "asOf": "2026-02-17T17:08:17.355Z",
+    "method": "mean_fixed_price_only; sold_avg_best_effort",
+    "categoryId": "261328"
   },
   "Jose Altuve": {
     "sport": "Baseball",
-    "league": "MLB",
-    "team": "Astros",
-    "avg": 1.54,
-    "n": 10,
-    "currency": "CAD",
-    "asOf": "2026-02-17T14:38:42.968Z",
-    "source": "https://www.ebay.ca/sch/i.html?_nkw=Jose+Altuve+Baseball+card&LH_Complete=1&LH_Sold=1&rt=nc&_sacat=261328&Card+Size=Standard",
-    "finalUrl": "https://www.ebay.ca/sch/i.html?_nkw=Jose+Altuve+Baseball+card&LH_Complete=1&LH_Sold=1&rt=nc&_sacat=261328&Card+Size=Standard",
-    "strategy": "cat+kw+size",
-    "method": "trimmed_mean_10pct",
-    "filters": {
-      "category": 261328,
-      "cardSize": "Standard",
-      "sold": true,
-      "completed": true,
-      "rt": "nc",
-      "site": "ebay.ca",
-      "prefLoc": "worldwide"
-    }
+    "marketplaces": {
+      "EBAY_US": {
+        "activeListingPriceAverage": 25.749799999999986,
+        "activeListingCount": 100,
+        "soldPriceAverage": 26.369799999999987,
+        "soldCount": 100,
+        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
+        "passedAspectGate": true
+      },
+      "EBAY_CA": {
+        "activeListingPriceAverage": 52.35649999999997,
+        "activeListingCount": 100,
+        "soldPriceAverage": 52.356499999999976,
+        "soldCount": 100,
+        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
+        "passedAspectGate": true
+      }
+    },
+    "asOf": "2026-02-17T17:08:17.355Z",
+    "method": "mean_fixed_price_only; sold_avg_best_effort",
+    "categoryId": "261328"
   },
   "Jose Butto": {
     "sport": "Baseball",
-    "league": "MLB",
-    "team": "Giants",
-    "avg": 1.35,
-    "n": 10,
-    "currency": "CAD",
-    "asOf": "2026-02-17T14:38:42.968Z",
-    "source": "https://www.ebay.ca/sch/i.html?_nkw=Jose+Butto+Baseball+card&LH_Complete=1&LH_Sold=1&rt=nc&_sacat=261328&Card+Size=Standard",
-    "finalUrl": "https://www.ebay.ca/sch/i.html?_nkw=Jose+Butto+Baseball+card&LH_Complete=1&LH_Sold=1&rt=nc&_sacat=261328&Card+Size=Standard",
-    "strategy": "cat+kw+size",
-    "method": "trimmed_mean_10pct",
-    "filters": {
-      "category": 261328,
-      "cardSize": "Standard",
-      "sold": true,
-      "completed": true,
-      "rt": "nc",
-      "site": "ebay.ca",
-      "prefLoc": "worldwide"
-    }
+    "marketplaces": {
+      "EBAY_US": {
+        "activeListingPriceAverage": 9.473800000000004,
+        "activeListingCount": 100,
+        "soldPriceAverage": 9.428800000000003,
+        "soldCount": 100,
+        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
+        "passedAspectGate": true
+      },
+      "EBAY_CA": {
+        "activeListingPriceAverage": 15.434399999999998,
+        "activeListingCount": 100,
+        "soldPriceAverage": 15.434399999999998,
+        "soldCount": 100,
+        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
+        "passedAspectGate": true
+      }
+    },
+    "asOf": "2026-02-17T17:08:17.355Z",
+    "method": "mean_fixed_price_only; sold_avg_best_effort",
+    "categoryId": "261328"
   },
   "Keibert Ruiz": {
     "sport": "Baseball",
-    "league": "MLB",
-    "team": "Nationals",
-    "avg": 1.35,
-    "n": 10,
-    "currency": "CAD",
-    "asOf": "2026-02-17T14:38:42.968Z",
-    "source": "https://www.ebay.ca/sch/i.html?_nkw=Keibert+Ruiz+Baseball+card&LH_Complete=1&LH_Sold=1&rt=nc&_sacat=261328&Card+Size=Standard",
-    "finalUrl": "https://www.ebay.ca/sch/i.html?_nkw=Keibert+Ruiz+Baseball+card&LH_Complete=1&LH_Sold=1&rt=nc&_sacat=261328&Card+Size=Standard",
-    "strategy": "cat+kw+size",
-    "method": "trimmed_mean_10pct",
-    "filters": {
-      "category": 261328,
-      "cardSize": "Standard",
-      "sold": true,
-      "completed": true,
-      "rt": "nc",
-      "site": "ebay.ca",
-      "prefLoc": "worldwide"
-    }
-  },
-  "Keider Montero": {
-    "sport": "Baseball",
-    "league": "MLB",
-    "team": "Tigers",
-    "avg": 1.17,
-    "n": 10,
-    "currency": "CAD",
-    "asOf": "2026-02-17T14:38:42.968Z",
-    "source": "https://www.ebay.ca/sch/i.html?_nkw=Keider+Montero+Baseball+card&LH_Complete=1&LH_Sold=1&rt=nc&_sacat=261328&Card+Size=Standard",
-    "finalUrl": "https://www.ebay.ca/sch/i.html?_nkw=Keider+Montero+Baseball+card&LH_Complete=1&LH_Sold=1&rt=nc&_sacat=261328&Card+Size=Standard",
-    "strategy": "cat+kw+size",
-    "method": "trimmed_mean_10pct",
-    "filters": {
-      "category": 261328,
-      "cardSize": "Standard",
-      "sold": true,
-      "completed": true,
-      "rt": "nc",
-      "site": "ebay.ca",
-      "prefLoc": "worldwide"
-    }
+    "marketplaces": {
+      "EBAY_US": {
+        "activeListingPriceAverage": 11.119800000000005,
+        "activeListingCount": 100,
+        "soldPriceAverage": 11.099800000000005,
+        "soldCount": 100,
+        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
+        "passedAspectGate": true
+      },
+      "EBAY_CA": {
+        "activeListingPriceAverage": 9.469700000000005,
+        "activeListingCount": 100,
+        "soldPriceAverage": 8.876700000000005,
+        "soldCount": 100,
+        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
+        "passedAspectGate": true
+      }
+    },
+    "asOf": "2026-02-17T17:08:17.355Z",
+    "method": "mean_fixed_price_only; sold_avg_best_effort",
+    "categoryId": "261328"
   },
   "Luis Arraez": {
     "sport": "Baseball",
-    "league": "MLB",
-    "team": "Padres",
-    "avg": 1.35,
-    "n": 10,
-    "currency": "CAD",
-    "asOf": "2026-02-17T14:38:42.968Z",
-    "source": "https://www.ebay.ca/sch/i.html?_nkw=Luis+Arraez+Baseball+card&LH_Complete=1&LH_Sold=1&rt=nc&_sacat=261328&Card+Size=Standard",
-    "finalUrl": "https://www.ebay.ca/sch/i.html?_nkw=Luis+Arraez+Baseball+card&LH_Complete=1&LH_Sold=1&rt=nc&_sacat=261328&Card+Size=Standard",
-    "strategy": "cat+kw+size",
-    "method": "trimmed_mean_10pct",
-    "filters": {
-      "category": 261328,
-      "cardSize": "Standard",
-      "sold": true,
-      "completed": true,
-      "rt": "nc",
-      "site": "ebay.ca",
-      "prefLoc": "worldwide"
-    }
+    "marketplaces": {
+      "EBAY_US": {
+        "activeListingPriceAverage": 31.066699999999972,
+        "activeListingCount": 100,
+        "soldPriceAverage": 30.936699999999973,
+        "soldCount": 100,
+        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
+        "passedAspectGate": true
+      },
+      "EBAY_CA": {
+        "activeListingPriceAverage": 78.4757,
+        "activeListingCount": 100,
+        "soldPriceAverage": 78.4757,
+        "soldCount": 100,
+        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
+        "passedAspectGate": true
+      }
+    },
+    "asOf": "2026-02-17T17:08:17.355Z",
+    "method": "mean_fixed_price_only; sold_avg_best_effort",
+    "categoryId": "261328"
   },
   "Luis Matos": {
     "sport": "Baseball",
-    "league": "MLB",
-    "team": "Giants",
-    "avg": 1.3,
-    "n": 10,
-    "currency": "CAD",
-    "asOf": "2026-02-17T14:38:42.968Z",
-    "source": "https://www.ebay.ca/sch/i.html?_nkw=Luis+Matos+Baseball+card&LH_Complete=1&LH_Sold=1&rt=nc&_sacat=261328&Card+Size=Standard",
-    "finalUrl": "https://www.ebay.ca/sch/i.html?_nkw=Luis+Matos+Baseball+card&LH_Complete=1&LH_Sold=1&rt=nc&_sacat=261328&Card+Size=Standard",
-    "strategy": "cat+kw+size",
-    "method": "trimmed_mean_10pct",
-    "filters": {
-      "category": 261328,
-      "cardSize": "Standard",
-      "sold": true,
-      "completed": true,
-      "rt": "nc",
-      "site": "ebay.ca",
-      "prefLoc": "worldwide"
-    }
+    "marketplaces": {
+      "EBAY_US": {
+        "activeListingPriceAverage": 21.697899999999994,
+        "activeListingCount": 100,
+        "soldPriceAverage": 21.497999999999994,
+        "soldCount": 100,
+        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
+        "passedAspectGate": true
+      },
+      "EBAY_CA": {
+        "activeListingPriceAverage": 77.93679999999998,
+        "activeListingCount": 100,
+        "soldPriceAverage": 78.73429999999998,
+        "soldCount": 100,
+        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
+        "passedAspectGate": true
+      }
+    },
+    "asOf": "2026-02-17T17:08:17.355Z",
+    "method": "mean_fixed_price_only; sold_avg_best_effort",
+    "categoryId": "261328"
   },
   "Maikel Garcia": {
     "sport": "Baseball",
-    "league": "MLB",
-    "team": "Royals",
-    "avg": null,
-    "n": 0,
-    "currency": "CAD",
-    "asOf": "2026-02-17T14:38:42.968Z",
-    "error": "Blocked/consent/captcha page detected (eBay anti-bot)."
+    "marketplaces": {
+      "EBAY_US": {
+        "activeListingPriceAverage": 34.10859999999995,
+        "activeListingCount": 100,
+        "soldPriceAverage": 34.08869999999995,
+        "soldCount": 100,
+        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
+        "passedAspectGate": true
+      },
+      "EBAY_CA": {
+        "activeListingPriceAverage": 60.3491,
+        "activeListingCount": 100,
+        "soldPriceAverage": 60.2705,
+        "soldCount": 100,
+        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
+        "passedAspectGate": true
+      }
+    },
+    "asOf": "2026-02-17T17:08:17.355Z",
+    "method": "mean_fixed_price_only; sold_avg_best_effort",
+    "categoryId": "261328"
   },
   "Miguel Rojas": {
     "sport": "Baseball",
-    "league": "MLB",
-    "team": "Dodgers",
-    "avg": null,
-    "n": 0,
-    "currency": "CAD",
-    "asOf": "2026-02-17T14:38:42.968Z",
-    "error": "Blocked/consent/captcha page detected (eBay anti-bot)."
+    "marketplaces": {
+      "EBAY_US": {
+        "activeListingPriceAverage": 30.869399999999917,
+        "activeListingCount": 100,
+        "soldPriceAverage": 30.871799999999915,
+        "soldCount": 100,
+        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
+        "passedAspectGate": true
+      },
+      "EBAY_CA": {
+        "activeListingPriceAverage": 37.40319999999999,
+        "activeListingCount": 100,
+        "soldPriceAverage": 37.34109999999999,
+        "soldCount": 100,
+        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
+        "passedAspectGate": true
+      }
+    },
+    "asOf": "2026-02-17T17:08:17.355Z",
+    "method": "mean_fixed_price_only; sold_avg_best_effort",
+    "categoryId": "261328"
   },
   "Ronald Acuña Jr.": {
     "sport": "Baseball",
-    "league": "MLB",
-    "team": "Braves",
-    "avg": null,
-    "n": 0,
-    "currency": "CAD",
-    "asOf": "2026-02-17T14:38:42.968Z",
-    "error": "Blocked/consent/captcha page detected (eBay anti-bot)."
+    "marketplaces": {
+      "EBAY_US": {
+        "activeListingPriceAverage": 10.234000000000004,
+        "activeListingCount": 100,
+        "soldPriceAverage": 10.234000000000004,
+        "soldCount": 100,
+        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
+        "passedAspectGate": true
+      },
+      "EBAY_CA": {
+        "activeListingPriceAverage": 17.39899999999999,
+        "activeListingCount": 100,
+        "soldPriceAverage": 17.297499999999996,
+        "soldCount": 100,
+        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
+        "passedAspectGate": true
+      }
+    },
+    "asOf": "2026-02-17T17:08:17.355Z",
+    "method": "mean_fixed_price_only; sold_avg_best_effort",
+    "categoryId": "261328"
   },
   "Salvador Perez": {
     "sport": "Baseball",
-    "league": "MLB",
-    "team": "Royals",
-    "avg": null,
-    "n": 0,
-    "currency": "CAD",
-    "asOf": "2026-02-17T14:38:42.968Z",
-    "error": "Blocked/consent/captcha page detected (eBay anti-bot)."
+    "marketplaces": {
+      "EBAY_US": {
+        "activeListingPriceAverage": 21.084099999999985,
+        "activeListingCount": 100,
+        "soldPriceAverage": 21.087899999999987,
+        "soldCount": 100,
+        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
+        "passedAspectGate": true
+      },
+      "EBAY_CA": {
+        "activeListingPriceAverage": 48.84439999999996,
+        "activeListingCount": 100,
+        "soldPriceAverage": 48.85429999999996,
+        "soldCount": 100,
+        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
+        "passedAspectGate": true
+      }
+    },
+    "asOf": "2026-02-17T17:08:17.355Z",
+    "method": "mean_fixed_price_only; sold_avg_best_effort",
+    "categoryId": "261328"
   },
   "William Contreras": {
     "sport": "Baseball",
-    "league": "MLB",
-    "team": "Brewers",
-    "avg": null,
-    "n": 0,
-    "currency": "CAD",
-    "asOf": "2026-02-17T14:38:42.968Z",
-    "error": "Blocked/consent/captcha page detected (eBay anti-bot)."
+    "marketplaces": {
+      "EBAY_US": {
+        "activeListingPriceAverage": 23.386499999999984,
+        "activeListingCount": 100,
+        "soldPriceAverage": 23.386499999999984,
+        "soldCount": 100,
+        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
+        "passedAspectGate": true
+      },
+      "EBAY_CA": {
+        "activeListingPriceAverage": 49.51529999999998,
+        "activeListingCount": 100,
+        "soldPriceAverage": 49.92439999999998,
+        "soldCount": 100,
+        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
+        "passedAspectGate": true
+      }
+    },
+    "asOf": "2026-02-17T17:08:17.355Z",
+    "method": "mean_fixed_price_only; sold_avg_best_effort",
+    "categoryId": "261328"
   },
   "Wilyer Abreu": {
     "sport": "Baseball",
-    "league": "MLB",
-    "team": "Red Sox",
-    "avg": null,
-    "n": 0,
-    "currency": "CAD",
-    "asOf": "2026-02-17T14:38:42.968Z",
-    "error": "Blocked/consent/captcha page detected (eBay anti-bot)."
-  },
-  "Yilber Diaz": {
-    "sport": "Baseball",
-    "league": "MLB",
-    "team": "Diamondbacks",
-    "avg": null,
-    "n": 0,
-    "currency": "CAD",
-    "asOf": "2026-02-17T14:38:42.968Z",
-    "error": "Blocked/consent/captcha page detected (eBay anti-bot)."
-  },
-  "Michael Carrera": {
-    "sport": "Basketball",
-    "league": "LEB Oro",
-    "team": "Estudiantes",
-    "avg": null,
-    "n": 0,
-    "currency": "CAD",
-    "asOf": "2026-02-17T14:38:42.968Z",
-    "error": "Blocked/consent/captcha page detected (eBay anti-bot)."
-  },
-  "Heissler Guillent": {
-    "sport": "Basketball",
-    "league": "LNBP",
-    "team": "Astros",
-    "avg": null,
-    "n": 0,
-    "currency": "CAD",
-    "asOf": "2026-02-17T14:38:42.968Z",
-    "error": "Blocked/consent/captcha page detected (eBay anti-bot)."
-  },
-  "Jose Ascanio": {
-    "sport": "Basketball",
-    "league": "Liga Nacional",
-    "team": "Oberá",
-    "avg": null,
-    "n": 0,
-    "currency": "CAD",
-    "asOf": "2026-02-17T14:38:42.968Z",
-    "error": "Blocked/consent/captcha page detected (eBay anti-bot)."
-  },
-  "Pedro Chourio": {
-    "sport": "Basketball",
-    "league": "NBB",
-    "team": "São José",
-    "avg": null,
-    "n": 0,
-    "currency": "CAD",
-    "asOf": "2026-02-17T14:38:42.968Z",
-    "error": "Blocked/consent/captcha page detected (eBay anti-bot)."
-  },
-  "David Cubillan": {
-    "sport": "Basketball",
-    "league": "SLB",
-    "team": "Trotamundos",
-    "avg": null,
-    "n": 0,
-    "currency": "CAD",
-    "asOf": "2026-02-17T14:38:42.968Z",
-    "error": "Blocked/consent/captcha page detected (eBay anti-bot)."
-  },
-  "Amleto Monacelli": {
-    "sport": "Bowling",
-    "league": "PBA50",
-    "team": "Unknown",
-    "avg": null,
-    "n": 0,
-    "currency": "CAD",
-    "asOf": "2026-02-17T14:38:42.968Z",
-    "error": "Blocked/consent/captcha page detected (eBay anti-bot)."
-  },
-  "Andres Borregales": {
-    "sport": "Football",
-    "league": "NFL",
-    "team": "New England Patriots",
-    "avg": null,
-    "n": 0,
-    "currency": "CAD",
-    "asOf": "2026-02-17T14:38:42.968Z",
-    "error": "Blocked/consent/captcha page detected (eBay anti-bot)."
-  },
-  "Jhonattan Vegas": {
-    "sport": "Golf",
-    "league": "PGA",
-    "team": "Venezuela",
-    "avg": null,
-    "n": 0,
-    "currency": "CAD",
-    "asOf": "2026-02-17T14:38:42.968Z",
-    "error": "Blocked/consent/captcha page detected (eBay anti-bot)."
-  },
-  "Marlon Vera": {
-    "sport": "MMA",
-    "league": "UFC",
-    "team": "Venezuela",
-    "avg": null,
-    "n": 0,
-    "currency": "CAD",
-    "asOf": "2026-02-17T14:38:42.968Z",
-    "error": "Blocked/consent/captcha page detected (eBay anti-bot)."
-  },
-  "Jon Aramburu": {
-    "sport": "Soccer",
-    "league": "La Liga",
-    "team": "Real Sociedad",
-    "avg": null,
-    "n": 0,
-    "currency": "CAD",
-    "asOf": "2026-02-17T14:38:42.968Z",
-    "error": "Blocked/consent/captcha page detected (eBay anti-bot)."
+    "marketplaces": {
+      "EBAY_US": {
+        "activeListingPriceAverage": 67.24809999999994,
+        "activeListingCount": 100,
+        "soldPriceAverage": 67.24809999999994,
+        "soldCount": 100,
+        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
+        "passedAspectGate": true
+      },
+      "EBAY_CA": {
+        "activeListingPriceAverage": 202.1311,
+        "activeListingCount": 100,
+        "soldPriceAverage": 220.53969999999993,
+        "soldCount": 100,
+        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
+        "passedAspectGate": true
+      }
+    },
+    "asOf": "2026-02-17T17:08:17.355Z",
+    "method": "mean_fixed_price_only; sold_avg_best_effort",
+    "categoryId": "261328"
   },
   "Yangel Herrera": {
     "sport": "Soccer",
-    "league": "La Liga",
-    "team": "Real Sociedad",
-    "avg": null,
-    "n": 0,
-    "currency": "CAD",
-    "asOf": "2026-02-17T14:38:42.968Z",
-    "error": "Blocked/consent/captcha page detected (eBay anti-bot)."
+    "marketplaces": {
+      "EBAY_US": {
+        "activeListingPriceAverage": 7.210500000000003,
+        "activeListingCount": 100,
+        "soldPriceAverage": 7.180500000000003,
+        "soldCount": 100,
+        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
+        "passedAspectGate": true
+      },
+      "EBAY_CA": {
+        "activeListingPriceAverage": 19.405599999999996,
+        "activeListingCount": 100,
+        "soldPriceAverage": 19.824299999999997,
+        "soldCount": 100,
+        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
+        "passedAspectGate": true
+      }
+    },
+    "asOf": "2026-02-17T17:08:17.355Z",
+    "method": "mean_fixed_price_only; sold_avg_best_effort",
+    "categoryId": "261328"
   },
   "Salomon Rondon": {
     "sport": "Soccer",
-    "league": "La Liga MX",
-    "team": "Pachuca",
-    "avg": null,
-    "n": 0,
-    "currency": "CAD",
-    "asOf": "2026-02-17T14:38:42.968Z",
-    "error": "Blocked/consent/captcha page detected (eBay anti-bot)."
-  },
-  "Cristian Cásseres Jr.": {
-    "sport": "Soccer",
-    "league": "Ligue 1",
-    "team": "Toulouse",
-    "avg": null,
-    "n": 0,
-    "currency": "CAD",
-    "asOf": "2026-02-17T14:38:42.968Z",
-    "error": "Blocked/consent/captcha page detected (eBay anti-bot)."
-  },
-  "Abel Caputo": {
-    "sport": "Soccer",
-    "league": "MLS",
-    "team": "Unknown",
-    "avg": 3.13,
-    "n": 10,
-    "currency": "CAD",
-    "asOf": "2026-02-17T14:38:42.968Z",
-    "source": "https://www.ebay.ca/sch/i.html?_nkw=Abel+Caputo+Soccer+card&LH_Complete=1&LH_Sold=1&rt=nc&_sacat=261328&Card+Size=Standard",
-    "finalUrl": "https://www.ebay.ca/sch/i.html?_nkw=Abel+Caputo+Soccer+card&LH_Complete=1&LH_Sold=1&rt=nc&_sacat=261328&Card+Size=Standard",
-    "strategy": "cat+kw+size",
-    "method": "trimmed_mean_10pct",
-    "filters": {
-      "category": 261328,
-      "cardSize": "Standard",
-      "sold": true,
-      "completed": true,
-      "rt": "nc",
-      "site": "ebay.ca",
-      "prefLoc": "worldwide"
-    }
-  },
-  "Alejandro Fuenmayor": {
-    "sport": "Soccer",
-    "league": "MLS",
-    "team": "Unknown",
-    "avg": null,
-    "n": 0,
-    "currency": "CAD",
-    "asOf": "2026-02-17T14:38:42.968Z",
-    "error": "Blocked/consent/captcha page detected (eBay anti-bot)."
-  },
-  "Alejandro Moreno": {
-    "sport": "Soccer",
-    "league": "MLS",
-    "team": "Unknown",
-    "avg": null,
-    "n": 0,
-    "currency": "CAD",
-    "asOf": "2026-02-17T14:38:42.968Z",
-    "error": "Blocked/consent/captcha page detected (eBay anti-bot)."
-  },
-  "David Martínez": {
-    "sport": "Soccer",
-    "league": "MLS",
-    "team": "LAFC",
-    "avg": null,
-    "n": 0,
-    "currency": "CAD",
-    "asOf": "2026-02-17T14:38:42.968Z",
-    "error": "Blocked/consent/captcha page detected (eBay anti-bot)."
+    "marketplaces": {
+      "EBAY_US": {
+        "activeListingPriceAverage": 14.058400000000004,
+        "activeListingCount": 100,
+        "soldPriceAverage": 14.333500000000004,
+        "soldCount": 100,
+        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
+        "passedAspectGate": true
+      },
+      "EBAY_CA": {
+        "activeListingPriceAverage": 25.10520000000001,
+        "activeListingCount": 100,
+        "soldPriceAverage": 25.24750000000001,
+        "soldCount": 100,
+        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
+        "passedAspectGate": true
+      }
+    },
+    "asOf": "2026-02-17T17:08:17.355Z",
+    "method": "mean_fixed_price_only; sold_avg_best_effort",
+    "categoryId": "261328"
   },
   "Alejandro Marqués": {
     "sport": "Soccer",
-    "league": "UCL",
-    "team": "Unknown",
-    "avg": null,
-    "n": 0,
-    "currency": "CAD",
-    "asOf": "2026-02-17T14:38:42.968Z",
-    "error": "Blocked/consent/captcha page detected (eBay anti-bot)."
-  },
-  "Telasco Segovia": {
-    "sport": "Soccer",
-    "league": "Primeira Liga",
-    "team": "Casa Pia",
-    "avg": null,
-    "n": 0,
-    "currency": "CAD",
-    "asOf": "2026-02-17T14:38:42.968Z",
-    "error": "Blocked/consent/captcha page detected (eBay anti-bot)."
-  },
-  "Alessandro Milani": {
-    "sport": "Soccer",
-    "league": "Serie A",
-    "team": "Unknown",
-    "avg": null,
-    "n": 0,
-    "currency": "CAD",
-    "asOf": "2026-02-17T14:38:42.968Z",
-    "error": "Blocked/consent/captcha page detected (eBay anti-bot)."
-  },
-  "Yeferson Soteldo": {
-    "sport": "Soccer",
-    "league": "Serie A",
-    "team": "Grêmio",
-    "avg": null,
-    "n": 0,
-    "currency": "CAD",
-    "asOf": "2026-02-17T14:38:42.968Z",
-    "error": "Blocked/consent/captcha page detected (eBay anti-bot)."
-  },
-  "Jefferson Savarino": {
-    "sport": "Soccer",
-    "league": "Série A",
-    "team": "Botafogo",
-    "avg": null,
-    "n": 0,
-    "currency": "CAD",
-    "asOf": "2026-02-17T14:38:42.968Z",
-    "error": "Blocked/consent/captcha page detected (eBay anti-bot)."
-  },
-  "Nahuel Ferraresi": {
-    "sport": "Soccer",
-    "league": "Série A",
-    "team": "São Paulo",
-    "avg": null,
-    "n": 0,
-    "currency": "CAD",
-    "asOf": "2026-02-17T14:38:42.968Z",
-    "error": "Blocked/consent/captcha page detected (eBay anti-bot)."
-  },
-  "Garbiñe Muguruza": {
-    "sport": "Tennis",
-    "league": "WTA",
-    "team": "Venezuela",
-    "avg": null,
-    "n": 0,
-    "currency": "CAD",
-    "asOf": "2026-02-17T14:38:42.968Z",
-    "error": "Blocked/consent/captcha page detected (eBay anti-bot)."
+    "marketplaces": {
+      "EBAY_US": {
+        "activeListingPriceAverage": 2.8639000000000014,
+        "activeListingCount": 100,
+        "soldPriceAverage": 2.8639000000000014,
+        "soldCount": 100,
+        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
+        "passedAspectGate": true
+      },
+      "EBAY_CA": {
+        "activeListingPriceAverage": 3.8776000000000015,
+        "activeListingCount": 100,
+        "soldPriceAverage": 3.8776000000000015,
+        "soldCount": 100,
+        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
+        "passedAspectGate": true
+      }
+    },
+    "asOf": "2026-02-17T17:08:17.355Z",
+    "method": "mean_fixed_price_only; sold_avg_best_effort",
+    "categoryId": "261328"
   }
 }
