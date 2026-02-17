@@ -294,10 +294,31 @@
         "provider": "balldontlie"
     },
     {
+        "name": "Abel Caputo",
+        "sport": "Soccer",
+        "league": "MLS",
+        "team": "Unknown",
+        "provider": "balldontlie"
+    },
+    {
         "name": "Alejandro Fuenmayor",
         "sport": "Soccer",
         "league": "MLS",
         "team": "Phoenix Rising FC",
+        "provider": "balldontlie"
+    },
+    {
+        "name": "Alejandro Fuenmayor",
+        "sport": "Soccer",
+        "league": "MLS",
+        "team": "Unknown",
+        "provider": "balldontlie"
+    },
+    {
+        "name": "Alejandro Moreno",
+        "sport": "Soccer",
+        "league": "MLS",
+        "team": "Unknown",
         "provider": "balldontlie"
     },
     {
@@ -308,6 +329,13 @@
         "provider": "manual"
     },
     {
+        "name": "Alejandro Marqués",
+        "sport": "Soccer",
+        "league": "Primeira Liga",
+        "team": "Estoril",
+        "provider": "balldontlie"
+    },
+    {
         "name": "Telasco Segovia",
         "sport": "Soccer",
         "league": "Primeira Liga",
@@ -315,10 +343,24 @@
         "provider": "manual"
     },
     {
+        "name": "Alejandro Marqués",
+        "sport": "Soccer",
+        "league": "Serie A",
+        "team": "Unknown",
+        "provider": "balldontlie"
+    },
+    {
         "name": "Alessandro Milani",
         "sport": "Soccer",
         "league": "Serie A",
         "team": "Lazio",
+        "provider": "balldontlie"
+    },
+    {
+        "name": "Alessandro Milani",
+        "sport": "Soccer",
+        "league": "Serie A",
+        "team": "Unknown",
         "provider": "balldontlie"
     },
     {
@@ -345,8 +387,8 @@
     {
         "name": "Alejandro Marqués",
         "sport": "Soccer",
-        "league": "Primeira Liga",
-        "team": "Estoril",
+        "league": "UCL",
+        "team": "Unknown",
         "provider": "balldontlie"
     },
     {
