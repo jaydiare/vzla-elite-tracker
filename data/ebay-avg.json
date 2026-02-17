@@ -1,674 +1,1272 @@
 {
-  "Andres Gimenez": {
-    "sport": "Baseball",
+  "_meta": {
+    "updatedAt": "2026-02-17T18:35:04.213Z",
+    "minSampleSize": 5,
+    "marketplaces": [
+      "EBAY_US",
+      "EBAY_CA"
+    ],
+    "categoryId": "261328",
+    "note": "Active listing averages only (Browse API FIXED_PRICE). No sold data."
+  },
+  "Andres Chaparro": {
+    "match": {
+      "mode": "player",
+      "value": "Andres Chaparro",
+      "validatedOn": "EBAY_CA"
+    },
     "marketplaces": {
       "EBAY_US": {
-        "activeListingPriceAverage": 25.176399999999987,
-        "activeListingCount": 100,
-        "soldPriceAverage": 25.176399999999987,
-        "soldCount": 100,
-        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
-        "passedAspectGate": true
+        "aspectMode": "player",
+        "aspectValue": "Andres Chaparro",
+        "avgListing": 8.065250000000002,
+        "nListing": 200,
+        "currency": "USD"
       },
       "EBAY_CA": {
-        "activeListingPriceAverage": 40.6185,
-        "activeListingCount": 100,
-        "soldPriceAverage": 40.6867,
-        "soldCount": 100,
-        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
-        "passedAspectGate": true
+        "aspectMode": "player",
+        "aspectValue": "Andres Chaparro",
+        "avgListing": 21.819599999999987,
+        "nListing": 200,
+        "currency": "CAD"
       }
     },
-    "asOf": "2026-02-17T17:08:17.355Z",
-    "method": "mean_fixed_price_only; sold_avg_best_effort",
-    "categoryId": "261328"
+    "avg": 21.819599999999987,
+    "n": 200,
+    "avgListing": 21.819599999999987,
+    "nListing": 200,
+    "currency": "CAD"
+  },
+  "Andres Gimenez": {
+    "match": {
+      "mode": "player",
+      "value": "Andres Gimenez",
+      "validatedOn": "EBAY_CA"
+    },
+    "marketplaces": {
+      "EBAY_US": {
+        "aspectMode": "player",
+        "aspectValue": "Andres Gimenez",
+        "avgListing": 20.894999999999936,
+        "nListing": 200,
+        "currency": "USD"
+      },
+      "EBAY_CA": {
+        "aspectMode": "player",
+        "aspectValue": "Andres Gimenez",
+        "avgListing": 46.80135,
+        "nListing": 200,
+        "currency": "CAD"
+      }
+    },
+    "avg": 46.80135,
+    "n": 200,
+    "avgListing": 46.80135,
+    "nListing": 200,
+    "currency": "CAD"
   },
   "Angel Zerpa": {
-    "sport": "Baseball",
+    "match": {
+      "mode": "player",
+      "value": "Angel Zerpa",
+      "validatedOn": "EBAY_CA"
+    },
     "marketplaces": {
       "EBAY_US": {
-        "activeListingPriceAverage": 11.361500000000003,
-        "activeListingCount": 100,
-        "soldPriceAverage": 11.360500000000004,
-        "soldCount": 100,
-        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
-        "passedAspectGate": true
+        "aspectMode": "player",
+        "aspectValue": "Angel Zerpa",
+        "avgListing": 10.095900000000007,
+        "nListing": 200,
+        "currency": "USD"
       },
       "EBAY_CA": {
-        "activeListingPriceAverage": 24.252899999999997,
-        "activeListingCount": 100,
-        "soldPriceAverage": 24.252899999999997,
-        "soldCount": 100,
-        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
-        "passedAspectGate": true
+        "aspectMode": "player",
+        "aspectValue": "Angel Zerpa",
+        "avgListing": 18.089950000000012,
+        "nListing": 200,
+        "currency": "CAD"
       }
     },
-    "asOf": "2026-02-17T17:08:17.355Z",
-    "method": "mean_fixed_price_only; sold_avg_best_effort",
-    "categoryId": "261328"
+    "avg": 18.089950000000012,
+    "n": 200,
+    "avgListing": 18.089950000000012,
+    "nListing": 200,
+    "currency": "CAD"
   },
   "Anthony Santander": {
-    "sport": "Baseball",
+    "match": {
+      "mode": "player",
+      "value": "Anthony Santander",
+      "validatedOn": "EBAY_CA"
+    },
     "marketplaces": {
       "EBAY_US": {
-        "activeListingPriceAverage": 11.151900000000005,
-        "activeListingCount": 100,
-        "soldPriceAverage": 11.243700000000004,
-        "soldCount": 100,
-        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
-        "passedAspectGate": true
+        "aspectMode": "player",
+        "aspectValue": "Anthony Santander",
+        "avgListing": 11.269249999999992,
+        "nListing": 200,
+        "currency": "USD"
       },
       "EBAY_CA": {
-        "activeListingPriceAverage": 20.67450000000001,
-        "activeListingCount": 100,
-        "soldPriceAverage": 19.719300000000004,
-        "soldCount": 100,
-        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
-        "passedAspectGate": true
+        "aspectMode": "player",
+        "aspectValue": "Anthony Santander",
+        "avgListing": 26.22064999999999,
+        "nListing": 200,
+        "currency": "CAD"
       }
     },
-    "asOf": "2026-02-17T17:08:17.355Z",
-    "method": "mean_fixed_price_only; sold_avg_best_effort",
-    "categoryId": "261328"
+    "avg": 26.22064999999999,
+    "n": 200,
+    "avgListing": 26.22064999999999,
+    "nListing": 200,
+    "currency": "CAD"
   },
   "Antonio Senzatela": {
-    "sport": "Baseball",
+    "match": {
+      "mode": "player",
+      "value": "Antonio Senzatela",
+      "validatedOn": "EBAY_CA"
+    },
     "marketplaces": {
       "EBAY_US": {
-        "activeListingPriceAverage": 4.123400000000003,
-        "activeListingCount": 100,
-        "soldPriceAverage": 4.013400000000003,
-        "soldCount": 100,
-        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
-        "passedAspectGate": true
+        "aspectMode": "player",
+        "aspectValue": "Antonio Senzatela",
+        "avgListing": 3.845450000000005,
+        "nListing": 200,
+        "currency": "USD"
       },
       "EBAY_CA": {
-        "activeListingPriceAverage": 5.075100000000002,
-        "activeListingCount": 100,
-        "soldPriceAverage": 4.874700000000002,
-        "soldCount": 100,
-        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
-        "passedAspectGate": true
+        "aspectMode": "player",
+        "aspectValue": "Antonio Senzatela",
+        "avgListing": 5.580850000000005,
+        "nListing": 200,
+        "currency": "CAD"
       }
     },
-    "asOf": "2026-02-17T17:08:17.355Z",
-    "method": "mean_fixed_price_only; sold_avg_best_effort",
-    "categoryId": "261328"
+    "avg": 5.580850000000005,
+    "n": 200,
+    "avgListing": 5.580850000000005,
+    "nListing": 200,
+    "currency": "CAD"
   },
   "Eduardo Rodriguez": {
-    "sport": "Baseball",
+    "match": {
+      "mode": "player",
+      "value": "Eduardo Rodriguez",
+      "validatedOn": "EBAY_CA"
+    },
     "marketplaces": {
       "EBAY_US": {
-        "activeListingPriceAverage": 7.567200000000002,
-        "activeListingCount": 100,
-        "soldPriceAverage": 7.567200000000002,
-        "soldCount": 100,
-        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
-        "passedAspectGate": true
+        "aspectMode": "player",
+        "aspectValue": "Eduardo Rodriguez",
+        "avgListing": 6.770250000000003,
+        "nListing": 200,
+        "currency": "USD"
       },
       "EBAY_CA": {
-        "activeListingPriceAverage": 7.061700000000002,
-        "activeListingCount": 100,
-        "soldPriceAverage": 7.053200000000003,
-        "soldCount": 100,
-        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
-        "passedAspectGate": true
+        "aspectMode": "player",
+        "aspectValue": "Eduardo Rodriguez",
+        "avgListing": 8.400250000000003,
+        "nListing": 200,
+        "currency": "CAD"
       }
     },
-    "asOf": "2026-02-17T17:08:17.355Z",
-    "method": "mean_fixed_price_only; sold_avg_best_effort",
-    "categoryId": "261328"
+    "avg": 8.400250000000003,
+    "n": 200,
+    "avgListing": 8.400250000000003,
+    "nListing": 200,
+    "currency": "CAD"
   },
   "Eugenio Suarez": {
-    "sport": "Baseball",
+    "match": {
+      "mode": "player",
+      "value": "Eugenio Suarez",
+      "validatedOn": "EBAY_CA"
+    },
     "marketplaces": {
       "EBAY_US": {
-        "activeListingPriceAverage": 22.4306,
-        "activeListingCount": 100,
-        "soldPriceAverage": 22.4306,
-        "soldCount": 100,
-        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
-        "passedAspectGate": true
+        "aspectMode": "player",
+        "aspectValue": "Eugenio Suarez",
+        "avgListing": 43.041499999999935,
+        "nListing": 200,
+        "currency": "USD"
       },
       "EBAY_CA": {
-        "activeListingPriceAverage": 46.7196,
-        "activeListingCount": 100,
-        "soldPriceAverage": 82.7534,
-        "soldCount": 100,
-        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
-        "passedAspectGate": true
+        "aspectMode": "player",
+        "aspectValue": "Eugenio Suarez",
+        "avgListing": 57.76894999999999,
+        "nListing": 200,
+        "currency": "CAD"
       }
     },
-    "asOf": "2026-02-17T17:08:17.355Z",
-    "method": "mean_fixed_price_only; sold_avg_best_effort",
-    "categoryId": "261328"
+    "avg": 57.76894999999999,
+    "n": 200,
+    "avgListing": 57.76894999999999,
+    "nListing": 200,
+    "currency": "CAD"
   },
   "Eugenio Suárez": {
-    "sport": "Baseball",
+    "match": {
+      "mode": "player",
+      "value": "Eugenio Suárez",
+      "validatedOn": "EBAY_CA"
+    },
     "marketplaces": {
       "EBAY_US": {
-        "activeListingPriceAverage": 9.975500000000004,
-        "activeListingCount": 100,
-        "soldPriceAverage": 9.945500000000003,
-        "soldCount": 100,
-        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
-        "passedAspectGate": true
+        "aspectMode": "player",
+        "aspectValue": "Eugenio Suárez",
+        "avgListing": 8.009500000000006,
+        "nListing": 200,
+        "currency": "USD"
       },
       "EBAY_CA": {
-        "activeListingPriceAverage": 17.3809,
-        "activeListingCount": 100,
-        "soldPriceAverage": 17.3809,
-        "soldCount": 100,
-        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
-        "passedAspectGate": true
+        "aspectMode": "player",
+        "aspectValue": "Eugenio Suárez",
+        "avgListing": 20.13359999999999,
+        "nListing": 200,
+        "currency": "CAD"
       }
     },
-    "asOf": "2026-02-17T17:08:17.355Z",
-    "method": "mean_fixed_price_only; sold_avg_best_effort",
-    "categoryId": "261328"
+    "avg": 20.13359999999999,
+    "n": 200,
+    "avgListing": 20.13359999999999,
+    "nListing": 200,
+    "currency": "CAD"
   },
   "Ezequiel Tovar": {
-    "sport": "Baseball",
+    "match": {
+      "mode": "player",
+      "value": "Ezequiel Tovar",
+      "validatedOn": "EBAY_CA"
+    },
     "marketplaces": {
       "EBAY_US": {
-        "activeListingPriceAverage": 34.08559999999996,
-        "activeListingCount": 100,
-        "soldPriceAverage": 34.16059999999995,
-        "soldCount": 100,
-        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
-        "passedAspectGate": true
+        "aspectMode": "player",
+        "aspectValue": "Ezequiel Tovar",
+        "avgListing": 32.672249999999934,
+        "nListing": 200,
+        "currency": "USD"
       },
       "EBAY_CA": {
-        "activeListingPriceAverage": 67.13640000000004,
-        "activeListingCount": 100,
-        "soldPriceAverage": 70.22260000000003,
-        "soldCount": 100,
-        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
-        "passedAspectGate": true
+        "aspectMode": "player",
+        "aspectValue": "Ezequiel Tovar",
+        "avgListing": 70.71115000000002,
+        "nListing": 200,
+        "currency": "CAD"
       }
     },
-    "asOf": "2026-02-17T17:08:17.355Z",
-    "method": "mean_fixed_price_only; sold_avg_best_effort",
-    "categoryId": "261328"
+    "avg": 70.71115000000002,
+    "n": 200,
+    "avgListing": 70.71115000000002,
+    "nListing": 200,
+    "currency": "CAD"
   },
   "Francisco Alvarez": {
-    "sport": "Baseball",
+    "match": {
+      "mode": "player",
+      "value": "Francisco Alvarez",
+      "validatedOn": "EBAY_CA"
+    },
     "marketplaces": {
       "EBAY_US": {
-        "activeListingPriceAverage": 27.394199999999987,
-        "activeListingCount": 100,
-        "soldPriceAverage": 27.14559999999998,
-        "soldCount": 100,
-        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
-        "passedAspectGate": true
+        "aspectMode": "player",
+        "aspectValue": "Francisco Alvarez",
+        "avgListing": 29.083649999999952,
+        "nListing": 200,
+        "currency": "USD"
       },
       "EBAY_CA": {
-        "activeListingPriceAverage": 72.895,
-        "activeListingCount": 100,
-        "soldPriceAverage": 74.39150000000001,
-        "soldCount": 100,
-        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
-        "passedAspectGate": true
+        "aspectMode": "player",
+        "aspectValue": "Francisco Alvarez",
+        "avgListing": 66.71685000000001,
+        "nListing": 200,
+        "currency": "CAD"
       }
     },
-    "asOf": "2026-02-17T17:08:17.355Z",
-    "method": "mean_fixed_price_only; sold_avg_best_effort",
-    "categoryId": "261328"
+    "avg": 66.71685000000001,
+    "n": 200,
+    "avgListing": 66.71685000000001,
+    "nListing": 200,
+    "currency": "CAD"
   },
   "Freddy Fermin": {
-    "sport": "Baseball",
+    "match": {
+      "mode": "player",
+      "value": "Freddy Fermin",
+      "validatedOn": "EBAY_CA"
+    },
     "marketplaces": {
       "EBAY_US": {
-        "activeListingPriceAverage": 14.656600000000005,
-        "activeListingCount": 100,
-        "soldPriceAverage": 14.656600000000003,
-        "soldCount": 100,
-        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
-        "passedAspectGate": true
+        "aspectMode": "player",
+        "aspectValue": "Freddy Fermin",
+        "avgListing": 15.825949999999994,
+        "nListing": 200,
+        "currency": "USD"
       },
       "EBAY_CA": {
-        "activeListingPriceAverage": 23.7047,
-        "activeListingCount": 100,
-        "soldPriceAverage": 24.205599999999993,
-        "soldCount": 100,
-        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
-        "passedAspectGate": true
+        "aspectMode": "player",
+        "aspectValue": "Freddy Fermin",
+        "avgListing": 26.264349999999975,
+        "nListing": 200,
+        "currency": "CAD"
       }
     },
-    "asOf": "2026-02-17T17:08:17.355Z",
-    "method": "mean_fixed_price_only; sold_avg_best_effort",
-    "categoryId": "261328"
+    "avg": 26.264349999999975,
+    "n": 200,
+    "avgListing": 26.264349999999975,
+    "nListing": 200,
+    "currency": "CAD"
   },
   "Gabriel Moreno": {
-    "sport": "Baseball",
+    "match": {
+      "mode": "player",
+      "value": "Gabriel Moreno",
+      "validatedOn": "EBAY_CA"
+    },
     "marketplaces": {
       "EBAY_US": {
-        "activeListingPriceAverage": 17.640100000000007,
-        "activeListingCount": 100,
-        "soldPriceAverage": 17.640100000000007,
-        "soldCount": 100,
-        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
-        "passedAspectGate": true
+        "aspectMode": "player",
+        "aspectValue": "Gabriel Moreno",
+        "avgListing": 17.622499999999963,
+        "nListing": 200,
+        "currency": "USD"
       },
       "EBAY_CA": {
-        "activeListingPriceAverage": 38.21229999999998,
-        "activeListingCount": 100,
-        "soldPriceAverage": 38.59869999999998,
-        "soldCount": 100,
-        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
-        "passedAspectGate": true
+        "aspectMode": "player",
+        "aspectValue": "Gabriel Moreno",
+        "avgListing": 43.055499999999974,
+        "nListing": 200,
+        "currency": "CAD"
       }
     },
-    "asOf": "2026-02-17T17:08:17.355Z",
-    "method": "mean_fixed_price_only; sold_avg_best_effort",
-    "categoryId": "261328"
+    "avg": 43.055499999999974,
+    "n": 200,
+    "avgListing": 43.055499999999974,
+    "nListing": 200,
+    "currency": "CAD"
   },
   "Jackson Chourio": {
-    "sport": "Baseball",
+    "match": {
+      "mode": "player",
+      "value": "Jackson Chourio",
+      "validatedOn": "EBAY_CA"
+    },
     "marketplaces": {
       "EBAY_US": {
-        "activeListingPriceAverage": 53.397599999999976,
-        "activeListingCount": 100,
-        "soldPriceAverage": 53.177499999999974,
-        "soldCount": 100,
-        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
-        "passedAspectGate": true
+        "aspectMode": "player",
+        "aspectValue": "Jackson Chourio",
+        "avgListing": 44.804449999999946,
+        "nListing": 200,
+        "currency": "USD"
       },
       "EBAY_CA": {
-        "activeListingPriceAverage": 72.26459999999997,
-        "activeListingCount": 100,
-        "soldPriceAverage": 71.03749999999997,
-        "soldCount": 100,
-        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
-        "passedAspectGate": true
+        "aspectMode": "player",
+        "aspectValue": "Jackson Chourio",
+        "avgListing": 62.0788,
+        "nListing": 200,
+        "currency": "CAD"
       }
     },
-    "asOf": "2026-02-17T17:08:17.355Z",
-    "method": "mean_fixed_price_only; sold_avg_best_effort",
-    "categoryId": "261328"
+    "avg": 62.0788,
+    "n": 200,
+    "avgListing": 62.0788,
+    "nListing": 200,
+    "currency": "CAD"
   },
   "Jeferson Quero": {
-    "sport": "Baseball",
+    "match": {
+      "mode": "player",
+      "value": "Jeferson Quero",
+      "validatedOn": "EBAY_CA"
+    },
     "marketplaces": {
       "EBAY_US": {
-        "activeListingPriceAverage": 27.914999999999967,
-        "activeListingCount": 100,
-        "soldPriceAverage": 27.914999999999967,
-        "soldCount": 100,
-        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
-        "passedAspectGate": true
+        "aspectMode": "player",
+        "aspectValue": "Jeferson Quero",
+        "avgListing": 32.39769999999994,
+        "nListing": 200,
+        "currency": "USD"
       },
       "EBAY_CA": {
-        "activeListingPriceAverage": 70.53260000000002,
-        "activeListingCount": 100,
-        "soldPriceAverage": 70.34520000000002,
-        "soldCount": 100,
-        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
-        "passedAspectGate": true
+        "aspectMode": "player",
+        "aspectValue": "Jeferson Quero",
+        "avgListing": 60.197400000000016,
+        "nListing": 200,
+        "currency": "CAD"
       }
     },
-    "asOf": "2026-02-17T17:08:17.355Z",
-    "method": "mean_fixed_price_only; sold_avg_best_effort",
-    "categoryId": "261328"
+    "avg": 60.197400000000016,
+    "n": 200,
+    "avgListing": 60.197400000000016,
+    "nListing": 200,
+    "currency": "CAD"
   },
   "Jorge Barrosa": {
-    "sport": "Baseball",
+    "match": {
+      "mode": "player",
+      "value": "Jorge Barrosa",
+      "validatedOn": "EBAY_CA"
+    },
     "marketplaces": {
       "EBAY_US": {
-        "activeListingPriceAverage": 26.538499999999985,
-        "activeListingCount": 100,
-        "soldPriceAverage": 26.608499999999985,
-        "soldCount": 100,
-        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
-        "passedAspectGate": true
+        "aspectMode": "player",
+        "aspectValue": "Jorge Barrosa",
+        "avgListing": 21.808949999999946,
+        "nListing": 200,
+        "currency": "USD"
       },
       "EBAY_CA": {
-        "activeListingPriceAverage": 48.90200000000001,
-        "activeListingCount": 100,
-        "soldPriceAverage": 49.01140000000001,
-        "soldCount": 100,
-        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
-        "passedAspectGate": true
+        "aspectMode": "player",
+        "aspectValue": "Jorge Barrosa",
+        "avgListing": 45.20930000000001,
+        "nListing": 200,
+        "currency": "CAD"
       }
     },
-    "asOf": "2026-02-17T17:08:17.355Z",
-    "method": "mean_fixed_price_only; sold_avg_best_effort",
-    "categoryId": "261328"
+    "avg": 45.20930000000001,
+    "n": 200,
+    "avgListing": 45.20930000000001,
+    "nListing": 200,
+    "currency": "CAD"
   },
   "Jose Altuve": {
-    "sport": "Baseball",
+    "match": {
+      "mode": "player",
+      "value": "Jose Altuve",
+      "validatedOn": "EBAY_CA"
+    },
     "marketplaces": {
       "EBAY_US": {
-        "activeListingPriceAverage": 25.749799999999986,
-        "activeListingCount": 100,
-        "soldPriceAverage": 26.369799999999987,
-        "soldCount": 100,
-        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
-        "passedAspectGate": true
+        "aspectMode": "player",
+        "aspectValue": "Jose Altuve",
+        "avgListing": 42.14864999999995,
+        "nListing": 200,
+        "currency": "USD"
       },
       "EBAY_CA": {
-        "activeListingPriceAverage": 52.35649999999997,
-        "activeListingCount": 100,
-        "soldPriceAverage": 52.356499999999976,
-        "soldCount": 100,
-        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
-        "passedAspectGate": true
+        "aspectMode": "player",
+        "aspectValue": "Jose Altuve",
+        "avgListing": 33.63374999999997,
+        "nListing": 200,
+        "currency": "CAD"
       }
     },
-    "asOf": "2026-02-17T17:08:17.355Z",
-    "method": "mean_fixed_price_only; sold_avg_best_effort",
-    "categoryId": "261328"
+    "avg": 33.63374999999997,
+    "n": 200,
+    "avgListing": 33.63374999999997,
+    "nListing": 200,
+    "currency": "CAD"
   },
   "Jose Butto": {
-    "sport": "Baseball",
+    "match": {
+      "mode": "player",
+      "value": "Jose Butto",
+      "validatedOn": "EBAY_CA"
+    },
     "marketplaces": {
       "EBAY_US": {
-        "activeListingPriceAverage": 9.473800000000004,
-        "activeListingCount": 100,
-        "soldPriceAverage": 9.428800000000003,
-        "soldCount": 100,
-        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
-        "passedAspectGate": true
+        "aspectMode": "player",
+        "aspectValue": "Jose Butto",
+        "avgListing": 8.564900000000005,
+        "nListing": 200,
+        "currency": "USD"
       },
       "EBAY_CA": {
-        "activeListingPriceAverage": 15.434399999999998,
-        "activeListingCount": 100,
-        "soldPriceAverage": 15.434399999999998,
-        "soldCount": 100,
-        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
-        "passedAspectGate": true
+        "aspectMode": "player",
+        "aspectValue": "Jose Butto",
+        "avgListing": 17.694949999999995,
+        "nListing": 200,
+        "currency": "CAD"
       }
     },
-    "asOf": "2026-02-17T17:08:17.355Z",
-    "method": "mean_fixed_price_only; sold_avg_best_effort",
-    "categoryId": "261328"
+    "avg": 17.694949999999995,
+    "n": 200,
+    "avgListing": 17.694949999999995,
+    "nListing": 200,
+    "currency": "CAD"
   },
   "Keibert Ruiz": {
-    "sport": "Baseball",
+    "match": {
+      "mode": "player",
+      "value": "Keibert Ruiz",
+      "validatedOn": "EBAY_CA"
+    },
     "marketplaces": {
       "EBAY_US": {
-        "activeListingPriceAverage": 11.119800000000005,
-        "activeListingCount": 100,
-        "soldPriceAverage": 11.099800000000005,
-        "soldCount": 100,
-        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
-        "passedAspectGate": true
+        "aspectMode": "player",
+        "aspectValue": "Keibert Ruiz",
+        "avgListing": 9.928050000000002,
+        "nListing": 200,
+        "currency": "USD"
       },
       "EBAY_CA": {
-        "activeListingPriceAverage": 9.469700000000005,
-        "activeListingCount": 100,
-        "soldPriceAverage": 8.876700000000005,
-        "soldCount": 100,
-        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
-        "passedAspectGate": true
+        "aspectMode": "player",
+        "aspectValue": "Keibert Ruiz",
+        "avgListing": 10.647649999999993,
+        "nListing": 200,
+        "currency": "CAD"
       }
     },
-    "asOf": "2026-02-17T17:08:17.355Z",
-    "method": "mean_fixed_price_only; sold_avg_best_effort",
-    "categoryId": "261328"
+    "avg": 10.647649999999993,
+    "n": 200,
+    "avgListing": 10.647649999999993,
+    "nListing": 200,
+    "currency": "CAD"
+  },
+  "Keider Montero": {
+    "match": {
+      "mode": "player",
+      "value": "Keider Montero",
+      "validatedOn": "EBAY_CA"
+    },
+    "marketplaces": {
+      "EBAY_US": {
+        "aspectMode": "player",
+        "aspectValue": "Keider Montero",
+        "avgListing": 13.528599999999958,
+        "nListing": 200,
+        "currency": "USD"
+      },
+      "EBAY_CA": {
+        "aspectMode": "player",
+        "aspectValue": "Keider Montero",
+        "avgListing": 27.549799999999994,
+        "nListing": 200,
+        "currency": "CAD"
+      }
+    },
+    "avg": 27.549799999999994,
+    "n": 200,
+    "avgListing": 27.549799999999994,
+    "nListing": 200,
+    "currency": "CAD"
   },
   "Luis Arraez": {
-    "sport": "Baseball",
+    "match": {
+      "mode": "player",
+      "value": "Luis Arraez",
+      "validatedOn": "EBAY_CA"
+    },
     "marketplaces": {
       "EBAY_US": {
-        "activeListingPriceAverage": 31.066699999999972,
-        "activeListingCount": 100,
-        "soldPriceAverage": 30.936699999999973,
-        "soldCount": 100,
-        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
-        "passedAspectGate": true
+        "aspectMode": "player",
+        "aspectValue": "Luis Arraez",
+        "avgListing": 29.43654999999992,
+        "nListing": 200,
+        "currency": "USD"
       },
       "EBAY_CA": {
-        "activeListingPriceAverage": 78.4757,
-        "activeListingCount": 100,
-        "soldPriceAverage": 78.4757,
-        "soldCount": 100,
-        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
-        "passedAspectGate": true
+        "aspectMode": "player",
+        "aspectValue": "Luis Arraez",
+        "avgListing": 68.93305000000001,
+        "nListing": 200,
+        "currency": "CAD"
       }
     },
-    "asOf": "2026-02-17T17:08:17.355Z",
-    "method": "mean_fixed_price_only; sold_avg_best_effort",
-    "categoryId": "261328"
+    "avg": 68.93305000000001,
+    "n": 200,
+    "avgListing": 68.93305000000001,
+    "nListing": 200,
+    "currency": "CAD"
   },
   "Luis Matos": {
-    "sport": "Baseball",
+    "match": {
+      "mode": "player",
+      "value": "Luis Matos",
+      "validatedOn": "EBAY_CA"
+    },
     "marketplaces": {
       "EBAY_US": {
-        "activeListingPriceAverage": 21.697899999999994,
-        "activeListingCount": 100,
-        "soldPriceAverage": 21.497999999999994,
-        "soldCount": 100,
-        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
-        "passedAspectGate": true
+        "aspectMode": "player",
+        "aspectValue": "Luis Matos",
+        "avgListing": 24.02654999999995,
+        "nListing": 200,
+        "currency": "USD"
       },
       "EBAY_CA": {
-        "activeListingPriceAverage": 77.93679999999998,
-        "activeListingCount": 100,
-        "soldPriceAverage": 78.73429999999998,
-        "soldCount": 100,
-        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
-        "passedAspectGate": true
+        "aspectMode": "player",
+        "aspectValue": "Luis Matos",
+        "avgListing": 69.04154999999997,
+        "nListing": 200,
+        "currency": "CAD"
       }
     },
-    "asOf": "2026-02-17T17:08:17.355Z",
-    "method": "mean_fixed_price_only; sold_avg_best_effort",
-    "categoryId": "261328"
+    "avg": 69.04154999999997,
+    "n": 200,
+    "avgListing": 69.04154999999997,
+    "nListing": 200,
+    "currency": "CAD"
   },
   "Maikel Garcia": {
-    "sport": "Baseball",
+    "match": {
+      "mode": "player",
+      "value": "Maikel Garcia",
+      "validatedOn": "EBAY_CA"
+    },
     "marketplaces": {
       "EBAY_US": {
-        "activeListingPriceAverage": 34.10859999999995,
-        "activeListingCount": 100,
-        "soldPriceAverage": 34.08869999999995,
-        "soldCount": 100,
-        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
-        "passedAspectGate": true
+        "aspectMode": "player",
+        "aspectValue": "Maikel Garcia",
+        "avgListing": 30.04469999999992,
+        "nListing": 200,
+        "currency": "USD"
       },
       "EBAY_CA": {
-        "activeListingPriceAverage": 60.3491,
-        "activeListingCount": 100,
-        "soldPriceAverage": 60.2705,
-        "soldCount": 100,
-        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
-        "passedAspectGate": true
+        "aspectMode": "player",
+        "aspectValue": "Maikel Garcia",
+        "avgListing": 50.51715000000002,
+        "nListing": 200,
+        "currency": "CAD"
       }
     },
-    "asOf": "2026-02-17T17:08:17.355Z",
-    "method": "mean_fixed_price_only; sold_avg_best_effort",
-    "categoryId": "261328"
+    "avg": 50.51715000000002,
+    "n": 200,
+    "avgListing": 50.51715000000002,
+    "nListing": 200,
+    "currency": "CAD"
   },
   "Miguel Rojas": {
-    "sport": "Baseball",
+    "match": {
+      "mode": "player",
+      "value": "Miguel Rojas",
+      "validatedOn": "EBAY_CA"
+    },
     "marketplaces": {
       "EBAY_US": {
-        "activeListingPriceAverage": 30.869399999999917,
-        "activeListingCount": 100,
-        "soldPriceAverage": 30.871799999999915,
-        "soldCount": 100,
-        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
-        "passedAspectGate": true
+        "aspectMode": "player",
+        "aspectValue": "Miguel Rojas",
+        "avgListing": 17.996799999999897,
+        "nListing": 200,
+        "currency": "USD"
       },
       "EBAY_CA": {
-        "activeListingPriceAverage": 37.40319999999999,
-        "activeListingCount": 100,
-        "soldPriceAverage": 37.34109999999999,
-        "soldCount": 100,
-        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
-        "passedAspectGate": true
+        "aspectMode": "player",
+        "aspectValue": "Miguel Rojas",
+        "avgListing": 23.21419999999999,
+        "nListing": 200,
+        "currency": "CAD"
       }
     },
-    "asOf": "2026-02-17T17:08:17.355Z",
-    "method": "mean_fixed_price_only; sold_avg_best_effort",
-    "categoryId": "261328"
+    "avg": 23.21419999999999,
+    "n": 200,
+    "avgListing": 23.21419999999999,
+    "nListing": 200,
+    "currency": "CAD"
   },
   "Ronald Acuña Jr.": {
-    "sport": "Baseball",
+    "match": {
+      "mode": "player",
+      "value": "Ronald Acuña Jr.",
+      "validatedOn": "EBAY_CA"
+    },
     "marketplaces": {
       "EBAY_US": {
-        "activeListingPriceAverage": 10.234000000000004,
-        "activeListingCount": 100,
-        "soldPriceAverage": 10.234000000000004,
-        "soldCount": 100,
-        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
-        "passedAspectGate": true
+        "aspectMode": "player",
+        "aspectValue": "Ronald Acuña Jr.",
+        "avgListing": 10.584849999999996,
+        "nListing": 200,
+        "currency": "USD"
       },
       "EBAY_CA": {
-        "activeListingPriceAverage": 17.39899999999999,
-        "activeListingCount": 100,
-        "soldPriceAverage": 17.297499999999996,
-        "soldCount": 100,
-        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
-        "passedAspectGate": true
+        "aspectMode": "player",
+        "aspectValue": "Ronald Acuña Jr.",
+        "avgListing": 11.7301,
+        "nListing": 200,
+        "currency": "CAD"
       }
     },
-    "asOf": "2026-02-17T17:08:17.355Z",
-    "method": "mean_fixed_price_only; sold_avg_best_effort",
-    "categoryId": "261328"
+    "avg": 11.7301,
+    "n": 200,
+    "avgListing": 11.7301,
+    "nListing": 200,
+    "currency": "CAD"
   },
   "Salvador Perez": {
-    "sport": "Baseball",
+    "match": {
+      "mode": "player",
+      "value": "Salvador Perez",
+      "validatedOn": "EBAY_CA"
+    },
     "marketplaces": {
       "EBAY_US": {
-        "activeListingPriceAverage": 21.084099999999985,
-        "activeListingCount": 100,
-        "soldPriceAverage": 21.087899999999987,
-        "soldCount": 100,
-        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
-        "passedAspectGate": true
+        "aspectMode": "player",
+        "aspectValue": "Salvador Perez",
+        "avgListing": 24.73649999999995,
+        "nListing": 200,
+        "currency": "USD"
       },
       "EBAY_CA": {
-        "activeListingPriceAverage": 48.84439999999996,
-        "activeListingCount": 100,
-        "soldPriceAverage": 48.85429999999996,
-        "soldCount": 100,
-        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
-        "passedAspectGate": true
+        "aspectMode": "player",
+        "aspectValue": "Salvador Perez",
+        "avgListing": 40.510599999999954,
+        "nListing": 200,
+        "currency": "CAD"
       }
     },
-    "asOf": "2026-02-17T17:08:17.355Z",
-    "method": "mean_fixed_price_only; sold_avg_best_effort",
-    "categoryId": "261328"
+    "avg": 40.510599999999954,
+    "n": 200,
+    "avgListing": 40.510599999999954,
+    "nListing": 200,
+    "currency": "CAD"
   },
   "William Contreras": {
-    "sport": "Baseball",
+    "match": {
+      "mode": "player",
+      "value": "William Contreras",
+      "validatedOn": "EBAY_CA"
+    },
     "marketplaces": {
       "EBAY_US": {
-        "activeListingPriceAverage": 23.386499999999984,
-        "activeListingCount": 100,
-        "soldPriceAverage": 23.386499999999984,
-        "soldCount": 100,
-        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
-        "passedAspectGate": true
+        "aspectMode": "player",
+        "aspectValue": "William Contreras",
+        "avgListing": 24.030349999999935,
+        "nListing": 200,
+        "currency": "USD"
       },
       "EBAY_CA": {
-        "activeListingPriceAverage": 49.51529999999998,
-        "activeListingCount": 100,
-        "soldPriceAverage": 49.92439999999998,
-        "soldCount": 100,
-        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
-        "passedAspectGate": true
+        "aspectMode": "player",
+        "aspectValue": "William Contreras",
+        "avgListing": 50.313199999999966,
+        "nListing": 200,
+        "currency": "CAD"
       }
     },
-    "asOf": "2026-02-17T17:08:17.355Z",
-    "method": "mean_fixed_price_only; sold_avg_best_effort",
-    "categoryId": "261328"
+    "avg": 50.313199999999966,
+    "n": 200,
+    "avgListing": 50.313199999999966,
+    "nListing": 200,
+    "currency": "CAD"
   },
   "Wilyer Abreu": {
-    "sport": "Baseball",
+    "match": {
+      "mode": "player",
+      "value": "Wilyer Abreu",
+      "validatedOn": "EBAY_CA"
+    },
     "marketplaces": {
       "EBAY_US": {
-        "activeListingPriceAverage": 67.24809999999994,
-        "activeListingCount": 100,
-        "soldPriceAverage": 67.24809999999994,
-        "soldCount": 100,
-        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
-        "passedAspectGate": true
+        "aspectMode": "player",
+        "aspectValue": "Wilyer Abreu",
+        "avgListing": 74.64689999999992,
+        "nListing": 200,
+        "currency": "USD"
       },
       "EBAY_CA": {
-        "activeListingPriceAverage": 202.1311,
-        "activeListingCount": 100,
-        "soldPriceAverage": 220.53969999999993,
-        "soldCount": 100,
-        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
-        "passedAspectGate": true
+        "aspectMode": "player",
+        "aspectValue": "Wilyer Abreu",
+        "avgListing": 153.91704999999993,
+        "nListing": 200,
+        "currency": "CAD"
       }
     },
-    "asOf": "2026-02-17T17:08:17.355Z",
-    "method": "mean_fixed_price_only; sold_avg_best_effort",
-    "categoryId": "261328"
+    "avg": 153.91704999999993,
+    "n": 200,
+    "avgListing": 153.91704999999993,
+    "nListing": 200,
+    "currency": "CAD"
+  },
+  "Yilber Diaz": {
+    "match": {
+      "mode": "player",
+      "value": "Yilber Diaz",
+      "validatedOn": "EBAY_CA"
+    },
+    "marketplaces": {
+      "EBAY_US": {
+        "aspectMode": "player",
+        "aspectValue": "Yilber Diaz",
+        "avgListing": 12.24774999999999,
+        "nListing": 200,
+        "currency": "USD"
+      },
+      "EBAY_CA": {
+        "aspectMode": "player",
+        "aspectValue": "Yilber Diaz",
+        "avgListing": 26.44914999999998,
+        "nListing": 200,
+        "currency": "CAD"
+      }
+    },
+    "avg": 26.44914999999998,
+    "n": 200,
+    "avgListing": 26.44914999999998,
+    "nListing": 200,
+    "currency": "CAD"
+  },
+  "Pedro Chourio": {
+    "match": {
+      "mode": "player",
+      "value": "Pedro Chourio",
+      "validatedOn": "EBAY_CA"
+    },
+    "marketplaces": {
+      "EBAY_US": {
+        "aspectMode": "player",
+        "aspectValue": "Pedro Chourio",
+        "avgListing": 6.1,
+        "nListing": 2,
+        "currency": "USD"
+      },
+      "EBAY_CA": {
+        "aspectMode": "player",
+        "aspectValue": "Pedro Chourio",
+        "avgListing": 8.32,
+        "nListing": 2,
+        "currency": "CAD"
+      }
+    },
+    "avg": 8.32,
+    "n": 2,
+    "avgListing": 8.32,
+    "nListing": 2,
+    "currency": "CAD"
+  },
+  "Amleto Monacelli": {
+    "match": {
+      "mode": "player",
+      "value": "Amleto Monacelli",
+      "validatedOn": "EBAY_CA"
+    },
+    "marketplaces": {
+      "EBAY_US": {
+        "aspectMode": "player",
+        "aspectValue": "Amleto Monacelli",
+        "avgListing": 5.785714285714286,
+        "nListing": 14,
+        "currency": "USD"
+      },
+      "EBAY_CA": {
+        "aspectMode": "player",
+        "aspectValue": "Amleto Monacelli",
+        "avgListing": 9.077272727272726,
+        "nListing": 11,
+        "currency": "CAD"
+      }
+    },
+    "avg": 9.077272727272726,
+    "n": 11,
+    "avgListing": 9.077272727272726,
+    "nListing": 11,
+    "currency": "CAD"
+  },
+  "Andres Borregales": {
+    "match": {
+      "mode": "player",
+      "value": "Andres Borregales",
+      "validatedOn": "EBAY_CA"
+    },
+    "marketplaces": {
+      "EBAY_US": {
+        "aspectMode": "player",
+        "aspectValue": "Andres Borregales",
+        "avgListing": 7.150050000000005,
+        "nListing": 200,
+        "currency": "USD"
+      },
+      "EBAY_CA": {
+        "aspectMode": "player",
+        "aspectValue": "Andres Borregales",
+        "avgListing": 13.010350000000008,
+        "nListing": 200,
+        "currency": "CAD"
+      }
+    },
+    "avg": 13.010350000000008,
+    "n": 200,
+    "avgListing": 13.010350000000008,
+    "nListing": 200,
+    "currency": "CAD"
+  },
+  "Marlon Vera": {
+    "match": {
+      "mode": "player",
+      "value": "Marlon Vera",
+      "validatedOn": "EBAY_CA"
+    },
+    "marketplaces": {
+      "EBAY_US": {
+        "aspectMode": "player",
+        "aspectValue": "Marlon Vera",
+        "avgListing": 22.690149999999953,
+        "nListing": 200,
+        "currency": "USD"
+      },
+      "EBAY_CA": {
+        "aspectMode": "player",
+        "aspectValue": "Marlon Vera",
+        "avgListing": 41.732650000000014,
+        "nListing": 200,
+        "currency": "CAD"
+      }
+    },
+    "avg": 41.732650000000014,
+    "n": 200,
+    "avgListing": 41.732650000000014,
+    "nListing": 200,
+    "currency": "CAD"
+  },
+  "Jon Aramburu": {
+    "match": {
+      "mode": "player",
+      "value": "Jon Aramburu",
+      "validatedOn": "EBAY_CA"
+    },
+    "marketplaces": {
+      "EBAY_US": {
+        "aspectMode": "player",
+        "aspectValue": "Jon Aramburu",
+        "avgListing": 4.6,
+        "nListing": 4,
+        "currency": "USD"
+      },
+      "EBAY_CA": {
+        "aspectMode": "player",
+        "aspectValue": "Jon Aramburu",
+        "avgListing": 6.2725,
+        "nListing": 4,
+        "currency": "CAD"
+      }
+    },
+    "avg": 6.2725,
+    "n": 4,
+    "avgListing": 6.2725,
+    "nListing": 4,
+    "currency": "CAD"
   },
   "Yangel Herrera": {
-    "sport": "Soccer",
+    "match": {
+      "mode": "player",
+      "value": "Yangel Herrera",
+      "validatedOn": "EBAY_CA"
+    },
     "marketplaces": {
       "EBAY_US": {
-        "activeListingPriceAverage": 7.210500000000003,
-        "activeListingCount": 100,
-        "soldPriceAverage": 7.180500000000003,
-        "soldCount": 100,
-        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
-        "passedAspectGate": true
+        "aspectMode": "player",
+        "aspectValue": "Yangel Herrera",
+        "avgListing": 7.256450000000005,
+        "nListing": 200,
+        "currency": "USD"
       },
       "EBAY_CA": {
-        "activeListingPriceAverage": 19.405599999999996,
-        "activeListingCount": 100,
-        "soldPriceAverage": 19.824299999999997,
-        "soldCount": 100,
-        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
-        "passedAspectGate": true
+        "aspectMode": "player",
+        "aspectValue": "Yangel Herrera",
+        "avgListing": 14.145200000000004,
+        "nListing": 200,
+        "currency": "CAD"
       }
     },
-    "asOf": "2026-02-17T17:08:17.355Z",
-    "method": "mean_fixed_price_only; sold_avg_best_effort",
-    "categoryId": "261328"
+    "avg": 14.145200000000004,
+    "n": 200,
+    "avgListing": 14.145200000000004,
+    "nListing": 200,
+    "currency": "CAD"
   },
   "Salomon Rondon": {
-    "sport": "Soccer",
+    "match": {
+      "mode": "player",
+      "value": "Salomon Rondon",
+      "validatedOn": "EBAY_CA"
+    },
     "marketplaces": {
       "EBAY_US": {
-        "activeListingPriceAverage": 14.058400000000004,
-        "activeListingCount": 100,
-        "soldPriceAverage": 14.333500000000004,
-        "soldCount": 100,
-        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
-        "passedAspectGate": true
+        "aspectMode": "player",
+        "aspectValue": "Salomon Rondon",
+        "avgListing": 13.675599999999967,
+        "nListing": 200,
+        "currency": "USD"
       },
       "EBAY_CA": {
-        "activeListingPriceAverage": 25.10520000000001,
-        "activeListingCount": 100,
-        "soldPriceAverage": 25.24750000000001,
-        "soldCount": 100,
-        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
-        "passedAspectGate": true
+        "aspectMode": "player",
+        "aspectValue": "Salomon Rondon",
+        "avgListing": 18.838450000000027,
+        "nListing": 200,
+        "currency": "CAD"
       }
     },
-    "asOf": "2026-02-17T17:08:17.355Z",
-    "method": "mean_fixed_price_only; sold_avg_best_effort",
-    "categoryId": "261328"
+    "avg": 18.838450000000027,
+    "n": 200,
+    "avgListing": 18.838450000000027,
+    "nListing": 200,
+    "currency": "CAD"
+  },
+  "Cristian Cásseres Jr.": {
+    "match": {
+      "mode": "player",
+      "value": "Cristian Cásseres Jr.",
+      "validatedOn": "EBAY_CA"
+    },
+    "marketplaces": {
+      "EBAY_US": {
+        "aspectMode": "player",
+        "aspectValue": "Cristian Cásseres Jr.",
+        "avgListing": 4.431219512195121,
+        "nListing": 41,
+        "currency": "USD"
+      },
+      "EBAY_CA": {
+        "aspectMode": "player",
+        "aspectValue": "Cristian Cásseres Jr.",
+        "avgListing": 6.04170731707317,
+        "nListing": 41,
+        "currency": "CAD"
+      }
+    },
+    "avg": 6.04170731707317,
+    "n": 41,
+    "avgListing": 6.04170731707317,
+    "nListing": 41,
+    "currency": "CAD"
+  },
+  "Alejandro Fuenmayor": {
+    "match": {
+      "mode": "player",
+      "value": "Alejandro Fuenmayor",
+      "validatedOn": "EBAY_CA"
+    },
+    "marketplaces": {
+      "EBAY_US": {
+        "aspectMode": "player",
+        "aspectValue": "Alejandro Fuenmayor",
+        "avgListing": 11.259743589743595,
+        "nListing": 39,
+        "currency": "USD"
+      },
+      "EBAY_CA": {
+        "aspectMode": "player",
+        "aspectValue": "Alejandro Fuenmayor",
+        "avgListing": 15.661025641025637,
+        "nListing": 39,
+        "currency": "CAD"
+      }
+    },
+    "avg": 15.661025641025637,
+    "n": 39,
+    "avgListing": 15.661025641025637,
+    "nListing": 39,
+    "currency": "CAD"
+  },
+  "Alejandro Moreno": {
+    "match": {
+      "mode": "player",
+      "value": "Alejandro Moreno",
+      "validatedOn": "EBAY_CA"
+    },
+    "marketplaces": {
+      "EBAY_US": {
+        "aspectMode": "player",
+        "aspectValue": "Alejandro Moreno",
+        "avgListing": 4.467222222222227,
+        "nListing": 90,
+        "currency": "USD"
+      },
+      "EBAY_CA": {
+        "aspectMode": "player",
+        "aspectValue": "Alejandro Moreno",
+        "avgListing": 6.095319148936174,
+        "nListing": 94,
+        "currency": "CAD"
+      }
+    },
+    "avg": 6.095319148936174,
+    "n": 94,
+    "avgListing": 6.095319148936174,
+    "nListing": 94,
+    "currency": "CAD"
+  },
+  "David Martínez": {
+    "match": {
+      "mode": "player",
+      "value": "David Martínez",
+      "validatedOn": "EBAY_CA"
+    },
+    "marketplaces": {
+      "EBAY_US": {
+        "aspectMode": "player",
+        "aspectValue": "David Martínez",
+        "avgListing": 10.264850000000006,
+        "nListing": 200,
+        "currency": "USD"
+      },
+      "EBAY_CA": {
+        "aspectMode": "player",
+        "aspectValue": "David Martínez",
+        "avgListing": 14.994299999999999,
+        "nListing": 200,
+        "currency": "CAD"
+      }
+    },
+    "avg": 14.994299999999999,
+    "n": 200,
+    "avgListing": 14.994299999999999,
+    "nListing": 200,
+    "currency": "CAD"
   },
   "Alejandro Marqués": {
-    "sport": "Soccer",
+    "match": {
+      "mode": "player",
+      "value": "Alejandro Marqués",
+      "validatedOn": "EBAY_CA"
+    },
     "marketplaces": {
       "EBAY_US": {
-        "activeListingPriceAverage": 2.8639000000000014,
-        "activeListingCount": 100,
-        "soldPriceAverage": 2.8639000000000014,
-        "soldCount": 100,
-        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
-        "passedAspectGate": true
+        "aspectMode": "player",
+        "aspectValue": "Alejandro Marqués",
+        "avgListing": 2.657650000000004,
+        "nListing": 200,
+        "currency": "USD"
       },
       "EBAY_CA": {
-        "activeListingPriceAverage": 3.8776000000000015,
-        "activeListingCount": 100,
-        "soldPriceAverage": 3.8776000000000015,
-        "soldCount": 100,
-        "soldFilterUsed": "buyingOptions:{FIXED_PRICE},soldItemsOnly:true",
-        "passedAspectGate": true
+        "aspectMode": "player",
+        "aspectValue": "Alejandro Marqués",
+        "avgListing": 3.9964705882352956,
+        "nListing": 102,
+        "currency": "CAD"
       }
     },
-    "asOf": "2026-02-17T17:08:17.355Z",
-    "method": "mean_fixed_price_only; sold_avg_best_effort",
-    "categoryId": "261328"
+    "avg": 3.9964705882352956,
+    "n": 102,
+    "avgListing": 3.9964705882352956,
+    "nListing": 102,
+    "currency": "CAD"
+  },
+  "Telasco Segovia": {
+    "match": {
+      "mode": "player",
+      "value": "Telasco Segovia",
+      "validatedOn": "EBAY_CA"
+    },
+    "marketplaces": {
+      "EBAY_US": {
+        "aspectMode": "player",
+        "aspectValue": "Telasco Segovia",
+        "avgListing": 46.10019230769231,
+        "nListing": 52,
+        "currency": "USD"
+      },
+      "EBAY_CA": {
+        "aspectMode": "player",
+        "aspectValue": "Telasco Segovia",
+        "avgListing": 64.16415094339625,
+        "nListing": 53,
+        "currency": "CAD"
+      }
+    },
+    "avg": 64.16415094339625,
+    "n": 53,
+    "avgListing": 64.16415094339625,
+    "nListing": 53,
+    "currency": "CAD"
+  },
+  "Yeferson Soteldo": {
+    "match": {
+      "mode": "player",
+      "value": "Yeferson Soteldo",
+      "validatedOn": "EBAY_CA"
+    },
+    "marketplaces": {
+      "EBAY_US": {
+        "aspectMode": "player",
+        "aspectValue": "Yeferson Soteldo",
+        "avgListing": 6.814000000000004,
+        "nListing": 200,
+        "currency": "USD"
+      },
+      "EBAY_CA": {
+        "aspectMode": "player",
+        "aspectValue": "Yeferson Soteldo",
+        "avgListing": 9.495349999999991,
+        "nListing": 200,
+        "currency": "CAD"
+      }
+    },
+    "avg": 9.495349999999991,
+    "n": 200,
+    "avgListing": 9.495349999999991,
+    "nListing": 200,
+    "currency": "CAD"
+  },
+  "Jefferson Savarino": {
+    "match": {
+      "mode": "player",
+      "value": "Jefferson Savarino",
+      "validatedOn": "EBAY_CA"
+    },
+    "marketplaces": {
+      "EBAY_US": {
+        "aspectMode": "player",
+        "aspectValue": "Jefferson Savarino",
+        "avgListing": 9.254950000000006,
+        "nListing": 200,
+        "currency": "USD"
+      },
+      "EBAY_CA": {
+        "aspectMode": "player",
+        "aspectValue": "Jefferson Savarino",
+        "avgListing": 12.824549999999999,
+        "nListing": 200,
+        "currency": "CAD"
+      }
+    },
+    "avg": 12.824549999999999,
+    "n": 200,
+    "avgListing": 12.824549999999999,
+    "nListing": 200,
+    "currency": "CAD"
+  },
+  "Nahuel Ferraresi": {
+    "match": {
+      "mode": "player",
+      "value": "Nahuel Ferraresi",
+      "validatedOn": "EBAY_CA"
+    },
+    "marketplaces": {
+      "EBAY_US": {
+        "aspectMode": "player",
+        "aspectValue": "Nahuel Ferraresi",
+        "avgListing": 5.513333333333335,
+        "nListing": 33,
+        "currency": "USD"
+      },
+      "EBAY_CA": {
+        "aspectMode": "player",
+        "aspectValue": "Nahuel Ferraresi",
+        "avgListing": 7.518181818181818,
+        "nListing": 33,
+        "currency": "CAD"
+      }
+    },
+    "avg": 7.518181818181818,
+    "n": 33,
+    "avgListing": 7.518181818181818,
+    "nListing": 33,
+    "currency": "CAD"
+  },
+  "Garbiñe Muguruza": {
+    "match": {
+      "mode": "player",
+      "value": "Garbiñe Muguruza",
+      "validatedOn": "EBAY_CA"
+    },
+    "marketplaces": {
+      "EBAY_US": {
+        "aspectMode": "player",
+        "aspectValue": "Garbiñe Muguruza",
+        "avgListing": 7.273276836158195,
+        "nListing": 177,
+        "currency": "USD"
+      },
+      "EBAY_CA": {
+        "aspectMode": "player",
+        "aspectValue": "Garbiñe Muguruza",
+        "avgListing": 9.798421052631582,
+        "nListing": 171,
+        "currency": "CAD"
+      }
+    },
+    "avg": 9.798421052631582,
+    "n": 171,
+    "avgListing": 9.798421052631582,
+    "nListing": 171,
+    "currency": "CAD"
   }
 }
