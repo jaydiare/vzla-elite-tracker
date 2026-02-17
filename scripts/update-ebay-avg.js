@@ -4,26 +4,18 @@
  *
  * What it does:
  * - Reads ./data/athletes.json
- * - Builds an eBay.ca SOLD + COMPLETED search URL per athlete (cards-focused)
- * - Fetches the results HTML
- * - Extracts sold prices (supports CAD "C $" and USD "US $")
+ * - Builds eBay.ca SOLD + COMPLETED search URLs per athlete (cards-focused)
+ * - Fetches results HTML (with anti-bot detection)
+ * - Extracts sold prices (CAD "C $" and USD "US $")
  * - Prefers CAD if available, otherwise uses USD
  * - Computes a trimmed mean (drops top/bottom 10%) to reduce outliers
  * - Writes ./data/ebay-avg.json keyed by athlete name
  *
- * Important fixes (current version):
- * - ✅ Worldwide results (DO NOT filter items located in Canada; no LH_PrefLoc)
- * - ✅ Avoids double-encoding (never pre-encode _nkw; never manually encode param names)
- * - ✅ More robust HTML parsing: no longer depends on lines starting with "Sold "
- * - ✅ Detects and errors on bot/consent/captcha pages (so you don't silently get n=0)
- * - ✅ Multi-pass fallback search:
- *    Pass 1: category + keywords + Card Size
- *    Pass 2: category + keywords (no Card Size)
- *    Pass 3: keywords only (no category, no Card Size) (last resort)
- *
- * Notes:
- * - This script intentionally does NOT use the Player/Athlete aspect filter by default.
- *   That filter is brittle and often causes 0 results for big names.
+ * Important:
+ * - ✅ Worldwide results (no LH_PrefLoc)
+ * - ✅ Robust extraction (no longer depends on "Sold " line starts)
+ * - ✅ Detects bot/consent/captcha pages (prevents silent n=0)
+ * - ✅ Runs in batches of 20, waits 2 minutes between batches (to reduce blocking)
  */
 
 import fs from "node:fs";
@@ -46,7 +38,12 @@ const CARD_SIZE_STANDARD = "Standard";
 const RT_NO_CORRECTIONS = "nc";
 const MAX_PRICES_PER_ATHLETE = 60;
 const TRIM_FRACTION = 0.10;
-const SLEEP_MS_BETWEEN = 1200;
+
+// Rate limiting / batching (your request)
+const BATCH_SIZE = 20;
+const BATCH_SLEEP_MS = 2 * 60 * 1000; // 2 minutes
+const SLEEP_MS_BETWEEN = 1200;        // base per-request sleep inside a batch
+const SLEEP_JITTER_MS = 600;          // adds randomness (0..600ms)
 
 // Fetch tuning
 const FETCH_RETRIES = 3;
@@ -54,6 +51,10 @@ const FETCH_TIMEOUT_MS = 20000;
 
 function sleep(ms) {
   return new Promise((r) => setTimeout(r, ms));
+}
+
+function randInt(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 function ensureDirExists(dir) {
@@ -70,7 +71,7 @@ function readAthletes() {
   return parsed;
 }
 
-/** Remove accents/diacritics (Suárez -> Suarez, Acuña -> Acuna, Álvarez -> Alvarez) */
+/** Remove accents/diacritics */
 function stripDiacritics(s) {
   return String(s).normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 }
@@ -100,23 +101,17 @@ function buildEbaySoldUrl(athlete, opts = {}) {
   if (!nameRaw) throw new Error("Athlete missing name");
 
   const nameNorm = normalizeForSearch(nameRaw);
-
-  // IMPORTANT: never pre-encode. URLSearchParams will encode safely.
   const kw = normalizeForSearch(String(athlete?.keywords || `${nameNorm} card`).trim());
   const category = categoryForAthlete(athlete);
 
   const params = new URLSearchParams();
 
-  // Core search
   params.set("_nkw", kw);
   params.set("LH_Complete", "1");
   params.set("LH_Sold", "1");
   params.set("rt", RT_NO_CORRECTIONS);
 
-  // Category (use _sacat; omit as last resort)
   if (!opts.noCategory) params.set("_sacat", String(category));
-
-  // Optional: Card Size filter (often too restrictive; only in strict pass)
   if (!opts.loose) params.set("Card Size", CARD_SIZE_STANDARD);
 
   return `https://${EBAY_HOST}/sch/i.html?${params.toString()}`;
@@ -178,7 +173,6 @@ function detectBlockedOrConsent(html) {
 }
 
 function looksLikeResultsPage(html) {
-  // Very lightweight heuristics for SRP pages
   const lowered = html.toLowerCase();
   return (
     lowered.includes("s-item") ||
@@ -210,7 +204,6 @@ async function fetchHtml(url) {
       throw new Error("Blocked/consent/captcha page detected (eBay anti-bot).");
     }
     if (!looksLikeResultsPage(html)) {
-      // This catches weird redirects like generic index.html or a minimal shell
       throw new Error("Unexpected eBay response (not a results page).");
     }
 
@@ -227,8 +220,7 @@ async function fetchHtmlWithRetry(url) {
       return await fetchHtml(url);
     } catch (e) {
       lastErr = e;
-      // Backoff a bit (helps if eBay rate-limits)
-      await sleep(600 * attempt);
+      await sleep(800 * attempt + randInt(0, 400));
     }
   }
   throw lastErr || new Error("Fetch failed");
@@ -336,6 +328,16 @@ async function main() {
     const name = a?.name?.trim();
     if (!name) continue;
 
+    // Batch pause: after every BATCH_SIZE athletes, wait 2 minutes (except after last)
+    if (idx > 0 && idx % BATCH_SIZE === 0) {
+      console.log(
+        `--- Batch pause: processed ${idx}/${athletes.length}. Sleeping ${Math.round(
+          BATCH_SLEEP_MS / 1000
+        )}s ---`
+      );
+      await sleep(BATCH_SLEEP_MS);
+    }
+
     try {
       const { url, finalUrl, picks, strategy } = await fetchPicksWithFallbacks(a);
       const chosen = chooseCurrencyAndAvg(picks);
@@ -378,7 +380,10 @@ async function main() {
       console.warn(`[${idx + 1}/${athletes.length}] ${name}: ERROR ${e?.message || e}`);
     }
 
-    if (idx < athletes.length - 1) await sleep(SLEEP_MS_BETWEEN);
+    // Sleep between athletes with jitter
+    if (idx < athletes.length - 1) {
+      await sleep(SLEEP_MS_BETWEEN + randInt(0, SLEEP_JITTER_MS));
+    }
   }
 
   fs.writeFileSync(OUTPUT_PATH, JSON.stringify(out, null, 2) + "\n", "utf8");
