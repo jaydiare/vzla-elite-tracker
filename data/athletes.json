@@ -6,6 +6,55 @@
         "team": "Nationals",
         "provider": "balldontlie"
     },
+     {
+        "name": "Gleyber Torres",
+        "sport": "Baseball",
+        "league": "MLB",
+        "team": "Tigers",
+        "provider": "manual"
+    },
+     {
+        "name": "Willson Contreras",
+        "sport": "Baseball",
+        "league": "MLB",
+        "team": "Red Sox",
+        "provider": "manual"
+    },
+    {
+        "name": "Orlando Arcia",
+        "sport": "Baseball",
+        "league": "MLB",
+        "team": "Rockies",
+        "provider": "manual"
+    },
+    {
+        "name": "Brayan Rocchio",
+        "sport": "Baseball",
+        "league": "MLB",
+        "team": "Guardians",
+        "provider": "manual"
+    },
+    {
+        "name": "Luisangel Acuña",
+        "sport": "Baseball",
+        "league": "MLB",
+        "team": "White Sox",
+        "provider": "manual"
+    },
+    {
+        "name": "Robert Suarez",
+        "sport": "Baseball",
+        "league": "MLB",
+        "team": "Red Sox",
+        "provider": "manual"
+    },
+    {
+        "name": "Ranger Suárez",
+        "sport": "Baseball",
+        "league": "MLB",
+        "team": "Braves",
+        "provider": "manual"
+    },
     {
         "name": "Andres Gimenez",
         "sport": "Baseball",
