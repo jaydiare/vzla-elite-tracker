@@ -5,17 +5,18 @@
  * What it does:
  * - Reads ./data/athletes.json
  * - Builds eBay.ca SOLD + COMPLETED search URLs per athlete (cards-focused)
+ *   ✅ includes athlete.sport in _nkw so results match the athlete sport
  * - Fetches results HTML (with anti-bot detection)
  * - Extracts sold prices (CAD "C $" and USD "US $")
  * - Prefers CAD if available, otherwise uses USD
  * - Computes a trimmed mean (drops top/bottom 10%) to reduce outliers
- * - Writes ./data/ebay-avg.json keyed by athlete name
+ * - Writes ./data/ebay-avg.json keyed by athlete name (✅ includes sport/league/team)
  *
  * Important:
  * - ✅ Worldwide results (no LH_PrefLoc)
  * - ✅ Robust extraction (no longer depends on "Sold " line starts)
  * - ✅ Detects bot/consent/captcha pages (prevents silent n=0)
- * - ✅ Runs in batches of 20, waits 2 minutes between batches (to reduce blocking)
+ * - ✅ Runs in batches of 50, waits 2 minutes between batches (to reduce blocking)
  */
 
 import fs from "node:fs";
@@ -40,14 +41,14 @@ const MAX_PRICES_PER_ATHLETE = 10;
 const TRIM_FRACTION = 0.10;
 
 // Rate limiting / batching (your request)
-const BATCH_SIZE = 50;
+const BATCH_SIZE = 52;
 const BATCH_SLEEP_MS = 2 * 60 * 1000; // 2 minutes
 const SLEEP_MS_BETWEEN = 1200;        // base per-request sleep inside a batch
-const SLEEP_JITTER_MS = 600;          // adds randomness (0..600ms)
+const SLEEP_JITTER_MS = 700;          // adds randomness (0..700ms)
 
 // Fetch tuning
 const FETCH_RETRIES = 2;
-const FETCH_TIMEOUT_MS = 20000;
+const FETCH_TIMEOUT_MS = 10000;
 
 function sleep(ms) {
   return new Promise((r) => setTimeout(r, ms));
@@ -90,6 +91,16 @@ function categoryForAthlete(athlete) {
   return Number.isFinite(n) ? n : DEFAULT_CATEGORY;
 }
 
+// ✅ sport helper (used to inject into keywords)
+function sportForAthlete(athlete) {
+  return normalizeForSearch(String(athlete?.sport || "").trim());
+}
+
+function kwIncludesSport(kw, sport) {
+  if (!sport) return false;
+  return kw.toLowerCase().includes(sport.toLowerCase());
+}
+
 /**
  * Build eBay SOLD+COMPLETED URL.
  * opts:
@@ -101,8 +112,19 @@ function buildEbaySoldUrl(athlete, opts = {}) {
   if (!nameRaw) throw new Error("Athlete missing name");
 
   const nameNorm = normalizeForSearch(nameRaw);
-  const kw = normalizeForSearch(String(athlete?.keywords || `${nameNorm} card`).trim());
+  const sport = sportForAthlete(athlete);
   const category = categoryForAthlete(athlete);
+
+  // ✅ Keyword logic:
+  // - If athlete.keywords exists, keep it, but append sport if missing
+  // - Otherwise default to: "Name Sport card"
+  let kw = normalizeForSearch(String(athlete?.keywords || "").trim());
+
+  if (!kw) {
+    kw = normalizeForSearch([nameNorm, sport, "card"].filter(Boolean).join(" "));
+  } else if (sport && !kwIncludesSport(kw, sport)) {
+    kw = normalizeForSearch(`${kw} ${sport}`);
+  }
 
   const params = new URLSearchParams();
 
@@ -343,6 +365,11 @@ async function main() {
       const chosen = chooseCurrencyAndAvg(picks);
 
       out[name] = {
+        // ✅ carry athlete metadata into output (helps debugging + matching)
+        sport: a?.sport || null,
+        league: a?.league || null,
+        team: a?.team || null,
+
         avg: chosen.avg != null ? round2(chosen.avg) : null,
         n: chosen.n,
         currency: chosen.currency,
@@ -371,6 +398,10 @@ async function main() {
       );
     } catch (e) {
       out[name] = {
+        sport: a?.sport || null,
+        league: a?.league || null,
+        team: a?.team || null,
+
         avg: null,
         n: 0,
         currency: "CAD",
