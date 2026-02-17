@@ -42,7 +42,8 @@ let athleteData = [];
 let currentSport = "All";
 
 // ebay averages cache
-let ebayAvgByName = {}; // { "Salomon Rondon": { avg, n, currency, ... }, ... }
+// New format expected (preferred): { "Name": { avgSold, nSold, avgListing, nListing, currency, ... }, ... }
+let ebayAvgByName = {};
 const MIN_EBAY_SAMPLE_SIZE = 5;
 
 const campID = "5339142321";
@@ -133,17 +134,37 @@ function formatCad(n) {
   return `C$${num.toFixed(2)}`;
 }
 
+/**
+ * Button label:
+ * - Requires sold sample size to show any pricing
+ * - Shows AVG SOLD and (if available) AVG LIST
+ * - CAD-only (keeps your current rule)
+ */
 function getShopLabelForAthlete(name) {
   const rec = ebayAvgByName?.[name];
   if (!rec) return "SHOP COLLECTIBLES";
-  if (!rec.avg || !rec.n || Number(rec.n) < MIN_EBAY_SAMPLE_SIZE) return "SHOP COLLECTIBLES";
 
-  // If your scraper sometimes stores USD, this keeps label consistent:
+  // Back-compat if old keys exist
+  const avgSold = Number(rec.avgSold ?? rec.avg ?? NaN);
+  const nSold = Number(rec.nSold ?? rec.n ?? 0);
+
+  if (!Number.isFinite(avgSold) || !nSold || nSold < MIN_EBAY_SAMPLE_SIZE) {
+    return "SHOP COLLECTIBLES";
+  }
+
+  // Keep label consistent in CAD only
   if (rec.currency && rec.currency !== "CAD") return "SHOP COLLECTIBLES";
 
-  const money = formatCad(rec.avg);
-  if (!money) return "SHOP COLLECTIBLES";
-  return `SHOP COLLECTIBLES (AVG SOLD: ${money})`;
+  const soldMoney = formatCad(avgSold);
+  if (!soldMoney) return "SHOP COLLECTIBLES";
+
+  const avgListing = Number(rec.avgListing ?? NaN);
+  const listingMoney = Number.isFinite(avgListing) ? formatCad(avgListing) : null;
+
+  if (listingMoney) {
+    return `SHOP COLLECTIBLES (AVG SOLD: ${soldMoney} • AVG LIST: ${listingMoney})`;
+  }
+  return `SHOP COLLECTIBLES (AVG SOLD: ${soldMoney})`;
 }
 
 function filterBySearch() {
@@ -219,10 +240,21 @@ async function init() {
   ]);
 
   athleteData = mergeByNameSportKeepBest(athleteDataRaw, fetchedAthletes);
-  ebayAvgByName = fetchedEbayAvg && typeof fetchedEbayAvg === "object" ? fetchedEbayAvg : {};
+
+  // Support BOTH shapes:
+  // 1) new: { byName: { "Name": {...} }, updatedAt: "..." }
+  // 2) old: { "Name": {...} }
+  if (fetchedEbayAvg && typeof fetchedEbayAvg === "object") {
+    if (fetchedEbayAvg.byName && typeof fetchedEbayAvg.byName === "object") {
+      ebayAvgByName = fetchedEbayAvg.byName;
+    } else {
+      ebayAvgByName = fetchedEbayAvg;
+    }
+  } else {
+    ebayAvgByName = {};
+  }
 
   renderGrid(athleteData);
 }
 
 init();
-
