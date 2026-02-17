@@ -187,7 +187,7 @@ function renderGrid(data) {
 
   grid.innerHTML = (data || []).map(a => {
     const ebaySearchURL =
-      `https://www.ebay.ca/sch/i.html?_nkw=${encodeURIComponent(`${a.name} ${a.sport} rookie`)}&mkevt=1&mkcid=1&mkrid=${rotationID}&campid=${campID}&toolid=10001`;
+      `https://www.ebay.ca/sch/i.html?_nkw=${encodeURIComponent(`${a.name} ${a.sport}`)}&mkevt=1&mkcid=1&mkrid=${rotationID}&campid=${campID}&toolid=10001`;
 
     const teamLabel = isUnknown(a.team) ? "Unknown" : a.team;
     const shopLabel = getShopLabelForAthlete(a.name);
