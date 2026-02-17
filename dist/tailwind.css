@@ -1,0 +1,2 @@
+git add dist/tailwind.css tailwind.config.js src/tailwind.css package.json
+git commit -m "Build Tailwind locally for production"

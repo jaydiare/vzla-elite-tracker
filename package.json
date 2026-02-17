@@ -1,0 +1,6 @@
+{
+  "scripts": {
+    "build:css": "tailwindcss -i ./src/tailwind.css -o ./dist/tailwind.css --minify",
+    "watch:css": "tailwindcss -i ./src/tailwind.css -o ./dist/tailwind.css --watch"
+  }
+}

@@ -15,7 +15,7 @@
   </script>
   <!-- End Google Tag Manager -->
 
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="./dist/tailwind.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet"/>
 
@@ -528,7 +528,7 @@
       return `C$${num.toFixed(2)}`;
     }
 
-    function getShopLabelForAthlete(name) {
+    function getShopLabelForAthlete(name, sport) {
       const rec = ebayAvgByName?.[name];
       if (!rec) return "SHOP COLLECTIBLES";
       if (!rec.avg || !rec.n || Number(rec.n) < MIN_EBAY_SAMPLE_SIZE) return "SHOP COLLECTIBLES";
@@ -544,11 +544,11 @@
 
       grid.innerHTML = (data || []).map(a => {
         const ebaySearchURL =
-          `https://www.ebay.ca/sch/i.html?_nkw=${encodeURIComponent(`${a.name} ${a.sport}`)}&mkevt=1&mkcid=1&mkrid=${rotationID}&campid=${campID}&toolid=10001`;
+          `https://www.ebay.ca/sch/i.html?_nkw=${encodeURIComponent(`${a.name} ${a.sport} rookie`)}&mkevt=1&mkcid=1&mkrid=${rotationID}&campid=${campID}&toolid=10001`;
 
 
         const teamLabel = isUnknown(a.team) ? "Unknown" : a.team;
-        const shopLabel = getShopLabelForAthlete(a.name);
+        const shopLabel = getShopLabelForAthlete(a.name, a.sport);
 
         return `
           <div class="athlete-card">
