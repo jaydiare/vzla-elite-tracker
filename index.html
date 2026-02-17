@@ -544,7 +544,7 @@
 
       grid.innerHTML = (data || []).map(a => {
         const ebaySearchURL =
-          `https://www.ebay.ca/sch/i.html?_nkw=${encodeURIComponent(`${a.name} ${sport}`)}&mkevt=1&mkcid=1&mkrid=${rotationID}&campid=${campID}&toolid=10001`;
+          const url = `https://www.ebay.ca/sch/i.html?_nkw=${encodeURIComponent(a.name + " " + sport)}&mkevt=1&mkcid=1&mkrid=${rotationID}&campid=${campID}&toolid=10001`;
 
 
         const teamLabel = isUnknown(a.team) ? "Unknown" : a.team;
