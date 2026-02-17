@@ -1,6 +1,7 @@
 {
   "name": "vzla-elite-tracker",
   "private": true,
+  "type": "module",
   "scripts": {
     "build:css": "tailwindcss -c ./tailwind.config.cjs -i ./src/tailwind.css -o ./dist/tailwind.css --minify",
     "watch:css": "tailwindcss -c ./tailwind.config.cjs -i ./src/tailwind.css -o ./dist/tailwind.css --watch"
@@ -8,8 +9,5 @@
   "devDependencies": {
     "@tailwindcss/cli": "^4.1.18",
     "tailwindcss": "^4.1.18"
-  },
-  {
-  "type": "module"
-}
+  }
 }
