@@ -1,97 +1,134 @@
-#!/usr/bin/env node
+// scripts/update-ebay-avg.js
+// Node 20+ (uses global fetch)
+// Computes:
+// - avg sold price (Marketplace Insights item_sales/search)
+// - avg active listing price (Browse item_summary/search) -- Buy It Now only
+// Dual marketplace: EBAY_US + EBAY_CA
+//
+// Env vars required:
+//   EBAY_CLIENT_ID
+//   EBAY_CLIENT_SECRET
+//
+// Output:
+//   data/ebay-avg.json
+//
+// Notes:
+// - We validate Player/Athlete by actually trying an aspect_filter query.
+//   This avoids missing names that don't appear in the refinement list.
+// - We do NOT exclude graded and we do NOT exclude <$1 items.
+
 import fs from "node:fs";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 
-const ROOT = process.cwd();
-const ATHLETES_PATH = path.join(ROOT, "data", "athletes.json");
-const OUTPUT_PATH = path.join(ROOT, "data", "ebay-avg.json");
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-const EBAY_OAUTH_URL = "https://api.ebay.com/identity/v1/oauth2/token";
-const EBAY_BROWSE_SEARCH_URL = "https://api.ebay.com/buy/browse/v1/item_summary/search";
+const EBAY_CLIENT_ID = process.env.EBAY_CLIENT_ID;
+const EBAY_CLIENT_SECRET = process.env.EBAY_CLIENT_SECRET;
 
-// Trading Card Singles (your previous script used 261328)
-const CATEGORY_ID = "261328";
-
-// Marketplaces requested
-const MARKETPLACES = ["EBAY_US", "EBAY_CA"];
-
-// ---- Helpers ----
-function readAthletes() {
-  return JSON.parse(fs.readFileSync(ATHLETES_PATH, "utf8"));
+if (!EBAY_CLIENT_ID || !EBAY_CLIENT_SECRET) {
+  console.error("Missing EBAY_CLIENT_ID or EBAY_CLIENT_SECRET in env.");
+  process.exit(1);
 }
 
-function normalize(s) {
-  return String(s ?? "")
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "") // strip diacritics
-    .toLowerCase()
-    .replace(/[^a-z0-9\s]/g, " ") // remove punctuation
+const OUT_PATH = path.join(__dirname, "..", "data", "ebay-avg.json");
+
+// Your repo already has a list of athletes somewhere.
+// This script expects:
+//   data/athletes.json: [{ name: "Jose Altuve", sport: "baseball" }, ...]
+//
+// If your file differs, adjust loadAthletes() accordingly.
+const ATHLETES_PATH = path.join(__dirname, "..", "data", "athletes.json");
+
+// Category you were using (Trading Card Singles)
+const CATEGORY_ID = "261328";
+
+// Sampling / thresholds
+const MIN_EBAY_SAMPLE_SIZE = 5;          // sold comps minimum
+const SOLD_LOOKBACK_DAYS = 90;           // Insights defaults vary; we filter by date range
+const SOLD_PAGE_LIMIT = 200;             // max sold records to average per marketplace
+const LISTING_PAGE_LIMIT = 200;          // max active listings to average per marketplace
+const PAGE_SIZE = 50;
+
+// Marketplaces to compute
+const MARKETPLACES = ["EBAY_US", "EBAY_CA"];
+
+// ------------ helpers ------------
+
+function sleep(ms) {
+  return new Promise((r) => setTimeout(r, ms));
+}
+
+function normName(s) {
+  return (s || "")
+    .normalize("NFKD")
+    .replace(/[\u0300-\u036f]/g, "") // strip accents
     .replace(/\s+/g, " ")
     .trim();
 }
 
-function approxNameVariants(name) {
-  // Keep it conservative: just handle diacritics/punctuation + common suffix punctuation,
-  // not fuzzy guessing (since user wants to skip if no real match).
-  const base = normalize(name);
-  const variants = new Set([base]);
-
-  // Jr / Sr variants (Ronald Acuña Jr. type)
-  variants.add(base.replace(/\bjr\b/g, "jr."));
-  variants.add(base.replace(/\bjr\.\b/g, "jr"));
-  variants.add(base.replace(/\bsr\b/g, "sr."));
-  variants.add(base.replace(/\bsr\.\b/g, "sr"));
-
-  return [...variants].filter(Boolean);
+function buildQuery(name, sport) {
+  // Include sport word(s) lightly — helps reduce false matches
+  // while still allowing broad inventory.
+  const sportHint = sport ? ` ${sport}` : "";
+  // “card” helps reduce non-card collectibles while still allowing graded.
+  return `${name}${sportHint} card`;
 }
 
-function aspectContains(refinement, aspectName, expectedValue) {
-  const expectedVariants = approxNameVariants(expectedValue);
-  const targetAspect = normalize(aspectName);
-
-  const distributions = refinement?.aspectDistributions || [];
-  for (const ad of distributions) {
-    if (normalize(ad.localizedAspectName) !== targetAspect) continue;
-
-    for (const vd of ad.aspectValueDistributions || []) {
-      const v = normalize(vd.localizedAspectValue);
-      if (!v) continue;
-
-      // Require an exact normalized match against one of the expected variants
-      if (expectedVariants.includes(v)) return true;
-    }
-  }
-  return false;
+function formatDateYYYYMMDD(d) {
+  const yyyy = d.getUTCFullYear();
+  const mm = String(d.getUTCMonth() + 1).padStart(2, "0");
+  const dd = String(d.getUTCDate()).padStart(2, "0");
+  return `${yyyy}-${mm}-${dd}`;
 }
 
-function hasAspect(refinement, aspectName) {
-  const target = normalize(aspectName);
-  return (refinement?.aspectDistributions || []).some(
-    (a) => normalize(a.localizedAspectName) === target
-  );
+function dateRangeFilter(days) {
+  const now = new Date();
+  const past = new Date(now.getTime() - days * 24 * 60 * 60 * 1000);
+  // Insights filter uses itemStartDate / itemEndDate style in some APIs;
+  // Marketplace Insights uses "soldDate" filters as "soldDate:[start..end]".
+  const start = formatDateYYYYMMDD(past);
+  const end = formatDateYYYYMMDD(now);
+  return `soldDate:[${start}..${end}]`;
 }
+
+function safeNum(x) {
+  const n = Number(x);
+  return Number.isFinite(n) ? n : null;
+}
+
+function avg(values) {
+  if (!values.length) return null;
+  const s = values.reduce((a, b) => a + b, 0);
+  return s / values.length;
+}
+
+function getHeaderMarketplace(marketplaceId) {
+  return {
+    "X-EBAY-C-MARKETPLACE-ID": marketplaceId,
+  };
+}
+
+// ------------ ebay auth ------------
 
 async function getAppToken() {
-  const id = process.env.EBAY_CLIENT_ID;
-  const secret = process.env.EBAY_CLIENT_SECRET;
-  if (!id || !secret) {
-    throw new Error(
-      "Missing EBAY_CLIENT_ID / EBAY_CLIENT_SECRET environment variables."
-    );
-  }
+  const creds = Buffer.from(`${EBAY_CLIENT_ID}:${EBAY_CLIENT_SECRET}`).toString("base64");
 
-  const creds = Buffer.from(`${id}:${secret}`).toString("base64");
-
-  // Keep scope broad-enough for Browse; if you later add other endpoints, expand here.
-  const scope = "https://api.ebay.com/oauth/api_scope";
-
-  const res = await fetch(EBAY_OAUTH_URL, {
+  const res = await fetch("https://api.ebay.com/identity/v1/oauth2/token", {
     method: "POST",
     headers: {
-      "Content-Type": "application/x-www-form-urlencoded",
       Authorization: `Basic ${creds}`,
+      "Content-Type": "application/x-www-form-urlencoded",
     },
-    body: `grant_type=client_credentials&scope=${encodeURIComponent(scope)}`,
+    body: new URLSearchParams({
+      grant_type: "client_credentials",
+      // Browse + Marketplace Insights
+      scope: [
+        "https://api.ebay.com/oauth/api_scope",
+        "https://api.ebay.com/oauth/api_scope/buy.marketplace.insights",
+      ].join(" "),
+    }),
   });
 
   if (!res.ok) {
@@ -99,276 +136,338 @@ async function getAppToken() {
     throw new Error(`Failed to get eBay token (${res.status}): ${txt}`);
   }
 
-  const data = await res.json();
-  if (!data?.access_token) throw new Error("Failed to get eBay token (no access_token).");
-  return data.access_token;
+  const json = await res.json();
+  if (!json.access_token) throw new Error("No access_token in token response");
+  return json.access_token;
 }
 
-async function ebayBrowseSearch({
-  token,
-  marketplaceId,
-  q,
-  filter,
-  limit = 50,
-  offset = 0,
-  fieldgroups = "ASPECT_REFINEMENTS",
-}) {
-  const url = new URL(EBAY_BROWSE_SEARCH_URL);
+// ------------ ebay calls ------------
+
+async function ebayBrowseSearch({ token, marketplaceId, q, categoryId, limit, offset, aspectFilter }) {
+  const url = new URL("https://api.ebay.com/buy/browse/v1/item_summary/search");
   url.searchParams.set("q", q);
-  url.searchParams.set("category_ids", CATEGORY_ID);
   url.searchParams.set("limit", String(limit));
   url.searchParams.set("offset", String(offset));
-  if (filter) url.searchParams.set("filter", filter);
-  if (fieldgroups) url.searchParams.set("fieldgroups", fieldgroups);
+  url.searchParams.set("category_ids", categoryId);
+
+  // Buy It Now only (exclude auctions)
+  url.searchParams.append("filter", "buyingOptions:{FIXED_PRICE}");
+
+  if (aspectFilter) {
+    // aspect_filter format: "Player/Athlete:{Jose Altuve}"
+    url.searchParams.set("aspect_filter", aspectFilter);
+  }
 
   const res = await fetch(url.toString(), {
     headers: {
       Authorization: `Bearer ${token}`,
-      "X-EBAY-C-MARKETPLACE-ID": marketplaceId,
+      "Content-Type": "application/json",
+      ...getHeaderMarketplace(marketplaceId),
     },
   });
 
-  // We intentionally return status for fallback handling
-  const text = await res.text();
-  let json = null;
-  try {
-    json = text ? JSON.parse(text) : null;
-  } catch {
-    // leave json null
+  if (!res.ok) {
+    const txt = await res.text().catch(() => "");
+    throw new Error(`Browse search failed (${marketplaceId}) ${res.status}: ${txt}`);
   }
 
-  return { ok: res.ok, status: res.status, json, raw: text };
+  return res.json();
 }
 
-/**
- * Ensures "Player/Athlete" matches name exactly (diacritics-insensitive).
- * Also checks Sport aspect if present.
- */
-async function passesAspectGate({ token, name, sport, marketplaceId, q }) {
-  const filter = "buyingOptions:{FIXED_PRICE}";
+async function ebayInsightsSoldSearch({ token, marketplaceId, q, categoryId, limit, offset, aspectFilter, soldDateFilter }) {
+  const url = new URL("https://api.ebay.com/buy/marketplace_insights/v1_beta/item_sales/search");
+  url.searchParams.set("q", q);
+  url.searchParams.set("limit", String(limit));
+  url.searchParams.set("offset", String(offset));
+  url.searchParams.set("category_ids", categoryId);
 
-  const r = await ebayBrowseSearch({
-    token,
-    marketplaceId,
-    q,
-    filter,
-    limit: 50,
-    offset: 0,
-    fieldgroups: "ASPECT_REFINEMENTS",
+  // Sold date range
+  if (soldDateFilter) url.searchParams.append("filter", soldDateFilter);
+
+  // We still want to avoid auctions for sold comps too if possible.
+  // Marketplace insights supports buyingOptions in filters.
+  url.searchParams.append("filter", "buyingOptions:{FIXED_PRICE}");
+
+  if (aspectFilter) {
+    url.searchParams.set("aspect_filter", aspectFilter);
+  }
+
+  const res = await fetch(url.toString(), {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+      ...getHeaderMarketplace(marketplaceId),
+    },
   });
 
-  if (!r.ok) {
-    throw new Error(`Browse error ${r.status} (${marketplaceId})`);
+  if (!res.ok) {
+    const txt = await res.text().catch(() => "");
+    throw new Error(`Insights sold search failed (${marketplaceId}) ${res.status}: ${txt}`);
   }
 
-  const refinement = r.json?.refinement || {};
-
-  const playerOk = aspectContains(refinement, "Player/Athlete", name);
-
-  // If "Sport" aspect exists, require it; if not present, don't block.
-  let sportOk = true;
-  if (hasAspect(refinement, "Sport")) {
-    sportOk = aspectContains(refinement, "Sport", sport);
-  }
-
-  return playerOk && sportOk;
+  return res.json();
 }
 
-function mean(nums) {
-  if (!nums.length) return null;
-  const s = nums.reduce((a, b) => a + b, 0);
-  return s / nums.length;
+// ------------ matching / validation ------------
+
+function candidateAspectValuesForName(name) {
+  // Try variants that often appear in eBay aspect values.
+  // This is specifically to avoid false SKIPPED when accents/suffix differ.
+  const raw = (name || "").trim();
+  const ascii = normName(raw);
+
+  const variants = new Set([
+    raw,
+    ascii,
+    raw.replace(/\./g, ""),
+    ascii.replace(/\./g, ""),
+    raw.replace(/\s+Jr\.?$/i, "").trim(),
+    ascii.replace(/\s+Jr\.?$/i, "").trim(),
+  ]);
+
+  // Remove double spaces etc.
+  return [...variants].map((v) => v.replace(/\s+/g, " ").trim()).filter(Boolean);
 }
 
-/**
- * Active listings avg (Buy Now only): fixed price only
- */
-async function fetchActiveListingAvg({ token, name, sport, marketplaceId }) {
-  const q = `${name} ${sport} card`;
+async function validatePlayerAthleteMatch({ token, marketplaceId, name, sport }) {
+  // Instead of relying on refinement distributions (which can omit long-tail names),
+  // we test whether aspect_filter=Player/Athlete:{<name>} returns ANY results.
+  const q = buildQuery(name, sport);
 
-  const passed = await passesAspectGate({ token, name, sport, marketplaceId, q });
-  if (!passed) return { avg: null, count: 0, passed: false };
-
-  const prices = [];
-  const filter = "buyingOptions:{FIXED_PRICE}";
-
-  for (let page = 0; page < 2; page++) {
-    const r = await ebayBrowseSearch({
+  for (const cand of candidateAspectValuesForName(name)) {
+    const aspectFilter = `Player/Athlete:{${cand}}`;
+    const data = await ebayBrowseSearch({
       token,
       marketplaceId,
       q,
-      filter,
-      limit: 50,
-      offset: page * 50,
-      fieldgroups: null, // no need after gate
-    });
-
-    if (!r.ok) throw new Error(`Browse error ${r.status} (${marketplaceId})`);
-
-    for (const item of r.json?.itemSummaries || []) {
-      const p = Number(item?.price?.value);
-      if (Number.isFinite(p)) prices.push(p);
-    }
-
-    if (!r.json?.next) break;
-  }
-
-  return { avg: mean(prices), count: prices.length, passed: true };
-}
-
-/**
- * Sold avg (Buy Now only).
- *
- * eBay Browse currently supports various filters, but "sold items" filtering can vary by account/API availability.
- * We try a couple of commonly-seen filter patterns. If none work, we return nulls (but still keep active avg).
- */
-async function fetchSoldAvg({ token, name, sport, marketplaceId }) {
-  const q = `${name} ${sport} card`;
-
-  // IMPORTANT: keep auctions out
-  const baseBuyingOptions = "buyingOptions:{FIXED_PRICE}";
-
-  // Try common patterns (if unsupported, API returns 400)
-  const candidateFilters = [
-    `${baseBuyingOptions},soldItemsOnly:true`,
-    `soldItemsOnly:true,${baseBuyingOptions}`,
-    `${baseBuyingOptions},soldItems:true`,
-    `soldItemsOnly:true`,
-  ];
-
-  for (const filter of candidateFilters) {
-    const prices = [];
-
-    // quick probe
-    const probe = await ebayBrowseSearch({
-      token,
-      marketplaceId,
-      q,
-      filter,
-      limit: 50,
+      categoryId: CATEGORY_ID,
+      limit: 1,
       offset: 0,
-      fieldgroups: "ASPECT_REFINEMENTS",
+      aspectFilter,
     });
 
-    if (!probe.ok) {
-      // If it's a 400/409-ish filter rejection, try the next filter pattern
-      if (probe.status >= 400 && probe.status < 500) continue;
-      throw new Error(`Sold probe error ${probe.status} (${marketplaceId})`);
+    const total = safeNum(data?.total) ?? 0;
+    if (total > 0) {
+      return { ok: true, aspectValue: cand };
     }
 
-    // Gate again (sold searches can have different refinement results)
-    const refinement = probe.json?.refinement || {};
-    const playerOk = aspectContains(refinement, "Player/Athlete", name);
-    let sportOk = true;
-    if (hasAspect(refinement, "Sport")) {
-      sportOk = aspectContains(refinement, "Sport", sport);
-    }
-    if (!(playerOk && sportOk)) {
-      // If sold results don't confirm the aspect, treat as "no match"
-      return { avg: null, count: 0, passed: false };
-    }
-
-    // Page through a bit
-    for (let page = 0; page < 2; page++) {
-      const r = await ebayBrowseSearch({
-        token,
-        marketplaceId,
-        q,
-        filter,
-        limit: 50,
-        offset: page * 50,
-        fieldgroups: null,
-      });
-
-      if (!r.ok) break; // stop paging this filter
-
-      for (const item of r.json?.itemSummaries || []) {
-        const p = Number(item?.price?.value);
-        if (Number.isFinite(p)) prices.push(p);
-      }
-
-      if (!r.json?.next) break;
-    }
-
-    return { avg: mean(prices), count: prices.length, passed: true, filterUsed: filter };
+    // small delay to be polite
+    await sleep(120);
   }
 
-  // No sold filter worked on this API/account; keep active avg only
-  return { avg: null, count: 0, passed: true, filterUsed: null };
+  return { ok: false, aspectValue: null };
 }
+
+// ------------ computations ------------
+
+async function computeAvgActiveListing({ token, marketplaceId, name, sport, aspectValue }) {
+  const q = buildQuery(name, sport);
+  const aspectFilter = aspectValue ? `Player/Athlete:{${aspectValue}}` : null;
+
+  let offset = 0;
+  const prices = [];
+  let currency = null;
+
+  while (offset < LISTING_PAGE_LIMIT) {
+    const data = await ebayBrowseSearch({
+      token,
+      marketplaceId,
+      q,
+      categoryId: CATEGORY_ID,
+      limit: PAGE_SIZE,
+      offset,
+      aspectFilter,
+    });
+
+    const items = data?.itemSummaries || [];
+    for (const it of items) {
+      const p = it?.price;
+      const v = safeNum(p?.value);
+      if (v == null) continue;
+      prices.push(v);
+      currency = currency || p?.currency;
+    }
+
+    if (items.length < PAGE_SIZE) break;
+    offset += PAGE_SIZE;
+    await sleep(120);
+  }
+
+  return {
+    avgListing: avg(prices),
+    nListing: prices.length,
+    currency: currency || null,
+  };
+}
+
+async function computeAvgSold({ token, marketplaceId, name, sport, aspectValue }) {
+  const q = buildQuery(name, sport);
+  const aspectFilter = aspectValue ? `Player/Athlete:{${aspectValue}}` : null;
+
+  let offset = 0;
+  const prices = [];
+  let currency = null;
+
+  const soldDateFilter = dateRangeFilter(SOLD_LOOKBACK_DAYS);
+
+  while (offset < SOLD_PAGE_LIMIT) {
+    const data = await ebayInsightsSoldSearch({
+      token,
+      marketplaceId,
+      q,
+      categoryId: CATEGORY_ID,
+      limit: PAGE_SIZE,
+      offset,
+      aspectFilter,
+      soldDateFilter,
+    });
+
+    const items = data?.itemSales || data?.itemSummaries || [];
+    // Marketplace insights response uses itemSales[] with price info
+    for (const it of items) {
+      const p = it?.price || it?.soldPrice || it?.currentBidPrice;
+      const v = safeNum(p?.value);
+      if (v == null) continue;
+      prices.push(v);
+      currency = currency || p?.currency;
+    }
+
+    if (items.length < PAGE_SIZE) break;
+    offset += PAGE_SIZE;
+    await sleep(150);
+  }
+
+  return {
+    avgSold: avg(prices),
+    nSold: prices.length,
+    currency: currency || null,
+  };
+}
+
+// ------------ data loading ------------
+
+function loadAthletes() {
+  if (!fs.existsSync(ATHLETES_PATH)) {
+    throw new Error(
+      `Missing ${ATHLETES_PATH}. Create data/athletes.json with [{name,sport}, ...] or adjust script.`
+    );
+  }
+  const raw = fs.readFileSync(ATHLETES_PATH, "utf8");
+  const arr = JSON.parse(raw);
+
+  // Normalize to { name, sport }
+  return (arr || [])
+    .map((x) => ({
+      name: x?.name?.trim(),
+      sport: (x?.sport || "").trim().toLowerCase(),
+    }))
+    .filter((x) => x.name);
+}
+
+// ------------ main ------------
 
 async function main() {
-  const athletes = readAthletes();
   const token = await getAppToken();
-  const nowIso = new Date().toISOString();
 
-  const out = {};
+  const athletes = loadAthletes();
+
+  // Output structure:
+  // {
+  //   byName: {
+  //     "Jose Altuve": {
+  //       marketplaces: {
+  //         EBAY_CA: { avgSold, nSold, avgListing, nListing, currency, aspectValue },
+  //         EBAY_US: { ... }
+  //       },
+  //       // convenience rollups (prefer CAD from EBAY_CA if available)
+  //       avgSold: number|null,
+  //       nSold: number,
+  //       avgListing: number|null,
+  //       nListing: number,
+  //       currency: "CAD"|...
+  //     }
+  //   },
+  //   updatedAt: ISO string
+  // }
+  const out = {
+    byName: {},
+    updatedAt: new Date().toISOString(),
+  };
 
   for (let i = 0; i < athletes.length; i++) {
     const { name, sport } = athletes[i];
     console.log(`[${i + 1}/${athletes.length}] ${name}`);
 
-    const results = {};
+    out.byName[name] = out.byName[name] || { marketplaces: {} };
 
-    // Run both marketplaces
-    for (const marketplaceId of MARKETPLACES) {
-      const active = await fetchActiveListingAvg({ token, name, sport, marketplaceId });
+    // Validate on at least one marketplace first.
+    // We'll try CA first (since you display CAD in UI), then US.
+    let validated = null;
 
-      // If active failed the aspect gate, we still try sold, but we ultimately require
-      // at least one marketplace to pass a Player/Athlete gate (active or sold).
-      const sold = await fetchSoldAvg({ token, name, sport, marketplaceId });
-
-      results[marketplaceId] = {
-        activeListingPriceAverage: active.avg,
-        activeListingCount: active.count,
-        soldPriceAverage: sold.avg,
-        soldCount: sold.count,
-        soldFilterUsed: sold.filterUsed ?? undefined,
-        passedAspectGate:
-          Boolean(active.passed && active.count >= 0) && active.passed !== false
-            ? active.passed
-            : sold.passed,
-      };
+    for (const marketplaceId of ["EBAY_CA", "EBAY_US"]) {
+      const v = await validatePlayerAthleteMatch({ token, marketplaceId, name, sport });
+      if (v.ok) {
+        validated = { marketplaceId, aspectValue: v.aspectValue };
+        break;
+      }
     }
 
-    // Skip entirely if BOTH marketplaces fail the Player/Athlete match gate (avoid fake data)
-    const anyPassed =
-      Object.values(results).some((r) => r?.passedAspectGate === true) ||
-      Object.values(results).some(
-        (r) => Number.isFinite(r?.activeListingPriceAverage) || Number.isFinite(r?.soldPriceAverage)
-      );
-
-    // Stronger skip condition: require at least one marketplace to have passed gate AND produced data
-    const anyRealData = Object.values(results).some(
-      (r) => Number.isFinite(r?.activeListingPriceAverage) || Number.isFinite(r?.soldPriceAverage)
-    );
-
-    // If neither marketplace can confirm Player/Athlete, skip
-    // (This is what you asked for: if no match under Player/Athlete with name, skip.)
-    const usGate = results.EBAY_US?.passedAspectGate === true;
-    const caGate = results.EBAY_CA?.passedAspectGate === true;
-    if (!usGate && !caGate) {
-      console.log(`${name}: SKIPPED (no Player/Athlete match)`);
+    if (!validated) {
+      console.log(`${name}: SKIPPED (no Player/Athlete match via aspect_filter test)`);
+      delete out.byName[name];
       continue;
     }
 
-    // If it passed the gate but returned no prices at all, keep it (still useful), but you can tighten if desired
-    out[name] = {
-      sport,
-      marketplaces: results,
-      asOf: nowIso,
-      method: "mean_fixed_price_only; sold_avg_best_effort",
-      categoryId: CATEGORY_ID,
-    };
+    // Once we have an aspectValue that works, we can use it across both marketplaces.
+    const aspectValue = validated.aspectValue;
 
-    if (!anyPassed || !anyRealData) {
-      // keep log hints, but don't skip—gate already passed
-      console.log(`${name}: OK (gate passed, but limited data returned)`);
+    for (const marketplaceId of MARKETPLACES) {
+      try {
+        const [sold, listing] = await Promise.all([
+          computeAvgSold({ token, marketplaceId, name, sport, aspectValue }),
+          computeAvgActiveListing({ token, marketplaceId, name, sport, aspectValue }),
+        ]);
+
+        out.byName[name].marketplaces[marketplaceId] = {
+          aspectValue,
+          avgSold: sold.avgSold,
+          nSold: sold.nSold,
+          avgListing: listing.avgListing,
+          nListing: listing.nListing,
+          currency: (sold.currency || listing.currency || null),
+        };
+      } catch (e) {
+        console.log(`${name} (${marketplaceId}): ERROR ${e?.message || e}`);
+        // keep going; partial results are ok
+      }
+    }
+
+    // Convenience rollup for your UI (prefer EBAY_CA if CAD present)
+    const ca = out.byName[name].marketplaces.EBAY_CA;
+    const us = out.byName[name].marketplaces.EBAY_US;
+
+    const pick =
+      (ca && ca.currency === "CAD" ? ca : null) ||
+      (ca && ca.avgSold != null ? ca : null) ||
+      (us && us.avgSold != null ? us : null) ||
+      ca ||
+      us;
+
+    out.byName[name].avgSold = pick?.avgSold ?? null;
+    out.byName[name].nSold = pick?.nSold ?? 0;
+    out.byName[name].avgListing = pick?.avgListing ?? null;
+    out.byName[name].nListing = pick?.nListing ?? 0;
+    out.byName[name].currency = pick?.currency ?? null;
+
+    // If sample size too small, keep record but your UI can ignore it.
+    if (out.byName[name].nSold < MIN_EBAY_SAMPLE_SIZE) {
+      // leave it; UI logic already handles MIN_EBAY_SAMPLE_SIZE
     }
   }
 
-  fs.writeFileSync(OUTPUT_PATH, JSON.stringify(out, null, 2));
-  console.log(`Wrote ${OUTPUT_PATH}`);
+  fs.mkdirSync(path.dirname(OUT_PATH), { recursive: true });
+  fs.writeFileSync(OUT_PATH, JSON.stringify(out, null, 2));
+  console.log(`Wrote ${OUT_PATH}`);
 }
 
 main().catch((err) => {
