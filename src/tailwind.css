@@ -1,7 +1,5 @@
 @import "tailwindcss";
 
-/* Tailwind v4: explicitly tell it what files to scan */
+/* Tailwind v4: sources are relative to THIS file (src/tailwind.css) */
 @source "../index.html";
 @source "../js/**/*.js";
-@source "../data/**/*.json";
-
