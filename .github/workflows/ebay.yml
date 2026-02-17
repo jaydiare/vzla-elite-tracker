@@ -2,10 +2,9 @@ name: Update eBay averages
 
 on:
   schedule:
-    - cron: "0 0,12 * * *"   # twice daily UTC
+    - cron: "0 0,12 * * *"
   workflow_dispatch:
 
-# Prevent overlapping runs from racing to push
 concurrency:
   group: ebay-avg-main
   cancel-in-progress: true
@@ -27,7 +26,11 @@ jobs:
       - run: npm ci
         if: hashFiles('package-lock.json') != ''
 
-      - run: node scripts/update-ebay-avg.js
+      - name: Update eBay averages
+        run: node scripts/update-ebay-avg.js
+        env:
+          EBAY_CLIENT_ID: ${{ secrets.EBAY_CLIENT_ID }}
+          EBAY_CLIENT_SECRET: ${{ secrets.EBAY_CLIENT_SECRET }}
 
       - name: Commit changes
         run: |
