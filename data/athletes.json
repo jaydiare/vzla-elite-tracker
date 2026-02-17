@@ -322,17 +322,10 @@
         "provider": "manual"
     },
     {
-        "name": "Alejandro Marqués",
-        "sport": "Soccer",
-        "league": "Serie A",
-        "team": "Unknown",
-        "provider": "balldontlie"
-    },
-    {
         "name": "Alessandro Milani",
         "sport": "Soccer",
         "league": "Serie A",
-        "team": "Unknown",
+        "team": "Lazio",
         "provider": "balldontlie"
     },
     {
@@ -359,8 +352,8 @@
     {
         "name": "Alejandro Marqués",
         "sport": "Soccer",
-        "league": "UCL",
-        "team": "Unknown",
+        "league": "Primeira Liga",
+        "team": "Estoril",
         "provider": "balldontlie"
     },
     {
