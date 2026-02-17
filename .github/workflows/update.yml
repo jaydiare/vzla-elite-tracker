@@ -36,6 +36,10 @@ jobs:
           SPORTSDB_KEY: ${{ secrets.SPORTSDB_KEY }}
         run: python scripts/fetch_all_vzla.py
 
+      - name: Inject Twitter URL
+        run: |
+          sed -i "s|__TWITTER_URL__|${TWITTER_URL}|g" index.html
+
       - name: Commit and Push changes
         run: |
           set -e
