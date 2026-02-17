@@ -1,476 +1,405 @@
 // scripts/update-ebay-avg.js
-// Node 20+ (uses global fetch)
-// Computes:
-// - avg sold price (Marketplace Insights item_sales/search)
-// - avg active listing price (Browse item_summary/search) -- Buy It Now only
-// Dual marketplace: EBAY_US + EBAY_CA
+// Dual marketplace (EBAY_US + EBAY_CA) ACTIVE LISTING (Buy Now only) averages via eBay Buy Browse API.
+// - No Marketplace Insights scopes (no sold data)
+// - Buy Now only (FIXED_PRICE)
+// - Validates results by requiring at least one listing where aspect "Player/Athlete" matches the athlete name
+// - Uses name + sport in the query for better accuracy
+// - Includes graded/ungraded, includes listings under $1
 //
-// Env vars required:
-//   EBAY_CLIENT_ID
-//   EBAY_CLIENT_SECRET
-//
-// Output:
-//   data/ebay-avg.json
-//
-// Notes:
-// - We validate Player/Athlete by actually trying an aspect_filter query.
-//   This avoids missing names that don't appear in the refinement list.
-// - We do NOT exclude graded and we do NOT exclude <$1 items.
+// Output: data/ebay-avg.json
+// Shape (per athlete):
+// {
+//   "Jose Altuve": {
+//     "avg": 21.37,              // primary avg = EBAY_CA avg (CAD) when available
+//     "n": 42,                   // primary sample count = EBAY_CA n
+//     "currency": "CAD",
+//     "marketplaces": {
+//       "EBAY_CA": { "avg": 21.37, "n": 42, "currency": "CAD" },
+//       "EBAY_US": { "avg": 16.11, "n": 38, "currency": "USD" }
+//     },
+//     "asOf": "2026-02-17T00:00:00.000Z"
+//   }
+// }
 
-import fs from "node:fs";
+import fs from "node:fs/promises";
 import path from "node:path";
-import { fileURLToPath } from "node:url";
+import process from "node:process";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const ATHLETES_PATH = path.resolve("data/athletes.json");
+const OUT_PATH = path.resolve("data/ebay-avg.json");
 
 const EBAY_CLIENT_ID = process.env.EBAY_CLIENT_ID;
 const EBAY_CLIENT_SECRET = process.env.EBAY_CLIENT_SECRET;
 
-if (!EBAY_CLIENT_ID || !EBAY_CLIENT_SECRET) {
-  console.error("Missing EBAY_CLIENT_ID or EBAY_CLIENT_SECRET in env.");
-  process.exit(1);
-}
-
-const OUT_PATH = path.join(__dirname, "..", "data", "ebay-avg.json");
-
-// Your repo already has a list of athletes somewhere.
-// This script expects:
-//   data/athletes.json: [{ name: "Jose Altuve", sport: "baseball" }, ...]
-//
-// If your file differs, adjust loadAthletes() accordingly.
-const ATHLETES_PATH = path.join(__dirname, "..", "data", "athletes.json");
-
-// Category you were using (Trading Card Singles)
-const CATEGORY_ID = "261328";
-
-// Sampling / thresholds
-const MIN_EBAY_SAMPLE_SIZE = 5;          // sold comps minimum
-const SOLD_LOOKBACK_DAYS = 90;           // Insights defaults vary; we filter by date range
-const SOLD_PAGE_LIMIT = 200;             // max sold records to average per marketplace
-const LISTING_PAGE_LIMIT = 200;          // max active listings to average per marketplace
-const PAGE_SIZE = 50;
-
-// Marketplaces to compute
 const MARKETPLACES = ["EBAY_US", "EBAY_CA"];
 
-// ------------ helpers ------------
+// Browse API limits
+const LIMIT = 50;
+const MAX_PAGES = 3; // 150 items max per marketplace
+const REQUEST_TIMEOUT_MS = 20_000;
 
-function sleep(ms) {
-  return new Promise((r) => setTimeout(r, ms));
+// Trim outliers when sample size is decent
+const TRIM_PERCENT = 0.10; // 10% from each side
+const MIN_FOR_TRIM = 10;
+
+// -------------------- helpers --------------------
+
+function norm(v) {
+  return (v ?? "").toString().trim().toLowerCase();
 }
 
-function normName(s) {
-  return (s || "")
-    .normalize("NFKD")
-    .replace(/[\u0300-\u036f]/g, "") // strip accents
-    .replace(/\s+/g, " ")
-    .trim();
+function stripDiacritics(s) {
+  return String(s ?? "").normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 }
 
-function buildQuery(name, sport) {
-  // Include sport word(s) lightly — helps reduce false matches
-  // while still allowing broad inventory.
-  const sportHint = sport ? ` ${sport}` : "";
-  // “card” helps reduce non-card collectibles while still allowing graded.
-  return `${name}${sportHint} card`;
+function compactSpaces(s) {
+  return String(s ?? "").replace(/\s+/g, " ").trim();
 }
 
-function formatDateYYYYMMDD(d) {
-  const yyyy = d.getUTCFullYear();
-  const mm = String(d.getUTCMonth() + 1).padStart(2, "0");
-  const dd = String(d.getUTCDate()).padStart(2, "0");
-  return `${yyyy}-${mm}-${dd}`;
+function normalizeNameForCompare(s) {
+  // lower + strip diacritics + remove punctuation-ish
+  const base = stripDiacritics(norm(s));
+  return base.replace(/[^a-z0-9\s]/g, " ").replace(/\s+/g, " ").trim();
 }
 
-function dateRangeFilter(days) {
-  const now = new Date();
-  const past = new Date(now.getTime() - days * 24 * 60 * 60 * 1000);
-  // Insights filter uses itemStartDate / itemEndDate style in some APIs;
-  // Marketplace Insights uses "soldDate" filters as "soldDate:[start..end]".
-  const start = formatDateYYYYMMDD(past);
-  const end = formatDateYYYYMMDD(now);
-  return `soldDate:[${start}..${end}]`;
+function splitNameTokens(fullName) {
+  const clean = normalizeNameForCompare(fullName);
+  const tokens = clean.split(" ").filter(Boolean);
+
+  // Remove common suffixes that often appear in athlete names
+  const suffixes = new Set(["jr", "sr", "ii", "iii", "iv", "v"]);
+  const filtered = tokens.filter((t) => !suffixes.has(t));
+
+  const first = filtered[0] || "";
+  const last = filtered.length ? filtered[filtered.length - 1] : "";
+  const firstInitial = first ? first[0] : "";
+
+  return { tokens: filtered, first, last, firstInitial };
 }
 
-function safeNum(x) {
-  const n = Number(x);
-  return Number.isFinite(n) ? n : null;
+function aspectValues(item, aspectName) {
+  const aspects = item?.aspects;
+  if (!Array.isArray(aspects)) return [];
+  const target = aspects.find((a) => norm(a?.name) === norm(aspectName));
+  const vals = target?.values;
+  if (!Array.isArray(vals)) return [];
+  return vals.map((v) => compactSpaces(v)).filter(Boolean);
 }
 
-function avg(values) {
-  if (!values.length) return null;
-  const s = values.reduce((a, b) => a + b, 0);
-  return s / values.length;
+function getPlayerAthleteAspectValues(item) {
+  // Most common is "Player/Athlete", but some categories use "Athlete" or similar.
+  const candidates = ["Player/Athlete", "Athlete", "Player", "Player/Athlete(s)"];
+  const all = [];
+  for (const c of candidates) {
+    all.push(...aspectValues(item, c));
+  }
+  // Deduplicate
+  return Array.from(new Set(all));
 }
 
-function getHeaderMarketplace(marketplaceId) {
-  return {
-    "X-EBAY-C-MARKETPLACE-ID": marketplaceId,
-  };
+function athleteNameMatchesAspect(athleteName, aspectValue) {
+  // We want strong-enough matching to avoid false positives,
+  // but still catch diacritics differences and minor formatting.
+  //
+  // Rules:
+  // - Full normalized name contained => match
+  // - Else: must match last name AND (first name OR first initial)
+  const a = splitNameTokens(athleteName);
+  if (!a.last) return false;
+
+  const aspectNorm = normalizeNameForCompare(aspectValue);
+
+  const fullNorm = normalizeNameForCompare(athleteName);
+  if (fullNorm && aspectNorm.includes(fullNorm)) return true;
+
+  // Token-level checks
+  const hasLast = a.last && aspectNorm.split(" ").includes(a.last);
+  if (!hasLast) return false;
+
+  const words = new Set(aspectNorm.split(" ").filter(Boolean));
+  const hasFirst = a.first && words.has(a.first);
+  const hasFirstInitial = a.firstInitial
+    ? Array.from(words).some((w) => w.length === 1 && w === a.firstInitial)
+    : false;
+
+  // Also allow something like "ronald acuna" vs "ronald acuna jr"
+  // because suffixes are removed already.
+  return hasFirst || hasFirstInitial;
 }
 
-// ------------ ebay auth ------------
+function itemMatchesAthlete(item, athleteName) {
+  const vals = getPlayerAthleteAspectValues(item);
+  if (!vals.length) return false;
 
-async function getAppToken() {
-  const creds = Buffer.from(`${EBAY_CLIENT_ID}:${EBAY_CLIENT_SECRET}`).toString("base64");
+  for (const v of vals) {
+    if (athleteNameMatchesAspect(athleteName, v)) return true;
+  }
+  return false;
+}
 
-  const res = await fetch("https://api.ebay.com/identity/v1/oauth2/token", {
-    method: "POST",
-    headers: {
-      Authorization: `Basic ${creds}`,
-      "Content-Type": "application/x-www-form-urlencoded",
-    },
-    body: new URLSearchParams({
-      grant_type: "client_credentials",
-      // Browse + Marketplace Insights
-      scope: [
-        "https://api.ebay.com/oauth/api_scope",
-        "https://api.ebay.com/oauth/api_scope/buy.marketplace.insights",
-      ].join(" "),
-    }),
-  });
+function extractFixedPriceValue(item) {
+  // Browse API item summary uses item.price.value + item.price.currency
+  const val = Number(item?.price?.value);
+  const cur = item?.price?.currency;
+  if (!Number.isFinite(val) || val < 0) return null;
+  return { value: val, currency: cur || null };
+}
 
-  if (!res.ok) {
-    const txt = await res.text().catch(() => "");
-    throw new Error(`Failed to get eBay token (${res.status}): ${txt}`);
+function trimmedMean(values) {
+  const nums = values.filter((n) => Number.isFinite(n)).slice().sort((a, b) => a - b);
+  const n = nums.length;
+  if (!n) return null;
+
+  if (n >= MIN_FOR_TRIM) {
+    const cut = Math.floor(n * TRIM_PERCENT);
+    const sliced = nums.slice(cut, n - cut);
+    if (sliced.length) {
+      const sum = sliced.reduce((a, b) => a + b, 0);
+      return sum / sliced.length;
+    }
   }
 
-  const json = await res.json();
-  if (!json.access_token) throw new Error("No access_token in token response");
+  const sum = nums.reduce((a, b) => a + b, 0);
+  return sum / n;
+}
+
+async function withTimeout(promise, ms, label = "request") {
+  const ac = new AbortController();
+  const t = setTimeout(() => ac.abort(), ms);
+  try {
+    return await promise(ac.signal);
+  } catch (e) {
+    if (e?.name === "AbortError") throw new Error(`${label} timed out after ${ms}ms`);
+    throw e;
+  } finally {
+    clearTimeout(t);
+  }
+}
+
+// -------------------- eBay auth + browse --------------------
+
+async function getAppToken() {
+  if (!EBAY_CLIENT_ID || !EBAY_CLIENT_SECRET) {
+    throw new Error("Missing EBAY_CLIENT_ID or EBAY_CLIENT_SECRET env vars");
+  }
+
+  const basic = Buffer.from(`${EBAY_CLIENT_ID}:${EBAY_CLIENT_SECRET}`).toString("base64");
+
+  const body = new URLSearchParams();
+  body.set("grant_type", "client_credentials");
+  // IMPORTANT: only the base scope you have access to
+  body.set("scope", "https://api.ebay.com/oauth/api_scope");
+
+  const res = await withTimeout(
+    (signal) =>
+      fetch("https://api.ebay.com/identity/v1/oauth2/token", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+          Authorization: `Basic ${basic}`,
+        },
+        body,
+        signal,
+      }),
+    REQUEST_TIMEOUT_MS,
+    "token request"
+  );
+
+  const json = await res.json().catch(() => ({}));
+  if (!res.ok) {
+    throw new Error(`Failed to get eBay token (${res.status}): ${JSON.stringify(json)}`);
+  }
+  if (!json?.access_token) {
+    throw new Error(`Failed to get eBay token: missing access_token`);
+  }
+
   return json.access_token;
 }
 
-// ------------ ebay calls ------------
-
-async function ebayBrowseSearch({ token, marketplaceId, q, categoryId, limit, offset, aspectFilter }) {
+async function browseSearch({ token, marketplaceId, q, limit, offset }) {
   const url = new URL("https://api.ebay.com/buy/browse/v1/item_summary/search");
   url.searchParams.set("q", q);
   url.searchParams.set("limit", String(limit));
   url.searchParams.set("offset", String(offset));
-  url.searchParams.set("category_ids", categoryId);
+  // Buy Now only (no auctions)
+  url.searchParams.set("filter", "buyingOptions:{FIXED_PRICE}");
 
-  // Buy It Now only (exclude auctions)
-  url.searchParams.append("filter", "buyingOptions:{FIXED_PRICE}");
-
-  if (aspectFilter) {
-    // aspect_filter format: "Player/Athlete:{Jose Altuve}"
-    url.searchParams.set("aspect_filter", aspectFilter);
-  }
-
-  const res = await fetch(url.toString(), {
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-      ...getHeaderMarketplace(marketplaceId),
-    },
-  });
+  const res = await withTimeout(
+    (signal) =>
+      fetch(url, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "X-EBAY-C-MARKETPLACE-ID": marketplaceId,
+        },
+        signal,
+      }),
+    REQUEST_TIMEOUT_MS,
+    `browse search (${marketplaceId})`
+  );
 
   if (!res.ok) {
-    const txt = await res.text().catch(() => "");
-    throw new Error(`Browse search failed (${marketplaceId}) ${res.status}: ${txt}`);
+    const text = await res.text().catch(() => "");
+    throw new Error(`Browse API error (${marketplaceId}) ${res.status}: ${text}`);
   }
 
   return res.json();
 }
 
-async function ebayInsightsSoldSearch({ token, marketplaceId, q, categoryId, limit, offset, aspectFilter, soldDateFilter }) {
-  const url = new URL("https://api.ebay.com/buy/marketplace_insights/v1_beta/item_sales/search");
-  url.searchParams.set("q", q);
-  url.searchParams.set("limit", String(limit));
-  url.searchParams.set("offset", String(offset));
-  url.searchParams.set("category_ids", categoryId);
+async function fetchMarketplaceActiveMatches({ token, marketplaceId, athleteName, sport }) {
+  // Query: name + sport (more accurate)
+  // Add "card" because you're tracking collectibles cards; if you want broader items, remove "card".
+  const q = compactSpaces(`${athleteName} ${sport} card`);
 
-  // Sold date range
-  if (soldDateFilter) url.searchParams.append("filter", soldDateFilter);
-
-  // We still want to avoid auctions for sold comps too if possible.
-  // Marketplace insights supports buyingOptions in filters.
-  url.searchParams.append("filter", "buyingOptions:{FIXED_PRICE}");
-
-  if (aspectFilter) {
-    url.searchParams.set("aspect_filter", aspectFilter);
-  }
-
-  const res = await fetch(url.toString(), {
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-      ...getHeaderMarketplace(marketplaceId),
-    },
-  });
-
-  if (!res.ok) {
-    const txt = await res.text().catch(() => "");
-    throw new Error(`Insights sold search failed (${marketplaceId}) ${res.status}: ${txt}`);
-  }
-
-  return res.json();
-}
-
-// ------------ matching / validation ------------
-
-function candidateAspectValuesForName(name) {
-  // Try variants that often appear in eBay aspect values.
-  // This is specifically to avoid false SKIPPED when accents/suffix differ.
-  const raw = (name || "").trim();
-  const ascii = normName(raw);
-
-  const variants = new Set([
-    raw,
-    ascii,
-    raw.replace(/\./g, ""),
-    ascii.replace(/\./g, ""),
-    raw.replace(/\s+Jr\.?$/i, "").trim(),
-    ascii.replace(/\s+Jr\.?$/i, "").trim(),
-  ]);
-
-  // Remove double spaces etc.
-  return [...variants].map((v) => v.replace(/\s+/g, " ").trim()).filter(Boolean);
-}
-
-async function validatePlayerAthleteMatch({ token, marketplaceId, name, sport }) {
-  // Instead of relying on refinement distributions (which can omit long-tail names),
-  // we test whether aspect_filter=Player/Athlete:{<name>} returns ANY results.
-  const q = buildQuery(name, sport);
-
-  for (const cand of candidateAspectValuesForName(name)) {
-    const aspectFilter = `Player/Athlete:{${cand}}`;
-    const data = await ebayBrowseSearch({
-      token,
-      marketplaceId,
-      q,
-      categoryId: CATEGORY_ID,
-      limit: 1,
-      offset: 0,
-      aspectFilter,
-    });
-
-    const total = safeNum(data?.total) ?? 0;
-    if (total > 0) {
-      return { ok: true, aspectValue: cand };
-    }
-
-    // small delay to be polite
-    await sleep(120);
-  }
-
-  return { ok: false, aspectValue: null };
-}
-
-// ------------ computations ------------
-
-async function computeAvgActiveListing({ token, marketplaceId, name, sport, aspectValue }) {
-  const q = buildQuery(name, sport);
-  const aspectFilter = aspectValue ? `Player/Athlete:{${aspectValue}}` : null;
-
-  let offset = 0;
-  const prices = [];
+  const matchedPrices = [];
   let currency = null;
 
-  while (offset < LISTING_PAGE_LIMIT) {
-    const data = await ebayBrowseSearch({
-      token,
-      marketplaceId,
-      q,
-      categoryId: CATEGORY_ID,
-      limit: PAGE_SIZE,
-      offset,
-      aspectFilter,
-    });
+  for (let page = 0; page < MAX_PAGES; page++) {
+    const offset = page * LIMIT;
+    const data = await browseSearch({ token, marketplaceId, q, limit: LIMIT, offset });
 
-    const items = data?.itemSummaries || [];
-    for (const it of items) {
-      const p = it?.price;
-      const v = safeNum(p?.value);
-      if (v == null) continue;
-      prices.push(v);
-      currency = currency || p?.currency;
+    const items = Array.isArray(data?.itemSummaries) ? data.itemSummaries : [];
+    if (!items.length) break;
+
+    for (const item of items) {
+      // Must match via Player/Athlete aspect (or equivalent)
+      if (!itemMatchesAthlete(item, athleteName)) continue;
+
+      const p = extractFixedPriceValue(item);
+      if (!p) continue;
+
+      matchedPrices.push(p.value);
+      // currency should be consistent per marketplace; grab first seen
+      if (!currency && p.currency) currency = p.currency;
     }
 
-    if (items.length < PAGE_SIZE) break;
-    offset += PAGE_SIZE;
-    await sleep(120);
+    // If fewer items returned than limit, no more pages
+    if (items.length < LIMIT) break;
   }
 
+  const avg = trimmedMean(matchedPrices);
   return {
-    avgListing: avg(prices),
-    nListing: prices.length,
+    avg: avg == null ? null : Number(avg.toFixed(2)),
+    n: matchedPrices.length,
     currency: currency || null,
+    query: q,
   };
 }
 
-async function computeAvgSold({ token, marketplaceId, name, sport, aspectValue }) {
-  const q = buildQuery(name, sport);
-  const aspectFilter = aspectValue ? `Player/Athlete:{${aspectValue}}` : null;
+// -------------------- IO --------------------
 
-  let offset = 0;
-  const prices = [];
-  let currency = null;
+async function readAthletes() {
+  const raw = await fs.readFile(ATHLETES_PATH, "utf8");
+  const json = JSON.parse(raw);
 
-  const soldDateFilter = dateRangeFilter(SOLD_LOOKBACK_DAYS);
-
-  while (offset < SOLD_PAGE_LIMIT) {
-    const data = await ebayInsightsSoldSearch({
-      token,
-      marketplaceId,
-      q,
-      categoryId: CATEGORY_ID,
-      limit: PAGE_SIZE,
-      offset,
-      aspectFilter,
-      soldDateFilter,
-    });
-
-    const items = data?.itemSales || data?.itemSummaries || [];
-    // Marketplace insights response uses itemSales[] with price info
-    for (const it of items) {
-      const p = it?.price || it?.soldPrice || it?.currentBidPrice;
-      const v = safeNum(p?.value);
-      if (v == null) continue;
-      prices.push(v);
-      currency = currency || p?.currency;
-    }
-
-    if (items.length < PAGE_SIZE) break;
-    offset += PAGE_SIZE;
-    await sleep(150);
+  if (!Array.isArray(json)) {
+    throw new Error(`Expected data/athletes.json to be an array`);
   }
 
-  return {
-    avgSold: avg(prices),
-    nSold: prices.length,
-    currency: currency || null,
-  };
-}
-
-// ------------ data loading ------------
-
-function loadAthletes() {
-  if (!fs.existsSync(ATHLETES_PATH)) {
-    throw new Error(
-      `Missing ${ATHLETES_PATH}. Create data/athletes.json with [{name,sport}, ...] or adjust script.`
-    );
-  }
-  const raw = fs.readFileSync(ATHLETES_PATH, "utf8");
-  const arr = JSON.parse(raw);
-
-  // Normalize to { name, sport }
-  return (arr || [])
-    .map((x) => ({
-      name: x?.name?.trim(),
-      sport: (x?.sport || "").trim().toLowerCase(),
+  // normalize fields
+  const cleaned = json
+    .map((a) => ({
+      name: compactSpaces(a?.name || ""),
+      sport: compactSpaces(a?.sport || ""),
     }))
-    .filter((x) => x.name);
+    .filter((a) => a.name && a.sport);
+
+  // dedupe by name+sport
+  const map = new Map();
+  for (const a of cleaned) {
+    const key = `${normalizeNameForCompare(a.name)}|${normalizeNameForCompare(a.sport)}`;
+    if (!map.has(key)) map.set(key, a);
+  }
+
+  return Array.from(map.values()).sort((x, y) => x.name.localeCompare(y.name));
 }
 
-// ------------ main ------------
+async function writeJsonPretty(filePath, obj) {
+  const text = JSON.stringify(obj, null, 2) + "\n";
+  await fs.writeFile(filePath, text, "utf8");
+}
+
+// -------------------- main --------------------
 
 async function main() {
+  const athletes = await readAthletes();
   const token = await getAppToken();
 
-  const athletes = loadAthletes();
+  const out = {};
+  const asOf = new Date().toISOString();
 
-  // Output structure:
-  // {
-  //   byName: {
-  //     "Jose Altuve": {
-  //       marketplaces: {
-  //         EBAY_CA: { avgSold, nSold, avgListing, nListing, currency, aspectValue },
-  //         EBAY_US: { ... }
-  //       },
-  //       // convenience rollups (prefer CAD from EBAY_CA if available)
-  //       avgSold: number|null,
-  //       nSold: number,
-  //       avgListing: number|null,
-  //       nListing: number,
-  //       currency: "CAD"|...
-  //     }
-  //   },
-  //   updatedAt: ISO string
-  // }
-  const out = {
-    byName: {},
-    updatedAt: new Date().toISOString(),
-  };
+  let i = 0;
+  for (const a of athletes) {
+    i += 1;
+    console.log(`[${i}/${athletes.length}] ${a.name} (${a.sport})`);
 
-  for (let i = 0; i < athletes.length; i++) {
-    const { name, sport } = athletes[i];
-    console.log(`[${i + 1}/${athletes.length}] ${name}`);
-
-    out.byName[name] = out.byName[name] || { marketplaces: {} };
-
-    // Validate on at least one marketplace first.
-    // We'll try CA first (since you display CAD in UI), then US.
-    let validated = null;
-
-    for (const marketplaceId of ["EBAY_CA", "EBAY_US"]) {
-      const v = await validatePlayerAthleteMatch({ token, marketplaceId, name, sport });
-      if (v.ok) {
-        validated = { marketplaceId, aspectValue: v.aspectValue };
-        break;
-      }
-    }
-
-    if (!validated) {
-      console.log(`${name}: SKIPPED (no Player/Athlete match via aspect_filter test)`);
-      delete out.byName[name];
+    let results;
+    try {
+      results = await Promise.all(
+        MARKETPLACES.map((marketplaceId) =>
+          fetchMarketplaceActiveMatches({
+            token,
+            marketplaceId,
+            athleteName: a.name,
+            sport: a.sport,
+          }).then((r) => ({ marketplaceId, ...r }))
+        )
+      );
+    } catch (e) {
+      console.error(`${a.name}: ERROR (${e?.message || e})`);
       continue;
     }
 
-    // Once we have an aspectValue that works, we can use it across both marketplaces.
-    const aspectValue = validated.aspectValue;
+    const byMp = {};
+    let anyPlayerAthleteMatch = false;
 
-    for (const marketplaceId of MARKETPLACES) {
-      try {
-        const [sold, listing] = await Promise.all([
-          computeAvgSold({ token, marketplaceId, name, sport, aspectValue }),
-          computeAvgActiveListing({ token, marketplaceId, name, sport, aspectValue }),
-        ]);
-
-        out.byName[name].marketplaces[marketplaceId] = {
-          aspectValue,
-          avgSold: sold.avgSold,
-          nSold: sold.nSold,
-          avgListing: listing.avgListing,
-          nListing: listing.nListing,
-          currency: (sold.currency || listing.currency || null),
-        };
-      } catch (e) {
-        console.log(`${name} (${marketplaceId}): ERROR ${e?.message || e}`);
-        // keep going; partial results are ok
-      }
+    for (const r of results) {
+      byMp[r.marketplaceId] = {
+        avg: r.avg,
+        n: r.n,
+        currency: r.currency,
+        query: r.query,
+      };
+      if (r.n > 0) anyPlayerAthleteMatch = true;
     }
 
-    // Convenience rollup for your UI (prefer EBAY_CA if CAD present)
-    const ca = out.byName[name].marketplaces.EBAY_CA;
-    const us = out.byName[name].marketplaces.EBAY_US;
-
-    const pick =
-      (ca && ca.currency === "CAD" ? ca : null) ||
-      (ca && ca.avgSold != null ? ca : null) ||
-      (us && us.avgSold != null ? us : null) ||
-      ca ||
-      us;
-
-    out.byName[name].avgSold = pick?.avgSold ?? null;
-    out.byName[name].nSold = pick?.nSold ?? 0;
-    out.byName[name].avgListing = pick?.avgListing ?? null;
-    out.byName[name].nListing = pick?.nListing ?? 0;
-    out.byName[name].currency = pick?.currency ?? null;
-
-    // If sample size too small, keep record but your UI can ignore it.
-    if (out.byName[name].nSold < MIN_EBAY_SAMPLE_SIZE) {
-      // leave it; UI logic already handles MIN_EBAY_SAMPLE_SIZE
+    // Skip if no Player/Athlete match anywhere (per your rule)
+    if (!anyPlayerAthleteMatch) {
+      console.log(`${a.name}: SKIPPED (no Player/Athlete match)`);
+      continue;
     }
+
+    // Primary values used by frontend label:
+    // prefer EBAY_CA because it tends to be CAD; fall back to null if missing
+    const ca = byMp.EBAY_CA || null;
+    const primaryAvg = ca?.avg ?? null;
+    const primaryN = ca?.n ?? 0;
+    const primaryCurrency = ca?.currency ?? "CAD";
+
+    out[a.name] = {
+      avg: primaryAvg, // active listing avg (primary=CA)
+      n: primaryN,
+      currency: primaryCurrency,
+      marketplaces: {
+        EBAY_CA: {
+          avg: byMp.EBAY_CA?.avg ?? null,
+          n: byMp.EBAY_CA?.n ?? 0,
+          currency: byMp.EBAY_CA?.currency ?? "CAD",
+        },
+        EBAY_US: {
+          avg: byMp.EBAY_US?.avg ?? null,
+          n: byMp.EBAY_US?.n ?? 0,
+          currency: byMp.EBAY_US?.currency ?? "USD",
+        },
+      },
+      asOf,
+    };
   }
 
-  fs.mkdirSync(path.dirname(OUT_PATH), { recursive: true });
-  fs.writeFileSync(OUT_PATH, JSON.stringify(out, null, 2));
+  await writeJsonPretty(OUT_PATH, out);
   console.log(`Wrote ${OUT_PATH}`);
 }
 
-main().catch((err) => {
-  console.error(err);
+main().catch((e) => {
+  console.error(e);
   process.exit(1);
 });
