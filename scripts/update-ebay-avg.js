@@ -2,24 +2,28 @@
 /**
  * scripts/update-ebay-avg.js
  *
- * Option A:
- * - This script reads ONLY ./data/athletes.json
- * - Make sure "Jackson Chourio" is added there so he gets an avg entry.
- *
  * What it does:
+ * - Reads ./data/athletes.json
  * - Builds an eBay.ca SOLD + COMPLETED search URL per athlete (cards-focused)
- * - Extracts sold prices (supports CAD "C $" AND USD "US $")
+ * - Fetches the results HTML
+ * - Extracts sold prices (supports CAD "C $" and USD "US $")
  * - Prefers CAD if available, otherwise uses USD
  * - Computes a trimmed mean (drops top/bottom 10%) to reduce outliers
  * - Writes ./data/ebay-avg.json keyed by athlete name
  *
- * Changes in this version (Worldwide):
- * - ✅ DOES NOT filter items located in Canada (removes LH_PrefLoc entirely)
- *   (Worldwide is the default when LH_PrefLoc is omitted)
- * - Avoids double-encoding _nkw (URLSearchParams handles encoding)
- * - Normalizes diacritics and punctuation for Player/Athlete aspect (Acuña -> Acuna, Jr. -> Jr)
- * - Adds a fallback pass if strict filters return 0 sold prices:
- *   - fallback removes Player/Athlete aspect and removes Card Size filter
+ * Important fixes (current version):
+ * - ✅ Worldwide results (DO NOT filter items located in Canada; no LH_PrefLoc)
+ * - ✅ Avoids double-encoding (never pre-encode _nkw; never manually encode param names)
+ * - ✅ More robust HTML parsing: no longer depends on lines starting with "Sold "
+ * - ✅ Detects and errors on bot/consent/captcha pages (so you don't silently get n=0)
+ * - ✅ Multi-pass fallback search:
+ *    Pass 1: category + keywords + Card Size
+ *    Pass 2: category + keywords (no Card Size)
+ *    Pass 3: keywords only (no category, no Card Size) (last resort)
+ *
+ * Notes:
+ * - This script intentionally does NOT use the Player/Athlete aspect filter by default.
+ *   That filter is brittle and often causes 0 results for big names.
  */
 
 import fs from "node:fs";
@@ -30,35 +34,23 @@ const ROOT = process.cwd();
 const ATHLETES_PATH = path.join(ROOT, "data", "athletes.json");
 const OUTPUT_PATH = path.join(ROOT, "data", "ebay-avg.json");
 
-// ✅ Both categories included (override per athlete via athletes.json "category" if desired)
-const CATEGORY_SPORTS_MEM_CARDS_FAN_SHOP = 888; // parent
-const CATEGORY_SPORTS_TRADING_CARDS = 261328;   // cards-focused
-
-// Default: cards-only signal
+// Categories (override per athlete via athletes.json "category" if desired)
+const CATEGORY_SPORTS_TRADING_CARDS = 261328; // cards-focused
 const DEFAULT_CATEGORY = CATEGORY_SPORTS_TRADING_CARDS;
 
-// Fixed search settings (matching your preferred URL style)
+// eBay host
 const EBAY_HOST = "www.ebay.ca";
-const CARD_SIZE_STANDARD = "Standard";
-const RT_NO_CORRECTIONS = "nc"; // rt=nc
 
-// Tuning
+// Search tuning
+const CARD_SIZE_STANDARD = "Standard";
+const RT_NO_CORRECTIONS = "nc";
 const MAX_PRICES_PER_ATHLETE = 60;
-const TRIM_FRACTION = 0.10; // drop top/bottom 10%
+const TRIM_FRACTION = 0.10;
 const SLEEP_MS_BETWEEN = 1200;
 
-/** Remove accents/diacritics (Suárez -> Suarez, Acuña -> Acuna, Álvarez -> Alvarez) */
-function stripDiacritics(s) {
-  return String(s).normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-}
-
-/** Normalize for eBay item specifics / search stability */
-function normalizeForSearch(s) {
-  return stripDiacritics(String(s))
-    .replace(/\./g, "") // Jr. -> Jr
-    .replace(/\s+/g, " ")
-    .trim();
-}
+// Fetch tuning
+const FETCH_RETRIES = 3;
+const FETCH_TIMEOUT_MS = 20000;
 
 function sleep(ms) {
   return new Promise((r) => setTimeout(r, ms));
@@ -78,19 +70,30 @@ function readAthletes() {
   return parsed;
 }
 
+/** Remove accents/diacritics (Suárez -> Suarez, Acuña -> Acuna, Álvarez -> Alvarez) */
+function stripDiacritics(s) {
+  return String(s).normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+}
+
+/** Normalize for search stability */
+function normalizeForSearch(s) {
+  return stripDiacritics(String(s))
+    .replace(/\./g, "") // Jr. -> Jr
+    .replace(/[’]/g, "'")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
 function categoryForAthlete(athlete) {
   const n = Number(athlete?.category);
   return Number.isFinite(n) ? n : DEFAULT_CATEGORY;
 }
 
 /**
- * athletes.json supports optional:
- * - keywords: string (defaults to name + " card")
- * - category: number (defaults to DEFAULT_CATEGORY)
- *
- * Example athletes.json entry:
- * { "name": "Jackson Chourio" }
- * { "name": "Player X", "keywords": "player x rookie card", "category": 888 }
+ * Build eBay SOLD+COMPLETED URL.
+ * opts:
+ * - loose: omit Card Size filter
+ * - noCategory: omit category filter (last resort)
  */
 function buildEbaySoldUrl(athlete, opts = {}) {
   const nameRaw = String(athlete?.name || "").trim();
@@ -98,41 +101,28 @@ function buildEbaySoldUrl(athlete, opts = {}) {
 
   const nameNorm = normalizeForSearch(nameRaw);
 
-  // IMPORTANT: do NOT pre-encode. Let URLSearchParams handle encoding.
-  const kwRaw = String(athlete?.keywords || `${nameNorm} card`).trim();
-
+  // IMPORTANT: never pre-encode. URLSearchParams will encode safely.
+  const kw = normalizeForSearch(String(athlete?.keywords || `${nameNorm} card`).trim());
   const category = categoryForAthlete(athlete);
 
   const params = new URLSearchParams();
 
-  // Core filters
-  params.set("_dcat", String(category));
-  params.set("_nkw", kwRaw);
+  // Core search
+  params.set("_nkw", kw);
   params.set("LH_Complete", "1");
   params.set("LH_Sold", "1");
-
-  // ✅ Worldwide: DO NOT set LH_PrefLoc at all
-
-  // No autocorrect
   params.set("rt", RT_NO_CORRECTIONS);
 
-  // Card size filter (strict pass only)
-  if (!opts.loose) {
-    params.set("Card Size", CARD_SIZE_STANDARD);
-  }
+  // Category (use _sacat; omit as last resort)
+  if (!opts.noCategory) params.set("_sacat", String(category));
 
-  const base = `https://${EBAY_HOST}/sch/i.html?${params.toString()}`;
+  // Optional: Card Size filter (often too restrictive; only in strict pass)
+  if (!opts.loose) params.set("Card Size", CARD_SIZE_STANDARD);
 
-  // Player/Athlete aspect filter (strict pass only; can be too strict for some stars)
-  if (!opts.noAspect) {
-    const playerAspect = `&Player%2FAthlete=${encodeURIComponent(nameNorm)}`;
-    return base + playerAspect;
-  }
-
-  return base;
+  return `https://${EBAY_HOST}/sch/i.html?${params.toString()}`;
 }
 
-// CodeQL-friendly tag stripper: allow attributes/whitespace in closing tags
+// CodeQL-friendly tag stripper
 function stripTags(html) {
   return html
     .replace(/<script[\s\S]*?<\/script[^>]*>/gi, " ")
@@ -169,21 +159,87 @@ function round2(n) {
   return Math.round(n * 100) / 100;
 }
 
-async function fetchHtml(url) {
-  const res = await fetch(url, {
-    headers: {
-      "user-agent":
-        "Mozilla/5.0 (compatible; VzlaSportsEliteBot/1.0; +https://github.com/)",
-      "accept-language": "en-CA,en;q=0.9",
-    },
-    redirect: "follow",
-  });
-  if (!res.ok) throw new Error(`HTTP ${res.status} ${res.statusText}`);
-  return await res.text();
+function detectBlockedOrConsent(html) {
+  const lowered = html.toLowerCase();
+  const blockedSignals = [
+    "robot check",
+    "pardon our interruption",
+    "access denied",
+    "verify you are human",
+    "enable cookies",
+    "captcha",
+    "/challenge/",
+    "press and hold",
+    "security measure",
+    "consent",
+    "gdpr",
+  ];
+  return blockedSignals.some((s) => lowered.includes(s));
 }
 
+function looksLikeResultsPage(html) {
+  // Very lightweight heuristics for SRP pages
+  const lowered = html.toLowerCase();
+  return (
+    lowered.includes("s-item") ||
+    lowered.includes("srp-river-results") ||
+    lowered.includes("srp-controls") ||
+    lowered.includes("results for")
+  );
+}
+
+async function fetchHtml(url) {
+  const ctrl = new AbortController();
+  const timeout = setTimeout(() => ctrl.abort(), FETCH_TIMEOUT_MS);
+
+  try {
+    const res = await fetch(url, {
+      headers: {
+        "user-agent":
+          "Mozilla/5.0 (compatible; VzlaSportsEliteBot/1.0; +https://github.com/)",
+        "accept-language": "en-CA,en;q=0.9",
+      },
+      redirect: "follow",
+      signal: ctrl.signal,
+    });
+
+    if (!res.ok) throw new Error(`HTTP ${res.status} ${res.statusText}`);
+    const html = await res.text();
+
+    if (detectBlockedOrConsent(html)) {
+      throw new Error("Blocked/consent/captcha page detected (eBay anti-bot).");
+    }
+    if (!looksLikeResultsPage(html)) {
+      // This catches weird redirects like generic index.html or a minimal shell
+      throw new Error("Unexpected eBay response (not a results page).");
+    }
+
+    return { html, finalUrl: res.url || url };
+  } finally {
+    clearTimeout(timeout);
+  }
+}
+
+async function fetchHtmlWithRetry(url) {
+  let lastErr = null;
+  for (let attempt = 1; attempt <= FETCH_RETRIES; attempt++) {
+    try {
+      return await fetchHtml(url);
+    } catch (e) {
+      lastErr = e;
+      // Backoff a bit (helps if eBay rate-limits)
+      await sleep(600 * attempt);
+    }
+  }
+  throw lastErr || new Error("Fetch failed");
+}
+
+/**
+ * Robust extraction:
+ * - Pass A: marker-based (Sold/Ended/Completed nearby)
+ * - Pass B: fallback scan for money values if marker pass fails
+ */
 function extractSoldMoneyFromHtml(html, maxItems = 60) {
-  // Parse based on “Sold <date>” markers visible in eBay sold search results.
   const text = stripTags(html);
   const lines = text
     .split("\n")
@@ -193,26 +249,45 @@ function extractSoldMoneyFromHtml(html, maxItems = 60) {
   /** @type {{currency:"CAD"|"USD", value:number}[]} */
   const picks = [];
 
+  const isMarker = (s) =>
+    /\bsold\b/i.test(s) || /\bended\b/i.test(s) || /\bcompleted\b/i.test(s);
+
+  const isRange = (s) =>
+    /\bto\b/i.test(s) &&
+    /\b(C|US)\s*\$\s*[\d,.]+\s+to\s+\b(C|US)\s*\$\s*[\d,.]+/i.test(s);
+
+  const isNoise = (s) =>
+    /sponsored/i.test(s) ||
+    /results matching/i.test(s) ||
+    /shop on ebay/i.test(s) ||
+    /see all/i.test(s) ||
+    /advertisement/i.test(s);
+
+  // Pass A: marker + nearby price
   for (let i = 0; i < lines.length && picks.length < maxItems; i++) {
-    if (lines[i].startsWith("Sold ")) {
-      // Look ahead for a money line near the "Sold ..." marker
-      for (let j = i + 1; j < Math.min(i + 14, lines.length); j++) {
-        const l = lines[j];
+    const li = lines[i];
+    if (!isMarker(li)) continue;
 
-        // Skip ranges like "C $1.35 to C $5.43"
-        if (
-          /\bto\b/i.test(l) &&
-          /\b(C|US)\s*\$\s*[\d,.]+\s+to\s+\b(C|US)\s*\$\s*[\d,.]+/i.test(l)
-        ) {
-          continue;
-        }
+    for (let j = i + 1; j < Math.min(i + 50, lines.length); j++) {
+      const l = lines[j];
+      if (isNoise(l) || isRange(l)) continue;
 
-        const vals = parseMoneyValues(l);
-        if (vals.length) {
-          // If multiple money values appear, take the last
-          picks.push(vals[vals.length - 1]);
-          break;
-        }
+      const vals = parseMoneyValues(l);
+      if (vals.length) {
+        picks.push(vals[vals.length - 1]);
+        break;
+      }
+    }
+  }
+
+  // Pass B: scan for money values (fallback)
+  if (!picks.length) {
+    for (const l of lines) {
+      if (isNoise(l) || isRange(l)) continue;
+      const vals = parseMoneyValues(l);
+      if (vals.length) {
+        picks.push(vals[vals.length - 1]);
+        if (picks.length >= maxItems) break;
       }
     }
   }
@@ -224,21 +299,33 @@ function chooseCurrencyAndAvg(picks) {
   const cad = picks.filter((p) => p.currency === "CAD").map((p) => p.value);
   const usd = picks.filter((p) => p.currency === "USD").map((p) => p.value);
 
-  // Prefer CAD if we have any CAD samples, otherwise use USD
-  if (cad.length) {
-    const avg = trimmedMean(cad, TRIM_FRACTION);
-    return { currency: "CAD", n: cad.length, avg };
-  }
-  if (usd.length) {
-    const avg = trimmedMean(usd, TRIM_FRACTION);
-    return { currency: "USD", n: usd.length, avg };
-  }
+  if (cad.length) return { currency: "CAD", n: cad.length, avg: trimmedMean(cad, TRIM_FRACTION) };
+  if (usd.length) return { currency: "USD", n: usd.length, avg: trimmedMean(usd, TRIM_FRACTION) };
   return { currency: "CAD", n: 0, avg: null };
+}
+
+async function fetchPicksWithFallbacks(athlete) {
+  const strategies = [
+    { label: "cat+kw+size", opts: { loose: false, noCategory: false } },
+    { label: "cat+kw", opts: { loose: true, noCategory: false } },
+    { label: "kw_only", opts: { loose: true, noCategory: true } },
+  ];
+
+  let last = null;
+
+  for (const s of strategies) {
+    const url = buildEbaySoldUrl(athlete, s.opts);
+    const { html, finalUrl } = await fetchHtmlWithRetry(url);
+    const picks = extractSoldMoneyFromHtml(html, MAX_PRICES_PER_ATHLETE);
+    last = { url, finalUrl, picks, strategy: s.label };
+    if (picks.length) return last;
+  }
+
+  return last || { url: null, finalUrl: null, picks: [], strategy: "none" };
 }
 
 async function main() {
   const athletes = readAthletes();
-
   ensureDirExists(path.dirname(OUTPUT_PATH));
 
   const out = {};
@@ -249,22 +336,8 @@ async function main() {
     const name = a?.name?.trim();
     if (!name) continue;
 
-    const categoryUsed = categoryForAthlete(a);
-
-    // Pass 1 (strict): Player/Athlete + Card Size
-    let url = buildEbaySoldUrl(a, { noAspect: false, loose: false });
-
     try {
-      let html = await fetchHtml(url);
-      let picks = extractSoldMoneyFromHtml(html, MAX_PRICES_PER_ATHLETE);
-
-      // Pass 2 (fallback): remove Player/Athlete aspect + remove Card Size filter
-      if (!picks.length) {
-        url = buildEbaySoldUrl(a, { noAspect: true, loose: true });
-        html = await fetchHtml(url);
-        picks = extractSoldMoneyFromHtml(html, MAX_PRICES_PER_ATHLETE);
-      }
-
+      const { url, finalUrl, picks, strategy } = await fetchPicksWithFallbacks(a);
       const chosen = chooseCurrencyAndAvg(picks);
 
       out[name] = {
@@ -273,10 +346,11 @@ async function main() {
         currency: chosen.currency,
         asOf: nowIso,
         source: url,
+        finalUrl: finalUrl || url,
+        strategy,
         method: `trimmed_mean_${Math.round(TRIM_FRACTION * 100)}pct`,
         filters: {
-          category: categoryUsed,
-          // Note: Card Size and Player/Athlete may be absent in fallback pass
+          category: categoryForAthlete(a),
           cardSize: CARD_SIZE_STANDARD,
           sold: true,
           completed: true,
@@ -299,7 +373,6 @@ async function main() {
         n: 0,
         currency: "CAD",
         asOf: nowIso,
-        source: url,
         error: String(e?.message || e),
       };
       console.warn(`[${idx + 1}/${athletes.length}] ${name}: ERROR ${e?.message || e}`);
