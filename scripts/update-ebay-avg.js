@@ -36,11 +36,11 @@ const EBAY_HOST = "www.ebay.ca";
 // Search tuning
 const CARD_SIZE_STANDARD = "Standard";
 const RT_NO_CORRECTIONS = "nc";
-const MAX_PRICES_PER_ATHLETE = 40;
+const MAX_PRICES_PER_ATHLETE = 10;
 const TRIM_FRACTION = 0.10;
 
 // Rate limiting / batching (your request)
-const BATCH_SIZE = 20;
+const BATCH_SIZE = 50;
 const BATCH_SLEEP_MS = 2 * 60 * 1000; // 2 minutes
 const SLEEP_MS_BETWEEN = 1200;        // base per-request sleep inside a batch
 const SLEEP_JITTER_MS = 600;          // adds randomness (0..600ms)
