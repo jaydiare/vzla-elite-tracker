@@ -1,10 +1,10 @@
 {
   "Andres Chaparro": {
-    "avg": 3.34,
+    "avg": 2.77,
     "n": 60,
     "currency": "CAD",
-    "asOf": "2026-02-17T00:09:03.096Z",
-    "source": "https://www.ebay.ca/sch/i.html?_dcat=261328&_nkw=Andres%2BChaparro&LH_Complete=1&LH_Sold=1&LH_PrefLoc=2&rt=nc&Card+Size=Standard&Player%2FAthlete=Andres%20Chaparro",
+    "asOf": "2026-02-17T00:25:02.966Z",
+    "source": "https://www.ebay.ca/sch/i.html?_dcat=261328&_nkw=Andres+Chaparro+card&LH_Complete=1&LH_Sold=1&LH_PrefLoc=2&rt=nc&Card+Size=Standard&Player%2FAthlete=Andres%20Chaparro",
     "method": "trimmed_mean_10pct",
     "filters": {
       "category": 261328,
@@ -17,11 +17,11 @@
     }
   },
   "Andres Gimenez": {
-    "avg": 1.92,
+    "avg": 1.5,
     "n": 60,
     "currency": "CAD",
-    "asOf": "2026-02-17T00:09:03.096Z",
-    "source": "https://www.ebay.ca/sch/i.html?_dcat=261328&_nkw=Andres%2BGimenez&LH_Complete=1&LH_Sold=1&LH_PrefLoc=2&rt=nc&Card+Size=Standard&Player%2FAthlete=Andres%20Gimenez",
+    "asOf": "2026-02-17T00:25:02.966Z",
+    "source": "https://www.ebay.ca/sch/i.html?_dcat=261328&_nkw=Andres+Gimenez+card&LH_Complete=1&LH_Sold=1&LH_PrefLoc=2&rt=nc&Card+Size=Standard&Player%2FAthlete=Andres%20Gimenez",
     "method": "trimmed_mean_10pct",
     "filters": {
       "category": 261328,
@@ -34,11 +34,11 @@
     }
   },
   "Angel Zerpa": {
-    "avg": 1.95,
+    "avg": 3.81,
     "n": 60,
     "currency": "CAD",
-    "asOf": "2026-02-17T00:09:03.096Z",
-    "source": "https://www.ebay.ca/sch/i.html?_dcat=261328&_nkw=Angel%2BZerpa&LH_Complete=1&LH_Sold=1&LH_PrefLoc=2&rt=nc&Card+Size=Standard&Player%2FAthlete=Angel%20Zerpa",
+    "asOf": "2026-02-17T00:25:02.966Z",
+    "source": "https://www.ebay.ca/sch/i.html?_dcat=261328&_nkw=Angel+Zerpa+card&LH_Complete=1&LH_Sold=1&LH_PrefLoc=2&rt=nc&Card+Size=Standard&Player%2FAthlete=Angel%20Zerpa",
     "method": "trimmed_mean_10pct",
     "filters": {
       "category": 261328,
@@ -51,11 +51,11 @@
     }
   },
   "Antonio Senzatela": {
-    "avg": 1.62,
+    "avg": 1.65,
     "n": 60,
     "currency": "CAD",
-    "asOf": "2026-02-17T00:09:03.096Z",
-    "source": "https://www.ebay.ca/sch/i.html?_dcat=261328&_nkw=Antonio%2BSenzatela&LH_Complete=1&LH_Sold=1&LH_PrefLoc=2&rt=nc&Card+Size=Standard&Player%2FAthlete=Antonio%20Senzatela",
+    "asOf": "2026-02-17T00:25:02.966Z",
+    "source": "https://www.ebay.ca/sch/i.html?_dcat=261328&_nkw=Antonio+Senzatela+card&LH_Complete=1&LH_Sold=1&LH_PrefLoc=2&rt=nc&Card+Size=Standard&Player%2FAthlete=Antonio%20Senzatela",
     "method": "trimmed_mean_10pct",
     "filters": {
       "category": 261328,
@@ -68,11 +68,11 @@
     }
   },
   "Eduardo Rodriguez": {
-    "avg": 1.44,
+    "avg": 1.45,
     "n": 60,
     "currency": "CAD",
-    "asOf": "2026-02-17T00:09:03.096Z",
-    "source": "https://www.ebay.ca/sch/i.html?_dcat=261328&_nkw=Eduardo%2BRodriguez&LH_Complete=1&LH_Sold=1&LH_PrefLoc=2&rt=nc&Card+Size=Standard&Player%2FAthlete=Eduardo%20Rodriguez",
+    "asOf": "2026-02-17T00:25:02.966Z",
+    "source": "https://www.ebay.ca/sch/i.html?_dcat=261328&_nkw=Eduardo+Rodriguez+card&LH_Complete=1&LH_Sold=1&LH_PrefLoc=2&rt=nc&Card+Size=Standard&Player%2FAthlete=Eduardo%20Rodriguez",
     "method": "trimmed_mean_10pct",
     "filters": {
       "category": 261328,
@@ -85,11 +85,11 @@
     }
   },
   "Eugenio Suarez": {
-    "avg": 2.07,
+    "avg": 1.7,
     "n": 60,
     "currency": "CAD",
-    "asOf": "2026-02-17T00:09:03.096Z",
-    "source": "https://www.ebay.ca/sch/i.html?_dcat=261328&_nkw=Eugenio%2BSuarez&LH_Complete=1&LH_Sold=1&LH_PrefLoc=2&rt=nc&Card+Size=Standard&Player%2FAthlete=Eugenio%20Suarez",
+    "asOf": "2026-02-17T00:25:02.966Z",
+    "source": "https://www.ebay.ca/sch/i.html?_dcat=261328&_nkw=Eugenio+Suarez+card&LH_Complete=1&LH_Sold=1&LH_PrefLoc=2&rt=nc&Card+Size=Standard&Player%2FAthlete=Eugenio%20Suarez",
     "method": "trimmed_mean_10pct",
     "filters": {
       "category": 261328,
@@ -102,11 +102,11 @@
     }
   },
   "Ezequiel Tovar": {
-    "avg": 2.08,
+    "avg": 1.5,
     "n": 60,
     "currency": "CAD",
-    "asOf": "2026-02-17T00:09:03.096Z",
-    "source": "https://www.ebay.ca/sch/i.html?_dcat=261328&_nkw=Ezequiel%2BTovar&LH_Complete=1&LH_Sold=1&LH_PrefLoc=2&rt=nc&Card+Size=Standard&Player%2FAthlete=Ezequiel%20Tovar",
+    "asOf": "2026-02-17T00:25:02.966Z",
+    "source": "https://www.ebay.ca/sch/i.html?_dcat=261328&_nkw=Ezequiel+Tovar+card&LH_Complete=1&LH_Sold=1&LH_PrefLoc=2&rt=nc&Card+Size=Standard&Player%2FAthlete=Ezequiel%20Tovar",
     "method": "trimmed_mean_10pct",
     "filters": {
       "category": 261328,
@@ -119,11 +119,11 @@
     }
   },
   "Freddy Fermin": {
-    "avg": 1.64,
+    "avg": 1.61,
     "n": 60,
     "currency": "CAD",
-    "asOf": "2026-02-17T00:09:03.096Z",
-    "source": "https://www.ebay.ca/sch/i.html?_dcat=261328&_nkw=Freddy%2BFermin&LH_Complete=1&LH_Sold=1&LH_PrefLoc=2&rt=nc&Card+Size=Standard&Player%2FAthlete=Freddy%20Fermin",
+    "asOf": "2026-02-17T00:25:02.966Z",
+    "source": "https://www.ebay.ca/sch/i.html?_dcat=261328&_nkw=Freddy+Fermin+card&LH_Complete=1&LH_Sold=1&LH_PrefLoc=2&rt=nc&Card+Size=Standard&Player%2FAthlete=Freddy%20Fermin",
     "method": "trimmed_mean_10pct",
     "filters": {
       "category": 261328,
@@ -136,11 +136,11 @@
     }
   },
   "Gabriel Moreno": {
-    "avg": 4.25,
+    "avg": 1.47,
     "n": 60,
     "currency": "CAD",
-    "asOf": "2026-02-17T00:09:03.096Z",
-    "source": "https://www.ebay.ca/sch/i.html?_dcat=261328&_nkw=Gabriel%2BMoreno&LH_Complete=1&LH_Sold=1&LH_PrefLoc=2&rt=nc&Card+Size=Standard&Player%2FAthlete=Gabriel%20Moreno",
+    "asOf": "2026-02-17T00:25:02.966Z",
+    "source": "https://www.ebay.ca/sch/i.html?_dcat=261328&_nkw=Gabriel+Moreno+card&LH_Complete=1&LH_Sold=1&LH_PrefLoc=2&rt=nc&Card+Size=Standard&Player%2FAthlete=Gabriel%20Moreno",
     "method": "trimmed_mean_10pct",
     "filters": {
       "category": 261328,
@@ -153,11 +153,11 @@
     }
   },
   "Jeferson Quero": {
-    "avg": 4.52,
+    "avg": 5.58,
     "n": 60,
     "currency": "CAD",
-    "asOf": "2026-02-17T00:09:03.096Z",
-    "source": "https://www.ebay.ca/sch/i.html?_dcat=261328&_nkw=Jeferson%2BQuero&LH_Complete=1&LH_Sold=1&LH_PrefLoc=2&rt=nc&Card+Size=Standard&Player%2FAthlete=Jeferson%20Quero",
+    "asOf": "2026-02-17T00:25:02.966Z",
+    "source": "https://www.ebay.ca/sch/i.html?_dcat=261328&_nkw=Jeferson+Quero+card&LH_Complete=1&LH_Sold=1&LH_PrefLoc=2&rt=nc&Card+Size=Standard&Player%2FAthlete=Jeferson%20Quero",
     "method": "trimmed_mean_10pct",
     "filters": {
       "category": 261328,
@@ -170,11 +170,11 @@
     }
   },
   "Jorge Barrosa": {
-    "avg": 2.14,
+    "avg": 5.3,
     "n": 60,
     "currency": "CAD",
-    "asOf": "2026-02-17T00:09:03.096Z",
-    "source": "https://www.ebay.ca/sch/i.html?_dcat=261328&_nkw=Jorge%2BBarrosa&LH_Complete=1&LH_Sold=1&LH_PrefLoc=2&rt=nc&Card+Size=Standard&Player%2FAthlete=Jorge%20Barrosa",
+    "asOf": "2026-02-17T00:25:02.966Z",
+    "source": "https://www.ebay.ca/sch/i.html?_dcat=261328&_nkw=Jorge+Barrosa+card&LH_Complete=1&LH_Sold=1&LH_PrefLoc=2&rt=nc&Card+Size=Standard&Player%2FAthlete=Jorge%20Barrosa",
     "method": "trimmed_mean_10pct",
     "filters": {
       "category": 261328,
@@ -187,11 +187,11 @@
     }
   },
   "Jose Butto": {
-    "avg": 7.22,
+    "avg": 4.82,
     "n": 60,
     "currency": "CAD",
-    "asOf": "2026-02-17T00:09:03.096Z",
-    "source": "https://www.ebay.ca/sch/i.html?_dcat=261328&_nkw=Jose%2BButto&LH_Complete=1&LH_Sold=1&LH_PrefLoc=2&rt=nc&Card+Size=Standard&Player%2FAthlete=Jose%20Butto",
+    "asOf": "2026-02-17T00:25:02.966Z",
+    "source": "https://www.ebay.ca/sch/i.html?_dcat=261328&_nkw=Jose+Butto+card&LH_Complete=1&LH_Sold=1&LH_PrefLoc=2&rt=nc&Card+Size=Standard&Player%2FAthlete=Jose%20Butto",
     "method": "trimmed_mean_10pct",
     "filters": {
       "category": 261328,
@@ -204,11 +204,11 @@
     }
   },
   "Keibert Ruiz": {
-    "avg": 1.49,
+    "avg": 1.45,
     "n": 60,
     "currency": "CAD",
-    "asOf": "2026-02-17T00:09:03.096Z",
-    "source": "https://www.ebay.ca/sch/i.html?_dcat=261328&_nkw=Keibert%2BRuiz&LH_Complete=1&LH_Sold=1&LH_PrefLoc=2&rt=nc&Card+Size=Standard&Player%2FAthlete=Keibert%20Ruiz",
+    "asOf": "2026-02-17T00:25:02.966Z",
+    "source": "https://www.ebay.ca/sch/i.html?_dcat=261328&_nkw=Keibert+Ruiz+card&LH_Complete=1&LH_Sold=1&LH_PrefLoc=2&rt=nc&Card+Size=Standard&Player%2FAthlete=Keibert%20Ruiz",
     "method": "trimmed_mean_10pct",
     "filters": {
       "category": 261328,
@@ -221,11 +221,11 @@
     }
   },
   "Keider Montero": {
-    "avg": 2.32,
+    "avg": 1.82,
     "n": 60,
     "currency": "CAD",
-    "asOf": "2026-02-17T00:09:03.096Z",
-    "source": "https://www.ebay.ca/sch/i.html?_dcat=261328&_nkw=Keider%2BMontero&LH_Complete=1&LH_Sold=1&LH_PrefLoc=2&rt=nc&Card+Size=Standard&Player%2FAthlete=Keider%20Montero",
+    "asOf": "2026-02-17T00:25:02.966Z",
+    "source": "https://www.ebay.ca/sch/i.html?_dcat=261328&_nkw=Keider+Montero+card&LH_Complete=1&LH_Sold=1&LH_PrefLoc=2&rt=nc&Card+Size=Standard&Player%2FAthlete=Keider%20Montero",
     "method": "trimmed_mean_10pct",
     "filters": {
       "category": 261328,
@@ -238,11 +238,11 @@
     }
   },
   "Luis Matos": {
-    "avg": 1.74,
+    "avg": 1.38,
     "n": 60,
     "currency": "CAD",
-    "asOf": "2026-02-17T00:09:03.096Z",
-    "source": "https://www.ebay.ca/sch/i.html?_dcat=261328&_nkw=Luis%2BMatos&LH_Complete=1&LH_Sold=1&LH_PrefLoc=2&rt=nc&Card+Size=Standard&Player%2FAthlete=Luis%20Matos",
+    "asOf": "2026-02-17T00:25:02.966Z",
+    "source": "https://www.ebay.ca/sch/i.html?_dcat=261328&_nkw=Luis+Matos+card&LH_Complete=1&LH_Sold=1&LH_PrefLoc=2&rt=nc&Card+Size=Standard&Player%2FAthlete=Luis%20Matos",
     "method": "trimmed_mean_10pct",
     "filters": {
       "category": 261328,
@@ -255,11 +255,11 @@
     }
   },
   "Maikel Garcia": {
-    "avg": 7.79,
+    "avg": 1.66,
     "n": 60,
     "currency": "CAD",
-    "asOf": "2026-02-17T00:09:03.096Z",
-    "source": "https://www.ebay.ca/sch/i.html?_dcat=261328&_nkw=Maikel%2BGarcia&LH_Complete=1&LH_Sold=1&LH_PrefLoc=2&rt=nc&Card+Size=Standard&Player%2FAthlete=Maikel%20Garcia",
+    "asOf": "2026-02-17T00:25:02.966Z",
+    "source": "https://www.ebay.ca/sch/i.html?_dcat=261328&_nkw=Maikel+Garcia+card&LH_Complete=1&LH_Sold=1&LH_PrefLoc=2&rt=nc&Card+Size=Standard&Player%2FAthlete=Maikel%20Garcia",
     "method": "trimmed_mean_10pct",
     "filters": {
       "category": 261328,
@@ -272,11 +272,11 @@
     }
   },
   "Miguel Rojas": {
-    "avg": 1.65,
+    "avg": 1.46,
     "n": 60,
     "currency": "CAD",
-    "asOf": "2026-02-17T00:09:03.096Z",
-    "source": "https://www.ebay.ca/sch/i.html?_dcat=261328&_nkw=Miguel%2BRojas&LH_Complete=1&LH_Sold=1&LH_PrefLoc=2&rt=nc&Card+Size=Standard&Player%2FAthlete=Miguel%20Rojas",
+    "asOf": "2026-02-17T00:25:02.966Z",
+    "source": "https://www.ebay.ca/sch/i.html?_dcat=261328&_nkw=Miguel+Rojas+card&LH_Complete=1&LH_Sold=1&LH_PrefLoc=2&rt=nc&Card+Size=Standard&Player%2FAthlete=Miguel%20Rojas",
     "method": "trimmed_mean_10pct",
     "filters": {
       "category": 261328,
@@ -289,11 +289,11 @@
     }
   },
   "Salvador Perez": {
-    "avg": 4.48,
+    "avg": 1.51,
     "n": 60,
     "currency": "CAD",
-    "asOf": "2026-02-17T00:09:03.096Z",
-    "source": "https://www.ebay.ca/sch/i.html?_dcat=261328&_nkw=Salvador%2BPerez&LH_Complete=1&LH_Sold=1&LH_PrefLoc=2&rt=nc&Card+Size=Standard&Player%2FAthlete=Salvador%20Perez",
+    "asOf": "2026-02-17T00:25:02.966Z",
+    "source": "https://www.ebay.ca/sch/i.html?_dcat=261328&_nkw=Salvador+Perez+card&LH_Complete=1&LH_Sold=1&LH_PrefLoc=2&rt=nc&Card+Size=Standard&Player%2FAthlete=Salvador%20Perez",
     "method": "trimmed_mean_10pct",
     "filters": {
       "category": 261328,
@@ -306,11 +306,11 @@
     }
   },
   "William Contreras": {
-    "avg": 2.27,
+    "avg": 1.51,
     "n": 60,
     "currency": "CAD",
-    "asOf": "2026-02-17T00:09:03.096Z",
-    "source": "https://www.ebay.ca/sch/i.html?_dcat=261328&_nkw=William%2BContreras&LH_Complete=1&LH_Sold=1&LH_PrefLoc=2&rt=nc&Card+Size=Standard&Player%2FAthlete=William%20Contreras",
+    "asOf": "2026-02-17T00:25:02.966Z",
+    "source": "https://www.ebay.ca/sch/i.html?_dcat=261328&_nkw=William+Contreras+card&LH_Complete=1&LH_Sold=1&LH_PrefLoc=2&rt=nc&Card+Size=Standard&Player%2FAthlete=William%20Contreras",
     "method": "trimmed_mean_10pct",
     "filters": {
       "category": 261328,
@@ -323,11 +323,11 @@
     }
   },
   "Yilber Diaz": {
-    "avg": 2.2,
+    "avg": 1.81,
     "n": 60,
     "currency": "CAD",
-    "asOf": "2026-02-17T00:09:03.096Z",
-    "source": "https://www.ebay.ca/sch/i.html?_dcat=261328&_nkw=Yilber%2BDiaz&LH_Complete=1&LH_Sold=1&LH_PrefLoc=2&rt=nc&Card+Size=Standard&Player%2FAthlete=Yilber%20Diaz",
+    "asOf": "2026-02-17T00:25:02.966Z",
+    "source": "https://www.ebay.ca/sch/i.html?_dcat=261328&_nkw=Yilber+Diaz+card&LH_Complete=1&LH_Sold=1&LH_PrefLoc=2&rt=nc&Card+Size=Standard&Player%2FAthlete=Yilber%20Diaz",
     "method": "trimmed_mean_10pct",
     "filters": {
       "category": 261328,
@@ -340,11 +340,11 @@
     }
   },
   "Abel Alejandro Caputo": {
-    "avg": 18.72,
-    "n": 4,
+    "avg": null,
+    "n": 0,
     "currency": "CAD",
-    "asOf": "2026-02-17T00:09:03.096Z",
-    "source": "https://www.ebay.ca/sch/i.html?_dcat=261328&_nkw=Abel%2BAlejandro%2BCaputo&LH_Complete=1&LH_Sold=1&LH_PrefLoc=2&rt=nc&Card+Size=Standard&Player%2FAthlete=Abel%20Alejandro%20Caputo",
+    "asOf": "2026-02-17T00:25:02.966Z",
+    "source": "https://www.ebay.ca/sch/i.html?_dcat=261328&_nkw=Abel+Alejandro+Caputo+card&LH_Complete=1&LH_Sold=1&LH_PrefLoc=2&rt=nc",
     "method": "trimmed_mean_10pct",
     "filters": {
       "category": 261328,
@@ -357,11 +357,11 @@
     }
   },
   "Alejandro Fuenmayor": {
-    "avg": 1.35,
-    "n": 2,
+    "avg": null,
+    "n": 0,
     "currency": "CAD",
-    "asOf": "2026-02-17T00:09:03.096Z",
-    "source": "https://www.ebay.ca/sch/i.html?_dcat=261328&_nkw=Alejandro%2BFuenmayor&LH_Complete=1&LH_Sold=1&LH_PrefLoc=2&rt=nc&Card+Size=Standard&Player%2FAthlete=Alejandro%20Fuenmayor",
+    "asOf": "2026-02-17T00:25:02.966Z",
+    "source": "https://www.ebay.ca/sch/i.html?_dcat=261328&_nkw=Alejandro+Fuenmayor+card&LH_Complete=1&LH_Sold=1&LH_PrefLoc=2&rt=nc",
     "method": "trimmed_mean_10pct",
     "filters": {
       "category": 261328,
@@ -377,8 +377,8 @@
     "avg": null,
     "n": 0,
     "currency": "CAD",
-    "asOf": "2026-02-17T00:09:03.096Z",
-    "source": "https://www.ebay.ca/sch/i.html?_dcat=261328&_nkw=Alejandro%2BMoreno&LH_Complete=1&LH_Sold=1&LH_PrefLoc=2&rt=nc&Card+Size=Standard&Player%2FAthlete=Alejandro%20Moreno",
+    "asOf": "2026-02-17T00:25:02.966Z",
+    "source": "https://www.ebay.ca/sch/i.html?_dcat=261328&_nkw=Alejandro+Moreno+card&LH_Complete=1&LH_Sold=1&LH_PrefLoc=2&rt=nc",
     "method": "trimmed_mean_10pct",
     "filters": {
       "category": 261328,
@@ -394,8 +394,8 @@
     "avg": null,
     "n": 0,
     "currency": "CAD",
-    "asOf": "2026-02-17T00:09:03.096Z",
-    "source": "https://www.ebay.ca/sch/i.html?_dcat=261328&_nkw=Alejandro%2BMarqu%25C3%25A9s&LH_Complete=1&LH_Sold=1&LH_PrefLoc=2&rt=nc&Card+Size=Standard&Player%2FAthlete=Alejandro%20Marqu%C3%A9s",
+    "asOf": "2026-02-17T00:25:02.966Z",
+    "source": "https://www.ebay.ca/sch/i.html?_dcat=261328&_nkw=Alejandro+Marques+card&LH_Complete=1&LH_Sold=1&LH_PrefLoc=2&rt=nc",
     "method": "trimmed_mean_10pct",
     "filters": {
       "category": 261328,
@@ -411,8 +411,8 @@
     "avg": null,
     "n": 0,
     "currency": "CAD",
-    "asOf": "2026-02-17T00:09:03.096Z",
-    "source": "https://www.ebay.ca/sch/i.html?_dcat=261328&_nkw=Alessandro%2BMilani&LH_Complete=1&LH_Sold=1&LH_PrefLoc=2&rt=nc&Card+Size=Standard&Player%2FAthlete=Alessandro%20Milani",
+    "asOf": "2026-02-17T00:25:02.966Z",
+    "source": "https://www.ebay.ca/sch/i.html?_dcat=261328&_nkw=Alessandro+Milani+card&LH_Complete=1&LH_Sold=1&LH_PrefLoc=2&rt=nc",
     "method": "trimmed_mean_10pct",
     "filters": {
       "category": 261328,
@@ -428,8 +428,8 @@
     "avg": null,
     "n": 0,
     "currency": "CAD",
-    "asOf": "2026-02-17T00:09:03.096Z",
-    "source": "https://www.ebay.ca/sch/i.html?_dcat=261328&_nkw=Ronald%2BAcu%25C3%25B1a%2BJr.&LH_Complete=1&LH_Sold=1&LH_PrefLoc=2&rt=nc&Card+Size=Standard&Player%2FAthlete=Ronald%20Acu%C3%B1a%20Jr.",
+    "asOf": "2026-02-17T00:25:02.966Z",
+    "source": "https://www.ebay.ca/sch/i.html?_dcat=261328&_nkw=Ronald+Acuna+Jr+card&LH_Complete=1&LH_Sold=1&LH_PrefLoc=2&rt=nc",
     "method": "trimmed_mean_10pct",
     "filters": {
       "category": 261328,
@@ -445,8 +445,8 @@
     "avg": null,
     "n": 0,
     "currency": "CAD",
-    "asOf": "2026-02-17T00:09:03.096Z",
-    "source": "https://www.ebay.ca/sch/i.html?_dcat=261328&_nkw=Jackson%2BChourio&LH_Complete=1&LH_Sold=1&LH_PrefLoc=2&rt=nc&Card+Size=Standard&Player%2FAthlete=Jackson%20Chourio",
+    "asOf": "2026-02-17T00:25:02.966Z",
+    "source": "https://www.ebay.ca/sch/i.html?_dcat=261328&_nkw=Jackson+Chourio+card&LH_Complete=1&LH_Sold=1&LH_PrefLoc=2&rt=nc",
     "method": "trimmed_mean_10pct",
     "filters": {
       "category": 261328,
@@ -462,8 +462,8 @@
     "avg": null,
     "n": 0,
     "currency": "CAD",
-    "asOf": "2026-02-17T00:09:03.096Z",
-    "source": "https://www.ebay.ca/sch/i.html?_dcat=261328&_nkw=Eugenio%2BSu%25C3%25A1rez&LH_Complete=1&LH_Sold=1&LH_PrefLoc=2&rt=nc&Card+Size=Standard&Player%2FAthlete=Eugenio%20Su%C3%A1rez",
+    "asOf": "2026-02-17T00:25:02.966Z",
+    "source": "https://www.ebay.ca/sch/i.html?_dcat=261328&_nkw=Eugenio+Suarez+card&LH_Complete=1&LH_Sold=1&LH_PrefLoc=2&rt=nc",
     "method": "trimmed_mean_10pct",
     "filters": {
       "category": 261328,
@@ -479,8 +479,8 @@
     "avg": null,
     "n": 0,
     "currency": "CAD",
-    "asOf": "2026-02-17T00:09:03.096Z",
-    "source": "https://www.ebay.ca/sch/i.html?_dcat=261328&_nkw=Jose%2BAltuve&LH_Complete=1&LH_Sold=1&LH_PrefLoc=2&rt=nc&Card+Size=Standard&Player%2FAthlete=Jose%20Altuve",
+    "asOf": "2026-02-17T00:25:02.966Z",
+    "source": "https://www.ebay.ca/sch/i.html?_dcat=261328&_nkw=Jose+Altuve+card&LH_Complete=1&LH_Sold=1&LH_PrefLoc=2&rt=nc",
     "method": "trimmed_mean_10pct",
     "filters": {
       "category": 261328,
@@ -496,8 +496,8 @@
     "avg": null,
     "n": 0,
     "currency": "CAD",
-    "asOf": "2026-02-17T00:09:03.096Z",
-    "source": "https://www.ebay.ca/sch/i.html?_dcat=261328&_nkw=Luis%2BArraez&LH_Complete=1&LH_Sold=1&LH_PrefLoc=2&rt=nc&Card+Size=Standard&Player%2FAthlete=Luis%20Arraez",
+    "asOf": "2026-02-17T00:25:02.966Z",
+    "source": "https://www.ebay.ca/sch/i.html?_dcat=261328&_nkw=Luis+Arraez+card&LH_Complete=1&LH_Sold=1&LH_PrefLoc=2&rt=nc",
     "method": "trimmed_mean_10pct",
     "filters": {
       "category": 261328,
@@ -513,8 +513,8 @@
     "avg": null,
     "n": 0,
     "currency": "CAD",
-    "asOf": "2026-02-17T00:09:03.096Z",
-    "source": "https://www.ebay.ca/sch/i.html?_dcat=261328&_nkw=Anthony%2BSantander&LH_Complete=1&LH_Sold=1&LH_PrefLoc=2&rt=nc&Card+Size=Standard&Player%2FAthlete=Anthony%20Santander",
+    "asOf": "2026-02-17T00:25:02.966Z",
+    "source": "https://www.ebay.ca/sch/i.html?_dcat=261328&_nkw=Anthony+Santander+card&LH_Complete=1&LH_Sold=1&LH_PrefLoc=2&rt=nc",
     "method": "trimmed_mean_10pct",
     "filters": {
       "category": 261328,
@@ -530,8 +530,8 @@
     "avg": null,
     "n": 0,
     "currency": "CAD",
-    "asOf": "2026-02-17T00:09:03.096Z",
-    "source": "https://www.ebay.ca/sch/i.html?_dcat=261328&_nkw=Wilyer%2BAbreu&LH_Complete=1&LH_Sold=1&LH_PrefLoc=2&rt=nc&Card+Size=Standard&Player%2FAthlete=Wilyer%20Abreu",
+    "asOf": "2026-02-17T00:25:02.966Z",
+    "source": "https://www.ebay.ca/sch/i.html?_dcat=261328&_nkw=Wilyer+Abreu+card&LH_Complete=1&LH_Sold=1&LH_PrefLoc=2&rt=nc",
     "method": "trimmed_mean_10pct",
     "filters": {
       "category": 261328,
@@ -547,8 +547,8 @@
     "avg": null,
     "n": 0,
     "currency": "CAD",
-    "asOf": "2026-02-17T00:09:03.096Z",
-    "source": "https://www.ebay.ca/sch/i.html?_dcat=261328&_nkw=Francisco%2BAlvarez&LH_Complete=1&LH_Sold=1&LH_PrefLoc=2&rt=nc&Card+Size=Standard&Player%2FAthlete=Francisco%20Alvarez",
+    "asOf": "2026-02-17T00:25:02.966Z",
+    "source": "https://www.ebay.ca/sch/i.html?_dcat=261328&_nkw=Francisco+Alvarez+card&LH_Complete=1&LH_Sold=1&LH_PrefLoc=2&rt=nc",
     "method": "trimmed_mean_10pct",
     "filters": {
       "category": 261328,
@@ -564,8 +564,8 @@
     "avg": null,
     "n": 0,
     "currency": "CAD",
-    "asOf": "2026-02-17T00:09:03.096Z",
-    "source": "https://www.ebay.ca/sch/i.html?_dcat=261328&_nkw=Yeferson%2BSoteldo&LH_Complete=1&LH_Sold=1&LH_PrefLoc=2&rt=nc&Card+Size=Standard&Player%2FAthlete=Yeferson%20Soteldo",
+    "asOf": "2026-02-17T00:25:02.966Z",
+    "source": "https://www.ebay.ca/sch/i.html?_dcat=261328&_nkw=Yeferson+Soteldo+card&LH_Complete=1&LH_Sold=1&LH_PrefLoc=2&rt=nc",
     "method": "trimmed_mean_10pct",
     "filters": {
       "category": 261328,
@@ -581,8 +581,8 @@
     "avg": null,
     "n": 0,
     "currency": "CAD",
-    "asOf": "2026-02-17T00:09:03.096Z",
-    "source": "https://www.ebay.ca/sch/i.html?_dcat=261328&_nkw=Jon%2BAramburu&LH_Complete=1&LH_Sold=1&LH_PrefLoc=2&rt=nc&Card+Size=Standard&Player%2FAthlete=Jon%20Aramburu",
+    "asOf": "2026-02-17T00:25:02.966Z",
+    "source": "https://www.ebay.ca/sch/i.html?_dcat=261328&_nkw=Jon+Aramburu+card&LH_Complete=1&LH_Sold=1&LH_PrefLoc=2&rt=nc",
     "method": "trimmed_mean_10pct",
     "filters": {
       "category": 261328,
@@ -595,11 +595,11 @@
     }
   },
   "Nahuel Ferraresi": {
-    "avg": 3.6,
-    "n": 9,
+    "avg": null,
+    "n": 0,
     "currency": "CAD",
-    "asOf": "2026-02-17T00:09:03.096Z",
-    "source": "https://www.ebay.ca/sch/i.html?_dcat=261328&_nkw=Nahuel%2BFerraresi&LH_Complete=1&LH_Sold=1&LH_PrefLoc=2&rt=nc&Card+Size=Standard&Player%2FAthlete=Nahuel%20Ferraresi",
+    "asOf": "2026-02-17T00:25:02.966Z",
+    "source": "https://www.ebay.ca/sch/i.html?_dcat=261328&_nkw=Nahuel+Ferraresi+card&LH_Complete=1&LH_Sold=1&LH_PrefLoc=2&rt=nc",
     "method": "trimmed_mean_10pct",
     "filters": {
       "category": 261328,
@@ -615,8 +615,8 @@
     "avg": null,
     "n": 0,
     "currency": "CAD",
-    "asOf": "2026-02-17T00:09:03.096Z",
-    "source": "https://www.ebay.ca/sch/i.html?_dcat=261328&_nkw=Cristian%2BC%25C3%25A1sseres%2BJr.&LH_Complete=1&LH_Sold=1&LH_PrefLoc=2&rt=nc&Card+Size=Standard&Player%2FAthlete=Cristian%20C%C3%A1sseres%20Jr.",
+    "asOf": "2026-02-17T00:25:02.966Z",
+    "source": "https://www.ebay.ca/sch/i.html?_dcat=261328&_nkw=Cristian+Casseres+Jr+card&LH_Complete=1&LH_Sold=1&LH_PrefLoc=2&rt=nc",
     "method": "trimmed_mean_10pct",
     "filters": {
       "category": 261328,
@@ -632,8 +632,8 @@
     "avg": null,
     "n": 0,
     "currency": "CAD",
-    "asOf": "2026-02-17T00:09:03.096Z",
-    "source": "https://www.ebay.ca/sch/i.html?_dcat=261328&_nkw=Telasco%2BSegovia&LH_Complete=1&LH_Sold=1&LH_PrefLoc=2&rt=nc&Card+Size=Standard&Player%2FAthlete=Telasco%20Segovia",
+    "asOf": "2026-02-17T00:25:02.966Z",
+    "source": "https://www.ebay.ca/sch/i.html?_dcat=261328&_nkw=Telasco+Segovia+card&LH_Complete=1&LH_Sold=1&LH_PrefLoc=2&rt=nc",
     "method": "trimmed_mean_10pct",
     "filters": {
       "category": 261328,
@@ -649,8 +649,8 @@
     "avg": null,
     "n": 0,
     "currency": "CAD",
-    "asOf": "2026-02-17T00:09:03.096Z",
-    "source": "https://www.ebay.ca/sch/i.html?_dcat=261328&_nkw=Jefferson%2BSavarino&LH_Complete=1&LH_Sold=1&LH_PrefLoc=2&rt=nc&Card+Size=Standard&Player%2FAthlete=Jefferson%20Savarino",
+    "asOf": "2026-02-17T00:25:02.966Z",
+    "source": "https://www.ebay.ca/sch/i.html?_dcat=261328&_nkw=Jefferson+Savarino+card&LH_Complete=1&LH_Sold=1&LH_PrefLoc=2&rt=nc",
     "method": "trimmed_mean_10pct",
     "filters": {
       "category": 261328,
@@ -666,8 +666,8 @@
     "avg": null,
     "n": 0,
     "currency": "CAD",
-    "asOf": "2026-02-17T00:09:03.096Z",
-    "source": "https://www.ebay.ca/sch/i.html?_dcat=261328&_nkw=David%2BMart%25C3%25ADnez&LH_Complete=1&LH_Sold=1&LH_PrefLoc=2&rt=nc&Card+Size=Standard&Player%2FAthlete=David%20Mart%C3%ADnez",
+    "asOf": "2026-02-17T00:25:02.966Z",
+    "source": "https://www.ebay.ca/sch/i.html?_dcat=261328&_nkw=David+Martinez+card&LH_Complete=1&LH_Sold=1&LH_PrefLoc=2&rt=nc",
     "method": "trimmed_mean_10pct",
     "filters": {
       "category": 261328,
@@ -683,8 +683,8 @@
     "avg": null,
     "n": 0,
     "currency": "CAD",
-    "asOf": "2026-02-17T00:09:03.096Z",
-    "source": "https://www.ebay.ca/sch/i.html?_dcat=261328&_nkw=Salomon%2BRondon&LH_Complete=1&LH_Sold=1&LH_PrefLoc=2&rt=nc&Card+Size=Standard&Player%2FAthlete=Salomon%20Rondon",
+    "asOf": "2026-02-17T00:25:02.966Z",
+    "source": "https://www.ebay.ca/sch/i.html?_dcat=261328&_nkw=Salomon+Rondon+card&LH_Complete=1&LH_Sold=1&LH_PrefLoc=2&rt=nc",
     "method": "trimmed_mean_10pct",
     "filters": {
       "category": 261328,
@@ -700,8 +700,8 @@
     "avg": null,
     "n": 0,
     "currency": "CAD",
-    "asOf": "2026-02-17T00:09:03.096Z",
-    "source": "https://www.ebay.ca/sch/i.html?_dcat=261328&_nkw=Yangel%2BHerrera&LH_Complete=1&LH_Sold=1&LH_PrefLoc=2&rt=nc&Card+Size=Standard&Player%2FAthlete=Yangel%20Herrera",
+    "asOf": "2026-02-17T00:25:02.966Z",
+    "source": "https://www.ebay.ca/sch/i.html?_dcat=261328&_nkw=Yangel+Herrera+card&LH_Complete=1&LH_Sold=1&LH_PrefLoc=2&rt=nc",
     "method": "trimmed_mean_10pct",
     "filters": {
       "category": 261328,
@@ -717,8 +717,8 @@
     "avg": null,
     "n": 0,
     "currency": "CAD",
-    "asOf": "2026-02-17T00:09:03.096Z",
-    "source": "https://www.ebay.ca/sch/i.html?_dcat=261328&_nkw=Michael%2BCarrera&LH_Complete=1&LH_Sold=1&LH_PrefLoc=2&rt=nc&Card+Size=Standard&Player%2FAthlete=Michael%20Carrera",
+    "asOf": "2026-02-17T00:25:02.966Z",
+    "source": "https://www.ebay.ca/sch/i.html?_dcat=261328&_nkw=Michael+Carrera+card&LH_Complete=1&LH_Sold=1&LH_PrefLoc=2&rt=nc",
     "method": "trimmed_mean_10pct",
     "filters": {
       "category": 261328,
@@ -734,8 +734,8 @@
     "avg": null,
     "n": 0,
     "currency": "CAD",
-    "asOf": "2026-02-17T00:09:03.096Z",
-    "source": "https://www.ebay.ca/sch/i.html?_dcat=261328&_nkw=Heissler%2BGuillent&LH_Complete=1&LH_Sold=1&LH_PrefLoc=2&rt=nc&Card+Size=Standard&Player%2FAthlete=Heissler%20Guillent",
+    "asOf": "2026-02-17T00:25:02.966Z",
+    "source": "https://www.ebay.ca/sch/i.html?_dcat=261328&_nkw=Heissler+Guillent+card&LH_Complete=1&LH_Sold=1&LH_PrefLoc=2&rt=nc",
     "method": "trimmed_mean_10pct",
     "filters": {
       "category": 261328,
@@ -751,8 +751,8 @@
     "avg": null,
     "n": 0,
     "currency": "CAD",
-    "asOf": "2026-02-17T00:09:03.096Z",
-    "source": "https://www.ebay.ca/sch/i.html?_dcat=261328&_nkw=David%2BCubillan&LH_Complete=1&LH_Sold=1&LH_PrefLoc=2&rt=nc&Card+Size=Standard&Player%2FAthlete=David%20Cubillan",
+    "asOf": "2026-02-17T00:25:02.966Z",
+    "source": "https://www.ebay.ca/sch/i.html?_dcat=261328&_nkw=David+Cubillan+card&LH_Complete=1&LH_Sold=1&LH_PrefLoc=2&rt=nc",
     "method": "trimmed_mean_10pct",
     "filters": {
       "category": 261328,
@@ -768,8 +768,8 @@
     "avg": null,
     "n": 0,
     "currency": "CAD",
-    "asOf": "2026-02-17T00:09:03.096Z",
-    "source": "https://www.ebay.ca/sch/i.html?_dcat=261328&_nkw=Jose%2BAscanio&LH_Complete=1&LH_Sold=1&LH_PrefLoc=2&rt=nc&Card+Size=Standard&Player%2FAthlete=Jose%20Ascanio",
+    "asOf": "2026-02-17T00:25:02.966Z",
+    "source": "https://www.ebay.ca/sch/i.html?_dcat=261328&_nkw=Jose+Ascanio+card&LH_Complete=1&LH_Sold=1&LH_PrefLoc=2&rt=nc",
     "method": "trimmed_mean_10pct",
     "filters": {
       "category": 261328,
@@ -785,8 +785,8 @@
     "avg": null,
     "n": 0,
     "currency": "CAD",
-    "asOf": "2026-02-17T00:09:03.096Z",
-    "source": "https://www.ebay.ca/sch/i.html?_dcat=261328&_nkw=Pedro%2BChourio&LH_Complete=1&LH_Sold=1&LH_PrefLoc=2&rt=nc&Card+Size=Standard&Player%2FAthlete=Pedro%20Chourio",
+    "asOf": "2026-02-17T00:25:02.966Z",
+    "source": "https://www.ebay.ca/sch/i.html?_dcat=261328&_nkw=Pedro+Chourio+card&LH_Complete=1&LH_Sold=1&LH_PrefLoc=2&rt=nc",
     "method": "trimmed_mean_10pct",
     "filters": {
       "category": 261328,
@@ -802,8 +802,8 @@
     "avg": null,
     "n": 0,
     "currency": "CAD",
-    "asOf": "2026-02-17T00:09:03.096Z",
-    "source": "https://www.ebay.ca/sch/i.html?_dcat=261328&_nkw=Jhonattan%2BVegas&LH_Complete=1&LH_Sold=1&LH_PrefLoc=2&rt=nc&Card+Size=Standard&Player%2FAthlete=Jhonattan%20Vegas",
+    "asOf": "2026-02-17T00:25:02.966Z",
+    "source": "https://www.ebay.ca/sch/i.html?_dcat=261328&_nkw=Jhonattan+Vegas+card&LH_Complete=1&LH_Sold=1&LH_PrefLoc=2&rt=nc",
     "method": "trimmed_mean_10pct",
     "filters": {
       "category": 261328,
@@ -819,8 +819,8 @@
     "avg": null,
     "n": 0,
     "currency": "CAD",
-    "asOf": "2026-02-17T00:09:03.096Z",
-    "source": "https://www.ebay.ca/sch/i.html?_dcat=261328&_nkw=Garbi%25C3%25B1e%2BMuguruza&LH_Complete=1&LH_Sold=1&LH_PrefLoc=2&rt=nc&Card+Size=Standard&Player%2FAthlete=Garbi%C3%B1e%20Muguruza",
+    "asOf": "2026-02-17T00:25:02.966Z",
+    "source": "https://www.ebay.ca/sch/i.html?_dcat=261328&_nkw=Garbine+Muguruza+card&LH_Complete=1&LH_Sold=1&LH_PrefLoc=2&rt=nc",
     "method": "trimmed_mean_10pct",
     "filters": {
       "category": 261328,
@@ -836,8 +836,8 @@
     "avg": null,
     "n": 0,
     "currency": "CAD",
-    "asOf": "2026-02-17T00:09:03.096Z",
-    "source": "https://www.ebay.ca/sch/i.html?_dcat=261328&_nkw=Marlon%2BVera&LH_Complete=1&LH_Sold=1&LH_PrefLoc=2&rt=nc&Card+Size=Standard&Player%2FAthlete=Marlon%20Vera",
+    "asOf": "2026-02-17T00:25:02.966Z",
+    "source": "https://www.ebay.ca/sch/i.html?_dcat=261328&_nkw=Marlon+Vera+card&LH_Complete=1&LH_Sold=1&LH_PrefLoc=2&rt=nc",
     "method": "trimmed_mean_10pct",
     "filters": {
       "category": 261328,
@@ -853,8 +853,8 @@
     "avg": null,
     "n": 0,
     "currency": "CAD",
-    "asOf": "2026-02-17T00:09:03.096Z",
-    "source": "https://www.ebay.ca/sch/i.html?_dcat=261328&_nkw=Andres%2BBorregales&LH_Complete=1&LH_Sold=1&LH_PrefLoc=2&rt=nc&Card+Size=Standard&Player%2FAthlete=Andres%20Borregales",
+    "asOf": "2026-02-17T00:25:02.966Z",
+    "source": "https://www.ebay.ca/sch/i.html?_dcat=261328&_nkw=Andres+Borregales+card&LH_Complete=1&LH_Sold=1&LH_PrefLoc=2&rt=nc",
     "method": "trimmed_mean_10pct",
     "filters": {
       "category": 261328,
@@ -870,8 +870,8 @@
     "avg": null,
     "n": 0,
     "currency": "CAD",
-    "asOf": "2026-02-17T00:09:03.096Z",
-    "source": "https://www.ebay.ca/sch/i.html?_dcat=261328&_nkw=Amleto%2BMonacelli&LH_Complete=1&LH_Sold=1&LH_PrefLoc=2&rt=nc&Card+Size=Standard&Player%2FAthlete=Amleto%20Monacelli",
+    "asOf": "2026-02-17T00:25:02.966Z",
+    "source": "https://www.ebay.ca/sch/i.html?_dcat=261328&_nkw=Amleto+Monacelli+card&LH_Complete=1&LH_Sold=1&LH_PrefLoc=2&rt=nc",
     "method": "trimmed_mean_10pct",
     "filters": {
       "category": 261328,
