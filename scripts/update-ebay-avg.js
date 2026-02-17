@@ -2,7 +2,7 @@
 /**
  * scripts/update-ebay-avg.js
  *
- * Option A (your choice):
+ * Option A:
  * - This script reads ONLY ./data/athletes.json
  * - Make sure "Jackson Chourio" is added there so he gets an avg entry.
  *
@@ -12,6 +12,12 @@
  * - Prefers CAD if available, otherwise uses USD
  * - Computes a trimmed mean (drops top/bottom 10%) to reduce outliers
  * - Writes ./data/ebay-avg.json keyed by athlete name
+ *
+ * Fixes in this version:
+ * - Avoids double-encoding _nkw (URLSearchParams handles encoding)
+ * - Normalizes diacritics and punctuation for Player/Athlete aspect (Acuña -> Acuna, Jr. -> Jr)
+ * - Adds a fallback pass if strict filters return 0 sold prices:
+ *   - fallback removes Player/Athlete aspect and removes Card Size filter
  */
 
 import fs from "node:fs";
@@ -40,6 +46,19 @@ const MAX_PRICES_PER_ATHLETE = 60;
 const TRIM_FRACTION = 0.10;       // drop top/bottom 10%
 const SLEEP_MS_BETWEEN = 1200;
 
+/** Remove accents/diacritics (Suárez -> Suarez, Acuña -> Acuna, Álvarez -> Alvarez) */
+function stripDiacritics(s) {
+  return String(s).normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+}
+
+/** Normalize for eBay item specifics / search stability */
+function normalizeForSearch(s) {
+  return stripDiacritics(String(s))
+    .replace(/\./g, "") // Jr. -> Jr
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
 function sleep(ms) {
   return new Promise((r) => setTimeout(r, ms));
 }
@@ -58,10 +77,6 @@ function readAthletes() {
   return parsed;
 }
 
-function encodePlus(s) {
-  return s.trim().split(/\s+/).map(encodeURIComponent).join("+");
-}
-
 function categoryForAthlete(athlete) {
   const n = Number(athlete?.category);
   return Number.isFinite(n) ? n : DEFAULT_CATEGORY;
@@ -69,25 +84,29 @@ function categoryForAthlete(athlete) {
 
 /**
  * athletes.json supports optional:
- * - keywords: string (defaults to name)
+ * - keywords: string (defaults to name + " card")
  * - category: number (defaults to DEFAULT_CATEGORY)
  *
  * Example athletes.json entry:
  * { "name": "Jackson Chourio" }
  * { "name": "Player X", "keywords": "player x rookie card", "category": 888 }
  */
-function buildEbaySoldUrl(athlete) {
-  const name = String(athlete?.name || "").trim();
-  if (!name) throw new Error("Athlete missing name");
+function buildEbaySoldUrl(athlete, opts = {}) {
+  const nameRaw = String(athlete?.name || "").trim();
+  if (!nameRaw) throw new Error("Athlete missing name");
 
-  const kw = encodePlus(String(athlete?.keywords || name));
+  const nameNorm = normalizeForSearch(nameRaw);
+
+  // IMPORTANT: do NOT pre-encode. Let URLSearchParams handle encoding.
+  const kwRaw = String(athlete?.keywords || `${nameNorm} card`).trim();
+
   const category = categoryForAthlete(athlete);
 
   const params = new URLSearchParams();
 
   // Core filters
   params.set("_dcat", String(category));
-  params.set("_nkw", kw);
+  params.set("_nkw", kwRaw);
   params.set("LH_Complete", "1");
   params.set("LH_Sold", "1");
 
@@ -97,15 +116,20 @@ function buildEbaySoldUrl(athlete) {
   // No autocorrect
   params.set("rt", RT_NO_CORRECTIONS);
 
-  // Card size filter (fixed)
-  params.set("Card Size", CARD_SIZE_STANDARD);
+  // Card size filter (strict pass only)
+  if (!opts.loose) {
+    params.set("Card Size", CARD_SIZE_STANDARD);
+  }
 
   const base = `https://${EBAY_HOST}/sch/i.html?${params.toString()}`;
 
-  // Player/Athlete aspect filter (single-encoded key)
-  const playerAspect = `&Player%2FAthlete=${encodeURIComponent(name)}`;
+  // Player/Athlete aspect filter (strict pass only; can be too strict for some stars)
+  if (!opts.noAspect) {
+    const playerAspect = `&Player%2FAthlete=${encodeURIComponent(nameNorm)}`;
+    return base + playerAspect;
+  }
 
-  return base + playerAspect;
+  return base;
 }
 
 // CodeQL-friendly tag stripper: allow attributes/whitespace in closing tags
@@ -176,7 +200,10 @@ function extractSoldMoneyFromHtml(html, maxItems = 60) {
         const l = lines[j];
 
         // Skip ranges like "C $1.35 to C $5.43"
-        if (/\bto\b/i.test(l) && /\b(C|US)\s*\$\s*[\d,.]+\s+to\s+\b(C|US)\s*\$\s*[\d,.]+/i.test(l)) {
+        if (
+          /\bto\b/i.test(l) &&
+          /\b(C|US)\s*\$\s*[\d,.]+\s+to\s+\b(C|US)\s*\$\s*[\d,.]+/i.test(l)
+        ) {
           continue;
         }
 
@@ -194,8 +221,8 @@ function extractSoldMoneyFromHtml(html, maxItems = 60) {
 }
 
 function chooseCurrencyAndAvg(picks) {
-  const cad = picks.filter(p => p.currency === "CAD").map(p => p.value);
-  const usd = picks.filter(p => p.currency === "USD").map(p => p.value);
+  const cad = picks.filter((p) => p.currency === "CAD").map((p) => p.value);
+  const usd = picks.filter((p) => p.currency === "USD").map((p) => p.value);
 
   // Prefer CAD if we have any CAD samples, otherwise use USD
   if (cad.length) {
@@ -222,12 +249,22 @@ async function main() {
     const name = a?.name?.trim();
     if (!name) continue;
 
-    const url = buildEbaySoldUrl(a);
     const categoryUsed = categoryForAthlete(a);
 
+    // Pass 1 (strict): Player/Athlete + Card Size
+    let url = buildEbaySoldUrl(a, { noAspect: false, loose: false });
+
     try {
-      const html = await fetchHtml(url);
-      const picks = extractSoldMoneyFromHtml(html, MAX_PRICES_PER_ATHLETE);
+      let html = await fetchHtml(url);
+      let picks = extractSoldMoneyFromHtml(html, MAX_PRICES_PER_ATHLETE);
+
+      // Pass 2 (fallback): remove Player/Athlete aspect + remove Card Size filter
+      if (!picks.length) {
+        url = buildEbaySoldUrl(a, { noAspect: true, loose: true });
+        html = await fetchHtml(url);
+        picks = extractSoldMoneyFromHtml(html, MAX_PRICES_PER_ATHLETE);
+      }
+
       const chosen = chooseCurrencyAndAvg(picks);
 
       out[name] = {
@@ -239,6 +276,7 @@ async function main() {
         method: `trimmed_mean_${Math.round(TRIM_FRACTION * 100)}pct`,
         filters: {
           category: categoryUsed,
+          // Note: Card Size and Player/Athlete may be absent in fallback pass
           cardSize: CARD_SIZE_STANDARD,
           prefLoc: PREF_LOC_CANADA,
           sold: true,
@@ -250,7 +288,9 @@ async function main() {
 
       console.log(
         `[${idx + 1}/${athletes.length}] ${name}: n=${chosen.n} avg=${
-          chosen.avg != null ? `${chosen.currency === "USD" ? "US$" : "C$"}${round2(chosen.avg)}` : "null"
+          chosen.avg != null
+            ? `${chosen.currency === "USD" ? "US$" : "C$"}${round2(chosen.avg)}`
+            : "null"
         }`
       );
     } catch (e) {
