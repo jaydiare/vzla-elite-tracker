@@ -13,7 +13,9 @@
  * - Computes a trimmed mean (drops top/bottom 10%) to reduce outliers
  * - Writes ./data/ebay-avg.json keyed by athlete name
  *
- * Fixes in this version:
+ * Changes in this version (Worldwide):
+ * - ✅ DOES NOT filter items located in Canada (removes LH_PrefLoc entirely)
+ *   (Worldwide is the default when LH_PrefLoc is omitted)
  * - Avoids double-encoding _nkw (URLSearchParams handles encoding)
  * - Normalizes diacritics and punctuation for Player/Athlete aspect (Acuña -> Acuna, Jr. -> Jr)
  * - Adds a fallback pass if strict filters return 0 sold prices:
@@ -37,13 +39,12 @@ const DEFAULT_CATEGORY = CATEGORY_SPORTS_TRADING_CARDS;
 
 // Fixed search settings (matching your preferred URL style)
 const EBAY_HOST = "www.ebay.ca";
-const PREF_LOC_CANADA = "2";      // LH_PrefLoc=2
 const CARD_SIZE_STANDARD = "Standard";
-const RT_NO_CORRECTIONS = "nc";   // rt=nc
+const RT_NO_CORRECTIONS = "nc"; // rt=nc
 
 // Tuning
 const MAX_PRICES_PER_ATHLETE = 60;
-const TRIM_FRACTION = 0.10;       // drop top/bottom 10%
+const TRIM_FRACTION = 0.10; // drop top/bottom 10%
 const SLEEP_MS_BETWEEN = 1200;
 
 /** Remove accents/diacritics (Suárez -> Suarez, Acuña -> Acuna, Álvarez -> Alvarez) */
@@ -110,8 +111,7 @@ function buildEbaySoldUrl(athlete, opts = {}) {
   params.set("LH_Complete", "1");
   params.set("LH_Sold", "1");
 
-  // Canada-only pricing pool
-  params.set("LH_PrefLoc", PREF_LOC_CANADA);
+  // ✅ Worldwide: DO NOT set LH_PrefLoc at all
 
   // No autocorrect
   params.set("rt", RT_NO_CORRECTIONS);
@@ -278,11 +278,11 @@ async function main() {
           category: categoryUsed,
           // Note: Card Size and Player/Athlete may be absent in fallback pass
           cardSize: CARD_SIZE_STANDARD,
-          prefLoc: PREF_LOC_CANADA,
           sold: true,
           completed: true,
           rt: RT_NO_CORRECTIONS,
           site: "ebay.ca",
+          prefLoc: "worldwide",
         },
       };
 
