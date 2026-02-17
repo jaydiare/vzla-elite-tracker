@@ -14,6 +14,13 @@
         "provider": "manual"
     },
      {
+        "name": "Pablo López",
+        "sport": "Baseball",
+        "league": "MLB",
+        "team": "Twins",
+        "provider": "manual"
+    },
+     {
         "name": "Willson Contreras",
         "sport": "Baseball",
         "league": "MLB",
