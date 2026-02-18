@@ -78,20 +78,17 @@ function buildEbayIndexes(obj){
   if (!obj || typeof obj !== "object") return;
 
   for (const k of Object.keys(obj)){
-    if (k === "_meta") continue; // ✅ ignore meta block
+    if (k === "_meta") continue;
     const rec = obj[k];
     if (!rec) continue;
 
-    // key style: "name|sport"
     if (k.includes("|")){
       ebayAvgByKey[k] = rec;
       continue;
     }
 
-    // name-only style (YOUR FILE IS THIS STYLE)
     ebayAvgByName[k] = rec;
 
-    // if record contains sport, also add to key index
     if (rec?.sport){
       ebayAvgByKey[makeNameSportKey(k, rec.sport)] = rec;
     }
@@ -108,11 +105,8 @@ function formatCurrency(amount, currency){
   const n = Number(amount);
   if (!Number.isFinite(n)) return "";
 
-  // You’re mostly using CAD -> show C$
   if ((currency || "").toUpperCase() === "CAD") return `C$${n.toFixed(2)}`;
   if ((currency || "").toUpperCase() === "USD") return `$${n.toFixed(2)}`;
-
-  // fallback
   return `${(currency || "").toUpperCase()} ${n.toFixed(2)}`.trim();
 }
 
@@ -139,6 +133,12 @@ function setSport(sport, btn){
   }
 
   renderGrid(athleteData);
+
+  // mobile UX: return focus to search area
+  const search = document.getElementById("search-input");
+  if (search && window.innerWidth <= 640){
+    search.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
 }
 
 function renderGrid(list){
@@ -151,15 +151,15 @@ function renderGrid(list){
     .filter(a => activeSport === "All" ? true : a.sport === activeSport)
     .filter(a => !q ? true : norm(a.name).includes(q));
 
-  // Responsive columns
-  grid.className = "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 xl:grid-cols-3 gap-8";
+  // Responsive columns (2 columns on phones starting at sm)
+  grid.className = "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 xl:grid-cols-3 gap-8 mt-10";
 
   grid.innerHTML = filtered.map(a => {
     const avg = getEbayAvgFor(a);
 
-    // ✅ FIX: your ebay-avg.json stores the number in avgListing
+    // your file uses avgListing + currency
     const avgNum =
-      avg?.avgListing ??             // ✅ THIS IS THE MAIN ONE in your file
+      avg?.avgListing ??
       avg?.avg_list_price ??
       avg?.avgListPrice ??
       avg?.avg ??
@@ -167,27 +167,27 @@ function renderGrid(list){
       null;
 
     const currency = avg?.currency || "CAD";
-    const avgTxt = (avgNum != null && Number.isFinite(Number(avgNum)))
-      ? `AVG LIST: ${formatCurrency(avgNum, currency)}`
+    const money = (avgNum != null && Number.isFinite(Number(avgNum)))
+      ? formatCurrency(avgNum, currency)
       : "";
 
     const shopUrl = buildEbaySearchUrl(a.name);
 
+    // Smaller cards (~5%) + slightly smaller fonts (~10%)
     return `
-      <div class="athlete-card p-8 bg-white/5 rounded-3xl border border-white/10 text-center">
-        <div class="text-3xl font-black italic uppercase">${a.name}</div>
+      <div class="athlete-card p-7 bg-white/5 rounded-3xl border border-white/10 text-center">
+        <div class="text-[2.1rem] font-black italic uppercase">${a.name}</div>
 
-        <div class="mt-3 text-slate-400 font-black tracking-widest uppercase text-[11px]">
+        <div class="mt-3 text-slate-400 font-black tracking-widest uppercase text-[10px]">
           <span class="inline-block w-2 h-2 rounded-full bg-green-500 mr-2"></span>
           ${a.sport} • ${a.team || "Unknown"}
         </div>
 
         <a href="${shopUrl}" target="_blank" rel="noopener noreferrer"
            class="mt-7 inline-block w-full px-4 py-4 rounded-full bg-[#f2f20d] text-black font-black tracking-widest uppercase text-[12px] hover:opacity-90 transition">
-          SHOP COLLECTIBLES
+          <span>SHOP COLLECTIBLES</span>
+          ${money ? `<span class="block mt-1 text-[11px] tracking-widest">AVG LIST: ${money}</span>` : ``}
         </a>
-
-        ${avgTxt ? `<div class="mt-3 text-[#f2f20d] font-black tracking-widest uppercase text-[11px]">${avgTxt}</div>` : ``}
       </div>
     `;
   }).join("");
