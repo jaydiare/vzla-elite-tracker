@@ -162,9 +162,9 @@ function renderGrid(list) {
     const shopUrl = buildEbaySearchUrl(a.name, a.sport);
 
     return `
-      <div class="athlete-card p-10 bg-[#121212] rounded-[45px] border border-white/5 shadow-2xl text-center flex flex-col items-center">
+      <div class="athlete-card p-10 bg-[#121212] rounded-[40px] border border-white/5 shadow-2xl text-center flex flex-col items-center min-w-[300px]">
 
-        <div class="text-white text-3xl font-black italic uppercase mb-1 tracking-tight">
+        <div class="text-white text-2xl font-black italic uppercase mb-2 tracking-tight">
           ${a.name}
         </div>
 
@@ -178,14 +178,14 @@ function renderGrid(list) {
           href="${shopUrl}"
           target="_blank"
           rel="noopener noreferrer"
-          class="w-full rounded-[50px] bg-[#f1f31a] px-8 py-5 flex flex-col items-center justify-center transition-transform hover:scale-[1.03] active:scale-[0.98] shadow-lg"
+          class="w-full rounded-full bg-[#f1f31a] px-6 py-4 flex flex-col items-center justify-center transition-transform hover:scale-[1.03] active:scale-[0.95]"
         >
-          <span class="text-black font-black uppercase text-lg leading-none tracking-tighter">
+          <span class="text-black font-black uppercase text-base leading-tight">
             Shop Collectibles
           </span>
 
           ${money ? `
-            <span class="text-black font-bold uppercase text-xs leading-none tracking-tight opacity-80 mt-1.5">
+            <span class="text-black font-bold uppercase text-[10px] opacity-80 mt-1">
               (Avg List: ${money})
             </span>
           ` : ``}
