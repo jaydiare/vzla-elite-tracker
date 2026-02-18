@@ -190,11 +190,11 @@ function renderGrid(list) {
       <main class="athlete-card bg-[#111111] border border-white/5 rounded-[45px] p-10 w-full shadow-2xl flex flex-col items-center text-center justify-between min-h-[340px] transition-all hover:border-white/20">
         
         <header class="flex-grow flex flex-col justify-center mb-4">
-          <h1 class="athlete-name text-white text-12xl font-black italic uppercase leading-[0.9] tracking-tighter mb-4">
+          <h1 class="athlete-name text-white text-14xl font-black italic uppercase leading-[0.9] tracking-tighter mb-4">
             ${a.name}
           </h1>
           
-          <div class="flex items-center justify-center space-x-2 text-[#777777] font-bold text-[14px] tracking-[0.25em] uppercase">
+          <div class="flex items-center justify-center space-x-2 text-[#777777] font-bold text-[12px] tracking-[0.25em] uppercase">
             <span class="w-1.5 h-1.5 bg-[#00ff00] rounded-full inline-block mx-1 shadow-[0_0_8px_#00ff00]"></span>
             <span>${a.sport} • ${a.team}</span>
           </div>
