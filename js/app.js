@@ -190,7 +190,7 @@ function renderGrid(list) {
       <main class="athlete-card bg-[#111111] border border-white/5 rounded-[45px] p-10 w-full shadow-2xl flex flex-col items-center text-center justify-between min-h-[340px] transition-all hover:border-white/20">
         
         <header class="flex-grow flex flex-col justify-center mb-4">
-          <h1 class="athlete-name text-white text-8xl font-black italic uppercase leading-[0.9] tracking-tighter mb-4">
+          <h1 class="athlete-name text-white text-12xl font-black italic uppercase leading-[0.9] tracking-tighter mb-4">
             ${a.name}
           </h1>
           
@@ -210,7 +210,7 @@ function renderGrid(list) {
           </span>
           
           ${money ? `
-            <span class="text-black font-bold text-[14px] tracking-tight uppercase leading-none opacity-80">
+            <span class="text-black font-bold text-[16px] tracking-tight uppercase leading-none opacity-80">
               (eBay Avg List: ${money})
             </span>
           ` : ''}
