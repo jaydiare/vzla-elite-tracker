@@ -53,7 +53,7 @@ const PAGE_SIZE = 50;
 const MIN_EBAY_SAMPLE_SIZE = 5;
 
 // Marketplaces to compute
-const MARKETPLACES = ["EBAY_US", "EBAY_CA", "EBAY_ES", "EBAY_UK"];
+const MARKETPLACES = ["EBAY_US", "EBAY_CA", "EBAY_ES"];
 
 // --- helpers ---
 function sleep(ms) {
@@ -116,6 +116,7 @@ function sportAspectCandidates(sportRaw) {
     tennis: ["Tennis"],
     mma: ["MMA", "Mixed Martial Arts"],
     bowling: ["Bowling"],
+    olympics: ["Track & Field"],
     other: [],
   };
 
