@@ -1,7 +1,3 @@
-help me improve this athlete card from the image keeping same color, style and theme, i just want to fix the yelllow button that is broken .
-
-the whole code is in this app.js:
-
 // js/app.js
 
 const athleteDataRaw = [
