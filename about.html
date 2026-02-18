@@ -234,7 +234,6 @@
       letter-spacing: 0.06em;
     }
 
-    /* improved readability */
     .about-copy{
       max-width: 920px;
       margin-left: auto;
@@ -406,14 +405,18 @@
     </aside>
 
     <main class="max-w-7xl mx-auto w-full p-8">
-      <section class="about-panel p-12 md:p-14">
-        <div class="about-kicker">About</div>
+      <section class="about-panel py-20 px-8 md:px-14 text-center">
 
-        <h1 class="about-h1 text-4xl md:text-5xl mt-3">
-          VZLA <span class="text-[#f2f20d]">Sports Elite</span>
+        <!-- ABOUT centered -->
+        <div class="about-kicker mb-4">ABOUT</div>
+
+        <!-- Title centered -->
+        <h1 class="about-h1 text-4xl md:text-5xl mb-10">
+          VZLA <span class="text-[#f2f20d]">SPORTS ELITE</span>
         </h1>
 
-        <div class="about-copy mt-10 space-y-8">
+        <!-- Paragraph block: readable width, left-aligned text -->
+        <div class="about-copy mx-auto text-left space-y-8">
           <p class="about-p">
             In Venezuela, many of us grew up trading sports cards, especially baseball cards, and collecting World Cup sticker albums. We remember the excitement of racing to complete an album before kickoff and the pride of finally finishing it.
           </p>
@@ -421,6 +424,9 @@
           <p class="about-p">
             For a long time, we believed these collectibles were only sentimental. Today, we understand something more. Sports cards and memorabilia can hold real value over time, especially when properly preserved and cared for.
           </p>
+
+          <!-- 1 line of space after "cared for." -->
+          <div class="h-6"></div>
 
           <p class="about-p">
             This is how, in September of 2023, we decided to embark on this journey and open the store
@@ -432,16 +438,19 @@
           </p>
         </div>
 
-        <div class="mt-18 md:mt-20 grid md:grid-cols-3 gap-8">
+        <!-- 2 lines of space before next section -->
+        <div class="h-16"></div>
+
+        <div class="grid md:grid-cols-3 gap-8 text-left">
           <div class="section-card p-8">
-            <h2 class="about-h2 text-xl mb-4">What We Believe</h2>
+            <h2 class="about-h2 text-xl mb-4 text-center md:text-left">What We Believe</h2>
             <p class="about-p">
               Many Venezuelans see sports cards as memories and nothing more. But the truth is that well-maintained collectibles can grow in value beyond nostalgia. Condition, rarity, and demand all matter. Knowledge makes the difference.
             </p>
           </div>
 
           <div class="section-card p-8">
-            <h2 class="about-h2 text-xl mb-4">Our Mission</h2>
+            <h2 class="about-h2 text-xl mb-4 text-center md:text-left">Our Mission</h2>
             <p class="about-p">
               VZLA Sports Elite was created to make it easy for Venezuelans around the world to discover and support their favorite hometown athletes.
             </p>
@@ -451,7 +460,7 @@
           </div>
 
           <div class="section-card p-8">
-            <h2 class="about-h2 text-xl mb-4">Why It Matters</h2>
+            <h2 class="about-h2 text-xl mb-4 text-center md:text-left">Why It Matters</h2>
             <p class="about-p">
               Whether you started collecting recently, have been doing it quietly for many years, inherited a large collection from your father or grandfather, or received cards from a friend, your collection has potential.
             </p>
@@ -503,7 +512,7 @@
           </div>
         </div>
 
-        <div class="vzla-footer-copy">© VZLA SPORTS ELITE 2026</div>
+        <div class="vzla-footer-copy">© Vzla Sports Elite 2026</div>
       </footer>
 
       <div class="footer-banner-spacer"></div>
