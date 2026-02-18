@@ -201,9 +201,9 @@ const filtered = (list || [])
             ${a.name}
           </h1>
           
-          <div class="flex items-center justify-center space-x-2 text-[#777777] font-bold text-[10px] tracking-[0.25em] uppercase">
+          <div class="flex items-center justify-center space-x-2 text-[#777777] font-bold text-[12px] tracking-[0.25em] uppercase">
             <span class="w-1.5 h-1.5 bg-[#00ff00] rounded-full inline-block mx-1 shadow-[0_0_8px_#00ff00]"></span>
-            <span>${a.sport} • ${a.team}</span>
+            <span>${a.sport} |•| ${a.team}</span>
           </div>
         </header>
 
@@ -212,12 +212,12 @@ const filtered = (list || [])
            rel="noopener noreferrer"
            class="shop-btn bg-[#f2f20d] w-full rounded-full py-5 px-6 flex flex-col items-center justify-center transition-all hover:scale-[1.03] hover:brightness-110 active:scale-[0.97] no-underline shadow-xl">
           
-          <span class="text-black font-black text-[16px] tracking-tighter uppercase leading-none mb-1">
+          <span class="text-black font-black text-[12px] tracking-tighter uppercase leading-none mb-1">
             Shop Collectibles
           </span>
           
           ${money ? `
-            <span class="text-black font-bold text-[16px] tracking-tight uppercase leading-none opacity-80">
+            <span class="text-black font-bold text-[10px] tracking-tight uppercase leading-none opacity-80">
               (eBay Avg List: ${money})
             </span>
           ` : ''}
