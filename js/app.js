@@ -24,9 +24,9 @@ const athleteDataRaw = [
 
   { name: "Michael Carrera", sport: "Basketball", league: "LNBP", team: "Astros de Jalisco" },
 
-  { name: "Daniel Dhers", sport: "Other", league: "BMX", team: "Individual" },
-  { name: "Yulimar Rojas", sport: "Other", league: "Track & Field", team: "Individual" },
-  { name: "Jhonattan Vegas", sport: "Other", league: "PGA", team: "Venezuela" },
+  { name: "Daniel Dhers", sport: "Other", league: "BMX", team: "BMX" },
+  { name: "Yulimar Rojas", sport: "Other", league: "Track & Field", team: "Track & Field" },
+  { name: "Jhonattan Vegas", sport: "Other", league: "PGA", team: "Golf" },
   { name: "Garbiñe Muguruza", sport: "Tennis", league: "WTA", team: "Venezuela" },
   { name: "Marlon Vera", sport: "MMA", league: "UFC", team: "Venezuela" },
   { name: "Andres Borregales", sport: "Football", league: "NFL", team: "New England Patriots" },
