@@ -24,20 +24,20 @@ const athleteDataRaw = [
 
   { name: "Michael Carrera", sport: "Basketball", league: "LNBP", team: "Astros de Jalisco" },
 
-  { name: "Daniel Dhers", sport: "Other", league: "BMX", team: "Individual" },
+  { name: "Daniel Dhers", sport: "BMX", league: "BMX", team: "Individual" },
   { name: "Yulimar Rojas", sport: "Other", league: "Track & Field", team: "Individual" },
-  { name: "Jhonattan Vegas", sport: "Other", league: "PGA", team: "Venezuela" },
-  { name: "Garbiñe Muguruza", sport: "Other", league: "WTA", team: "Venezuela" },
-  { name: "Marlon Vera", sport: "Other", league: "UFC", team: "Venezuela" },
+  { name: "Jhonattan Vegas", sport: "Golf", league: "PGA", team: "Venezuela" },
+  { name: "Garbiñe Muguruza", sport: "Tennis", league: "WTA", team: "Venezuela" },
+  { name: "Marlon Vera", sport: "MMA", league: "UFC", team: "Venezuela" },
   { name: "Andres Borregales", sport: "Football", league: "NFL", team: "New England Patriots" },
-  { name: "Amleto Monacelli", sport: "Other", league: "PBA50", team: "PBA50" }
+  { name: "Amleto Monacelli", sport: "Bowling", league: "PBA50", team: "PBA50" }
 ];
 
 let athleteData = [];
 let ebayAvgRaw = {};
 let activeSport = "All";
 
-/* ---------------- Helpers ---------------- */
+// ---------- Helpers ----------
 
 function norm(s) {
   return String(s || "").trim().toLowerCase();
@@ -45,6 +45,33 @@ function norm(s) {
 
 function makeNameSportKey(name, sport) {
   return `${norm(name)}|${norm(sport)}`;
+}
+
+function mergeByNameSportKeepBest(localArr, fetchedArr) {
+  const map = new Map();
+
+  const score = (o) =>
+    ["league", "team", "tier", "sport"].reduce(
+      (n, f) => n + (o?.[f] ? 1 : 0),
+      0
+    );
+
+  const add = (a) => {
+    const key = makeNameSportKey(a?.name, a?.sport);
+    if (!key || key === "|") return;
+
+    const prev = map.get(key);
+    if (!prev) {
+      map.set(key, a);
+    } else {
+      map.set(key, score(a) >= score(prev) ? a : prev);
+    }
+  };
+
+  (localArr || []).forEach(add);
+  (fetchedArr || []).forEach(add);
+
+  return Array.from(map.values());
 }
 
 async function fetchJsonWithFallback(path) {
@@ -57,7 +84,7 @@ async function fetchJsonWithFallback(path) {
   }
 }
 
-/* ---------------- eBay Avg ---------------- */
+// ---------- eBay Avg Index ----------
 
 const ebayAvgByName = {};
 const ebayAvgByKey = {};
@@ -70,6 +97,7 @@ function buildEbayIndexes(obj) {
 
   for (const k of Object.keys(obj)) {
     if (k === "_meta") continue;
+
     const rec = obj[k];
     if (!rec) continue;
 
@@ -87,6 +115,8 @@ function buildEbayIndexes(obj) {
 }
 
 function getEbayAvgFor(athlete) {
+  if (!athlete) return null;
+
   const key = makeNameSportKey(athlete.name, athlete.sport);
   return ebayAvgByKey[key] || ebayAvgByName[athlete.name] || null;
 }
@@ -95,8 +125,13 @@ function formatCurrency(amount, currency) {
   const n = Number(amount);
   if (!Number.isFinite(n)) return "";
 
-  if ((currency || "").toUpperCase() === "CAD") return `C$${n.toFixed(2)}`;
-  if ((currency || "").toUpperCase() === "USD") return `$${n.toFixed(2)}`;
+  if ((currency || "").toUpperCase() === "CAD") {
+    return `C$${n.toFixed(2)}`;
+  }
+
+  if ((currency || "").toUpperCase() === "USD") {
+    return `$${n.toFixed(2)}`;
+  }
 
   return `${(currency || "").toUpperCase()} ${n.toFixed(2)}`;
 }
@@ -107,7 +142,7 @@ function buildEbaySearchUrl(name, sport) {
   return `https://www.ebay.ca/sch/i.html?_nkw=${q}&mkevt=1&mkcid=1&mkrid=706-53473-19255-0&campid=5339142321&toolid=10001`;
 }
 
-/* ---------------- UI ---------------- */
+// ---------- UI ----------
 
 function setSport(sport, btn) {
   activeSport = sport;
@@ -128,6 +163,9 @@ function setSport(sport, btn) {
   renderGrid(athleteData);
 }
 
+// Make sure inline onclick="setSport(...)" works
+window.setSport = setSport;
+
 function renderGrid(list) {
   const grid = document.getElementById("athletes-grid");
   if (!grid) return;
@@ -138,60 +176,64 @@ function renderGrid(list) {
     .filter(a => activeSport === "All" || a.sport === activeSport)
     .filter(a => !q || norm(a.name).includes(q));
 
-  // Updated grid layout for better spacing
-  grid.className = "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mt-10 w-full";
+  grid.className =
+    "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 xl:grid-cols-3 gap-8 mt-10";
 
   grid.innerHTML = filtered.map(a => {
     const avg = getEbayAvgFor(a);
-    const avgNum = avg?.avgListing ?? avg?.avg_list_price ?? avg?.avgListPrice ?? avg?.avg ?? avg?.average ?? null;
+
+    const avgNum =
+      avg?.avgListing ??
+      avg?.avg_list_price ??
+      avg?.avgListPrice ??
+      avg?.avg ??
+      avg?.average ??
+      null;
+
     const currency = avg?.currency || "CAD";
-    const money = avgNum != null && Number.isFinite(Number(avgNum)) ? formatCurrency(avgNum, currency) : "";
+
+    const money =
+      avgNum != null && Number.isFinite(Number(avgNum))
+        ? formatCurrency(avgNum, currency)
+        : "";
+
     const shopUrl = buildEbaySearchUrl(a.name, a.sport);
 
     return `
-      <div class="athlete-card p-8 bg-[#121212] rounded-[40px] border border-white/5 shadow-2xl text-center flex flex-col items-center justify-between min-h-[320px]">
+      <div class="athlete-card p-7 bg-white/5 rounded-3xl border border-white/10 text-center">
+        <div class="text-[2.1rem] font-black italic uppercase">${a.name}</div>
 
-      <div class="w-full">
-        <div class="text-white text-2xl font-black italic uppercase mb-1 tracking-tighter">
-          ${a.name}
+        <div class="mt-3 text-slate-400 font-black tracking-widest uppercase text-[10px]">
+          <span class="inline-block w-2 h-2 rounded-full bg-green-500 mr-2"></span>
+          ${a.sport} • ${a.team || "Unknown"}
         </div>
 
-        <div class="flex items-center justify-center space-x-2 text-[#8e8e93] font-bold text-[10px] tracking-[0.15em] uppercase mb-8">
-          <span>${a.sport}</span>
-          <span class="w-1.5 h-1.5 bg-[#00ff00] rounded-full inline-block"></span>
-          <span>${a.team}</span>
-        </div>
-
-        <a
-          href="${shopUrl}"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="w-full rounded-full bg-[#f2f20d] py-4 px-6 flex flex-col items-center justify-center transition-all hover:scale-[1.03] active:scale-[0.98] shadow-lg"
-        >
-          <span class="text-black font-black uppercase text-base leading-tight">
-            Shop Collectibles
-          </span>
-
-          ${money ? `
-            <span class="text-black font-bold uppercase text-[10px] leading-tight opacity-70 mt-1">
-              (Avg List: ${money})
-            </span>
-          ` : ``}
+        <!-- ONE ROUNDED PILL BUTTON (no split highlight) -->
+        <a href="${shopUrl}" target="_blank" rel="noopener noreferrer"
+           class="shop-btn mt-6 inline-flex flex-col items-center justify-center w-full px-4 py-3 rounded-full bg-[#f2f20d] text-black font-black uppercase tracking-widest text-[8px] leading-tight hover:opacity-90 transition">
+          <span>SHOP COLLECTIBLES</span>
+          ${money ? `<span class="mt-1 text-[5px] tracking-widest">(AVG LIST: ${money})</span>` : ``}
         </a>
-
       </div>
     `;
   }).join("");
 }
 
-/* ---------------- Init ---------------- */
+// ---------- Init ----------
 
 async function init() {
   if (!document.getElementById("athletes-grid")) return;
 
-  const fetchedEbayAvg = await fetchJsonWithFallback("data/ebay-avg.json");
+  const [fetchedAthletes, fetchedEbayAvg] = await Promise.all([
+    fetchJsonWithFallback("data/athletes.json"),
+    fetchJsonWithFallback("data/ebay-avg.json"),
+  ]);
 
-  athleteData = athleteDataRaw;
+  athleteData = mergeByNameSportKeepBest(
+    athleteDataRaw,
+    fetchedAthletes || []
+  );
+
   ebayAvgRaw =
     fetchedEbayAvg && typeof fetchedEbayAvg === "object"
       ? fetchedEbayAvg
