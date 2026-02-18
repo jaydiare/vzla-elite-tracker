@@ -203,16 +203,16 @@ function renderGrid(list) {
       <div class="athlete-card p-10 bg-[#121212] rounded-[45px] border border-white/5 shadow-2xl text-center flex flex-col items-center justify-between min-h-[300px]">
         <div class="text-white text-3xl font-black italic uppercase mb-1 tracking-tighter leading-tight">${a.name}</div>
 
-        <div class="mt-3 text-slate-400 font-black tracking-widest uppercase text-[10px]">
-          <span class="inline-block w-2 h-2 rounded-full bg-green-500 mr-2"></span>
+        <div class="mt-2 flex items-center justify-center space-x-2 text-[#8e8e93] font-bold text-[11px] tracking-[0.2em] uppercase">
+          <span class="w-1.5 h-1.5 rounded-full bg-[#00ff00] inline-block"></span>
           ${a.sport} • ${a.team || "Unknown"}
         </div>
 
         <!-- ONE ROUNDED PILL BUTTON (no split highlight) -->
         <a href="${shopUrl}" target="_blank" rel="noopener noreferrer"
            class="shop-btn mt-8 inline-flex flex-col items-center justify-center w-full px-6 py-4 rounded-full bg-[#f2f20d] text-black font-black uppercase tracking-tight hover:scale-[1.03] transition-transform shadow-lg">
-          <span>SHOP COLLECTIBLES</span>
-          ${money ? `<span class="mt-1.5 text-[10px] font-bold opacity-80 leading-none">(AVG LIST: ${money})</span>` : ``}
+          <span class="text-[16px] leading-none">SHOP COLLECTIBLES</span>
+          ${money ? `<span class="mt-1.5 text-[10px] font-bold opacity-80 leading-none"> (AVG LIST: ${money})</span>` : ``}
         </a>
       </div>
     `;
