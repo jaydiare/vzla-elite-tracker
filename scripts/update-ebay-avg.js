@@ -43,7 +43,7 @@ const OUT_PATH = path.join(__dirname, "..", "data", "ebay-avg.json");
 const ATHLETES_PATH = path.join(__dirname, "..", "data", "athletes.json");
 
 // Category you were using (Trading Card Singles)
-const CATEGORY_ID = "261328";
+const CATEGORY_ID = ["261328", "1865031"];
 
 // Listing sampling
 const LISTING_PAGE_LIMIT = 200; // max active listings to average per marketplace
