@@ -5,198 +5,57 @@
   <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
   <title>VZLA Sports Elite</title>
 
-  <!-- Google Tag Manager -->
-  <script>
-    (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-MMQ86CNB');
-  </script>
-  <!-- End Google Tag Manager -->
-
-  <link rel="stylesheet" href="./dist/tailwind.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet"/>
+  <!-- Tailwind output -->
+  <link rel="stylesheet" href="./dist/tailwind.css?v=2026">
 
   <style>
     :root{
-      --vzla-yellow:#f2f20d;
-      --bg:#0a0a0a;
-      --panel:rgba(255,255,255,0.05);
-      --stroke:rgba(255,255,255,0.08);
-      --muted:rgba(148,163,184,0.85);
-      --shadow:0 20px 60px rgba(0,0,0,0.55);
+      --vzla-yellow: #f2f20d;
+      --vzla-bg: #070707;
     }
 
     body{
-      background-color: var(--bg);
-      font-family:'Inter', sans-serif;
-      color:#fff;
+      background: radial-gradient(circle at top, rgba(242,242,13,0.12), transparent 45%),
+                  radial-gradient(circle at bottom, rgba(242,242,13,0.08), transparent 55%),
+                  #050505;
+      color: #fff;
+      min-height: 100vh;
     }
 
-    /* =========================
-       LAYOUT (SIDE BANNERS)
-       ========================= */
+    /* ==== existing shell layout (side banners) ==== */
     .page-shell{
-      display:grid;
-      grid-template-columns: 210px 1fr 210px;
-      gap: 22px;
-      max-width: 1500px;
+      max-width: 1400px;
       margin: 0 auto;
-      padding: 0 14px;
-    }
-    @media (max-width: 1280px){
-      .page-shell{ grid-template-columns: 180px 1fr 180px; }
-    }
-    @media (max-width: 1100px){
-      .page-shell{ grid-template-columns: 1fr; }
+      padding: 18px 18px 120px;
+      display: grid;
+      grid-template-columns: 260px 1fr 260px;
+      gap: 22px;
+      align-items: start;
     }
 
     .side-banner{
       position: sticky;
-      top: 92px;
-      height: fit-content;
-      display:flex;
-      justify-content:center;
-    }
-    @media (max-width: 1100px){
-      .side-banner{ display:none; }
+      top: 120px;
+      display: flex;
+      justify-content: center;
     }
 
     .side-banner img{
-      width: 180px;
-      max-width: 100%;
+      width: 100%;
+      max-width: 240px;
       height: auto;
-      border-radius: 22px;
-      border: 1px solid var(--stroke);
-      box-shadow: var(--shadow);
-      transition: transform 0.18s ease;
-      filter: saturate(0.95) contrast(1.02);
-    }
-    .side-banner img:hover{ transform: scale(1.01); }
-
-    /* =========================
-       SEARCH
-       ========================= */
-    .search-container{
-      position:relative;
-      width:100%;
-      max-width: 460px;
-      margin: 0 auto 2rem;
-    }
-
-    .search-input{
-      width:100%;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.10);
-      padding: 12px 18px;
-      border-radius: 999px;
-      color:#fff;
-      font-size: 14px;
-      outline:none;
-    }
-    .search-input:focus{
-      border-color: var(--vzla-yellow);
-      box-shadow: 0 0 12px rgba(242,242,13,0.12);
-    }
-
-    /* =========================
-       ATHLETE CARDS
-       ========================= */
-    .athlete-card{
-      background: radial-gradient(circle at top, rgba(255,255,255,0.08), rgba(0,0,0,0.25));
-      border-radius: 30px;
-      padding: 18px 18px 16px;
-      text-align:center;
-      border: 1px solid rgba(255,255,255,0.06);
-      box-shadow: 0 18px 45px rgba(0,0,0,0.5);
-      transition: transform 0.18s ease, border-color 0.18s ease;
-      overflow:hidden;
-      position:relative;
-      min-height: 250px;
-      display:flex;
-      flex-direction:column;
-      justify-content:space-between;
-    }
-
-    .athlete-card:hover{
-      transform: translateY(-4px);
-      border-color: rgba(242,242,13,0.35);
-    }
-
-    .elite-pill{
-      display:inline-block;
-      background: var(--vzla-yellow);
-      color:#000;
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: 0.12em;
-      padding: 6px 14px;
-      border-radius: 999px;
-      text-transform: uppercase;
-      box-shadow: 0 0 24px rgba(242,242,13,0.12);
-      margin: 2px auto 14px;
-    }
-
-    .athlete-name{
-      font-weight: 900;
-      font-style: italic;
-      text-transform: uppercase;
-      line-height: 1.05;
-      margin-bottom: 10px;
-      word-break: break-word;
-      font-size: clamp(18px, 2.2vw, 28px);
-    }
-
-    .status-row{
-      display:flex;
-      justify-content:center;
-      align-items:center;
-      gap: 10px;
-      margin-bottom: 14px;
-      flex-wrap: wrap;
-    }
-
-    .status-dot{
-      height: 10px;
-      width: 10px;
-      border-radius: 999px;
-      background: #00C848;
-      box-shadow: 0 0 12px rgba(0,200,72,0.25);
-      flex: 0 0 auto;
-    }
-
-    .status-text{
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--muted);
-      text-align: center;
-    }
-
-    .shop-btn{
-      display:block;
-      width:100%;
-      background: var(--vzla-yellow);
-      color:#000;
-      font-weight: 800;
       border-radius: 18px;
-      padding: 14px 14px;
-      font-size: 13px;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      transition: transform 0.14s ease;
-      line-height: 1.2;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.55);
     }
-    .shop-btn:hover{ transform: scale(1.02); }
 
-    /* =========================
-       FOOTER BANNER
-       ========================= */
-    .footer-banner-spacer{ height: 120px; }
-    @media (max-width: 768px){ .footer-banner-spacer{ height: 105px; } }
+    @media (max-width: 1024px){
+      .page-shell{ grid-template-columns: 1fr; }
+      .side-banner{ display:none; }
+    }
+
+    /* ==== bottom fixed ebay banner (you had this already) ==== */
+    .footer-banner-spacer{ height: 105px; }
+    @media (min-width: 768px){ .footer-banner-spacer{ height: 95px; } }
 
     .ebay-footer{
       position: fixed;
@@ -209,49 +68,319 @@
       justify-content:center;
       padding: 10px 10px;
       padding-bottom: calc(10px + env(safe-area-inset-bottom));
-      transform: translateZ(0);
     }
 
     .ebay-banner-img{
-      width: min(970px, 96vw);
-      height:auto;
-      border-radius: 12px;
-      display:block;
+      width: min(900px, 96vw);
+      height: auto;
+      border-radius: 10px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.55);
+    }
+
+    /* ==============================
+       NEW: Top-left brand (flag + lockup)
+    ============================== */
+    .vzla-brand-wrap{
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      text-decoration: none;
+      user-select: none;
+    }
+
+    .vzla-flag{
+      font-size: 22px;
+      line-height: 1;
+    }
+
+    .vzla-brand{
+      display: flex;
+      flex-direction: column;
+      line-height: 1;
+    }
+
+    .vzla-brand-top{
+      color: #ffffff;
+      font-weight: 900;
+      font-size: 18px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .vzla-brand-bottom{
+      margin-top: 6px;
+      padding-top: 6px;
+      border-top: 2px solid rgba(255,255,255,0.18);
+      color: rgba(255,255,255,0.85);
+      font-weight: 900;
+      font-size: 9px;
+      letter-spacing: 0.42em;
+      text-transform: uppercase;
+    }
+
+    .vzla-brand-wrap:hover .vzla-brand-top{ color: var(--vzla-yellow); }
+    .vzla-brand-wrap:hover .vzla-brand-bottom{
+      border-top-color: rgba(242,242,13,0.6);
+      color: rgba(242,242,13,0.9);
+    }
+
+    @media (max-width: 768px){
+      .vzla-flag{ font-size: 18px; }
+      .vzla-brand-top{ font-size: 14px; letter-spacing: 0.10em; }
+      .vzla-brand-bottom{ font-size: 8px; letter-spacing: 0.32em; }
+    }
+
+    /* ==============================
+       NEW: Main nav links + dropdowns
+    ============================== */
+    .nav-links{
+      display:flex;
+      gap: 28px;
+      align-items:center;
+      font-size: 18px;
+      letter-spacing: 0.02em;
+    }
+
+    .nav-link{
+      color: rgba(255,255,255,0.92);
+      text-decoration:none;
+      transition: color 0.15s ease;
+      font-weight: 700;
+    }
+    .nav-link:hover{ color: var(--vzla-yellow); }
+    .nav-link.active{ color: var(--vzla-yellow); }
+
+    .nav-dd{ position: relative; }
+
+    .dropdown summary { list-style: none; cursor: pointer; }
+    .dropdown summary::-webkit-details-marker { display:none; }
+
+    .dropdown-trigger{
+      display:inline-flex;
+      align-items:center;
+      gap: 8px;
+    }
+
+    .caret{
+      font-size: 14px;
+      transform: translateY(-1px);
+      opacity: 0.9;
+    }
+
+    .dropdown-menu{
+      position:absolute;
+      right: 0;
+      top: calc(100% + 12px);
+      min-width: 240px;
+      background: rgba(10,10,10,0.92);
       border: 1px solid rgba(255,255,255,0.08);
-      transition: transform 0.18s ease;
-      max-height: 72px;
-      object-fit: contain;
+      border-radius: 14px;
+      padding: 10px;
+      box-shadow: 0 16px 40px rgba(0,0,0,0.6);
+      backdrop-filter: blur(10px);
+      z-index: 9999;
     }
-    @media (max-width: 480px){
-      .ebay-banner-img{ max-height: 56px; width: 96vw; }
+
+    .dropdown-item{
+      display:block;
+      padding: 10px 12px;
+      border-radius: 10px;
+      color: rgba(255,255,255,0.92);
+      font-size: 15px;
+      text-decoration:none;
     }
-    .ebay-banner-img:hover{ transform: scale(1.01); }
+
+    .dropdown-item:hover{
+      background: rgba(242,242,13,0.12);
+      color: var(--vzla-yellow);
+    }
+
+    @media (max-width: 768px){
+      .nav-links{ gap: 14px; font-size: 14px; }
+    }
+
+    /* ==============================
+       NEW: sportbar under nav (filters)
+    ============================== */
+    .sportbar{ position: sticky; top: 78px; z-index: 40; }
+    .sportbar-inner{
+      display:flex;
+      gap: 16px;
+      justify-content:center;
+      padding: 12px 16px;
+      font-size: 10px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.22em;
+    }
+
+    @media (max-width: 768px){
+      .sportbar{ top: 76px; }
+      .sportbar-inner{ gap: 10px; padding: 10px 10px; letter-spacing: 0.16em; }
+    }
+
+    /* ==============================
+       NEW: Hero subtitle style
+    ============================== */
+    .hero-sub{
+      display:inline-block;
+      margin-top: 18px;
+      padding: 18px 22px;
+      border-radius: 14px;
+      background: rgba(0,0,0,0.65);
+      color: rgba(255,255,255,0.84);
+      font-size: 20px;
+      line-height: 1.45;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.55);
+      max-width: 760px;
+    }
+
+    @media (max-width: 768px){
+      .hero-sub{ font-size: 16px; padding: 14px 16px; }
+    }
+
+    /* ==============================
+       NEW: Site footer bar (theme)
+    ============================== */
+    .vzla-footer{
+      margin-top: 40px;
+      background: #0a0a0a;
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .vzla-footer-inner{
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 22px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 34px;
+
+      background: linear-gradient(
+        90deg,
+        rgba(242,242,13,0.20),
+        rgba(0,0,0,0.0) 22%,
+        rgba(0,0,0,0.0) 78%,
+        rgba(242,242,13,0.20)
+      );
+    }
+
+    .vzla-footer-link{
+      color: rgba(255,255,255,0.86);
+      text-decoration: none;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-size: 12px;
+      padding: 8px 10px;
+      border-radius: 10px;
+      transition: 0.15s ease;
+    }
+
+    .vzla-footer-link:hover{
+      color: var(--vzla-yellow);
+      background: rgba(242,242,13,0.08);
+    }
+
+    .vzla-footer-brand{
+      display:flex;
+      flex-direction: column;
+      align-items:center;
+      padding: 0 10px;
+    }
+
+    .vzla-footer-logo{
+      font-weight: 950;
+      font-size: 14px;
+      letter-spacing: 0.12em;
+      color: #fff;
+      text-transform: uppercase;
+    }
+
+    .vzla-footer-sub{
+      font-weight: 950;
+      font-size: 9px;
+      letter-spacing: 0.28em;
+      color: rgba(255,255,255,0.55);
+      margin-top: 2px;
+      text-transform: uppercase;
+    }
+
+    .vzla-footer-copy{
+      text-align: center;
+      color: rgba(255,255,255,0.65);
+      font-size: 12px;
+      padding: 14px 12px 18px;
+    }
+
+    @media (max-width: 900px){
+      .vzla-footer-inner{ flex-wrap: wrap; gap: 14px 18px; }
+      .vzla-footer-link{ font-size: 11px; letter-spacing: 0.06em; }
+    }
   </style>
 </head>
 
-<body>
-  <!-- Google Tag Manager (noscript) -->
-  <noscript>
-    <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MMQ86CNB"
-      height="0" width="0" style="display:none;visibility:hidden"></iframe>
-  </noscript>
-  <!-- End Google Tag Manager (noscript) -->
-
+<body id="top">
+  <!-- top yellow strip -->
   <header class="bg-[#f2f20d] text-black px-6 py-2 flex justify-between items-center text-[10px] font-black uppercase tracking-tighter">
     <span>© 2026 VZLA Sports Elite</span>
   </header>
 
+  <!-- MAIN NAV -->
   <nav class="p-6 border-b border-white/5 flex items-center justify-between sticky top-0 bg-black/80 backdrop-blur-md z-50">
-    <h1 class="text-xl font-black italic">🇻🇪</h1>
-    <div class="flex gap-4 text-[10px] font-black uppercase tracking-widest px-2 md:px-0" id="sport-filters">
+    <a href="index.html" class="vzla-brand-wrap" aria-label="Vzla Sports Elite Home">
+      <span class="vzla-flag">🇻🇪</span>
+      <span class="vzla-brand">
+        <span class="vzla-brand-top">VZLA SPORTS</span>
+        <span class="vzla-brand-bottom">ELITE</span>
+      </span>
+    </a>
+
+    <ul class="nav-links">
+      <li><a href="index.html" class="nav-link active">Home</a></li>
+      <li><a href="about.html" class="nav-link">About</a></li>
+
+      <li class="nav-dd">
+        <details class="dropdown">
+          <summary class="nav-link dropdown-trigger">Shop <span class="caret">▾</span></summary>
+          <div class="dropdown-menu">
+            <a class="dropdown-item"
+               href="https://www.ebay.ca/str/localherossportscards?mkcid=1&mkrid=706-53473-19255-0&siteid=2&campid=5339142305&toolid=10001&mkevt=1"
+               target="_blank" rel="noopener noreferrer">
+              Visit my eBay Store
+            </a>
+          </div>
+        </details>
+      </li>
+
+      <li><a href="blog.html" class="nav-link">Blog</a></li>
+
+      <li class="nav-dd">
+        <details class="dropdown">
+          <summary class="nav-link dropdown-trigger">Contact <span class="caret">▾</span></summary>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" href="https://www.instagram.com/localheros_sportscards/" target="_blank" rel="noopener noreferrer">Instagram</a>
+            <a class="dropdown-item" href="https://x.com/jdiegorceli1?s=21" target="_blank" rel="noopener noreferrer">X (Twitter)</a>
+            <a class="dropdown-item" href="https://www.facebook.com/share/18NzEJirJZ/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer">Facebook</a>
+          </div>
+        </details>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- sport filters bar -->
+  <div class="sportbar border-b border-white/5 bg-black/60 backdrop-blur-md">
+    <div class="sportbar-inner" id="sport-filters">
       <button onclick="setSport('All', this)" class="text-[#f2f20d]">All</button>
       <button onclick="setSport('Baseball', this)" class="text-slate-500">Baseball</button>
       <button onclick="setSport('Soccer', this)" class="text-slate-500">Soccer</button>
       <button onclick="setSport('Basketball', this)" class="text-slate-500">Basketball</button>
       <button onclick="setSport('Other', this)" class="text-slate-500">Other</button>
     </div>
-  </nav>
+  </div>
 
+  <!-- 3-column layout -->
   <div class="page-shell">
     <!-- LEFT SIDE BANNER -->
     <aside class="side-banner">
@@ -266,42 +395,70 @@
 
     <!-- CENTER CONTENT -->
     <main class="max-w-7xl mx-auto w-full p-8">
+      <!-- HERO -->
       <section class="text-center mb-8 p-12 bg-white/5 rounded-3xl border border-white/10">
-        <h2 class="text-5xl font-black mb-4 uppercase leading-tight">
+        <h2 class="text-5xl font-black mb-2 uppercase leading-tight">
           VZLA <span class="text-[#f2f20d] italic">Top Active Sport</span> Talent
-          <br>
-          <span class="text-3xl lowercase font-bold text-slate-300">search for their memorabilia</span>
         </h2>
 
-        <div class="flex flex-col items-center gap-4">
+        <div class="hero-sub">
+          Discover and shop collectibles from Venezuela’s top active athletes.
+        </div>
+
+        <div class="flex flex-col items-center gap-4 mt-6">
           <p class="text-slate-400 font-bold">
-            by <a href="https://www.ebay.ca/str/localherossportscards?mkcid=1&mkrid=706-53473-19255-0&siteid=2&campid=5339142305&customid=&toolid=10001&mkevt=1"
-                  target="_blank"
-                  class="text-[#f2f20d] hover:underline transition-all">@localheros_sportscards</a>
+            by
+            <a href="https://www.ebay.ca/str/localherossportscards?mkcid=1&mkrid=706-53473-19255-0&siteid=2&campid=5339142305&customid=&toolid=10001&mkevt=1"
+               target="_blank" rel="noopener noreferrer"
+               class="text-[#f2f20d] hover:underline transition-all">
+              @localheros_sportscards
+            </a>
           </p>
 
           <div class="flex gap-6 text-2xl text-slate-400">
-            <a href="https://www.instagram.com/localheros_sportscards/" target="_blank" title="Instagram">
-              <i class="fa-brands fa-instagram transition-colors duration-300"></i>
-            </a>
-            <a href="https://x.com/jdiegorceli1?s=21" target="_blank" title="X (Twitter)">
-              <i class="fa-brands fa-x-twitter transition-colors duration-300"></i>
-            </a>
-            <a href="https://www.facebook.com/share/18NzEJirJZ/?mibextid=wwXIfr" target="_blank" title="Facebook">
-              <i class="fa-brands fa-facebook transition-colors duration-300"></i>
-            </a>
+            <a href="https://www.instagram.com/localheros_sportscards/" target="_blank" rel="noopener noreferrer" title="Instagram">📷</a>
+            <a href="https://x.com/jdiegorceli1?s=21" target="_blank" rel="noopener noreferrer" title="X (Twitter)">𝕏</a>
+            <a href="https://www.facebook.com/share/18NzEJirJZ/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer" title="Facebook">f</a>
           </div>
         </div>
       </section>
 
-      <div class="search-container">
-        <input type="text" id="athleteSearch" onkeyup="filterBySearch()"
-              placeholder="Search athletes..." class="search-input">
+      <!-- SEARCH -->
+      <div class="flex justify-center mb-8">
+        <input
+          id="search-input"
+          class="w-full max-w-2xl px-6 py-4 rounded-full bg-black/30 border border-white/10 text-white placeholder:text-slate-500 focus:outline-none focus:border-[#f2f20d]"
+          placeholder="Search athletes..."
+          type="text"
+        />
       </div>
 
-      <!-- Responsive grid: 1 col mobile, 2 cols md, 3 cols xl -->
-      <div id="athletes-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 xl:grid-cols-3 gap-6"></div>
+      <!-- GRID -->
+      <div id="athletes-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 xl:grid-cols-3 gap-8"></div>
 
+      <!-- SITE FOOTER (bar like your reference) -->
+      <footer class="vzla-footer">
+        <div class="vzla-footer-inner">
+          <a class="vzla-footer-link" href="disclaimer.html">Disclaimer</a>
+          <a class="vzla-footer-link" href="terms.html">Terms of Use</a>
+          <a class="vzla-footer-link" href="privacy.html">Privacy Policy</a>
+
+          <div class="vzla-footer-brand">
+            <span class="vzla-footer-logo">VZLA</span>
+            <span class="vzla-footer-sub">SPORTS ELITE</span>
+          </div>
+
+          <a class="vzla-footer-link" href="blog.html">Blog</a>
+          <a class="vzla-footer-link"
+             href="https://www.ebay.ca/str/localherossportscards?mkcid=1&mkrid=706-53473-19255-0&siteid=2&campid=5339142305&toolid=10001&mkevt=1"
+             target="_blank" rel="noopener noreferrer">
+            Shop (eBay)
+          </a>
+          <a class="vzla-footer-link" href="#top">Top</a>
+        </div>
+
+        <div class="vzla-footer-copy">© Vzla Sports Elite 2026</div>
+      </footer>
 
       <div class="footer-banner-spacer"></div>
     </main>
@@ -318,23 +475,33 @@
     </aside>
   </div>
 
-  <!-- EBAY AFFILIATE FOOTER BANNER -->
+  <!-- Bottom fixed ebay banner -->
   <footer class="ebay-footer">
-    <a
-      href="https://www.ebay.ca/sch/i.html?_nkw=trading+cards&mkevt=1&mkcid=1&mkrid=706-53473-19255-0&campid=5339142321&toolid=10001"
-      target="_blank" rel="noopener noreferrer"
-      title="Shop Trading Cards on eBay"
-    >
-      <img
-        src="./assets/Baseball-728x90.jpg"
-        alt="Collect more. Spend less. Shop Trading Cards on eBay."
-        class="ebay-banner-img"
-        loading="eager"
-      />
+    <a href="https://www.ebay.ca/sch/i.html?_nkw=trading+cards&mkevt=1&mkcid=1&mkrid=706-53473-19255-0&campid=5339142321&toolid=10001"
+       target="_blank" rel="noopener noreferrer">
+      <img src="./assets/Baseball-728x90.jpg" alt="eBay banner" class="ebay-banner-img" loading="eager" />
     </a>
   </footer>
 
-  <!-- ✅ IMPORTANT: Tailwind must scan classes in ./js/app.js -->
-  <script src="./js/app.js"></script>
+  <script src="./js/app.js" defer></script>
+
+  <!-- dropdown UX: close others + close on outside click -->
+  <script>
+    document.querySelectorAll("details.dropdown").forEach(d => {
+      d.addEventListener("toggle", () => {
+        if (d.open) {
+          document.querySelectorAll("details.dropdown").forEach(other => {
+            if (other !== d) other.open = false;
+          });
+        }
+      });
+    });
+
+    document.addEventListener("click", (e) => {
+      document.querySelectorAll("details.dropdown[open]").forEach(d => {
+        if (!d.contains(e.target)) d.open = false;
+      });
+    });
+  </script>
 </body>
 </html>
