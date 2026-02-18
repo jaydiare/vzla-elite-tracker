@@ -180,12 +180,12 @@ function renderGrid(list) {
           rel="noopener noreferrer"
           class="w-full rounded-full bg-[#f2f20d] px-6 py-4 flex flex-col items-center justify-center transition-transform hover:scale-[1.02] active:scale-[0.98]"
         >
-          <span class="text-black font-black uppercase text-[16px] leading-tight tracking-tight">
+          <span class="text-black font-black uppercase text-[8px] leading-tight tracking-tight">
             Shop Collectibles
           </span>
 
           ${money ? `
-            <span class="text-black font-bold uppercase text-[11px] leading-tight tracking-tight opacity-90 mt-1">
+            <span class="text-black font-bold uppercase text-[5px] leading-tight tracking-tight opacity-90 mt-1">
               (Avg List: ${money})
             </span>
           ` : ``}
