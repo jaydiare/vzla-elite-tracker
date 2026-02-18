@@ -217,8 +217,8 @@ const filtered = (list || [])
           </span>
           
           ${money ? `
-            <span class="text-black font-bold text-[10px] tracking-tight uppercase leading-none opacity-80">
-              (eBay Avg List: ${money})
+            <span class="text-black font-bold text-[11px] tracking-tight uppercase leading-none opacity-80">
+              (eBay Avg Listing: ${money})
             </span>
           ` : ''}
         </a>
