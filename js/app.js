@@ -209,9 +209,9 @@ function renderGrid(list) {
 
         <!-- ONE ROUNDED PILL BUTTON (no split highlight) -->
         <a href="${shopUrl}" target="_blank" rel="noopener noreferrer"
-           class="shop-btn mt-6 inline-flex flex-col items-center justify-center w-full px-4 py-3 rounded-full bg-[#f2f20d] text-black font-black uppercase tracking-widest text-[9px] leading-tight hover:opacity-90 transition">
+           class="shop-btn mt-6 inline-flex flex-col items-center justify-center w-full px-4 py-3 rounded-full bg-[#f2f20d] text-black font-black uppercase tracking-widest text-[8px] leading-tight hover:opacity-90 transition">
           <span>SHOP COLLECTIBLES</span>
-          ${money ? `<span class="mt-1 text-[7px] tracking-widest">(AVG LIST: ${money})</span>` : ``}
+          ${money ? `<span class="mt-1 text-[5px] tracking-widest">(AVG LIST: ${money})</span>` : ``}
         </a>
       </div>
     `;
