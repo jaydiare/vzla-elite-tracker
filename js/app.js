@@ -193,9 +193,9 @@ function renderGrid(list) {
           <h1 class="athlete-name text-white text-3xl font-black italic uppercase mb-1 leading-tight tracking-tighter">
             ${a.name}
           </h1>
-          <div class="flex items-center justify-center space-x-2 text-[#8e8e93] font-bold text-[11px] tracking-[0.2em] uppercase">
+          <div class="flex items-center justify-center space-x-2 text-[#8e8e93] font-bold text-[8px] tracking-[0.2em] uppercase">
             <span>${a.sport}</span>
-            <span class="w-1.5 h-1.5 bg-green-500 rounded-full inline-block mx-1"></span>
+            <span class="w-1.5 h-1.5 bg-[#00ff00] rounded-full inline-block mx-1"></span>
             <span>${a.team || a.sport}</span>
           </div>
         </header>
