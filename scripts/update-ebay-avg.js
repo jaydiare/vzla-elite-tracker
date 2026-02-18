@@ -53,7 +53,7 @@ const PAGE_SIZE = 50;
 const MIN_EBAY_SAMPLE_SIZE = 5;
 
 // Marketplaces to compute
-const MARKETPLACES = ["EBAY_US", "EBAY_CA", "EBAY_FR", "EBAY_ES", "EBAY_UK", "EBAY_AU"];
+const MARKETPLACES = ["EBAY_US", "EBAY_CA", "EBAY_ES", "EBAY_UK"];
 
 // --- helpers ---
 function sleep(ms) {
