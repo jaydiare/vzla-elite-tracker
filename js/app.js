@@ -162,6 +162,9 @@ function setSport(sport, btn) {
   renderGrid(athleteData);
 }
 
+// Make sure inline onclick="setSport(...)" works
+window.setSport = setSport;
+
 function renderGrid(list) {
   const grid = document.getElementById("athletes-grid");
   if (!grid) return;
@@ -204,9 +207,11 @@ function renderGrid(list) {
           ${a.sport} • ${a.team || "Unknown"}
         </div>
 
+        <!-- ONE ROUNDED PILL BUTTON (no split highlight) -->
         <a href="${shopUrl}" target="_blank" rel="noopener noreferrer"
-           class="shop-btn mt-7 inline-flex items-center justify-center w-full px-6 py-4 rounded-full bg-[#f2f20d] text-black font-black tracking-widest uppercase text-[10px] hover:opacity-90 transition">
-          SHOP COLLECTIBLES${money ? ` <span class="ml-2 text-[6px] font-black tracking-widest">(AVG LIST: ${money})</span>` : ""}
+           class="shop-btn mt-6 inline-flex flex-col items-center justify-center w-full px-4 py-3 rounded-full bg-[#f2f20d] text-black font-black uppercase tracking-widest text-[9px] leading-tight hover:opacity-90 transition">
+          <span>SHOP COLLECTIBLES</span>
+          ${money ? `<span class="mt-1 text-[7px] tracking-widest">(AVG LIST: ${money})</span>` : ``}
         </a>
       </div>
     `;
