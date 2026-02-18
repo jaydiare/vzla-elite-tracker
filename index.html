@@ -63,8 +63,12 @@
     }
 
     .athlete-card {
-      border-radius: 40px !important;
-      overflow: hidden;
+      padding: 2rem;
+      background-color: #121212;
+      border-radius: 40px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      text-align: center;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
     }
 
     @media (max-width: 1024px){
@@ -214,7 +218,24 @@
     .icon-btn svg{ display:block; }
 
     /* ✅ Force rounded corners for the card shop button */
-    .shop-btn{ border-radius: 9999px !important; }
+    .shop-btn {
+      margin-top: 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      padding: 1rem;
+      border-radius: 9999px;
+      background-color: #f2f20d;
+      color: black;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+  .shop-btn:hover {
+      transform: scale(1.02);
+    }
 
     @media (max-width: 640px){
       nav{ padding: 14px !important; }
