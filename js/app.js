@@ -162,7 +162,7 @@ function renderGrid(list) {
     const shopUrl = buildEbaySearchUrl(a.name, a.sport);
 
     return `
-      <div class="athlete-card p-8 bg-[#121212] rounded-[40px] border border-white/10 shadow-xl text-center flex flex-col items-center">
+      <div class="athlete-card p-8 bg-[#121212] rounded-[20px] border border-white/10 shadow-xl text-center flex flex-col items-center">
 
         <div class="text-white text-2xl font-black italic uppercase mb-2 tracking-tight">
           ${a.name}
