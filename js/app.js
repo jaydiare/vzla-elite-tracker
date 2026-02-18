@@ -139,7 +139,7 @@ function renderGrid(list) {
     .filter(a => !q || norm(a.name).includes(q));
 
   grid.className =
-    "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 xl:grid-cols-3 gap-8 mt-10";
+    "grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-10 mt-10 w-full max-w-7xl mx-auto";
 
   grid.innerHTML = filtered.map(a => {
     const avg = getEbayAvgFor(a);
@@ -162,13 +162,13 @@ function renderGrid(list) {
     const shopUrl = buildEbaySearchUrl(a.name, a.sport);
 
     return `
-      <div class="athlete-card p-10 bg-[#121212] rounded-[40px] border border-white/5 shadow-2xl text-center flex flex-col items-center min-w-[300px]">
+      <div class="athlete-card p-10 bg-[#121212] rounded-[45px] border border-white/5 shadow-2xl text-center flex flex-col items-center">
 
-        <div class="text-white text-2xl font-black italic uppercase mb-2 tracking-tight">
+        <div class="text-white text-3xl font-black italic uppercase mb-1 tracking-tighter">
           ${a.name}
         </div>
 
-        <div class="flex items-center justify-center space-x-3 text-[#8e8e93] font-bold text-xs tracking-[0.2em] uppercase mb-8">
+        <div class="flex items-center justify-center space-x-3 text-[#8e8e93] font-bold text-[11px] tracking-[0.2em] uppercase mb-10">
           <span>${a.sport}</span>
           <span class="w-1.5 h-1.5 bg-[#00ff00] rounded-full inline-block"></span>
           <span>${a.team || a.sport}</span>
@@ -178,14 +178,14 @@ function renderGrid(list) {
           href="${shopUrl}"
           target="_blank"
           rel="noopener noreferrer"
-          class="w-full rounded-full bg-[#f1f31a] px-6 py-4 flex flex-col items-center justify-center transition-transform hover:scale-[1.03] active:scale-[0.95]"
+          class="w-full rounded-[50px] bg-[#f2f20d] px-8 py-5 flex flex-col items-center justify-center transition-all duration-200 hover:scale-[1.03] active:scale-[0.98] shadow-[0_10px_20px_rgba(242,242,13,0.2)]"
         >
-          <span class="text-black font-black uppercase text-base leading-tight">
+          <span class="text-black font-black uppercase text-lg leading-none tracking-tight">
             Shop Collectibles
           </span>
 
           ${money ? `
-            <span class="text-black font-bold uppercase text-[10px] opacity-80 mt-1">
+            <span class="text-black font-bold uppercase text-[11px] leading-none opacity-70 mt-1.5">
               (Avg List: ${money})
             </span>
           ` : ``}
