@@ -168,10 +168,10 @@ function renderGrid(list) {
           ${a.name}
         </div>
 
-        <div class="flex items-center justify-center space-x-2 text-[#8e8e93] font-bold text-[11px] tracking-[0.15em] uppercase mb-6">
+        <div class="flex items-center justify-center space-x-2 text-[#8e8e93] font-bold text-[9px] tracking-[0.15em] uppercase mb-6">
           <span>${a.sport}</span>
           <span class="w-1.5 h-1.5 bg-green-500 rounded-full inline-block"></span>
-          <span>${a.team || "Unknown"}</span>
+          <span>${a.team || a.sport}</span>
         </div>
 
         <a
