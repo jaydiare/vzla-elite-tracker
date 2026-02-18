@@ -30,30 +30,20 @@
       align-items: start;
     }
 
-    /* ✅ UPDATED: allow stacked banners */
     .side-banner{
       position: sticky;
       top: 120px;
       display: flex;
+      justify-content: center;
+       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 22px; /* space between stacked banners */
-
+      gap: 22px;
       max-height: calc(100vh - 140px); /* leave room for header/nav */
       overflow-y: auto;
       padding-bottom: 10px;
-
       /* optional: hide scrollbar but keep scrolling */
       scrollbar-width: thin;
-    }
-
-    .side-banner::-webkit-scrollbar{
-      width: 6px;
-    }
-
-    .side-banner::-webkit-scrollbar-thumb{
-      background: rgba(255,255,255,0.12);
-      border-radius: 999px;
     }
 
     .side-banner img{
@@ -62,11 +52,6 @@
       height: auto;
       border-radius: 18px;
       box-shadow: 0 10px 30px rgba(0,0,0,0.55);
-      transition: transform 0.2s ease;
-    }
-
-    .side-banner img:hover{
-      transform: scale(1.02);
     }
 
     @media (max-width: 1024px){
@@ -96,75 +81,459 @@
       border-radius: 10px;
       box-shadow: 0 10px 30px rgba(0,0,0,0.55);
     }
+
+    .vzla-brand-wrap{
+      display:flex;
+      align-items:center;
+      gap:14px;
+      text-decoration:none;
+      user-select:none;
+    }
+    .vzla-flag{ font-size:22px; line-height:1; }
+    .vzla-brand{
+      display:flex;
+      flex-direction:column;
+      line-height:1;
+      align-items:center;
+      text-align:center;
+    }
+    .vzla-brand-top{
+      color:#fff;
+      font-weight:900;
+      font-size:18px;
+      letter-spacing:0.14em;
+      text-transform:uppercase;
+      white-space:nowrap;
+    }
+    .vzla-brand-bottom{
+      width:100%;
+      text-align:center;
+      margin-top:6px;
+      padding-top:6px;
+      border-top:2px solid rgba(255,255,255,0.18);
+      color:rgba(255,255,255,0.85);
+      font-weight:900;
+      font-size:9px;
+      letter-spacing:0.42em;
+      text-transform:uppercase;
+    }
+
+    .nav-links{
+      display:flex;
+      gap:28px;
+      align-items:center;
+      font-size:18px;
+      letter-spacing:0.02em;
+    }
+    .nav-link{
+      color:rgba(255,255,255,0.92);
+      text-decoration:none;
+      transition:color 0.15s ease;
+      font-weight:700;
+    }
+    .nav-link:hover{ color:var(--vzla-yellow); }
+    .nav-link.active{ color:var(--vzla-yellow); }
+
+    .nav-dd{ position:relative; }
+    .dropdown summary{ list-style:none; cursor:pointer; }
+    .dropdown summary::-webkit-details-marker{ display:none; }
+
+    .dropdown-trigger{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+    }
+
+    .caret{
+      font-size:14px;
+      transform: translateY(-1px);
+      opacity:0.9;
+    }
+
+    .dropdown-menu{
+      position:absolute;
+      right:0;
+      top: calc(100% + 12px);
+      min-width:240px;
+      background: rgba(10,10,10,0.95);
+      border:1px solid rgba(255,255,255,0.10);
+      border-radius:18px;
+      padding:12px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.65);
+      backdrop-filter: blur(12px);
+      z-index:9999;
+    }
+
+    .dropdown-item{
+      display:block;
+      padding:10px 12px;
+      border-radius:12px;
+      color:rgba(255,255,255,0.92);
+      font-size:15px;
+      text-decoration:none;
+    }
+    .dropdown-item:hover{
+      background: rgba(242,242,13,0.12);
+      color: var(--vzla-yellow);
+    }
+
+    .contact-icons{
+      display:flex;
+      gap:14px;
+      justify-content:center;
+      padding:10px 6px;
+    }
+    .icon-btn{
+      width:46px; height:46px;
+      display:flex; align-items:center; justify-content:center;
+      border-radius:14px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.10);
+      color: rgba(255,255,255,0.9);
+      text-decoration:none;
+      transition: 0.15s ease;
+    }
+    .icon-btn:hover{
+      background: rgba(242,242,13,0.12);
+      color: var(--vzla-yellow);
+      border-color: rgba(242,242,13,0.25);
+    }
+    .icon-btn svg{ display:block; }
+
+    /* ✅ Force rounded corners for the card shop button */
+    .shop-btn{ border-radius: 9999px !important; }
+
+    @media (max-width: 640px){
+      nav{ padding: 14px !important; }
+      .nav-links{
+        flex-wrap: wrap;
+        justify-content: flex-end;
+        row-gap: 10px;
+        gap: 14px;
+        font-size: 13px;
+      }
+      .vzla-brand-wrap{ gap:10px; }
+      .vzla-brand-top{ font-size:13px; letter-spacing:0.10em; }
+      .vzla-brand-bottom{ font-size:8px; letter-spacing:0.28em; }
+      .vzla-flag{ font-size:18px; }
+    }
+
+    .hero-panel{
+      background: var(--vzla-panel);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 28px;
+      box-shadow: 0 25px 70px rgba(0,0,0,0.65);
+    }
+
+    .hero-sub{
+      display:inline-block;
+      margin-top:18px;
+      padding:18px 22px;
+      border-radius:14px;
+      background: #070707;
+      color: rgba(255,255,255,0.84);
+      font-size:20px;
+      line-height:1.45;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.55);
+      max-width:760px;
+    }
+    @media (max-width:768px){
+      .hero-sub{ font-size:16px; padding:14px 16px; }
+    }
+
+    #search-input, .search-input{ border-radius: 9999px !important; }
+
+    .filters-row{
+      display:flex;
+      gap:16px;
+      justify-content:center;
+      padding: 10px 16px 0;
+      font-size: 10px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.22em;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      margin-top: 12px;
+      margin-bottom: 28px;
+    }
+    @media (max-width:768px){
+      .filters-row{ gap:10px; letter-spacing:0.16em; }
+    }
+
+    .vzla-footer{
+      margin-top: 54px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      background: #070707;
+    }
+    .vzla-footer-inner{
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 28px 18px;
+      display:flex;
+      align-items:center;
+      justify-content: space-between;
+      gap:18px;
+    }
+    .footer-brand{
+      display:flex;
+      flex-direction:column;
+      line-height:1;
+    }
+    .footer-brand-top{
+      font-weight:950;
+      letter-spacing:0.14em;
+      text-transform:uppercase;
+    }
+    .footer-brand-sub{
+      margin-top:6px;
+      padding-top:6px;
+      border-top: 2px solid rgba(255,255,255,0.18);
+      font-weight:950;
+      font-size:10px;
+      letter-spacing:0.42em;
+      opacity:0.75;
+      text-transform:uppercase;
+      text-align:center;
+    }
+    .footer-links{
+      display:flex;
+      gap:18px;
+      font-weight:800;
+      text-transform:uppercase;
+      letter-spacing:0.08em;
+      font-size:12px;
+    }
+    .footer-links a{
+      color:rgba(255,255,255,0.85);
+      text-decoration:none;
+      padding:8px 10px;
+      border-radius:10px;
+      transition: 0.15s ease;
+    }
+    .footer-links a:hover{
+      color:var(--vzla-yellow);
+      background: rgba(242,242,13,0.08);
+    }
+
+    .footer-icons{
+      display:flex;
+      gap:12px;
+    }
+
+    /* ✅ Footer icons now use the same .icon-btn style */
+    .footer-icons .icon-btn{
+      width:42px;
+      height:42px;
+      border-radius:14px;
+    }
+
+    .vzla-footer-copy{
+      text-align:center;
+      padding: 14px 12px 18px;
+      color: rgba(255,255,255,0.55);
+    }
+    @media (max-width:900px){
+      .vzla-footer-inner{ flex-direction:column; gap:14px; }
+      .footer-links{ flex-wrap:wrap; justify-content:center; }
+    }
   </style>
 </head>
 
-<body>
+<body id="top">
+  <header class="bg-[#f2f20d] text-black px-6 py-2 flex justify-between items-center text-[10px] font-black uppercase tracking-tighter">
+    <span>© 2026 VZLA Sports Elite</span>
+  </header>
+
+  <nav class="p-6 border-b border-white/5 flex items-center justify-between sticky top-0 bg-black/85 backdrop-blur-md z-50">
+    <a href="index.html" class="vzla-brand-wrap" aria-label="Vzla Sports Elite Home">
+      <span class="vzla-flag">🇻🇪</span>
+      <span class="vzla-brand">
+        <span class="vzla-brand-top">VZLA SPORTS</span>
+        <span class="vzla-brand-bottom">ELITE</span>
+      </span>
+    </a>
+
+    <ul class="nav-links">
+      <li><a href="index.html" class="nav-link active">Home</a></li>
+      <li><a href="about.html" class="nav-link">About</a></li>
+
+      <li class="nav-dd">
+        <details class="dropdown">
+          <summary class="nav-link dropdown-trigger">Shop <span class="caret">▾</span></summary>
+          <div class="dropdown-menu">
+            <a class="dropdown-item"
+               href="https://www.ebay.ca/str/localherossportscards?mkcid=1&mkrid=706-53473-19255-0&siteid=2&campid=5339142305&toolid=10001&mkevt=1"
+               target="_blank" rel="noopener noreferrer">
+              Visit my eBay Store
+            </a>
+          </div>
+        </details>
+      </li>
+
+      <li class="nav-dd">
+        <details class="dropdown">
+          <summary class="nav-link dropdown-trigger">Contact <span class="caret">▾</span></summary>
+          <div class="dropdown-menu">
+            <div class="contact-icons">
+              <a class="icon-btn" href="https://www.instagram.com/localheros_sportscards/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="3" width="18" height="18" rx="5"></rect>
+                  <circle cx="12" cy="12" r="4"></circle>
+                  <circle cx="17.5" cy="6.5" r="1"></circle>
+                </svg>
+              </a>
+
+              <a class="icon-btn" href="https://x.com/jdiegorceli1?s=21" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                  <path d="M18.9 2H22l-6.8 7.8L23 22h-6.2l-4.8-7-6.1 7H2l7.3-8.4L1 2h6.4l4.4 6.4L18.9 2zm-1.1 18h1.7L7.2 3.9H5.4L17.8 20z"/>
+                </svg>
+              </a>
+
+              <a class="icon-btn" href="https://www.facebook.com/share/18NzEJirJZ/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                  <path d="M22 12a10 10 0 1 0-11.6 9.9v-7H8v-3h2.4V9.7c0-2.4 1.4-3.8 3.6-3.8 1 0 2 .2 2 .2v2.2h-1.1c-1.1 0-1.4.7-1.4 1.4V12H16l-.4 3h-2.1v7A10 10 0 0 0 22 12z"/>
+                </svg>
+              </a>
+            </div>
+          </div>
+        </details>
+      </li>
+    </ul>
+  </nav>
 
   <div class="page-shell">
-
-    <!-- ✅ LEFT SIDE BANNERS -->
     <aside class="side-banner">
-
-      <!-- eBay Banner -->
       <a href="https://www.ebay.ca/sch/i.html?_nkw=trading+cards&mkevt=1&mkcid=1&mkrid=706-53473-19255-0&campid=5339142321&toolid=10001"
-         target="_blank" rel="noopener noreferrer"
-         title="Shop Trading Cards on eBay">
-        <img src="./assets/ebay-300x600-left.jpg"
-             alt="Shop Trading Cards on eBay">
+         target="_blank" rel="noopener noreferrer" title="Shop Trading Cards on eBay">
+        <img src="./assets/ebay-300x600-left.jpg" alt="Shop Trading Cards on eBay">
       </a>
 
-      <!-- BCW Banner -->
+          <!-- BCW Banner -->
       <a href="https://www.bcwsupplies.com/?acc=vzlaelite"
          target="_blank" rel="noopener noreferrer"
          title="BCW - Protect, Store, Display">
         <img src="./assets/BCW_774x712.jpg"
              alt="BCW - Protect, Store, Display">
       </a>
-
+      
     </aside>
 
-
-    <!-- MAIN CONTENT -->
     <main class="max-w-7xl mx-auto w-full p-8">
-      <!-- Your existing hero / grid content stays here -->
+      <section class="hero-panel text-center mb-8 p-12">
+        <h2 class="text-5xl font-black mb-2 uppercase leading-tight">
+          VZLA <span class="text-[#f2f20d] italic">Top Active Sport</span> Talent
+        </h2>
+        <div class="hero-sub">
+         We help you Discover on eBay Venezuela’s top athletes collectibles
+        </div>
+      </section>
+
+      <div class="flex justify-center mb-4">
+        <input
+          id="search-input"
+          class="search-input w-full max-w-2xl px-6 py-4 bg-black/30 border border-white/10 text-white placeholder:text-slate-500 focus:outline-none focus:border-[#f2f20d]"
+          placeholder="Search athletes..."
+          type="text"
+        />
+      </div>
+
+      <div class="filters-row" id="sport-filters">
+        <button onclick="setSport('All', this)" class="text-[#f2f20d]">All</button>
+        <button onclick="setSport('Baseball', this)" class="text-slate-500">Baseball</button>
+        <button onclick="setSport('Soccer', this)" class="text-slate-500">Soccer</button>
+        <button onclick="setSport('Basketball', this)" class="text-slate-500">Basketball</button>
+        <button onclick="setSport('Other', this)" class="text-slate-500">Other</button>
+      </div>
+
       <div id="athletes-grid"></div>
+
+      <footer class="vzla-footer">
+        <div class="vzla-footer-inner">
+          <div class="footer-brand">
+            <div class="footer-brand-top">VZLA SPORTS</div>
+            <div class="footer-brand-sub">ELITE</div>
+          </div>
+
+          <div class="footer-links">
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="https://www.ebay.ca/str/localherossportscards?mkcid=1&mkrid=706-53473-19255-0&siteid=2&campid=5339142305&toolid=10001&mkevt=1"
+               target="_blank" rel="noopener noreferrer">Shop</a>
+            <a href="#top">Top</a>
+          </div>
+
+          <!-- ✅ Footer icons now match Contact -->
+          <div class="footer-icons">
+            <a class="icon-btn" href="https://www.instagram.com/localheros_sportscards/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="18" height="18" rx="5"></rect>
+                <circle cx="12" cy="12" r="4"></circle>
+                <circle cx="17.5" cy="6.5" r="1"></circle>
+              </svg>
+            </a>
+
+            <a class="icon-btn" href="https://x.com/jdiegorceli1?s=21" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                <path d="M18.9 2H22l-6.8 7.8L23 22h-6.2l-4.8-7-6.1 7H2l7.3-8.4L1 2h6.4l4.4 6.4L18.9 2zm-1.1 18h1.7L7.2 3.9H5.4L17.8 20z"/>
+              </svg>
+            </a>
+
+            <a class="icon-btn" href="https://www.facebook.com/share/18NzEJirJZ/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                <path d="M22 12a10 10 0 1 0-11.6 9.9v-7H8v-3h2.4V9.7c0-2.4 1.4-3.8 3.6-3.8 1 0 2 .2 2 .2v2.2h-1.1c-1.1 0-1.4.7-1.4 1.4V12H16l-.4 3h-2.1v7A10 10 0 0 0 22 12z"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="vzla-footer-copy">© VZLA SPORTS ELITE 2026</div>
+      </footer>
+
+      <div class="footer-banner-spacer"></div>
     </main>
 
-
-    <!-- ✅ RIGHT SIDE BANNERS -->
     <aside class="side-banner">
-
-      <!-- eBay Banner -->
       <a href="https://www.ebay.ca/sch/i.html?_nkw=trading+cards&mkevt=1&mkcid=1&mkrid=706-53473-19255-0&campid=5339142321&toolid=10001"
-         target="_blank" rel="noopener noreferrer"
-         title="Shop Trading Cards on eBay">
-        <img src="./assets/ebay-300x600-right.jpg"
-             alt="Shop Trading Cards on eBay">
+         target="_blank" rel="noopener noreferrer" title="Shop Trading Cards on eBay">
+        <img src="./assets/ebay-300x600-right.jpg" alt="Shop Trading Cards on eBay">
       </a>
+    </aside>
 
-      <!-- BCW Banner -->
+     <!-- BCW Banner -->
       <a href="https://www.bcwsupplies.com/?acc=vzlaelite"
          target="_blank" rel="noopener noreferrer"
          title="BCW - Protect, Store, Display">
         <img src="./assets/BCW_774x712.jpg"
              alt="BCW - Protect, Store, Display">
       </a>
-
-    </aside>
-
+    
   </div>
 
   <footer class="ebay-footer">
     <a href="https://www.ebay.ca/sch/i.html?_nkw=trading+cards&mkevt=1&mkcid=1&mkrid=706-53473-19255-0&campid=5339142321&toolid=10001"
        target="_blank" rel="noopener noreferrer">
-      <img src="./assets/Baseball-728x90.jpg"
-           alt="eBay banner"
-           class="ebay-banner-img"/>
+      <img src="./assets/Baseball-728x90.jpg" alt="eBay banner" class="ebay-banner-img" loading="eager"/>
     </a>
   </footer>
 
   <script src="./js/app.js" defer></script>
 
+  <script>
+    document.querySelectorAll("details.dropdown").forEach(d => {
+      d.addEventListener("toggle", () => {
+        if (d.open) {
+          document.querySelectorAll("details.dropdown").forEach(other => {
+            if (other !== d) other.open = false;
+          });
+        }
+      });
+    });
+
+    document.addEventListener("click", (e) => {
+      document.querySelectorAll("details.dropdown[open]").forEach(d => {
+        if (!d.contains(e.target)) d.open = false;
+      });
+    });
+  </script>
 </body>
 </html>
