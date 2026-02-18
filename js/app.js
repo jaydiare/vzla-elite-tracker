@@ -134,7 +134,6 @@ function setSport(sport, btn){
 
   renderGrid(athleteData);
 
-  // mobile UX: return focus to search area
   const search = document.getElementById("search-input");
   if (search && window.innerWidth <= 640){
     search.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -151,13 +150,11 @@ function renderGrid(list){
     .filter(a => activeSport === "All" ? true : a.sport === activeSport)
     .filter(a => !q ? true : norm(a.name).includes(q));
 
-  // Responsive columns (2 columns on phones starting at sm)
   grid.className = "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 xl:grid-cols-3 gap-8 mt-10";
 
   grid.innerHTML = filtered.map(a => {
     const avg = getEbayAvgFor(a);
 
-    // your file uses avgListing + currency
     const avgNum =
       avg?.avgListing ??
       avg?.avg_list_price ??
@@ -173,7 +170,6 @@ function renderGrid(list){
 
     const shopUrl = buildEbaySearchUrl(a.name);
 
-    // Smaller cards (~5%) + slightly smaller fonts (~10%)
     return `
       <div class="athlete-card p-7 bg-white/5 rounded-3xl border border-white/10 text-center">
         <div class="text-[2.1rem] font-black italic uppercase">${a.name}</div>
@@ -183,10 +179,11 @@ function renderGrid(list){
           ${a.sport} • ${a.team || "Unknown"}
         </div>
 
+        <!-- ONE BUTTON, ROUNDED, AVG 10% SMALLER -->
         <a href="${shopUrl}" target="_blank" rel="noopener noreferrer"
-           class="mt-7 inline-block w-full px-4 py-4 rounded-full bg-[#f2f20d] text-black font-black tracking-widest uppercase text-[12px] hover:opacity-90 transition">
-          <span>SHOP COLLECTIBLES</span>
-          ${money ? `<span class="block mt-1 text-[11px] tracking-widest">AVG LIST: ${money}</span>` : ``}
+           class="shop-btn mt-7 inline-block w-full px-5 py-4 rounded-full bg-[#f2f20d] text-black font-black tracking-widest uppercase text-[12px] hover:opacity-90 transition">
+          <div class="leading-none">SHOP COLLECTIBLES</div>
+          ${money ? `<div class="mt-2 text-[11px] leading-none tracking-widest">AVG LIST: ${money}</div>` : ``}
         </a>
       </div>
     `;
