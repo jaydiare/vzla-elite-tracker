@@ -24,13 +24,13 @@ const athleteDataRaw = [
 
   { name: "Michael Carrera", sport: "Basketball", league: "LNBP", team: "Astros de Jalisco" },
 
-  { name: "Daniel Dhers", sport: "Other", league: "BMX", team: "BMX" },
-  { name: "Yulimar Rojas", sport: "Other", league: "Track & Field", team: "Track & Field" },
-  { name: "Jhonattan Vegas", sport: "Other", league: "PGA", team: "Golf" },
+  { name: "Daniel Dhers", sport: "BMX", league: "BMX", team: "BMX" },
+  { name: "Yulimar Rojas", sport: "Track & Field", league: "Track & Field", team: "Track & Field" },
+  { name: "Jhonattan Vegas", sport: "Golf", league: "PGA", team: "Golf" },
   { name: "Garbiñe Muguruza", sport: "Tennis", league: "WTA", team: "Venezuela" },
   { name: "Marlon Vera", sport: "MMA", league: "UFC", team: "Venezuela" },
   { name: "Andres Borregales", sport: "Football", league: "NFL", team: "New England Patriots" },
-  { name: "Amleto Monacelli", sport: "Other", league: "Bowling", team: "PBA50" }
+  { name: "Amleto Monacelli", sport: "Bowling", league: "Bowling", team: "PBA50" }
 ];
 
 let athleteData = [];
