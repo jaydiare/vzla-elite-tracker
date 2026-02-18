@@ -162,13 +162,13 @@ function renderGrid(list) {
     const shopUrl = buildEbaySearchUrl(a.name, a.sport);
 
     return `
-      <div class="athlete-card p-8 bg-[#121212] rounded-[20px] border border-white/10 shadow-xl text-center flex flex-col items-center">
+      <div class="athlete-card p-8 bg-[#121212] rounded-[14px] border border-white/10 shadow-xl text-center flex flex-col items-center">
 
         <div class="text-white text-2xl font-black italic uppercase mb-2 tracking-tight">
           ${a.name}
         </div>
 
-        <div class="flex items-center justify-center space-x-2 text-[#8e8e93] font-bold text-[9px] tracking-[0.15em] uppercase mb-6">
+        <div class="flex items-center justify-center space-x-2 text-[#8e8e93] font-bold text-[5px] tracking-[0.15em] uppercase mb-6">
           <span>${a.sport}</span>
           <span class="w-1.5 h-1.5 bg-green-500 rounded-full inline-block"></span>
           <span>${a.team || a.sport}</span>
@@ -180,12 +180,12 @@ function renderGrid(list) {
           rel="noopener noreferrer"
           class="w-full rounded-full bg-[#f2f20d] px-6 py-4 flex flex-col items-center justify-center transition-transform hover:scale-[1.02] active:scale-[0.98]"
         >
-          <span class="text-black font-black uppercase text-[8px] leading-tight tracking-tight">
+          <span class="text-black font-black uppercase text-[5px] leading-tight tracking-tight">
             Shop Collectibles
           </span>
 
           ${money ? `
-            <span class="text-black font-bold uppercase text-[5px] leading-tight tracking-tight opacity-90 mt-1">
+            <span class="text-black font-bold uppercase text-[2px] leading-tight tracking-tight opacity-90 mt-1">
               (Avg List: ${money})
             </span>
           ` : ``}
