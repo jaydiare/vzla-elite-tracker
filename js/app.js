@@ -172,9 +172,16 @@ function renderGrid(list) {
 
   const q = norm(document.getElementById("search-input")?.value || "");
 
-  const filtered = (list || [])
-    .filter(a => activeSport === "All" || a.sport === activeSport)
-    .filter(a => !q || norm(a.name).includes(q));
+const filtered = (list || [])
+  .filter(a => {
+    if (activeSport === "All") return true;
+    if (activeSport === "Other") {
+      // Includes everything except the "Big Three"
+      return !["Baseball", "Soccer", "Basketball"].includes(a.sport);
+    }
+    return a.sport === activeSport;
+  })
+  .filter(a => !q || norm(a.name).includes(q));
 
   // Balanced grid gap
   grid.className = "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-10 w-full max-w-7xl mx-auto";
