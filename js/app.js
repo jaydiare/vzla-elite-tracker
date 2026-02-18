@@ -176,8 +176,8 @@ function renderGrid(list) {
     .filter(a => activeSport === "All" || a.sport === activeSport)
     .filter(a => !q || norm(a.name).includes(q));
 
-  // Updated grid layout for consistency
-  grid.className = "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mt-10 w-full max-w-7xl mx-auto";
+  // Balanced grid gap
+  grid.className = "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-10 w-full max-w-7xl mx-auto";
 
   grid.innerHTML = filtered.map(a => {
     const avg = getEbayAvgFor(a);
@@ -187,35 +187,36 @@ function renderGrid(list) {
     const shopUrl = buildEbaySearchUrl(a.name, a.sport);
 
     return `
-      <main class="athlete-card bg-[#121212] border border-white/10 rounded-[40px] p-8 w-full shadow-2xl flex flex-col items-center text-center justify-between min-h-[320px]" data-purpose="athlete-display-card">
+      <main class="athlete-card bg-[#111111] border border-white/5 rounded-[45px] p-10 w-full shadow-2xl flex flex-col items-center text-center justify-between min-h-[340px] transition-all hover:border-white/20">
         
-        <header class="mb-6">
-          <h1 class="athlete-name text-white text-3xl font-black italic uppercase mb-1 leading-tight tracking-tighter">
+        <header class="flex-grow flex flex-col justify-center mb-4">
+          <h1 class="athlete-name text-white text-4xl font-black italic uppercase leading-[0.9] tracking-tighter mb-4">
             ${a.name}
           </h1>
-          <div class="flex items-center justify-center space-x-2 text-[#8e8e93] font-bold text-[8px] tracking-[0.2em] uppercase">
+          
+          <div class="flex items-center justify-center space-x-2 text-[#777777] font-bold text-[10px] tracking-[0.25em] uppercase">
             <span>${a.sport}</span>
-            <span class="w-1.5 h-1.5 bg-[#00ff00] rounded-full inline-block mx-1"></span>
+            <span class="w-1.5 h-1.5 bg-[#00ff00] rounded-full inline-block mx-1 shadow-[0_0_8px_#00ff00]"></span>
             <span>${a.team || a.sport}</span>
           </div>
         </header>
+
         <a href="${shopUrl}" 
            target="_blank" 
            rel="noopener noreferrer"
-           class="shop-btn bg-[#f2f20d] w-full rounded-full py-4 px-6 flex flex-col items-center justify-center transition-transform hover:scale-[1.03] active:scale-[0.98] no-underline shadow-lg" 
-           data-purpose="shop-collectibles-button">
+           class="shop-btn bg-[#f2f20d] w-full rounded-full py-5 px-6 flex flex-col items-center justify-center transition-all hover:scale-[1.03] hover:brightness-110 active:scale-[0.97] no-underline shadow-xl">
           
-          <span class="text-black font-black text-xl tracking-tighter uppercase leading-none">
+          <span class="text-black font-black text-[18px] tracking-tighter uppercase leading-none mb-1">
             Shop Collectibles
           </span>
           
           ${money ? `
-            <span class="text-black font-bold text-[11px] tracking-tight uppercase leading-none mt-2 opacity-80">
+            <span class="text-black font-bold text-[11px] tracking-tight uppercase leading-none opacity-80">
               (Avg List: ${money})
             </span>
           ` : ''}
         </a>
-        </main>
+      </main>
     `;
   }).join("");
 }
