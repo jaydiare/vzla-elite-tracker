@@ -199,22 +199,36 @@ function renderGrid(list) {
 
     const shopUrl = buildEbaySearchUrl(a.name, a.sport);
 
-    return `
-      <div class="athlete-card p-10 bg-[#121212] rounded-[45px] border border-white/5 shadow-2xl text-center flex flex-col items-center justify-between min-h-[300px]">
-        <div class="text-white text-3xl font-black italic uppercase mb-1 tracking-tighter leading-tight">${a.name}</div>
-
-        <div class="mt-2 flex items-center justify-center space-x-2 text-[#8e8e93] font-bold text-[11px] tracking-[0.2em] uppercase">
-          <span class="w-1.5 h-1.5 rounded-full bg-[#00ff00] inline-block"></span>
-          ${a.sport} • ${a.team || "Unknown"}
-        </div>
-
-        <!-- ONE ROUNDED PILL BUTTON (no split highlight) -->
-        <a href="${shopUrl}" target="_blank" rel="noopener noreferrer"
-           class="shop-btn mt-8 inline-flex flex-col items-center justify-center w-full px-6 py-4 rounded-full bg-[#f2f20d] text-black font-black uppercase tracking-tight hover:scale-[1.03] transition-transform shadow-lg">
-          <span class="text-[11px] leading-none">SHOP COLLECTIBLES</span>
-          ${money ? `<span class="mt-1.5 text-[10px] font-bold opacity-80 leading-none"> (AVG LIST: ${money})</span>` : ``}
+return `
+      <main class="athlete-card bg-[#121212] border border-white/10 rounded-[40px] p-8 w-full shadow-2xl flex flex-col items-center text-center justify-between min-h-[320px]" data-purpose="athlete-display-card">
+        
+        <header class="mb-6">
+          <h1 class="athlete-name text-white text-3xl font-black uppercase mb-1 italic leading-tight">
+            ${a.name}
+          </h1>
+          <div class="flex items-center justify-center space-x-2 text-[#8e8e93] font-bold text-sm tracking-[0.15em] uppercase">
+            <span>${a.sport}</span>
+            <span class="w-1.5 h-1.5 bg-green-500 rounded-full inline-block mx-1"></span>
+            <span>${a.team || a.sport}</span>
+          </div>
+        </header>
+        <a href="${shopUrl}" 
+           target="_blank" 
+           rel="noopener noreferrer"
+           class="shop-btn bg-[#f2f20d] w-full rounded-full py-4 px-6 flex flex-col items-center transition-transform hover:scale-[1.02] active:scale-[0.98] no-underline shadow-lg" 
+           data-purpose="shop-collectibles-button">
+          
+          <span class="text-black font-black text-xl tracking-tighter uppercase leading-tight">
+            Shop Collectibles
+          </span>
+          
+          ${money ? `
+            <span class="text-black font-bold text-sm tracking-tight uppercase leading-tight opacity-90">
+              (Avg List: ${money})
+            </span>
+          ` : ``}
         </a>
-      </div>
+        </main>
     `;
   }).join("");
 }
