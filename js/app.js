@@ -195,9 +195,8 @@ function renderGrid(list) {
           </h1>
           
           <div class="flex items-center justify-center space-x-2 text-[#777777] font-bold text-[14px] tracking-[0.25em] uppercase">
-            <span>${a.sport}</span>
             <span class="w-1.5 h-1.5 bg-[#00ff00] rounded-full inline-block mx-1 shadow-[0_0_8px_#00ff00]"></span>
-            <span>${a.sport} • ${a.team || "Individual"}</span>
+            <span>${a.sport} • ${a.team}</span>
           </div>
         </header>
 
@@ -211,8 +210,8 @@ function renderGrid(list) {
           </span>
           
           ${money ? `
-            <span class="text-black font-bold text-[10px] tracking-tight uppercase leading-none opacity-80">
-              (Avg List: ${money})
+            <span class="text-black font-bold text-[14px] tracking-tight uppercase leading-none opacity-80">
+              (eBay Avg List: ${money})
             </span>
           ` : ''}
         </a>
