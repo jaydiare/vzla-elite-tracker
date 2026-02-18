@@ -190,11 +190,11 @@ function renderGrid(list) {
       <main class="athlete-card bg-[#111111] border border-white/5 rounded-[45px] p-10 w-full shadow-2xl flex flex-col items-center text-center justify-between min-h-[340px] transition-all hover:border-white/20">
         
         <header class="flex-grow flex flex-col justify-center mb-4">
-          <h1 class="athlete-name text-white text-4xl font-black italic uppercase leading-[0.9] tracking-tighter mb-4">
+          <h1 class="athlete-name text-white text-8xl font-black italic uppercase leading-[0.9] tracking-tighter mb-4">
             ${a.name}
           </h1>
           
-          <div class="flex items-center justify-center space-x-2 text-[#777777] font-bold text-[10px] tracking-[0.25em] uppercase">
+          <div class="flex items-center justify-center space-x-2 text-[#777777] font-bold text-[14px] tracking-[0.25em] uppercase">
             <span>${a.sport}</span>
             <span class="w-1.5 h-1.5 bg-[#00ff00] rounded-full inline-block mx-1 shadow-[0_0_8px_#00ff00]"></span>
             <span>${a.team || a.sport}</span>
@@ -206,12 +206,12 @@ function renderGrid(list) {
            rel="noopener noreferrer"
            class="shop-btn bg-[#f2f20d] w-full rounded-full py-5 px-6 flex flex-col items-center justify-center transition-all hover:scale-[1.03] hover:brightness-110 active:scale-[0.97] no-underline shadow-xl">
           
-          <span class="text-black font-black text-[18px] tracking-tighter uppercase leading-none mb-1">
+          <span class="text-black font-black text-[16px] tracking-tighter uppercase leading-none mb-1">
             Shop Collectibles
           </span>
           
           ${money ? `
-            <span class="text-black font-bold text-[11px] tracking-tight uppercase leading-none opacity-80">
+            <span class="text-black font-bold text-[10px] tracking-tight uppercase leading-none opacity-80">
               (Avg List: ${money})
             </span>
           ` : ''}
