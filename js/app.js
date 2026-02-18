@@ -200,8 +200,8 @@ function renderGrid(list) {
     const shopUrl = buildEbaySearchUrl(a.name, a.sport);
 
     return `
-      <div class="athlete-card p-7 bg-white/5 rounded-3xl border border-white/10 text-center">
-        <div class="text-[2.1rem] font-black italic uppercase">${a.name}</div>
+      <div class="athlete-card p-10 bg-[#121212] rounded-[45px] border border-white/5 shadow-2xl text-center flex flex-col items-center justify-between min-h-[300px]">
+        <div class="text-white text-3xl font-black italic uppercase mb-1 tracking-tighter leading-tight">${a.name}</div>
 
         <div class="mt-3 text-slate-400 font-black tracking-widest uppercase text-[10px]">
           <span class="inline-block w-2 h-2 rounded-full bg-green-500 mr-2"></span>
@@ -210,9 +210,9 @@ function renderGrid(list) {
 
         <!-- ONE ROUNDED PILL BUTTON (no split highlight) -->
         <a href="${shopUrl}" target="_blank" rel="noopener noreferrer"
-           class="shop-btn mt-6 inline-flex flex-col items-center justify-center w-full px-4 py-3 rounded-full bg-[#f2f20d] text-black font-black uppercase tracking-widest text-[8px] leading-tight hover:opacity-90 transition">
+           class="shop-btn mt-8 inline-flex flex-col items-center justify-center w-full px-6 py-4 rounded-full bg-[#f2f20d] text-black font-black uppercase tracking-tight hover:scale-[1.03] transition-transform shadow-lg">
           <span>SHOP COLLECTIBLES</span>
-          ${money ? `<span class="mt-1 text-[5px] tracking-widest">(AVG LIST: ${money})</span>` : ``}
+          ${money ? `<span class="mt-1.5 text-[10px] font-bold opacity-80 leading-none">(AVG LIST: ${money})</span>` : ``}
         </a>
       </div>
     `;
