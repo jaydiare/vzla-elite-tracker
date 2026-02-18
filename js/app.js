@@ -136,8 +136,9 @@ function formatCurrency(amount, currency) {
   return `${(currency || "").toUpperCase()} ${n.toFixed(2)}`;
 }
 
-function buildEbaySearchUrl(name) {
-  const q = encodeURIComponent(name + " card");
+function buildEbaySearchUrl(name, sport) {
+  const sportPart = sport ? ` ${sport}` : "";
+  const q = encodeURIComponent(`${name}${sportPart}`);
   return `https://www.ebay.ca/sch/i.html?_nkw=${q}&mkevt=1&mkcid=1&mkrid=706-53473-19255-0&campid=5339142321&toolid=10001`;
 }
 
@@ -196,7 +197,7 @@ function renderGrid(list) {
         ? formatCurrency(avgNum, currency)
         : "";
 
-    const shopUrl = buildEbaySearchUrl(a.name);
+    const shopUrl = buildEbaySearchUrl(a.name, a.sport);
 
     return `
       <div class="athlete-card p-7 bg-white/5 rounded-3xl border border-white/10 text-center">
