@@ -202,7 +202,7 @@ const filtered = (list || [])
           </h1>
           
           <div class="flex items-center justify-center space-x-2 text-[#777777] font-bold text-[14px] tracking-[0.25em] uppercase">
-            <span class="w-1.5 h-1.5 bg-[#00ff00] rounded-full inline-block mx-1 shadow-[0_0_8px_#00ff00]"></span>
+            <span class="inline-block w-1.5 h-1.5 bg-[#00ff00] rounded-full inline-block mx-1 shadow-[0_0_8px_#00ff00]"></span>
             <span>${a.sport} • ${a.team}</span>
           </div>
         </header>
