@@ -149,37 +149,34 @@ function renderGrid(list) {
     const shopUrl = buildEbaySearchUrl(a.name, a.sport);
 
     return `
-      <div class="athlete-card p-10 bg-[#121212] rounded-[45px] border border-white/5 shadow-2xl text-center flex flex-col items-center transition-transform hover:scale-[1.02]">
+      <div class="athlete-card p-8 bg-[#121212] rounded-[40px] border border-white/5 shadow-2xl text-center flex flex-col items-center justify-between min-h-[320px]">
 
-        <div class="text-white text-3xl font-black italic uppercase mb-1 tracking-tighter">
+      <div class="w-full">
+        <div class="text-white text-2xl font-black italic uppercase mb-1 tracking-tighter">
           ${a.name}
         </div>
 
-        <div class="flex items-center justify-center space-x-3 text-[#8e8e93] font-bold text-[11px] tracking-[0.2em] uppercase mb-10">
+        <div class="flex items-center justify-center space-x-2 text-[#8e8e93] font-bold text-[10px] tracking-[0.15em] uppercase mb-8">
           <span>${a.sport}</span>
           <span class="w-1.5 h-1.5 bg-[#00ff00] rounded-full inline-block"></span>
-          <span>${a.team || a.sport}</span>
+          <span>${a.team}</span>
         </div>
 
         <a
           href="${shopUrl}"
           target="_blank"
           rel="noopener noreferrer"
-          class="w-full rounded-[50px] bg-[#f2f20d] px-8 py-5 flex flex-col items-center justify-center transition-all duration-200 hover:brightness-110 active:scale-[0.98] shadow-[0_10px_20px_rgba(242,242,13,0.15)]"
+          class="w-full rounded-full bg-[#f2f20d] py-4 px-6 flex flex-col items-center justify-center transition-all hover:scale-[1.03] active:scale-[0.98] shadow-lg"
         >
-          <span class="text-black font-black uppercase text-lg leading-none tracking-tight">
+          <span class="text-black font-black uppercase text-base leading-tight">
             Shop Collectibles
           </span>
 
           ${money ? `
-            <span class="text-black font-bold uppercase text-[11px] leading-none opacity-80 mt-1.5">
+            <span class="text-black font-bold uppercase text-[10px] leading-tight opacity-70 mt-1">
               (Avg List: ${money})
             </span>
-          ` : `
-            <span class="text-black font-bold uppercase text-[11px] leading-none opacity-80 mt-1.5">
-              Check Prices
-            </span>
-          `}
+          ` : ``}
         </a>
 
       </div>
