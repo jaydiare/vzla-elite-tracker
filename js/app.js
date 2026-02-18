@@ -138,31 +138,18 @@ function renderGrid(list) {
     .filter(a => activeSport === "All" || a.sport === activeSport)
     .filter(a => !q || norm(a.name).includes(q));
 
-  grid.className =
-    "grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-10 mt-10 w-full max-w-7xl mx-auto";
+  // Updated grid layout for better spacing
+  grid.className = "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mt-10 w-full";
 
   grid.innerHTML = filtered.map(a => {
     const avg = getEbayAvgFor(a);
-
-    const avgNum =
-      avg?.avgListing ??
-      avg?.avg_list_price ??
-      avg?.avgListPrice ??
-      avg?.avg ??
-      avg?.average ??
-      null;
-
+    const avgNum = avg?.avgListing ?? avg?.avg_list_price ?? avg?.avgListPrice ?? avg?.avg ?? avg?.average ?? null;
     const currency = avg?.currency || "CAD";
-
-    const money =
-      avgNum != null && Number.isFinite(Number(avgNum))
-        ? formatCurrency(avgNum, currency)
-        : "";
-
+    const money = avgNum != null && Number.isFinite(Number(avgNum)) ? formatCurrency(avgNum, currency) : "";
     const shopUrl = buildEbaySearchUrl(a.name, a.sport);
 
     return `
-      <div class="athlete-card p-10 bg-[#121212] rounded-[45px] border border-white/5 shadow-2xl text-center flex flex-col items-center">
+      <div class="athlete-card p-10 bg-[#121212] rounded-[45px] border border-white/5 shadow-2xl text-center flex flex-col items-center transition-transform hover:scale-[1.02]">
 
         <div class="text-white text-3xl font-black italic uppercase mb-1 tracking-tighter">
           ${a.name}
@@ -178,17 +165,21 @@ function renderGrid(list) {
           href="${shopUrl}"
           target="_blank"
           rel="noopener noreferrer"
-          class="w-full rounded-[50px] bg-[#f2f20d] px-8 py-5 flex flex-col items-center justify-center transition-all duration-200 hover:scale-[1.03] active:scale-[0.98] shadow-[0_10px_20px_rgba(242,242,13,0.2)]"
+          class="w-full rounded-[50px] bg-[#f2f20d] px-8 py-5 flex flex-col items-center justify-center transition-all duration-200 hover:brightness-110 active:scale-[0.98] shadow-[0_10px_20px_rgba(242,242,13,0.15)]"
         >
           <span class="text-black font-black uppercase text-lg leading-none tracking-tight">
             Shop Collectibles
           </span>
 
           ${money ? `
-            <span class="text-black font-bold uppercase text-[11px] leading-none opacity-70 mt-1.5">
+            <span class="text-black font-bold uppercase text-[11px] leading-none opacity-80 mt-1.5">
               (Avg List: ${money})
             </span>
-          ` : ``}
+          ` : `
+            <span class="text-black font-bold uppercase text-[11px] leading-none opacity-80 mt-1.5">
+              Check Prices
+            </span>
+          `}
         </a>
 
       </div>
