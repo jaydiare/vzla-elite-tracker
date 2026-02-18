@@ -176,37 +176,24 @@ function renderGrid(list) {
     .filter(a => activeSport === "All" || a.sport === activeSport)
     .filter(a => !q || norm(a.name).includes(q));
 
-  grid.className =
-    "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 xl:grid-cols-3 gap-8 mt-10";
+  // Updated grid layout for consistency
+  grid.className = "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mt-10 w-full max-w-7xl mx-auto";
 
   grid.innerHTML = filtered.map(a => {
     const avg = getEbayAvgFor(a);
-
-    const avgNum =
-      avg?.avgListing ??
-      avg?.avg_list_price ??
-      avg?.avgListPrice ??
-      avg?.avg ??
-      avg?.average ??
-      null;
-
+    const avgNum = avg?.avgListing ?? avg?.avg_list_price ?? avg?.avgListPrice ?? avg?.avg ?? avg?.average ?? null;
     const currency = avg?.currency || "CAD";
-
-    const money =
-      avgNum != null && Number.isFinite(Number(avgNum))
-        ? formatCurrency(avgNum, currency)
-        : "";
-
+    const money = avgNum != null && Number.isFinite(Number(avgNum)) ? formatCurrency(avgNum, currency) : "";
     const shopUrl = buildEbaySearchUrl(a.name, a.sport);
 
-return `
+    return `
       <main class="athlete-card bg-[#121212] border border-white/10 rounded-[40px] p-8 w-full shadow-2xl flex flex-col items-center text-center justify-between min-h-[320px]" data-purpose="athlete-display-card">
         
         <header class="mb-6">
-          <h1 class="athlete-name text-white text-3xl font-black uppercase mb-1 italic leading-tight">
+          <h1 class="athlete-name text-white text-3xl font-black italic uppercase mb-1 leading-tight tracking-tighter">
             ${a.name}
           </h1>
-          <div class="flex items-center justify-center space-x-2 text-[#8e8e93] font-bold text-sm tracking-[0.15em] uppercase">
+          <div class="flex items-center justify-center space-x-2 text-[#8e8e93] font-bold text-[11px] tracking-[0.2em] uppercase">
             <span>${a.sport}</span>
             <span class="w-1.5 h-1.5 bg-green-500 rounded-full inline-block mx-1"></span>
             <span>${a.team || a.sport}</span>
@@ -215,18 +202,18 @@ return `
         <a href="${shopUrl}" 
            target="_blank" 
            rel="noopener noreferrer"
-           class="shop-btn bg-[#f2f20d] w-full rounded-full py-4 px-6 flex flex-col items-center transition-transform hover:scale-[1.02] active:scale-[0.98] no-underline shadow-lg" 
+           class="shop-btn bg-[#f2f20d] w-full rounded-full py-4 px-6 flex flex-col items-center justify-center transition-transform hover:scale-[1.03] active:scale-[0.98] no-underline shadow-lg" 
            data-purpose="shop-collectibles-button">
           
-          <span class="text-black font-black text-xl tracking-tighter uppercase leading-tight">
+          <span class="text-black font-black text-xl tracking-tighter uppercase leading-none">
             Shop Collectibles
           </span>
           
           ${money ? `
-            <span class="text-black font-bold text-sm tracking-tight uppercase leading-tight opacity-90">
+            <span class="text-black font-bold text-[11px] tracking-tight uppercase leading-none mt-2 opacity-80">
               (Avg List: ${money})
             </span>
-          ` : ``}
+          ` : ''}
         </a>
         </main>
     `;
