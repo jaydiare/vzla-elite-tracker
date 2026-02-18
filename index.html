@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>VZLA Sports Elite</title>
 
-  <!-- Tailwind output -->
   <link rel="stylesheet" href="./dist/tailwind.css?v=2026">
 
   <style>
@@ -15,14 +14,12 @@
       --vzla-panel:#0b0b0b;
     }
 
-    /* all dark theme */
     body{
       background: var(--vzla-bg);
       color:#fff;
       min-height:100vh;
     }
 
-    /* ===== Shell layout (side banners) ===== */
     .page-shell{
       max-width: 1400px;
       margin: 0 auto;
@@ -53,7 +50,6 @@
       .side-banner{ display:none; }
     }
 
-    /* ===== Bottom fixed ebay banner ===== */
     .footer-banner-spacer{ height: 105px; }
     @media (min-width: 768px){ .footer-banner-spacer{ height: 95px; } }
 
@@ -77,7 +73,6 @@
       box-shadow: 0 10px 30px rgba(0,0,0,0.55);
     }
 
-    /* ===== Brand ===== */
     .vzla-brand-wrap{
       display:flex;
       align-items:center;
@@ -114,7 +109,6 @@
       text-transform:uppercase;
     }
 
-    /* ===== Main nav links + dropdowns ===== */
     .nav-links{
       display:flex;
       gap:28px;
@@ -174,7 +168,6 @@
       color: var(--vzla-yellow);
     }
 
-    /* Contact dropdown icons (SVG) */
     .contact-icons{
       display:flex;
       gap:14px;
@@ -198,11 +191,11 @@
     }
     .icon-btn svg{ display:block; }
 
-    /* Mobile: make nav less tight */
+    /* ✅ Force rounded corners for the card shop button */
+    .shop-btn{ border-radius: 9999px !important; }
+
     @media (max-width: 640px){
-      nav{
-        padding: 14px !important;
-      }
+      nav{ padding: 14px !important; }
       .nav-links{
         flex-wrap: wrap;
         justify-content: flex-end;
@@ -216,7 +209,6 @@
       .vzla-flag{ font-size:18px; }
     }
 
-    /* ===== Hero: force single-tone panel (no two-tone) ===== */
     .hero-panel{
       background: var(--vzla-panel);
       border: 1px solid rgba(255,255,255,0.08);
@@ -229,7 +221,7 @@
       margin-top:18px;
       padding:18px 22px;
       border-radius:14px;
-      background: #070707; /* keep solid */
+      background: #070707;
       color: rgba(255,255,255,0.84);
       font-size:20px;
       line-height:1.45;
@@ -240,13 +232,8 @@
       .hero-sub{ font-size:16px; padding:14px 16px; }
     }
 
-    /* Search bar rounded */
-    #search-input,
-    .search-input{
-      border-radius: 9999px !important;
-    }
+    #search-input, .search-input{ border-radius: 9999px !important; }
 
-    /* Filters below search + add spacing from cards */
     .filters-row{
       display:flex;
       gap:16px;
@@ -258,13 +245,12 @@
       letter-spacing: 0.22em;
       border-top: 1px solid rgba(255,255,255,0.06);
       margin-top: 12px;
-      margin-bottom: 28px; /* ✅ more space from cards */
+      margin-bottom: 28px;
     }
     @media (max-width:768px){
       .filters-row{ gap:10px; letter-spacing:0.16em; }
     }
 
-    /* Footer: stylish */
     .vzla-footer{
       margin-top: 54px;
       border-top: 1px solid rgba(255,255,255,0.08);
@@ -319,25 +305,19 @@
       color:var(--vzla-yellow);
       background: rgba(242,242,13,0.08);
     }
+
     .footer-icons{
       display:flex;
       gap:12px;
     }
-    .footer-icons a{
-      width:42px; height:42px;
-      display:flex; align-items:center; justify-content:center;
+
+    /* ✅ Footer icons now use the same .icon-btn style */
+    .footer-icons .icon-btn{
+      width:42px;
+      height:42px;
       border-radius:14px;
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.10);
-      color: rgba(255,255,255,0.9);
-      text-decoration:none;
-      transition: 0.15s ease;
     }
-    .footer-icons a:hover{
-      background: rgba(242,242,13,0.12);
-      color: var(--vzla-yellow);
-      border-color: rgba(242,242,13,0.25);
-    }
+
     .vzla-footer-copy{
       text-align:center;
       padding: 14px 12px 18px;
@@ -351,12 +331,10 @@
 </head>
 
 <body id="top">
-  <!-- top strip -->
   <header class="bg-[#f2f20d] text-black px-6 py-2 flex justify-between items-center text-[10px] font-black uppercase tracking-tighter">
     <span>© 2026 VZLA Sports Elite</span>
   </header>
 
-  <!-- MAIN NAV -->
   <nav class="p-6 border-b border-white/5 flex items-center justify-between sticky top-0 bg-black/85 backdrop-blur-md z-50">
     <a href="index.html" class="vzla-brand-wrap" aria-label="Vzla Sports Elite Home">
       <span class="vzla-flag">🇻🇪</span>
@@ -383,14 +361,11 @@
         </details>
       </li>
 
-      <!-- Blog hidden for now ✅ -->
-
       <li class="nav-dd">
         <details class="dropdown">
           <summary class="nav-link dropdown-trigger">Contact <span class="caret">▾</span></summary>
           <div class="dropdown-menu">
             <div class="contact-icons">
-              <!-- Instagram -->
               <a class="icon-btn" href="https://www.instagram.com/localheros_sportscards/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
                 <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
                   <rect x="3" y="3" width="18" height="18" rx="5"></rect>
@@ -399,14 +374,12 @@
                 </svg>
               </a>
 
-              <!-- X -->
               <a class="icon-btn" href="https://x.com/jdiegorceli1?s=21" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)">
                 <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
                   <path d="M18.9 2H22l-6.8 7.8L23 22h-6.2l-4.8-7-6.1 7H2l7.3-8.4L1 2h6.4l4.4 6.4L18.9 2zm-1.1 18h1.7L7.2 3.9H5.4L17.8 20z"/>
                 </svg>
               </a>
 
-              <!-- Facebook -->
               <a class="icon-btn" href="https://www.facebook.com/share/18NzEJirJZ/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
                 <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
                   <path d="M22 12a10 10 0 1 0-11.6 9.9v-7H8v-3h2.4V9.7c0-2.4 1.4-3.8 3.6-3.8 1 0 2 .2 2 .2v2.2h-1.1c-1.1 0-1.4.7-1.4 1.4V12H16l-.4 3h-2.1v7A10 10 0 0 0 22 12z"/>
@@ -419,32 +392,24 @@
     </ul>
   </nav>
 
-  <!-- 3-column layout -->
   <div class="page-shell">
-    <!-- LEFT SIDE BANNER -->
     <aside class="side-banner">
-      <a
-        href="https://www.ebay.ca/sch/i.html?_nkw=trading+cards&mkevt=1&mkcid=1&mkrid=706-53473-19255-0&campid=5339142321&toolid=10001"
-        target="_blank" rel="noopener noreferrer"
-        title="Shop Trading Cards on eBay">
+      <a href="https://www.ebay.ca/sch/i.html?_nkw=trading+cards&mkevt=1&mkcid=1&mkrid=706-53473-19255-0&campid=5339142321&toolid=10001"
+         target="_blank" rel="noopener noreferrer" title="Shop Trading Cards on eBay">
         <img src="./assets/ebay-300x600-left.jpg" alt="Shop Trading Cards on eBay">
       </a>
     </aside>
 
-    <!-- CENTER CONTENT -->
     <main class="max-w-7xl mx-auto w-full p-8">
-      <!-- HERO -->
       <section class="hero-panel text-center mb-8 p-12">
         <h2 class="text-5xl font-black mb-2 uppercase leading-tight">
           VZLA <span class="text-[#f2f20d] italic">Top Active Sport</span> Talent
         </h2>
-
         <div class="hero-sub">
           Discover and shop collectibles from Venezuela’s top active athletes.
         </div>
       </section>
 
-      <!-- SEARCH -->
       <div class="flex justify-center mb-4">
         <input
           id="search-input"
@@ -454,7 +419,6 @@
         />
       </div>
 
-      <!-- FILTERS BELOW SEARCH -->
       <div class="filters-row" id="sport-filters">
         <button onclick="setSport('All', this)" class="text-[#f2f20d]">All</button>
         <button onclick="setSport('Baseball', this)" class="text-slate-500">Baseball</button>
@@ -463,10 +427,8 @@
         <button onclick="setSport('Other', this)" class="text-slate-500">Other</button>
       </div>
 
-      <!-- GRID -->
       <div id="athletes-grid"></div>
 
-      <!-- FOOTER (Blog hidden ✅) -->
       <footer class="vzla-footer">
         <div class="vzla-footer-inner">
           <div class="footer-brand">
@@ -482,10 +444,27 @@
             <a href="#top">Top</a>
           </div>
 
+          <!-- ✅ Footer icons now match Contact -->
           <div class="footer-icons">
-            <a href="https://www.instagram.com/localheros_sportscards/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">IG</a>
-            <a href="https://x.com/jdiegorceli1?s=21" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)">X</a>
-            <a href="https://www.facebook.com/share/18NzEJirJZ/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer" aria-label="Facebook">f</a>
+            <a class="icon-btn" href="https://www.instagram.com/localheros_sportscards/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="18" height="18" rx="5"></rect>
+                <circle cx="12" cy="12" r="4"></circle>
+                <circle cx="17.5" cy="6.5" r="1"></circle>
+              </svg>
+            </a>
+
+            <a class="icon-btn" href="https://x.com/jdiegorceli1?s=21" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                <path d="M18.9 2H22l-6.8 7.8L23 22h-6.2l-4.8-7-6.1 7H2l7.3-8.4L1 2h6.4l4.4 6.4L18.9 2zm-1.1 18h1.7L7.2 3.9H5.4L17.8 20z"/>
+              </svg>
+            </a>
+
+            <a class="icon-btn" href="https://www.facebook.com/share/18NzEJirJZ/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                <path d="M22 12a10 10 0 1 0-11.6 9.9v-7H8v-3h2.4V9.7c0-2.4 1.4-3.8 3.6-3.8 1 0 2 .2 2 .2v2.2h-1.1c-1.1 0-1.4.7-1.4 1.4V12H16l-.4 3h-2.1v7A10 10 0 0 0 22 12z"/>
+              </svg>
+            </a>
           </div>
         </div>
 
@@ -495,18 +474,14 @@
       <div class="footer-banner-spacer"></div>
     </main>
 
-    <!-- RIGHT SIDE BANNER -->
     <aside class="side-banner">
-      <a
-        href="https://www.ebay.ca/sch/i.html?_nkw=trading+cards&mkevt=1&mkcid=1&mkrid=706-53473-19255-0&campid=5339142321&toolid=10001"
-        target="_blank" rel="noopener noreferrer"
-        title="Shop Trading Cards on eBay">
+      <a href="https://www.ebay.ca/sch/i.html?_nkw=trading+cards&mkevt=1&mkcid=1&mkrid=706-53473-19255-0&campid=5339142321&toolid=10001"
+         target="_blank" rel="noopener noreferrer" title="Shop Trading Cards on eBay">
         <img src="./assets/ebay-300x600-right.jpg" alt="Shop Trading Cards on eBay">
       </a>
     </aside>
   </div>
 
-  <!-- Bottom fixed ebay banner -->
   <footer class="ebay-footer">
     <a href="https://www.ebay.ca/sch/i.html?_nkw=trading+cards&mkevt=1&mkcid=1&mkrid=706-53473-19255-0&campid=5339142321&toolid=10001"
        target="_blank" rel="noopener noreferrer">
@@ -516,7 +491,6 @@
 
   <script src="./js/app.js" defer></script>
 
-  <!-- dropdown UX: close others + close on outside click -->
   <script>
     document.querySelectorAll("details.dropdown").forEach(d => {
       d.addEventListener("toggle", () => {
