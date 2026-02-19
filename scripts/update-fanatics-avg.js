@@ -7,7 +7,7 @@
 // 3) averaging the returned price field(s)
 //
 // Env vars required:
-//   APIFY_TOKEN
+//   FANATICS_SCRAPE
 //
 // Optional env vars:
 //   APIFY_ACTOR_ID (default: fortuitous_pirate/fanatics-scraper)
@@ -26,8 +26,8 @@ import { fileURLToPath } from "node:url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const FANATICS_SCRAPE= process.env.APIFY_TOKEN;
-if (!APIFY_TOKEN) {
+const FANATICS_SCRAPE= process.env.FANATICS_SCRAPE;
+if (!FANATICS_SCRAPE) {
   console.error("Missing FANATICS_SCRAPEin env.");
   process.exit(1);
 }
@@ -156,7 +156,7 @@ async function runApifyActor({ productUrls }) {
 
   const startUrl = `https://api.apify.com/v2/acts/${encodeURIComponent(
     APIFY_ACTOR_ID
-  )}/runs?token=${encodeURIComponent(APIFY_TOKEN)}&waitForFinish=1200`;
+  )}/runs?token=${encodeURIComponent(FANATICS_SCRAPE)}&waitForFinish=1200`;
 
   const input = {
     productUrls,
@@ -183,7 +183,7 @@ async function runApifyActor({ productUrls }) {
 
   // Fetch dataset items
   const itemsUrl = `https://api.apify.com/v2/datasets/${datasetId}/items?token=${encodeURIComponent(
-    APIFY_TOKEN
+    FANATICS_SCRAPE
   )}&clean=true`;
 
   const itemsRes = await fetch(itemsUrl);
