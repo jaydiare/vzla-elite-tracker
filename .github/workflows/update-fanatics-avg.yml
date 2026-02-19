@@ -1,0 +1,53 @@
+name: Update Fanatics averages
+
+on:
+  schedule:
+    - cron: "15 0,8 * * *"  # 00:15 and 08:15 UTC (offset from eBay job)
+  workflow_dispatch:
+
+concurrency:
+  group: fanatics-avg-main
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - run: npm ci
+        if: hashFiles('package-lock.json') != ''
+
+      - name: Update Fanatics averages
+        run: node scripts/update-fanatics-avg.js
+        env:
+          FANATICS_SCRAPE: ${{ secrets.FANATICS_SCRAPE }}
+          # Optional (only if your script uses these env vars)
+          # APIFY_ACTOR_ID: ${{ secrets.APIFY_ACTOR_ID }}
+          # FANATICS_SEARCH_URL_TEMPLATE: ${{ secrets.FANATICS_SEARCH_URL_TEMPLATE }}
+          # FANATICS_PRODUCT_URL_REGEX: ${{ secrets.FANATICS_PRODUCT_URL_REGEX }}
+          # FANATICS_MAX_PRODUCTS_PER_ATHLETE: "30"
+          # FANATICS_MIN_SAMPLE_SIZE: "5"
+
+      - name: Commit changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add data/fanatics-avg.json
+
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+            exit 0
+          fi
+
+          git commit -m "Update Fanatics averages"
+          git push origin main
