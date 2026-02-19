@@ -6,7 +6,7 @@
   <title>VZLA Sports Elite</title>
 
   <meta name='impact-site-verification' value='01c83abd-89b3-4408-b3a4-78e22587515e'>
-      <!-- Google Tag Manager -->
+  <!-- Google Tag Manager -->
   <script>
     (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
     new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -43,13 +43,13 @@
 
     .side-banner {
       position: sticky;
-      top: 100px; /* Aligns with content better */
+      top: 100px;
       display: flex;
       flex-direction: column;
       gap: 24px;
       max-height: calc(100vh - 120px);
       overflow-y: auto;
-      scrollbar-width: none; /* Cleaner look */
+      scrollbar-width: none;
     }
 
     .side-banner img{
@@ -60,7 +60,6 @@
       box-shadow: 0 10px 30px rgba(0,0,0,0.55);
       transition: transform 0.3s ease, box-shadow 0.3s ease;
       cursor: pointer;
-      
     }
 
     .athlete-card {
@@ -73,7 +72,7 @@
     }
 
     .athlete-info span {
-      color: #00ff00;           /* Green dot separator */
+      color: #00ff00;
       margin: 0 8px;
     }
 
@@ -141,6 +140,7 @@
       text-transform:uppercase;
     }
 
+    /* NAV LINKS (desktop default) */
     .nav-links{
       display:flex;
       gap:28px;
@@ -223,7 +223,6 @@
     }
     .icon-btn svg{ display:block; }
 
-    /* ✅ Force rounded corners for the card shop button */
     .shop-btn {
       margin-top: 2rem;
       display: flex;
@@ -238,20 +237,68 @@
       text-decoration: none;
       transition: all 0.2s;
     }
+    .shop-btn:hover { transform: scale(1.02); }
 
-  .shop-btn:hover {
-      transform: scale(1.02);
+    /* ✅ HAMBURGER (added) */
+    .hamburger{
+      display:none;
+      background: transparent;
+      border: 0;
+      cursor: pointer;
+      padding: 8px;
+      border-radius: 12px;
+    }
+    .hamburger span{
+      display:block;
+      width: 26px;
+      height: 3px;
+      margin: 5px 0;
+      background: var(--vzla-yellow);
+      border-radius: 3px;
     }
 
+    /* ✅ MOBILE NAV (replaces your old mobile wrap rules) */
     @media (max-width: 640px){
       nav{ padding: 14px !important; }
+
+      /* show hamburger on mobile */
+      .hamburger{ display:block; }
+
+      /* hide nav links until opened */
       .nav-links{
-        flex-wrap: wrap;
-        justify-content: flex-end;
-        row-gap: 10px;
-        gap: 14px;
-        font-size: 13px;
+        display:none;
+        position:absolute;
+        left:0;
+        right:0;
+        top: 100%;
+        background: rgba(0,0,0,0.96);
+        backdrop-filter: blur(10px);
+        border-top: 1px solid rgba(255,255,255,0.08);
+        flex-direction: column;
+        align-items: center;
+        gap: 0;
+        padding: 10px 0;
+        z-index: 9999;
       }
+      .nav-links.open{ display:flex; }
+
+      .nav-links li{ width:100%; text-align:center; }
+      .nav-links .nav-link{
+        display:block;
+        padding: 14px 0;
+        font-size: 15px;
+      }
+
+      /* dropdown menu should be inline on mobile */
+      .dropdown-menu{
+        position: static;
+        min-width: unset;
+        width: 92%;
+        margin: 10px auto 0;
+      }
+
+      .contact-icons{ justify-content:center; }
+
       .vzla-brand-wrap{ gap:10px; }
       .vzla-brand-top{ font-size:13px; letter-spacing:0.10em; }
       .vzla-brand-bottom{ font-size:8px; letter-spacing:0.28em; }
@@ -359,8 +406,6 @@
       display:flex;
       gap:12px;
     }
-
-    /* ✅ Footer icons now use the same .icon-btn style */
     .footer-icons .icon-btn{
       width:42px;
       height:42px;
@@ -384,7 +429,8 @@
     <span>© 2026 VZLA Sports Elite</span>
   </header>
 
-  <nav class="p-6 border-b border-white/5 flex items-center justify-between sticky top-0 bg-black/85 backdrop-blur-md z-50">
+  <!-- ✅ Added "relative" so the mobile menu can absolutely position under it -->
+  <nav class="p-6 border-b border-white/5 flex items-center justify-between sticky top-0 bg-black/85 backdrop-blur-md z-50 relative">
     <a href="index.html" class="vzla-brand-wrap" aria-label="Vzla Sports Elite Home">
       <span class="vzla-flag">🇻🇪</span>
       <span class="vzla-brand">
@@ -393,7 +439,15 @@
       </span>
     </a>
 
-    <ul class="nav-links">
+    <!-- ✅ Hamburger button added -->
+    <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <!-- ✅ Added id for JS toggle -->
+    <ul class="nav-links" id="navLinks">
       <li><a href="index.html" class="nav-link active">Home</a></li>
       <li><a href="about.html" class="nav-link">About</a></li>
 
@@ -447,7 +501,6 @@
          target="_blank" rel="noopener noreferrer" title="Shop Trading Cards on eBay">
         <img src="./assets/ebay-300x600-left.jpg" alt="Shop Trading Cards on eBay">
       </a>
-      <!-- BCW Banner -->
       <a href="https://www.bcwsupplies.com/?acc=vzlaelite"
          target="_blank" rel="noopener noreferrer"
          title="BCW - Protect, Store, Display">
@@ -462,7 +515,7 @@
           VZLA <span class="text-[#f2f20d] italic">Top Active Sport</span> Talent
         </h2>
         <div class="hero-sub">
-         We help you discover Venezuela’s top athletes’ collectibles on eBay.
+          We help you discover Venezuela’s top athletes’ collectibles on eBay.
         </div>
       </section>
 
@@ -500,7 +553,6 @@
             <a href="#top">Top</a>
           </div>
 
-          <!-- ✅ Footer icons now match Contact -->
           <div class="footer-icons">
             <a class="icon-btn" href="https://www.instagram.com/localheros_sportscards/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
               <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
@@ -524,9 +576,10 @@
           </div>
         </div>
 
-        <div class="vzla-footer-copy"> <div>© VZLA SPORTS ELITE 2026</div>
-        <div class="mt-2 text-sm tracking-wide opacity-80"> Whitby, Ontario, Canada 🇨🇦</div>
-     </div>
+        <div class="vzla-footer-copy">
+          <div>© VZLA SPORTS ELITE 2026</div>
+          <div class="mt-2 text-sm tracking-wide opacity-80"> Whitby, Ontario, Canada 🇨🇦</div>
+        </div>
       </footer>
 
       <div class="footer-banner-spacer"></div>
@@ -537,7 +590,6 @@
          target="_blank" rel="noopener noreferrer" title="Shop Trading Cards on eBay">
         <img src="./assets/ebay-300x600-right.jpg" alt="Shop Trading Cards on eBay">
       </a>
-      <!-- BCW Banner -->
       <a href="https://www.bcwsupplies.com/?acc=vzlaelite"
          target="_blank" rel="noopener noreferrer"
          title="BCW - Protect, Store, Display">
@@ -557,6 +609,7 @@
   <script src="./js/app.js" defer></script>
 
   <script>
+    // Keep your existing dropdown behavior
     document.querySelectorAll("details.dropdown").forEach(d => {
       d.addEventListener("toggle", () => {
         if (d.open) {
@@ -570,6 +623,27 @@
     document.addEventListener("click", (e) => {
       document.querySelectorAll("details.dropdown[open]").forEach(d => {
         if (!d.contains(e.target)) d.open = false;
+      });
+    });
+
+    // ✅ Hamburger toggle
+    document.addEventListener("DOMContentLoaded", () => {
+      const hamburger = document.getElementById("hamburger");
+      const navLinks = document.getElementById("navLinks");
+
+      if (!hamburger || !navLinks) return;
+
+      hamburger.addEventListener("click", () => {
+        const isOpen = navLinks.classList.toggle("open");
+        hamburger.setAttribute("aria-expanded", String(isOpen));
+      });
+
+      // Close menu when tapping actual links/icons (not summaries)
+      navLinks.querySelectorAll("a").forEach((a) => {
+        a.addEventListener("click", () => {
+          navLinks.classList.remove("open");
+          hamburger.setAttribute("aria-expanded", "false");
+        });
       });
     });
   </script>
