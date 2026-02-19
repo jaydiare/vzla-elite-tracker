@@ -30,7 +30,7 @@
       align-items: start;
     }
 
-     .side-banner{
+    .side-banner{
       position: sticky;
       top: 20px;
       display: flex;
@@ -38,10 +38,9 @@
       flex-direction: column;
       align-items: center;
       gap: 22px;
-      max-height: calc(100vh - 40px); /* leave room for header/nav */
+      max-height: calc(100vh - 40px);
       overflow-y: auto;
       padding-bottom: 20px;
-      /* optional: hide scrollbar but keep scrolling */
       scrollbar-width: thin;
     }
 
@@ -53,7 +52,6 @@
       box-shadow: 0 10px 30px rgba(0,0,0,0.55);
       transition: transform 0.3s ease, box-shadow 0.3s ease;
       cursor: pointer;
-      
     }
 
     @media (max-width: 1024px){
@@ -120,6 +118,7 @@
       text-transform:uppercase;
     }
 
+    /* Desktop nav */
     .nav-links{
       display:flex;
       gap:28px;
@@ -202,15 +201,62 @@
     }
     .icon-btn svg{ display:block; }
 
+    /* ✅ Hamburger button */
+    .hamburger{
+      display:none;
+      background: transparent;
+      border: 0;
+      cursor: pointer;
+      padding: 8px;
+      border-radius: 12px;
+    }
+    .hamburger span{
+      display:block;
+      width: 26px;
+      height: 3px;
+      margin: 5px 0;
+      background: var(--vzla-yellow);
+      border-radius: 3px;
+    }
+
+    /* ✅ Mobile: hamburger + dropdown menu */
     @media (max-width: 640px){
       nav{ padding: 14px !important; }
+
+      .hamburger{ display:block; }
+
       .nav-links{
-        flex-wrap: wrap;
-        justify-content: flex-end;
-        row-gap: 10px;
-        gap: 14px;
-        font-size: 13px;
+        display:none;
+        position:absolute;
+        left:0;
+        right:0;
+        top: 100%;
+        background: rgba(0,0,0,0.96);
+        backdrop-filter: blur(10px);
+        border-top: 1px solid rgba(255,255,255,0.08);
+        flex-direction: column;
+        align-items: center;
+        gap: 0;
+        padding: 10px 0;
+        z-index: 9999;
       }
+      .nav-links.open{ display:flex; }
+
+      .nav-links li{ width:100%; text-align:center; }
+      .nav-links .nav-link{
+        display:block;
+        padding: 14px 0;
+        font-size: 15px;
+      }
+
+      /* dropdown menu becomes inline */
+      .dropdown-menu{
+        position: static;
+        min-width: unset;
+        width: 92%;
+        margin: 10px auto 0;
+      }
+
       .vzla-brand-wrap{ gap:10px; }
       .vzla-brand-top{ font-size:13px; letter-spacing:0.10em; }
       .vzla-brand-bottom{ font-size:8px; letter-spacing:0.28em; }
@@ -350,7 +396,8 @@
     <span>© 2026 VZLA Sports Elite</span>
   </header>
 
-  <nav class="p-6 border-b border-white/5 flex items-center justify-between sticky top-0 bg-black/85 backdrop-blur-md z-50">
+  <!-- ✅ Added "relative" for mobile dropdown positioning -->
+  <nav class="p-6 border-b border-white/5 flex items-center justify-between sticky top-0 bg-black/85 backdrop-blur-md z-50 relative">
     <a href="index.html" class="vzla-brand-wrap" aria-label="Vzla Sports Elite Home">
       <span class="vzla-flag">🇻🇪</span>
       <span class="vzla-brand">
@@ -359,7 +406,13 @@
       </span>
     </a>
 
-    <ul class="nav-links">
+    <!-- ✅ Hamburger button -->
+    <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+
+    <!-- ✅ Added id for toggle -->
+    <ul class="nav-links" id="navLinks">
       <li><a href="index.html" class="nav-link">Home</a></li>
       <li><a href="about.html" class="nav-link active">About</a></li>
 
@@ -413,27 +466,21 @@
          target="_blank" rel="noopener noreferrer" title="Shop Trading Cards on eBay">
         <img src="./assets/ebay-300x600-left.jpg" alt="Shop Trading Cards on eBay">
       </a>
-                <!-- BCW Banner -->
       <a href="https://www.bcwsupplies.com/?acc=vzlaelite"
          target="_blank" rel="noopener noreferrer"
          title="BCW - Protect, Store, Display">
         <img src="./assets/BCW.jpg" alt="BCW - Protect, Store, Display">
       </a>
-      
     </aside>
 
     <main class="max-w-7xl mx-auto w-full p-8">
       <section class="about-panel py-20 px-8 md:px-14 text-center">
-
-        <!-- ABOUT centered -->
         <div class="about-kicker mb-4">ABOUT</div>
 
-        <!-- Title centered -->
         <h1 class="about-h1 text-4xl md:text-5xl mb-10">
           VZLA <span class="text-[#f2f20d]">SPORTS ELITE</span>
         </h1>
 
-        <!-- Paragraph block: readable width, left-aligned text -->
         <div class="about-copy mx-auto text-left space-y-8">
           <p class="about-p">
             In Venezuela, many of us grew up trading sports cards, especially baseball cards, and collecting World Cup sticker albums. We remember the excitement of racing to complete an album before kickoff and the pride of finally finishing it.
@@ -443,7 +490,6 @@
             For a long time, we believed these collectibles were only sentimental. Today, we understand something more. Sports cards and memorabilia can hold real value over time, especially when properly preserved and cared for.
           </p>
 
-          <!-- 1 line of space after "cared for." -->
           <div class="h-6"></div>
 
           <p class="about-p">
@@ -456,7 +502,6 @@
           </p>
         </div>
 
-        <!-- 2 lines of space before next section -->
         <div class="h-16"></div>
 
         <div class="grid md:grid-cols-3 gap-8 text-left">
@@ -530,9 +575,10 @@
           </div>
         </div>
 
-        <div class="vzla-footer-copy"> <div>© VZLA SPORTS ELITE 2026</div>
-        <div class="mt-2 text-sm tracking-wide opacity-80"> Whitby, Ontario, Canada 🇨🇦</div>
-     </div>
+        <div class="vzla-footer-copy">
+          <div>© VZLA SPORTS ELITE 2026</div>
+          <div class="mt-2 text-sm tracking-wide opacity-80"> Whitby, Ontario, Canada 🇨🇦</div>
+        </div>
       </footer>
 
       <div class="footer-banner-spacer"></div>
@@ -543,13 +589,11 @@
          target="_blank" rel="noopener noreferrer" title="Shop Trading Cards on eBay">
         <img src="./assets/ebay-300x600-right.jpg" alt="Shop Trading Cards on eBay">
       </a>
-               <!-- BCW Banner -->
       <a href="https://www.bcwsupplies.com/?acc=vzlaelite"
          target="_blank" rel="noopener noreferrer"
          title="BCW - Protect, Store, Display">
         <img src="./assets/BCW.jpg" alt="BCW - Protect, Store, Display">
       </a>
-      
     </aside>
   </div>
 
@@ -561,6 +605,7 @@
   </footer>
 
   <script>
+    // Keep your existing dropdown behavior
     document.querySelectorAll("details.dropdown").forEach(d => {
       d.addEventListener("toggle", () => {
         if (d.open) {
@@ -574,6 +619,27 @@
     document.addEventListener("click", (e) => {
       document.querySelectorAll("details.dropdown[open]").forEach(d => {
         if (!d.contains(e.target)) d.open = false;
+      });
+    });
+
+    // ✅ Hamburger toggle
+    document.addEventListener("DOMContentLoaded", () => {
+      const hamburger = document.getElementById("hamburger");
+      const navLinks = document.getElementById("navLinks");
+
+      if (!hamburger || !navLinks) return;
+
+      hamburger.addEventListener("click", () => {
+        const isOpen = navLinks.classList.toggle("open");
+        hamburger.setAttribute("aria-expanded", String(isOpen));
+      });
+
+      // Close menu when tapping actual links/icons
+      navLinks.querySelectorAll("a").forEach((a) => {
+        a.addEventListener("click", () => {
+          navLinks.classList.remove("open");
+          hamburger.setAttribute("aria-expanded", "false");
+        });
       });
     });
   </script>
