@@ -46,11 +46,11 @@ const ATHLETES_PATH = path.join(__dirname, "..", "data", "athletes.json");
 const CATEGORY_ID = "261328";
 
 // Listing sampling
-const LISTING_PAGE_LIMIT = 200; // max active listings to average per marketplace
-const PAGE_SIZE = 50;
+const LISTING_PAGE_LIMIT = 100; // max active listings to average per marketplace
+const PAGE_SIZE = 60;
 
 // Your UI threshold
-const MIN_EBAY_SAMPLE_SIZE = 5;
+const MIN_EBAY_SAMPLE_SIZE = 8;
 
 // Marketplaces to compute
 const MARKETPLACES = ["EBAY_US", "EBAY_CA", "EBAY_ES"];
