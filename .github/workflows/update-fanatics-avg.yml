@@ -1,8 +1,8 @@
-name: Update Fanatics averages
+name: Update Fanatics averages (weekly)
 
 on:
   schedule:
-    - cron: "15 0,8 * * *"  # 00:15 and 08:15 UTC (offset from eBay job)
+    - cron: "0 12 * * 1" # Mondays 12:00 UTC
   workflow_dispatch:
 
 concurrency:
@@ -15,7 +15,6 @@ permissions:
 jobs:
   update:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v4
 
@@ -30,12 +29,6 @@ jobs:
         run: node scripts/update-fanatics-avg.js
         env:
           FANATICS_SCRAPE: ${{ secrets.FANATICS_SCRAPE }}
-          FANATICS_SEARCH_URL_TEMPLATE: ${{ secrets.FANATICS_SEARCH_URL_TEMPLATE }}
-          FANATICS_PRODUCT_URL_REGEX: ${{ secrets.FANATICS_PRODUCT_URL_REGEX }}
-          # FANATICS_SEARCH_URL_TEMPLATE: ${{ secrets.FANATICS_SEARCH_URL_TEMPLATE }}
-          # FANATICS_PRODUCT_URL_REGEX: ${{ secrets.FANATICS_PRODUCT_URL_REGEX }}
-          # FANATICS_MAX_PRODUCTS_PER_ATHLETE: "30"
-          # FANATICS_MIN_SAMPLE_SIZE: "5"
 
       - name: Commit changes
         run: |
