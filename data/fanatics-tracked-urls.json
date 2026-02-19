@@ -1,8 +1,8 @@
-{
-  "productUrls": [
-    "https://www.fanatics.com/...altuve...",
-    "https://www.fanatics.com/...acuna...",
-    "https://www.fanatics.com/...etc..."
-  ],
-  "maxTotalItems": 2000
-}
+[
+  {
+    "athlete": "New York Rangers",
+    "urls": [
+      "https://www.fanatics.com/nhl/new-york-rangers/new-york-rangers-fanatics-2026-nhl-winter-classic-premium-jersey-beige/o-2484+t-92048559+p-4611706228117+z-9-3993946455"
+    ]
+  }
+]
