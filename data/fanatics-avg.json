@@ -1,9 +1,15 @@
 {
   "_meta": {
-    "updatedAt": "2026-02-19T02:48:50.838Z",
-    "minSampleSize": 5,
+    "updatedAt": "2026-02-19T03:16:59.698Z",
     "actorId": "fortuitous_pirate/fanatics-scraper",
-    "maxProductsPerAthlete": 30,
-    "note": "Averages computed from product URLs discovered via search HTML + Apify actor output. Ensure search template + regex match your target site."
+    "trackedAthletes": 1,
+    "trackedUrls": 1,
+    "note": "Averages computed from Apify Fanatics.com scraper output (final_price). Results grouped by athlete name match in product_name."
+  },
+  "New York Rangers": {
+    "avg": 189.99,
+    "n": 8,
+    "currency": "USD",
+    "trackedUrls": 1
   }
 }
