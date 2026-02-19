@@ -26,9 +26,9 @@ import { fileURLToPath } from "node:url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const APIFY_TOKEN = process.env.APIFY_TOKEN;
+const FANATICS_SCRAPE= process.env.APIFY_TOKEN;
 if (!APIFY_TOKEN) {
-  console.error("Missing APIFY_TOKEN in env.");
+  console.error("Missing FANATICS_SCRAPEin env.");
   process.exit(1);
 }
 
