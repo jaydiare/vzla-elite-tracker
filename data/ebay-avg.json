@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "updatedAt": "2026-02-18T20:47:31.779Z",
+    "updatedAt": "2026-02-19T08:38:11.057Z",
     "minSampleSize": 5,
     "marketplaces": [
       "EBAY_US",
@@ -20,28 +20,28 @@
       "EBAY_US": {
         "aspectMode": "player",
         "aspectValue": "Andres Chaparro",
-        "avgListing": 7.686900000000006,
+        "avgListing": 6.825650000000007,
         "nListing": 200,
         "currency": "USD"
       },
       "EBAY_CA": {
         "aspectMode": "player",
         "aspectValue": "Andres Chaparro",
-        "avgListing": 21.849899999999998,
+        "avgListing": 21.633449999999993,
         "nListing": 200,
         "currency": "CAD"
       },
       "EBAY_ES": {
         "aspectMode": "player",
         "aspectValue": "Andres Chaparro",
-        "avgListing": 14.746850000000006,
+        "avgListing": 16.664649999999998,
         "nListing": 200,
         "currency": "EUR"
       }
     },
-    "avg": 21.849899999999998,
+    "avg": 21.633449999999993,
     "n": 200,
-    "avgListing": 21.849899999999998,
+    "avgListing": 21.633449999999993,
     "nListing": 200,
     "currency": "CAD"
   },
@@ -55,28 +55,28 @@
       "EBAY_US": {
         "aspectMode": "player",
         "aspectValue": "Andres Gimenez",
-        "avgListing": 25.00359999999994,
+        "avgListing": 21.623949999999937,
         "nListing": 200,
         "currency": "USD"
       },
       "EBAY_CA": {
         "aspectMode": "player",
         "aspectValue": "Andres Gimenez",
-        "avgListing": 47.628949999999975,
+        "avgListing": 49.82344999999999,
         "nListing": 200,
         "currency": "CAD"
       },
       "EBAY_ES": {
         "aspectMode": "player",
         "aspectValue": "Andres Gimenez",
-        "avgListing": 37.15540000000001,
+        "avgListing": 37.744149999999976,
         "nListing": 200,
         "currency": "EUR"
       }
     },
-    "avg": 47.628949999999975,
+    "avg": 49.82344999999999,
     "n": 200,
-    "avgListing": 47.628949999999975,
+    "avgListing": 49.82344999999999,
     "nListing": 200,
     "currency": "CAD"
   },
@@ -90,28 +90,28 @@
       "EBAY_US": {
         "aspectMode": "player",
         "aspectValue": "Angel Zerpa",
-        "avgListing": 9.996950000000007,
+        "avgListing": 9.532600000000008,
         "nListing": 200,
         "currency": "USD"
       },
       "EBAY_CA": {
         "aspectMode": "player",
         "aspectValue": "Angel Zerpa",
-        "avgListing": 18.502100000000024,
+        "avgListing": 18.558300000000006,
         "nListing": 200,
         "currency": "CAD"
       },
       "EBAY_ES": {
         "aspectMode": "player",
         "aspectValue": "Angel Zerpa",
-        "avgListing": 18.71365,
+        "avgListing": 19.520100000000003,
         "nListing": 200,
         "currency": "EUR"
       }
     },
-    "avg": 18.502100000000024,
+    "avg": 18.558300000000006,
     "n": 200,
-    "avgListing": 18.502100000000024,
+    "avgListing": 18.558300000000006,
     "nListing": 200,
     "currency": "CAD"
   },
@@ -125,28 +125,28 @@
       "EBAY_US": {
         "aspectMode": "player",
         "aspectValue": "Anthony Santander",
-        "avgListing": 9.832500000000005,
+        "avgListing": 10.193050000000007,
         "nListing": 200,
         "currency": "USD"
       },
       "EBAY_CA": {
         "aspectMode": "player",
         "aspectValue": "Anthony Santander",
-        "avgListing": 28.225549999999988,
+        "avgListing": 28.30109999999997,
         "nListing": 200,
         "currency": "CAD"
       },
       "EBAY_ES": {
         "aspectMode": "player",
         "aspectValue": "Anthony Santander",
-        "avgListing": 26.897900000000014,
+        "avgListing": 29.32295000000001,
         "nListing": 200,
         "currency": "EUR"
       }
     },
-    "avg": 28.225549999999988,
+    "avg": 28.30109999999997,
     "n": 200,
-    "avgListing": 28.225549999999988,
+    "avgListing": 28.30109999999997,
     "nListing": 200,
     "currency": "CAD"
   },
@@ -160,28 +160,28 @@
       "EBAY_US": {
         "aspectMode": "player",
         "aspectValue": "Antonio Senzatela",
-        "avgListing": 3.8560000000000048,
+        "avgListing": 4.026550000000005,
         "nListing": 200,
         "currency": "USD"
       },
       "EBAY_CA": {
         "aspectMode": "player",
         "aspectValue": "Antonio Senzatela",
-        "avgListing": 5.731949999999999,
+        "avgListing": 4.8545000000000025,
         "nListing": 200,
         "currency": "CAD"
       },
       "EBAY_ES": {
         "aspectMode": "player",
         "aspectValue": "Antonio Senzatela",
-        "avgListing": 9.10219999999999,
+        "avgListing": 9.36634999999999,
         "nListing": 200,
         "currency": "EUR"
       }
     },
-    "avg": 5.731949999999999,
+    "avg": 4.8545000000000025,
     "n": 200,
-    "avgListing": 5.731949999999999,
+    "avgListing": 4.8545000000000025,
     "nListing": 200,
     "currency": "CAD"
   },
@@ -195,28 +195,28 @@
       "EBAY_US": {
         "aspectMode": "player",
         "aspectValue": "Brayan Rocchio",
-        "avgListing": 28.533949999999926,
+        "avgListing": 28.12679999999991,
         "nListing": 200,
         "currency": "USD"
       },
       "EBAY_CA": {
         "aspectMode": "player",
         "aspectValue": "Brayan Rocchio",
-        "avgListing": 66.49579999999999,
+        "avgListing": 65.36234999999999,
         "nListing": 200,
         "currency": "CAD"
       },
       "EBAY_ES": {
         "aspectMode": "player",
         "aspectValue": "Brayan Rocchio",
-        "avgListing": 38.792249999999974,
+        "avgListing": 38.43180000000001,
         "nListing": 200,
         "currency": "EUR"
       }
     },
-    "avg": 66.49579999999999,
+    "avg": 65.36234999999999,
     "n": 200,
-    "avgListing": 66.49579999999999,
+    "avgListing": 65.36234999999999,
     "nListing": 200,
     "currency": "CAD"
   },
@@ -230,28 +230,28 @@
       "EBAY_US": {
         "aspectMode": "player",
         "aspectValue": "Eduardo Rodriguez",
-        "avgListing": 7.394550000000002,
+        "avgListing": 7.485350000000006,
         "nListing": 200,
         "currency": "USD"
       },
       "EBAY_CA": {
         "aspectMode": "player",
         "aspectValue": "Eduardo Rodriguez",
-        "avgListing": 8.947650000000003,
+        "avgListing": 8.282300000000003,
         "nListing": 200,
         "currency": "CAD"
       },
       "EBAY_ES": {
         "aspectMode": "player",
         "aspectValue": "Eduardo Rodriguez",
-        "avgListing": 17.460600000000014,
+        "avgListing": 17.727050000000006,
         "nListing": 200,
         "currency": "EUR"
       }
     },
-    "avg": 8.947650000000003,
+    "avg": 8.282300000000003,
     "n": 200,
-    "avgListing": 8.947650000000003,
+    "avgListing": 8.282300000000003,
     "nListing": 200,
     "currency": "CAD"
   },
@@ -265,28 +265,28 @@
       "EBAY_US": {
         "aspectMode": "player",
         "aspectValue": "Eugenio Suarez",
-        "avgListing": 30.636599999999945,
+        "avgListing": 29.848699999999948,
         "nListing": 200,
         "currency": "USD"
       },
       "EBAY_CA": {
         "aspectMode": "player",
         "aspectValue": "Eugenio Suarez",
-        "avgListing": 55.57270000000003,
+        "avgListing": 57.41945000000004,
         "nListing": 200,
         "currency": "CAD"
       },
       "EBAY_ES": {
         "aspectMode": "player",
         "aspectValue": "Eugenio Suarez",
-        "avgListing": 43.06470000000001,
+        "avgListing": 30.08240000000001,
         "nListing": 200,
         "currency": "EUR"
       }
     },
-    "avg": 55.57270000000003,
+    "avg": 57.41945000000004,
     "n": 200,
-    "avgListing": 55.57270000000003,
+    "avgListing": 57.41945000000004,
     "nListing": 200,
     "currency": "CAD"
   },
@@ -300,28 +300,28 @@
       "EBAY_US": {
         "aspectMode": "player",
         "aspectValue": "Eugenio Suárez",
-        "avgListing": 8.948100000000004,
+        "avgListing": 8.748750000000005,
         "nListing": 200,
         "currency": "USD"
       },
       "EBAY_CA": {
         "aspectMode": "player",
         "aspectValue": "Eugenio Suárez",
-        "avgListing": 19.573849999999986,
+        "avgListing": 16.943499999999993,
         "nListing": 200,
         "currency": "CAD"
       },
       "EBAY_ES": {
         "aspectMode": "player",
         "aspectValue": "Eugenio Suárez",
-        "avgListing": 17.007350000000013,
+        "avgListing": 16.52395,
         "nListing": 200,
         "currency": "EUR"
       }
     },
-    "avg": 19.573849999999986,
+    "avg": 16.943499999999993,
     "n": 200,
-    "avgListing": 19.573849999999986,
+    "avgListing": 16.943499999999993,
     "nListing": 200,
     "currency": "CAD"
   },
@@ -335,28 +335,28 @@
       "EBAY_US": {
         "aspectMode": "player",
         "aspectValue": "Ezequiel Tovar",
-        "avgListing": 29.811449999999923,
+        "avgListing": 34.21614999999993,
         "nListing": 200,
         "currency": "USD"
       },
       "EBAY_CA": {
         "aspectMode": "player",
         "aspectValue": "Ezequiel Tovar",
-        "avgListing": 83.6577,
+        "avgListing": 94.12909999999998,
         "nListing": 200,
         "currency": "CAD"
       },
       "EBAY_ES": {
         "aspectMode": "player",
         "aspectValue": "Ezequiel Tovar",
-        "avgListing": 51.1929,
+        "avgListing": 53.25590000000004,
         "nListing": 200,
         "currency": "EUR"
       }
     },
-    "avg": 83.6577,
+    "avg": 94.12909999999998,
     "n": 200,
-    "avgListing": 83.6577,
+    "avgListing": 94.12909999999998,
     "nListing": 200,
     "currency": "CAD"
   },
@@ -370,28 +370,28 @@
       "EBAY_US": {
         "aspectMode": "player",
         "aspectValue": "Francisco Alvarez",
-        "avgListing": 27.025549999999942,
+        "avgListing": 28.876299999999947,
         "nListing": 200,
         "currency": "USD"
       },
       "EBAY_CA": {
         "aspectMode": "player",
         "aspectValue": "Francisco Alvarez",
-        "avgListing": 58.114749999999994,
+        "avgListing": 63.67239999999998,
         "nListing": 200,
         "currency": "CAD"
       },
       "EBAY_ES": {
         "aspectMode": "player",
         "aspectValue": "Francisco Alvarez",
-        "avgListing": 51.106250000000024,
+        "avgListing": 56.49579999999996,
         "nListing": 200,
         "currency": "EUR"
       }
     },
-    "avg": 58.114749999999994,
+    "avg": 63.67239999999998,
     "n": 200,
-    "avgListing": 58.114749999999994,
+    "avgListing": 63.67239999999998,
     "nListing": 200,
     "currency": "CAD"
   },
@@ -405,28 +405,28 @@
       "EBAY_US": {
         "aspectMode": "player",
         "aspectValue": "Freddy Fermin",
-        "avgListing": 15.652549999999994,
+        "avgListing": 15.223599999999985,
         "nListing": 200,
         "currency": "USD"
       },
       "EBAY_CA": {
         "aspectMode": "player",
         "aspectValue": "Freddy Fermin",
-        "avgListing": 26.84124999999999,
+        "avgListing": 23.903699999999994,
         "nListing": 200,
         "currency": "CAD"
       },
       "EBAY_ES": {
         "aspectMode": "player",
         "aspectValue": "Freddy Fermin",
-        "avgListing": 21.12025000000002,
+        "avgListing": 21.5177,
         "nListing": 200,
         "currency": "EUR"
       }
     },
-    "avg": 26.84124999999999,
+    "avg": 23.903699999999994,
     "n": 200,
-    "avgListing": 26.84124999999999,
+    "avgListing": 23.903699999999994,
     "nListing": 200,
     "currency": "CAD"
   },
@@ -440,28 +440,28 @@
       "EBAY_US": {
         "aspectMode": "player",
         "aspectValue": "Gabriel Moreno",
-        "avgListing": 19.864499999999943,
+        "avgListing": 18.608149999999952,
         "nListing": 200,
         "currency": "USD"
       },
       "EBAY_CA": {
         "aspectMode": "player",
         "aspectValue": "Gabriel Moreno",
-        "avgListing": 46.20569999999998,
+        "avgListing": 37.35394999999998,
         "nListing": 200,
         "currency": "CAD"
       },
       "EBAY_ES": {
         "aspectMode": "player",
         "aspectValue": "Gabriel Moreno",
-        "avgListing": 34.865899999999975,
+        "avgListing": 35.65314999999999,
         "nListing": 200,
         "currency": "EUR"
       }
     },
-    "avg": 46.20569999999998,
+    "avg": 37.35394999999998,
     "n": 200,
-    "avgListing": 46.20569999999998,
+    "avgListing": 37.35394999999998,
     "nListing": 200,
     "currency": "CAD"
   },
@@ -475,28 +475,28 @@
       "EBAY_US": {
         "aspectMode": "player",
         "aspectValue": "Gleyber Torres",
-        "avgListing": 15.352549999999974,
+        "avgListing": 13.847199999999987,
         "nListing": 200,
         "currency": "USD"
       },
       "EBAY_CA": {
         "aspectMode": "player",
         "aspectValue": "Gleyber Torres",
-        "avgListing": 33.67024999999998,
+        "avgListing": 34.26424999999997,
         "nListing": 200,
         "currency": "CAD"
       },
       "EBAY_ES": {
         "aspectMode": "player",
         "aspectValue": "Gleyber Torres",
-        "avgListing": 28.717450000000017,
+        "avgListing": 28.05469999999999,
         "nListing": 200,
         "currency": "EUR"
       }
     },
-    "avg": 33.67024999999998,
+    "avg": 34.26424999999997,
     "n": 200,
-    "avgListing": 33.67024999999998,
+    "avgListing": 34.26424999999997,
     "nListing": 200,
     "currency": "CAD"
   },
@@ -510,28 +510,28 @@
       "EBAY_US": {
         "aspectMode": "player",
         "aspectValue": "Jackson Chourio",
-        "avgListing": 37.64469999999992,
+        "avgListing": 42.71744999999994,
         "nListing": 200,
         "currency": "USD"
       },
       "EBAY_CA": {
         "aspectMode": "player",
         "aspectValue": "Jackson Chourio",
-        "avgListing": 52.54354999999996,
+        "avgListing": 66.29839999999999,
         "nListing": 200,
         "currency": "CAD"
       },
       "EBAY_ES": {
         "aspectMode": "player",
         "aspectValue": "Jackson Chourio",
-        "avgListing": 55.402749999999976,
+        "avgListing": 58.53465000000003,
         "nListing": 200,
         "currency": "EUR"
       }
     },
-    "avg": 52.54354999999996,
+    "avg": 66.29839999999999,
     "n": 200,
-    "avgListing": 52.54354999999996,
+    "avgListing": 66.29839999999999,
     "nListing": 200,
     "currency": "CAD"
   },
@@ -545,28 +545,28 @@
       "EBAY_US": {
         "aspectMode": "player",
         "aspectValue": "Jeferson Quero",
-        "avgListing": 34.92249999999994,
+        "avgListing": 33.68904999999994,
         "nListing": 200,
         "currency": "USD"
       },
       "EBAY_CA": {
         "aspectMode": "player",
         "aspectValue": "Jeferson Quero",
-        "avgListing": 63.862549999999985,
+        "avgListing": 69.62369999999997,
         "nListing": 200,
         "currency": "CAD"
       },
       "EBAY_ES": {
         "aspectMode": "player",
         "aspectValue": "Jeferson Quero",
-        "avgListing": 50.71894999999999,
+        "avgListing": 51.50775000000002,
         "nListing": 200,
         "currency": "EUR"
       }
     },
-    "avg": 63.862549999999985,
+    "avg": 69.62369999999997,
     "n": 200,
-    "avgListing": 63.862549999999985,
+    "avgListing": 69.62369999999997,
     "nListing": 200,
     "currency": "CAD"
   },
@@ -580,28 +580,28 @@
       "EBAY_US": {
         "aspectMode": "player",
         "aspectValue": "Jorge Barrosa",
-        "avgListing": 14.63109999999997,
+        "avgListing": 16.377349999999968,
         "nListing": 200,
         "currency": "USD"
       },
       "EBAY_CA": {
         "aspectMode": "player",
         "aspectValue": "Jorge Barrosa",
-        "avgListing": 45.51215000000003,
+        "avgListing": 46.39254999999996,
         "nListing": 200,
         "currency": "CAD"
       },
       "EBAY_ES": {
         "aspectMode": "player",
         "aspectValue": "Jorge Barrosa",
-        "avgListing": 36.40225,
+        "avgListing": 34.93955,
         "nListing": 200,
         "currency": "EUR"
       }
     },
-    "avg": 45.51215000000003,
+    "avg": 46.39254999999996,
     "n": 200,
-    "avgListing": 45.51215000000003,
+    "avgListing": 46.39254999999996,
     "nListing": 200,
     "currency": "CAD"
   },
@@ -615,28 +615,28 @@
       "EBAY_US": {
         "aspectMode": "player",
         "aspectValue": "Jose Altuve",
-        "avgListing": 21.12724999999995,
+        "avgListing": 25.606949999999934,
         "nListing": 200,
         "currency": "USD"
       },
       "EBAY_CA": {
         "aspectMode": "player",
         "aspectValue": "Jose Altuve",
-        "avgListing": 33.593599999999974,
+        "avgListing": 29.97444999999995,
         "nListing": 200,
         "currency": "CAD"
       },
       "EBAY_ES": {
         "aspectMode": "player",
         "aspectValue": "Jose Altuve",
-        "avgListing": 36.08324999999999,
+        "avgListing": 35.69504999999998,
         "nListing": 200,
         "currency": "EUR"
       }
     },
-    "avg": 33.593599999999974,
+    "avg": 29.97444999999995,
     "n": 200,
-    "avgListing": 33.593599999999974,
+    "avgListing": 29.97444999999995,
     "nListing": 200,
     "currency": "CAD"
   },
@@ -650,28 +650,28 @@
       "EBAY_US": {
         "aspectMode": "player",
         "aspectValue": "Jose Butto",
-        "avgListing": 7.801850000000005,
+        "avgListing": 8.038500000000008,
         "nListing": 200,
         "currency": "USD"
       },
       "EBAY_CA": {
         "aspectMode": "player",
         "aspectValue": "Jose Butto",
-        "avgListing": 16.490350000000003,
+        "avgListing": 17.486800000000006,
         "nListing": 200,
         "currency": "CAD"
       },
       "EBAY_ES": {
         "aspectMode": "player",
         "aspectValue": "Jose Butto",
-        "avgListing": 15.704850000000004,
+        "avgListing": 16.4012,
         "nListing": 200,
         "currency": "EUR"
       }
     },
-    "avg": 16.490350000000003,
+    "avg": 17.486800000000006,
     "n": 200,
-    "avgListing": 16.490350000000003,
+    "avgListing": 17.486800000000006,
     "nListing": 200,
     "currency": "CAD"
   },
@@ -685,28 +685,28 @@
       "EBAY_US": {
         "aspectMode": "player",
         "aspectValue": "Keibert Ruiz",
-        "avgListing": 10.219650000000007,
+        "avgListing": 10.031600000000005,
         "nListing": 200,
         "currency": "USD"
       },
       "EBAY_CA": {
         "aspectMode": "player",
         "aspectValue": "Keibert Ruiz",
-        "avgListing": 10.199349999999995,
+        "avgListing": 11.351700000000003,
         "nListing": 200,
         "currency": "CAD"
       },
       "EBAY_ES": {
         "aspectMode": "player",
         "aspectValue": "Keibert Ruiz",
-        "avgListing": 12.809300000000002,
+        "avgListing": 14.018750000000004,
         "nListing": 200,
         "currency": "EUR"
       }
     },
-    "avg": 10.199349999999995,
+    "avg": 11.351700000000003,
     "n": 200,
-    "avgListing": 10.199349999999995,
+    "avgListing": 11.351700000000003,
     "nListing": 200,
     "currency": "CAD"
   },
@@ -720,28 +720,28 @@
       "EBAY_US": {
         "aspectMode": "player",
         "aspectValue": "Keider Montero",
-        "avgListing": 13.86254999999996,
+        "avgListing": 13.18569999999997,
         "nListing": 200,
         "currency": "USD"
       },
       "EBAY_CA": {
         "aspectMode": "player",
         "aspectValue": "Keider Montero",
-        "avgListing": 27.55909999999999,
+        "avgListing": 28.11405000000001,
         "nListing": 200,
         "currency": "CAD"
       },
       "EBAY_ES": {
         "aspectMode": "player",
         "aspectValue": "Keider Montero",
-        "avgListing": 24.299949999999995,
+        "avgListing": 26.213400000000007,
         "nListing": 200,
         "currency": "EUR"
       }
     },
-    "avg": 27.55909999999999,
+    "avg": 28.11405000000001,
     "n": 200,
-    "avgListing": 27.55909999999999,
+    "avgListing": 28.11405000000001,
     "nListing": 200,
     "currency": "CAD"
   },
@@ -755,28 +755,28 @@
       "EBAY_US": {
         "aspectMode": "player",
         "aspectValue": "Luis Arraez",
-        "avgListing": 29.20719999999994,
+        "avgListing": 27.950799999999923,
         "nListing": 200,
         "currency": "USD"
       },
       "EBAY_CA": {
         "aspectMode": "player",
         "aspectValue": "Luis Arraez",
-        "avgListing": 71.75560000000002,
+        "avgListing": 67.35539999999996,
         "nListing": 200,
         "currency": "CAD"
       },
       "EBAY_ES": {
         "aspectMode": "player",
         "aspectValue": "Luis Arraez",
-        "avgListing": 67.17650000000002,
+        "avgListing": 64.03070000000001,
         "nListing": 200,
         "currency": "EUR"
       }
     },
-    "avg": 71.75560000000002,
+    "avg": 67.35539999999996,
     "n": 200,
-    "avgListing": 71.75560000000002,
+    "avgListing": 67.35539999999996,
     "nListing": 200,
     "currency": "CAD"
   },
@@ -790,28 +790,28 @@
       "EBAY_US": {
         "aspectMode": "player",
         "aspectValue": "Luis Matos",
-        "avgListing": 22.36374999999996,
+        "avgListing": 23.980899999999966,
         "nListing": 200,
         "currency": "USD"
       },
       "EBAY_CA": {
         "aspectMode": "player",
         "aspectValue": "Luis Matos",
-        "avgListing": 67.19394999999997,
+        "avgListing": 70.19714999999995,
         "nListing": 200,
         "currency": "CAD"
       },
       "EBAY_ES": {
         "aspectMode": "player",
         "aspectValue": "Luis Matos",
-        "avgListing": 61.39709999999998,
+        "avgListing": 65.02720000000001,
         "nListing": 200,
         "currency": "EUR"
       }
     },
-    "avg": 67.19394999999997,
+    "avg": 70.19714999999995,
     "n": 200,
-    "avgListing": 67.19394999999997,
+    "avgListing": 70.19714999999995,
     "nListing": 200,
     "currency": "CAD"
   },
@@ -825,28 +825,28 @@
       "EBAY_US": {
         "aspectMode": "player",
         "aspectValue": "Luisangel Acuña",
-        "avgListing": 29.976249999999958,
+        "avgListing": 27.625449999999923,
         "nListing": 200,
         "currency": "USD"
       },
       "EBAY_CA": {
         "aspectMode": "player",
         "aspectValue": "Luisangel Acuña",
-        "avgListing": 108.35124999999995,
+        "avgListing": 89.03050000000003,
         "nListing": 200,
         "currency": "CAD"
       },
       "EBAY_ES": {
         "aspectMode": "player",
         "aspectValue": "Luisangel Acuña",
-        "avgListing": 55.54730000000002,
+        "avgListing": 59.98230000000004,
         "nListing": 200,
         "currency": "EUR"
       }
     },
-    "avg": 108.35124999999995,
+    "avg": 89.03050000000003,
     "n": 200,
-    "avgListing": 108.35124999999995,
+    "avgListing": 89.03050000000003,
     "nListing": 200,
     "currency": "CAD"
   },
@@ -860,28 +860,28 @@
       "EBAY_US": {
         "aspectMode": "player",
         "aspectValue": "Maikel Garcia",
-        "avgListing": 32.00089999999992,
+        "avgListing": 31.617649999999916,
         "nListing": 200,
         "currency": "USD"
       },
       "EBAY_CA": {
         "aspectMode": "player",
         "aspectValue": "Maikel Garcia",
-        "avgListing": 48.65960000000002,
+        "avgListing": 51.55584999999996,
         "nListing": 200,
         "currency": "CAD"
       },
       "EBAY_ES": {
         "aspectMode": "player",
         "aspectValue": "Maikel Garcia",
-        "avgListing": 42.758449999999996,
+        "avgListing": 45.41389999999998,
         "nListing": 200,
         "currency": "EUR"
       }
     },
-    "avg": 48.65960000000002,
+    "avg": 51.55584999999996,
     "n": 200,
-    "avgListing": 48.65960000000002,
+    "avgListing": 51.55584999999996,
     "nListing": 200,
     "currency": "CAD"
   },
@@ -895,28 +895,28 @@
       "EBAY_US": {
         "aspectMode": "player",
         "aspectValue": "Miguel Rojas",
-        "avgListing": 18.0008999999999,
+        "avgListing": 18.1917499999999,
         "nListing": 200,
         "currency": "USD"
       },
       "EBAY_CA": {
         "aspectMode": "player",
         "aspectValue": "Miguel Rojas",
-        "avgListing": 22.09094999999996,
+        "avgListing": 22.310149999999954,
         "nListing": 200,
         "currency": "CAD"
       },
       "EBAY_ES": {
         "aspectMode": "player",
         "aspectValue": "Miguel Rojas",
-        "avgListing": 24.198700000000002,
+        "avgListing": 20.193650000000027,
         "nListing": 200,
         "currency": "EUR"
       }
     },
-    "avg": 22.09094999999996,
+    "avg": 22.310149999999954,
     "n": 200,
-    "avgListing": 22.09094999999996,
+    "avgListing": 22.310149999999954,
     "nListing": 200,
     "currency": "CAD"
   },
@@ -930,28 +930,28 @@
       "EBAY_US": {
         "aspectMode": "player",
         "aspectValue": "Orlando Arcia",
-        "avgListing": 8.972100000000005,
+        "avgListing": 8.385600000000005,
         "nListing": 200,
         "currency": "USD"
       },
       "EBAY_CA": {
         "aspectMode": "player",
         "aspectValue": "Orlando Arcia",
-        "avgListing": 8.913949999999998,
+        "avgListing": 8.65035,
         "nListing": 200,
         "currency": "CAD"
       },
       "EBAY_ES": {
         "aspectMode": "player",
         "aspectValue": "Orlando Arcia",
-        "avgListing": 12.110449999999988,
+        "avgListing": 13.109799999999996,
         "nListing": 200,
         "currency": "EUR"
       }
     },
-    "avg": 8.913949999999998,
+    "avg": 8.65035,
     "n": 200,
-    "avgListing": 8.913949999999998,
+    "avgListing": 8.65035,
     "nListing": 200,
     "currency": "CAD"
   },
@@ -965,28 +965,28 @@
       "EBAY_US": {
         "aspectMode": "player",
         "aspectValue": "Pablo López",
-        "avgListing": 9.628400000000008,
+        "avgListing": 8.351200000000004,
         "nListing": 200,
         "currency": "USD"
       },
       "EBAY_CA": {
         "aspectMode": "player",
         "aspectValue": "Pablo López",
-        "avgListing": 14.369200000000001,
+        "avgListing": 10.575450000000004,
         "nListing": 200,
         "currency": "CAD"
       },
       "EBAY_ES": {
         "aspectMode": "player",
         "aspectValue": "Pablo López",
-        "avgListing": 15.948900000000004,
+        "avgListing": 13.689099999999994,
         "nListing": 200,
         "currency": "EUR"
       }
     },
-    "avg": 14.369200000000001,
+    "avg": 10.575450000000004,
     "n": 200,
-    "avgListing": 14.369200000000001,
+    "avgListing": 10.575450000000004,
     "nListing": 200,
     "currency": "CAD"
   },
@@ -1000,28 +1000,28 @@
       "EBAY_US": {
         "aspectMode": "player",
         "aspectValue": "Ranger Suárez",
-        "avgListing": 21.54679999999993,
+        "avgListing": 15.93439999999994,
         "nListing": 200,
         "currency": "USD"
       },
       "EBAY_CA": {
         "aspectMode": "player",
         "aspectValue": "Ranger Suárez",
-        "avgListing": 38.93979999999996,
+        "avgListing": 26.176449999999992,
         "nListing": 200,
         "currency": "CAD"
       },
       "EBAY_ES": {
         "aspectMode": "player",
         "aspectValue": "Ranger Suárez",
-        "avgListing": 22.742050000000017,
+        "avgListing": 16.943700000000018,
         "nListing": 200,
         "currency": "EUR"
       }
     },
-    "avg": 38.93979999999996,
+    "avg": 26.176449999999992,
     "n": 200,
-    "avgListing": 38.93979999999996,
+    "avgListing": 26.176449999999992,
     "nListing": 200,
     "currency": "CAD"
   },
@@ -1035,28 +1035,28 @@
       "EBAY_US": {
         "aspectMode": "player",
         "aspectValue": "Robert Suarez",
-        "avgListing": 20.726349999999943,
+        "avgListing": 17.931299999999943,
         "nListing": 200,
         "currency": "USD"
       },
       "EBAY_CA": {
         "aspectMode": "player",
         "aspectValue": "Robert Suarez",
-        "avgListing": 36.840049999999984,
+        "avgListing": 29.41159999999998,
         "nListing": 200,
         "currency": "CAD"
       },
       "EBAY_ES": {
         "aspectMode": "player",
         "aspectValue": "Robert Suarez",
-        "avgListing": 27.020249999999972,
+        "avgListing": 26.235999999999986,
         "nListing": 200,
         "currency": "EUR"
       }
     },
-    "avg": 36.840049999999984,
+    "avg": 29.41159999999998,
     "n": 200,
-    "avgListing": 36.840049999999984,
+    "avgListing": 29.41159999999998,
     "nListing": 200,
     "currency": "CAD"
   },
@@ -1070,28 +1070,28 @@
       "EBAY_US": {
         "aspectMode": "player",
         "aspectValue": "Ronald Acuña Jr.",
-        "avgListing": 10.935799999999995,
+        "avgListing": 12.582799999999969,
         "nListing": 200,
         "currency": "USD"
       },
       "EBAY_CA": {
         "aspectMode": "player",
         "aspectValue": "Ronald Acuña Jr.",
-        "avgListing": 13.251749999999985,
+        "avgListing": 10.89015,
         "nListing": 200,
         "currency": "CAD"
       },
       "EBAY_ES": {
         "aspectMode": "player",
         "aspectValue": "Ronald Acuña Jr.",
-        "avgListing": 21.777200000000004,
+        "avgListing": 20.668499999999998,
         "nListing": 200,
         "currency": "EUR"
       }
     },
-    "avg": 13.251749999999985,
+    "avg": 10.89015,
     "n": 200,
-    "avgListing": 13.251749999999985,
+    "avgListing": 10.89015,
     "nListing": 200,
     "currency": "CAD"
   },
@@ -1105,28 +1105,28 @@
       "EBAY_US": {
         "aspectMode": "player",
         "aspectValue": "Salvador Perez",
-        "avgListing": 20.20934999999995,
+        "avgListing": 23.13384999999995,
         "nListing": 200,
         "currency": "USD"
       },
       "EBAY_CA": {
         "aspectMode": "player",
         "aspectValue": "Salvador Perez",
-        "avgListing": 39.154799999999966,
+        "avgListing": 38.63644999999996,
         "nListing": 200,
         "currency": "CAD"
       },
       "EBAY_ES": {
         "aspectMode": "player",
         "aspectValue": "Salvador Perez",
-        "avgListing": 78.61835000000004,
+        "avgListing": 70.85104999999999,
         "nListing": 200,
         "currency": "EUR"
       }
     },
-    "avg": 39.154799999999966,
+    "avg": 38.63644999999996,
     "n": 200,
-    "avgListing": 39.154799999999966,
+    "avgListing": 38.63644999999996,
     "nListing": 200,
     "currency": "CAD"
   },
@@ -1140,28 +1140,28 @@
       "EBAY_US": {
         "aspectMode": "player",
         "aspectValue": "William Contreras",
-        "avgListing": 19.663799999999963,
+        "avgListing": 23.785749999999965,
         "nListing": 200,
         "currency": "USD"
       },
       "EBAY_CA": {
         "aspectMode": "player",
         "aspectValue": "William Contreras",
-        "avgListing": 46.85764999999998,
+        "avgListing": 47.57669999999997,
         "nListing": 200,
         "currency": "CAD"
       },
       "EBAY_ES": {
         "aspectMode": "player",
         "aspectValue": "William Contreras",
-        "avgListing": 39.294450000000026,
+        "avgListing": 36.83795,
         "nListing": 200,
         "currency": "EUR"
       }
     },
-    "avg": 46.85764999999998,
+    "avg": 47.57669999999997,
     "n": 200,
-    "avgListing": 46.85764999999998,
+    "avgListing": 47.57669999999997,
     "nListing": 200,
     "currency": "CAD"
   },
@@ -1175,28 +1175,28 @@
       "EBAY_US": {
         "aspectMode": "player",
         "aspectValue": "Willson Contreras",
-        "avgListing": 19.154499999999935,
+        "avgListing": 19.354249999999947,
         "nListing": 200,
         "currency": "USD"
       },
       "EBAY_CA": {
         "aspectMode": "player",
         "aspectValue": "Willson Contreras",
-        "avgListing": 36.27279999999998,
+        "avgListing": 33.662949999999974,
         "nListing": 200,
         "currency": "CAD"
       },
       "EBAY_ES": {
         "aspectMode": "player",
         "aspectValue": "Willson Contreras",
-        "avgListing": 27.431350000000034,
+        "avgListing": 26.304050000000007,
         "nListing": 200,
         "currency": "EUR"
       }
     },
-    "avg": 36.27279999999998,
+    "avg": 33.662949999999974,
     "n": 200,
-    "avgListing": 36.27279999999998,
+    "avgListing": 33.662949999999974,
     "nListing": 200,
     "currency": "CAD"
   },
@@ -1210,28 +1210,28 @@
       "EBAY_US": {
         "aspectMode": "player",
         "aspectValue": "Wilyer Abreu",
-        "avgListing": 75.71494999999996,
+        "avgListing": 64.94724999999995,
         "nListing": 200,
         "currency": "USD"
       },
       "EBAY_CA": {
         "aspectMode": "player",
         "aspectValue": "Wilyer Abreu",
-        "avgListing": 143.71544999999992,
+        "avgListing": 162.63670000000005,
         "nListing": 200,
         "currency": "CAD"
       },
       "EBAY_ES": {
         "aspectMode": "player",
         "aspectValue": "Wilyer Abreu",
-        "avgListing": 92.86804999999998,
+        "avgListing": 99.16125000000004,
         "nListing": 200,
         "currency": "EUR"
       }
     },
-    "avg": 143.71544999999992,
+    "avg": 162.63670000000005,
     "n": 200,
-    "avgListing": 143.71544999999992,
+    "avgListing": 162.63670000000005,
     "nListing": 200,
     "currency": "CAD"
   },
@@ -1245,28 +1245,28 @@
       "EBAY_US": {
         "aspectMode": "player",
         "aspectValue": "Yilber Diaz",
-        "avgListing": 11.31344999999999,
+        "avgListing": 11.960299999999993,
         "nListing": 200,
         "currency": "USD"
       },
       "EBAY_CA": {
         "aspectMode": "player",
         "aspectValue": "Yilber Diaz",
-        "avgListing": 27.698049999999977,
+        "avgListing": 27.55494999999999,
         "nListing": 200,
         "currency": "CAD"
       },
       "EBAY_ES": {
         "aspectMode": "player",
         "aspectValue": "Yilber Diaz",
-        "avgListing": 20.71905000000001,
+        "avgListing": 22.48539999999999,
         "nListing": 200,
         "currency": "EUR"
       }
     },
-    "avg": 27.698049999999977,
+    "avg": 27.55494999999999,
     "n": 200,
-    "avgListing": 27.698049999999977,
+    "avgListing": 27.55494999999999,
     "nListing": 200,
     "currency": "CAD"
   },
@@ -1287,21 +1287,21 @@
       "EBAY_CA": {
         "aspectMode": "player",
         "aspectValue": "Pedro Chourio",
-        "avgListing": 8.32,
+        "avgListing": 8.355,
         "nListing": 2,
         "currency": "CAD"
       },
       "EBAY_ES": {
         "aspectMode": "player",
         "aspectValue": "Pedro Chourio",
-        "avgListing": 10.16,
+        "avgListing": 10.22,
         "nListing": 1,
         "currency": "EUR"
       }
     },
-    "avg": 8.32,
+    "avg": 8.355,
     "n": 2,
-    "avgListing": 8.32,
+    "avgListing": 8.355,
     "nListing": 2,
     "currency": "CAD"
   },
@@ -1315,28 +1315,28 @@
       "EBAY_US": {
         "aspectMode": "player",
         "aspectValue": "Amleto Monacelli",
-        "avgListing": 5.785714285714286,
+        "avgListing": 5.757142857142857,
         "nListing": 14,
         "currency": "USD"
       },
       "EBAY_CA": {
         "aspectMode": "player",
         "aspectValue": "Amleto Monacelli",
-        "avgListing": 9.077272727272726,
+        "avgListing": 9.068181818181817,
         "nListing": 11,
         "currency": "CAD"
       },
       "EBAY_ES": {
         "aspectMode": "player",
         "aspectValue": "Amleto Monacelli",
-        "avgListing": 7.727777777777778,
+        "avgListing": 7.728888888888889,
         "nListing": 9,
         "currency": "EUR"
       }
     },
-    "avg": 9.077272727272726,
+    "avg": 9.068181818181817,
     "n": 11,
-    "avgListing": 9.077272727272726,
+    "avgListing": 9.068181818181817,
     "nListing": 11,
     "currency": "CAD"
   },
@@ -1350,28 +1350,28 @@
       "EBAY_US": {
         "aspectMode": "player",
         "aspectValue": "Andres Borregales",
-        "avgListing": 7.684500000000003,
+        "avgListing": 7.6673500000000026,
         "nListing": 200,
         "currency": "USD"
       },
       "EBAY_CA": {
         "aspectMode": "player",
         "aspectValue": "Andres Borregales",
-        "avgListing": 12.95065000000001,
+        "avgListing": 13.180949999999996,
         "nListing": 200,
         "currency": "CAD"
       },
       "EBAY_ES": {
         "aspectMode": "player",
         "aspectValue": "Andres Borregales",
-        "avgListing": 9.882749999999989,
+        "avgListing": 10.00299999999999,
         "nListing": 200,
         "currency": "EUR"
       }
     },
-    "avg": 12.95065000000001,
+    "avg": 13.180949999999996,
     "n": 200,
-    "avgListing": 12.95065000000001,
+    "avgListing": 13.180949999999996,
     "nListing": 200,
     "currency": "CAD"
   },
@@ -1385,28 +1385,28 @@
       "EBAY_US": {
         "aspectMode": "player",
         "aspectValue": "Marlon Vera",
-        "avgListing": 21.48899999999995,
+        "avgListing": 26.493199999999952,
         "nListing": 200,
         "currency": "USD"
       },
       "EBAY_CA": {
         "aspectMode": "player",
         "aspectValue": "Marlon Vera",
-        "avgListing": 47.78014999999999,
+        "avgListing": 48.56589999999997,
         "nListing": 200,
         "currency": "CAD"
       },
       "EBAY_ES": {
         "aspectMode": "player",
         "aspectValue": "Marlon Vera",
-        "avgListing": 36.185649999999995,
+        "avgListing": 37.1922,
         "nListing": 200,
         "currency": "EUR"
       }
     },
-    "avg": 47.78014999999999,
+    "avg": 48.56589999999997,
     "n": 200,
-    "avgListing": 47.78014999999999,
+    "avgListing": 48.56589999999997,
     "nListing": 200,
     "currency": "CAD"
   },
@@ -1420,28 +1420,28 @@
       "EBAY_US": {
         "aspectMode": "player",
         "aspectValue": "Jon Aramburu",
-        "avgListing": 4.6,
+        "avgListing": 4.595,
         "nListing": 4,
         "currency": "USD"
       },
       "EBAY_CA": {
         "aspectMode": "player",
         "aspectValue": "Jon Aramburu",
-        "avgListing": 6.2725,
+        "avgListing": 6.2925,
         "nListing": 4,
         "currency": "CAD"
       },
       "EBAY_ES": {
         "aspectMode": "player",
         "aspectValue": "Jon Aramburu",
-        "avgListing": 4.760000000000001,
+        "avgListing": 4.79,
         "nListing": 3,
         "currency": "EUR"
       }
     },
-    "avg": 6.2725,
+    "avg": 6.2925,
     "n": 4,
-    "avgListing": 6.2725,
+    "avgListing": 6.2925,
     "nListing": 4,
     "currency": "CAD"
   },
@@ -1455,28 +1455,28 @@
       "EBAY_US": {
         "aspectMode": "player",
         "aspectValue": "Yangel Herrera",
-        "avgListing": 7.238450000000005,
+        "avgListing": 7.5412500000000025,
         "nListing": 200,
         "currency": "USD"
       },
       "EBAY_CA": {
         "aspectMode": "player",
         "aspectValue": "Yangel Herrera",
-        "avgListing": 13.882200000000013,
+        "avgListing": 14.031549999999992,
         "nListing": 200,
         "currency": "CAD"
       },
       "EBAY_ES": {
         "aspectMode": "player",
         "aspectValue": "Yangel Herrera",
-        "avgListing": 10.501999999999999,
+        "avgListing": 10.768549999999994,
         "nListing": 200,
         "currency": "EUR"
       }
     },
-    "avg": 13.882200000000013,
+    "avg": 14.031549999999992,
     "n": 200,
-    "avgListing": 13.882200000000013,
+    "avgListing": 14.031549999999992,
     "nListing": 200,
     "currency": "CAD"
   },
@@ -1490,28 +1490,28 @@
       "EBAY_US": {
         "aspectMode": "player",
         "aspectValue": "Salomon Rondon",
-        "avgListing": 13.477849999999975,
+        "avgListing": 13.315449999999972,
         "nListing": 200,
         "currency": "USD"
       },
       "EBAY_CA": {
         "aspectMode": "player",
         "aspectValue": "Salomon Rondon",
-        "avgListing": 17.789550000000023,
+        "avgListing": 17.97435,
         "nListing": 200,
         "currency": "CAD"
       },
       "EBAY_ES": {
         "aspectMode": "player",
         "aspectValue": "Salomon Rondon",
-        "avgListing": 14.346950000000017,
+        "avgListing": 13.556550000000014,
         "nListing": 200,
         "currency": "EUR"
       }
     },
-    "avg": 17.789550000000023,
+    "avg": 17.97435,
     "n": 200,
-    "avgListing": 17.789550000000023,
+    "avgListing": 17.97435,
     "nListing": 200,
     "currency": "CAD"
   },
@@ -1525,28 +1525,28 @@
       "EBAY_US": {
         "aspectMode": "player",
         "aspectValue": "Cristian Cásseres Jr.",
-        "avgListing": 4.40642857142857,
+        "avgListing": 4.389047619047618,
         "nListing": 42,
         "currency": "USD"
       },
       "EBAY_CA": {
         "aspectMode": "player",
         "aspectValue": "Cristian Cásseres Jr.",
-        "avgListing": 6.007857142857142,
+        "avgListing": 6.01166666666667,
         "nListing": 42,
         "currency": "CAD"
       },
       "EBAY_ES": {
         "aspectMode": "player",
         "aspectValue": "Cristian Cásseres Jr.",
-        "avgListing": 6.814583333333334,
+        "avgListing": 6.825416666666669,
         "nListing": 24,
         "currency": "EUR"
       }
     },
-    "avg": 6.007857142857142,
+    "avg": 6.01166666666667,
     "n": 42,
-    "avgListing": 6.007857142857142,
+    "avgListing": 6.01166666666667,
     "nListing": 42,
     "currency": "CAD"
   },
@@ -1567,21 +1567,21 @@
       "EBAY_CA": {
         "aspectMode": "player",
         "aspectValue": "Alejandro Fuenmayor",
-        "avgListing": 15.66102564102564,
+        "avgListing": 15.72871794871795,
         "nListing": 39,
         "currency": "CAD"
       },
       "EBAY_ES": {
         "aspectMode": "player",
         "aspectValue": "Alejandro Fuenmayor",
-        "avgListing": 12.97903225806451,
+        "avgListing": 13.058709677419355,
         "nListing": 31,
         "currency": "EUR"
       }
     },
-    "avg": 15.66102564102564,
+    "avg": 15.72871794871795,
     "n": 39,
-    "avgListing": 15.66102564102564,
+    "avgListing": 15.72871794871795,
     "nListing": 39,
     "currency": "CAD"
   },
@@ -1595,28 +1595,28 @@
       "EBAY_US": {
         "aspectMode": "player",
         "aspectValue": "Alejandro Moreno",
-        "avgListing": 4.470333333333338,
+        "avgListing": 4.473888888888893,
         "nListing": 90,
         "currency": "USD"
       },
       "EBAY_CA": {
         "aspectMode": "player",
         "aspectValue": "Alejandro Moreno",
-        "avgListing": 6.095319148936174,
+        "avgListing": 6.117553191489368,
         "nListing": 94,
         "currency": "CAD"
       },
       "EBAY_ES": {
         "aspectMode": "player",
         "aspectValue": "Alejandro Moreno",
-        "avgListing": 6.018787878787879,
+        "avgListing": 6.050454545454543,
         "nListing": 66,
         "currency": "EUR"
       }
     },
-    "avg": 6.095319148936174,
+    "avg": 6.117553191489368,
     "n": 94,
-    "avgListing": 6.095319148936174,
+    "avgListing": 6.117553191489368,
     "nListing": 94,
     "currency": "CAD"
   },
@@ -1630,28 +1630,28 @@
       "EBAY_US": {
         "aspectMode": "player",
         "aspectValue": "David Martínez",
-        "avgListing": 10.038450000000006,
+        "avgListing": 10.220600000000006,
         "nListing": 200,
         "currency": "USD"
       },
       "EBAY_CA": {
         "aspectMode": "player",
         "aspectValue": "David Martínez",
-        "avgListing": 14.90385,
+        "avgListing": 14.995349999999997,
         "nListing": 200,
         "currency": "CAD"
       },
       "EBAY_ES": {
         "aspectMode": "player",
         "aspectValue": "David Martínez",
-        "avgListing": 30.753449999999997,
+        "avgListing": 31.217549999999992,
         "nListing": 200,
         "currency": "EUR"
       }
     },
-    "avg": 14.90385,
+    "avg": 14.995349999999997,
     "n": 200,
-    "avgListing": 14.90385,
+    "avgListing": 14.995349999999997,
     "nListing": 200,
     "currency": "CAD"
   },
@@ -1665,29 +1665,29 @@
       "EBAY_US": {
         "aspectMode": "player",
         "aspectValue": "Alejandro Marqués",
-        "avgListing": 2.657650000000004,
-        "nListing": 200,
+        "avgListing": 2.870098039215688,
+        "nListing": 102,
         "currency": "USD"
       },
       "EBAY_CA": {
         "aspectMode": "player",
         "aspectValue": "Alejandro Marqués",
-        "avgListing": 3.996372549019609,
-        "nListing": 102,
+        "avgListing": 3.994563106796118,
+        "nListing": 103,
         "currency": "CAD"
       },
       "EBAY_ES": {
         "aspectMode": "player",
         "aspectValue": "Alejandro Marqués",
-        "avgListing": 3.5659701492537335,
-        "nListing": 67,
+        "avgListing": 3.5564705882352947,
+        "nListing": 68,
         "currency": "EUR"
       }
     },
-    "avg": 3.996372549019609,
-    "n": 102,
-    "avgListing": 3.996372549019609,
-    "nListing": 102,
+    "avg": 3.994563106796118,
+    "n": 103,
+    "avgListing": 3.994563106796118,
+    "nListing": 103,
     "currency": "CAD"
   },
   "Telasco Segovia": {
@@ -1700,29 +1700,29 @@
       "EBAY_US": {
         "aspectMode": "player",
         "aspectValue": "Telasco Segovia",
-        "avgListing": 49.475660377358494,
-        "nListing": 53,
+        "avgListing": 48.07033898305084,
+        "nListing": 59,
         "currency": "USD"
       },
       "EBAY_CA": {
         "aspectMode": "player",
         "aspectValue": "Telasco Segovia",
-        "avgListing": 64.14603773584906,
-        "nListing": 53,
+        "avgListing": 59.92118644067797,
+        "nListing": 59,
         "currency": "CAD"
       },
       "EBAY_ES": {
         "aspectMode": "player",
         "aspectValue": "Telasco Segovia",
-        "avgListing": 48.158947368421046,
-        "nListing": 57,
+        "avgListing": 45.24349206349205,
+        "nListing": 63,
         "currency": "EUR"
       }
     },
-    "avg": 64.14603773584906,
-    "n": 53,
-    "avgListing": 64.14603773584906,
-    "nListing": 53,
+    "avg": 59.92118644067797,
+    "n": 59,
+    "avgListing": 59.92118644067797,
+    "nListing": 59,
     "currency": "CAD"
   },
   "Yeferson Soteldo": {
@@ -1735,28 +1735,28 @@
       "EBAY_US": {
         "aspectMode": "player",
         "aspectValue": "Yeferson Soteldo",
-        "avgListing": 6.729650000000003,
+        "avgListing": 6.580650000000005,
         "nListing": 200,
         "currency": "USD"
       },
       "EBAY_CA": {
         "aspectMode": "player",
         "aspectValue": "Yeferson Soteldo",
-        "avgListing": 9.270499999999991,
+        "avgListing": 9.223649999999989,
         "nListing": 200,
         "currency": "CAD"
       },
       "EBAY_ES": {
         "aspectMode": "player",
         "aspectValue": "Yeferson Soteldo",
-        "avgListing": 7.067928571428569,
-        "nListing": 140,
+        "avgListing": 6.833884892086325,
+        "nListing": 139,
         "currency": "EUR"
       }
     },
-    "avg": 9.270499999999991,
+    "avg": 9.223649999999989,
     "n": 200,
-    "avgListing": 9.270499999999991,
+    "avgListing": 9.223649999999989,
     "nListing": 200,
     "currency": "CAD"
   },
@@ -1770,28 +1770,28 @@
       "EBAY_US": {
         "aspectMode": "player",
         "aspectValue": "Jefferson Savarino",
-        "avgListing": 8.90455000000001,
+        "avgListing": 9.137450000000007,
         "nListing": 200,
         "currency": "USD"
       },
       "EBAY_CA": {
         "aspectMode": "player",
         "aspectValue": "Jefferson Savarino",
-        "avgListing": 12.388399999999999,
+        "avgListing": 12.841649999999998,
         "nListing": 200,
         "currency": "CAD"
       },
       "EBAY_ES": {
         "aspectMode": "player",
         "aspectValue": "Jefferson Savarino",
-        "avgListing": 13.394799999999998,
-        "nListing": 100,
+        "avgListing": 9.269399999999989,
+        "nListing": 200,
         "currency": "EUR"
       }
     },
-    "avg": 12.388399999999999,
+    "avg": 12.841649999999998,
     "n": 200,
-    "avgListing": 12.388399999999999,
+    "avgListing": 12.841649999999998,
     "nListing": 200,
     "currency": "CAD"
   },
@@ -1805,28 +1805,28 @@
       "EBAY_US": {
         "aspectMode": "player",
         "aspectValue": "Nahuel Ferraresi",
-        "avgListing": 5.513333333333335,
+        "avgListing": 5.5121212121212135,
         "nListing": 33,
         "currency": "USD"
       },
       "EBAY_CA": {
         "aspectMode": "player",
         "aspectValue": "Nahuel Ferraresi",
-        "avgListing": 7.518181818181816,
+        "avgListing": 7.549696969696969,
         "nListing": 33,
         "currency": "CAD"
       },
       "EBAY_ES": {
         "aspectMode": "player",
         "aspectValue": "Nahuel Ferraresi",
-        "avgListing": 5.431176470588236,
+        "avgListing": 5.463529411764706,
         "nListing": 17,
         "currency": "EUR"
       }
     },
-    "avg": 7.518181818181816,
+    "avg": 7.549696969696969,
     "n": 33,
-    "avgListing": 7.518181818181816,
+    "avgListing": 7.549696969696969,
     "nListing": 33,
     "currency": "CAD"
   },
@@ -1840,29 +1840,29 @@
       "EBAY_US": {
         "aspectMode": "player",
         "aspectValue": "Garbiñe Muguruza",
-        "avgListing": 6.903085714285718,
-        "nListing": 175,
+        "avgListing": 7.379322033898309,
+        "nListing": 177,
         "currency": "USD"
       },
       "EBAY_CA": {
         "aspectMode": "player",
         "aspectValue": "Garbiñe Muguruza",
-        "avgListing": 9.903668639053258,
-        "nListing": 169,
+        "avgListing": 9.941976744186043,
+        "nListing": 172,
         "currency": "CAD"
       },
       "EBAY_ES": {
         "aspectMode": "player",
         "aspectValue": "Garbiñe Muguruza",
-        "avgListing": 8.640791366906472,
-        "nListing": 139,
+        "avgListing": 8.66330985915493,
+        "nListing": 142,
         "currency": "EUR"
       }
     },
-    "avg": 9.903668639053258,
-    "n": 169,
-    "avgListing": 9.903668639053258,
-    "nListing": 169,
+    "avg": 9.941976744186043,
+    "n": 172,
+    "avgListing": 9.941976744186043,
+    "nListing": 172,
     "currency": "CAD"
   }
 }
