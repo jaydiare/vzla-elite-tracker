@@ -30,8 +30,8 @@ jobs:
         run: node scripts/update-fanatics-avg.js
         env:
           FANATICS_SCRAPE: ${{ secrets.FANATICS_SCRAPE }}
-          # Optional (only if your script uses these env vars)
-          # APIFY_ACTOR_ID: ${{ secrets.APIFY_ACTOR_ID }}
+          FANATICS_SEARCH_URL_TEMPLATE: ${{ secrets.FANATICS_SEARCH_URL_TEMPLATE }}
+          FANATICS_PRODUCT_URL_REGEX: ${{ secrets.FANATICS_PRODUCT_URL_REGEX }}
           # FANATICS_SEARCH_URL_TEMPLATE: ${{ secrets.FANATICS_SEARCH_URL_TEMPLATE }}
           # FANATICS_PRODUCT_URL_REGEX: ${{ secrets.FANATICS_PRODUCT_URL_REGEX }}
           # FANATICS_MAX_PRODUCTS_PER_ATHLETE: "30"
