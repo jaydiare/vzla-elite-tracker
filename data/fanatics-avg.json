@@ -1,1 +1,9 @@
-
+{
+  "_meta": {
+    "updatedAt": "2026-02-19T02:38:32.617Z",
+    "minSampleSize": 5,
+    "actorId": "fortuitous_pirate/fanatics-scraper",
+    "maxProductsPerAthlete": 30,
+    "note": "Averages computed from product URLs discovered via search HTML + Apify actor output. Ensure search template + regex match your target site."
+  }
+}
