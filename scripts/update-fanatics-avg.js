@@ -1,17 +1,11 @@
 // scripts/update-fanatics-avg.js
 // Node 20+
 //
-// Runs Apify actor ONCE for all tracked Fanatics.com product URLs,
-// then groups results by athlete and computes average final_price.
+// Phase 1: ONE actor run, ALL athletes
+// Automatically builds Fanatics search URLs from data/athletes.json
 //
 // Env required:
-//   FANATICS_SCRAPE  (Apify token)
-//
-// Input file:
-//   data/fanatics-tracked-urls.json  (array of { athlete, urls: [] })
-//
-// Output:
-//   data/fanatics-avg.json
+//   FANATICS_SCRAPE
 
 import fs from "node:fs";
 import path from "node:path";
@@ -27,9 +21,10 @@ if (!APIFY_TOKEN) {
 }
 
 const ACTOR_ID = "fortuitous_pirate/fanatics-scraper";
-
-const TRACKED_PATH = path.join(__dirname, "..", "data", "fanatics-tracked-urls.json");
+const ATHLETES_PATH = path.join(__dirname, "..", "data", "athletes.json");
 const OUT_PATH = path.join(__dirname, "..", "data", "fanatics-avg.json");
+
+const MAX_TOTAL_ITEMS = 2000; // adjust if needed
 
 function normSpaces(s) {
   return String(s || "").replace(/\s+/g, " ").trim();
@@ -59,130 +54,110 @@ function avg(arr) {
   return arr.reduce((a, b) => a + b, 0) / arr.length;
 }
 
-function loadTracked() {
-  if (!fs.existsSync(TRACKED_PATH)) {
-    throw new Error(
-      `Missing ${TRACKED_PATH}. Create it as an array: [{ athlete: "Name", urls: ["https://www.fanatics.com/..."] }]`
-    );
-  }
-  const raw = fs.readFileSync(TRACKED_PATH, "utf8");
+function loadAthletes() {
+  const raw = fs.readFileSync(ATHLETES_PATH, "utf8");
   const arr = JSON.parse(raw);
-  if (!Array.isArray(arr)) throw new Error("fanatics-tracked-urls.json must be an array.");
 
   return arr
-    .map((x) => ({
-      athlete: normSpaces(x?.athlete),
-      urls: Array.isArray(x?.urls) ? x.urls.filter(Boolean) : [],
+    .map(a => ({
+      name: normSpaces(a.name),
+      sport: normSpaces(a.sport),
+      league: normSpaces(a.league),
+      team: normSpaces(a.team)
     }))
-    .filter((x) => x.athlete && x.urls.length);
+    .filter(a => a.name);
 }
 
-async function runActor(productUrls, maxTotalItems) {
-  const startUrl =
+function buildSearchUrl(athlete) {
+  // Example: https://www.fanatics.com/search/andres%20chaparro%20baseball
+  const query = encodeURIComponent(
+    `${athlete.name} ${athlete.sport || ""}`.trim()
+  );
+
+  return `https://www.fanatics.com/search/${query}`;
+}
+
+async function runActor(startUrls) {
+  const runUrl =
     `https://api.apify.com/v2/acts/${encodeURIComponent(ACTOR_ID)}/runs` +
     `?token=${encodeURIComponent(APIFY_TOKEN)}&waitForFinish=1200`;
 
   const input = {
-    productUrls,
-    maxTotalItems,
+    startUrls: startUrls.map(url => ({ url })),
+    maxTotalItems: MAX_TOTAL_ITEMS
   };
 
-  const runRes = await fetch(startUrl, {
+  const res = await fetch(runUrl, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(input),
+    body: JSON.stringify(input)
   });
 
-  if (!runRes.ok) {
-    const txt = await runRes.text().catch(() => "");
-    throw new Error(`Apify actor run failed (${runRes.status}): ${txt}`);
+  if (!res.ok) {
+    const txt = await res.text().catch(() => "");
+    throw new Error(`Apify run failed (${res.status}): ${txt}`);
   }
 
-  const runJson = await runRes.json();
-  const datasetId = runJson?.data?.defaultDatasetId;
-  if (!datasetId) throw new Error("No defaultDatasetId returned from Apify.");
+  const json = await res.json();
+  const datasetId = json?.data?.defaultDatasetId;
+  if (!datasetId) throw new Error("No dataset ID returned");
 
-  const itemsUrl =
+  const datasetUrl =
     `https://api.apify.com/v2/datasets/${datasetId}/items` +
     `?token=${encodeURIComponent(APIFY_TOKEN)}&clean=true`;
 
-  const itemsRes = await fetch(itemsUrl);
-  if (!itemsRes.ok) {
-    const txt = await itemsRes.text().catch(() => "");
-    throw new Error(`Apify dataset fetch failed (${itemsRes.status}): ${txt}`);
-  }
-
+  const itemsRes = await fetch(datasetUrl);
   return itemsRes.json();
 }
 
 async function main() {
-  const tracked = loadTracked();
+  const athletes = loadAthletes();
 
-  // Build a single deduped URL list for ONE actor run
-  const allUrls = [...new Set(tracked.flatMap((t) => t.urls))];
-  console.log(`Tracked athletes: ${tracked.length}`);
-  console.log(`Total unique product URLs: ${allUrls.length}`);
+  console.log(`Loaded ${athletes.length} athletes`);
 
-  // Actor may output multiple rows per product (sizes/variants). Give headroom:
-  const MAX_TOTAL_ITEMS = Math.min(Math.max(allUrls.length * 20, 200), 5000);
+  // Build ALL search URLs
+  const searchUrls = athletes.map(buildSearchUrl);
 
-  console.log(`Running actor once (maxTotalItems=${MAX_TOTAL_ITEMS})...`);
-  const items = await runActor(allUrls, MAX_TOTAL_ITEMS);
-  console.log(`Actor returned ${items?.length || 0} rows`);
+  console.log("Running ONE actor call...");
+  const items = await runActor(searchUrls);
 
-  // Pre-normalize items for matching
-  const normalizedItems = (items || []).map((it) => ({
-    raw: it,
-    name: normalizeForMatch(it?.product_name || ""),
-    final_price: safeNum(it?.final_price),
-    currency: it?.currency || null,
-    url: it?.url || null,
-    in_stock: it?.in_stock ?? null,
+  console.log(`Actor returned ${items.length} items`);
+
+  const normalizedItems = items.map(it => ({
+    name: normalizeForMatch(it.product_name || ""),
+    price: safeNum(it.final_price),
+    currency: it.currency || null
   }));
 
   const out = {
     _meta: {
       updatedAt: new Date().toISOString(),
-      actorId: ACTOR_ID,
-      trackedAthletes: tracked.length,
-      trackedUrls: allUrls.length,
-      note:
-        "Averages computed from Apify Fanatics.com scraper output (final_price). Results grouped by athlete name match in product_name.",
-    },
+      athleteCount: athletes.length,
+      actorId: ACTOR_ID
+    }
   };
 
-  for (const t of tracked) {
-    const athleteKey = t.athlete;
-    const athleteNorm = normalizeForMatch(athleteKey);
+  for (const athlete of athletes) {
+    const athleteNorm = normalizeForMatch(athlete.name);
 
-    // Match rows where product_name contains athlete name
-    const matched = normalizedItems.filter((it) => it.name.includes(athleteNorm));
+    const matched = normalizedItems.filter(it =>
+      it.name.includes(athleteNorm)
+    );
 
-    const prices = matched.map((m) => m.final_price).filter((p) => p != null);
+    const prices = matched.map(m => m.price).filter(p => p != null);
 
-    if (!prices.length) {
-      out[athleteKey] = { avg: null, n: 0, currency: null };
-      continue;
-    }
-
-    // Currency: pick the first non-null (Fanatics.com usually consistent)
-    const currency = matched.find((m) => m.currency)?.currency || null;
-
-    out[athleteKey] = {
+    out[athlete.name] = {
       avg: avg(prices),
       n: prices.length,
-      currency,
-      // optional debug: how many urls you tracked for this athlete
-      trackedUrls: t.urls.length,
+      currency: matched.find(m => m.currency)?.currency || null
     };
   }
 
-  fs.mkdirSync(path.dirname(OUT_PATH), { recursive: true });
   fs.writeFileSync(OUT_PATH, JSON.stringify(out, null, 2));
-  console.log(`Wrote ${OUT_PATH}`);
+  console.log("Wrote fanatics-avg.json");
 }
 
-main().catch((err) => {
+main().catch(err => {
   console.error(err);
   process.exit(1);
 });
