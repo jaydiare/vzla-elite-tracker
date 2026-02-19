@@ -41,7 +41,11 @@ const APIFY_ACTOR_ID = process.env.APIFY_ACTOR_ID || "fortuitous_pirate/fanatics
 //   https://www.fanatics.com/search/{QUERY}
 // Use {QUERY} placeholder (will be URL-encoded).
 const FANATICS_SEARCH_URL_TEMPLATE =
-  process.env.FANATICS_SEARCH_URL_TEMPLATE || "";
+  process.env.FANATICS_SEARCH_URL_TEMPLATE;
+
+if (!FANATICS_SEARCH_URL_TEMPLATE) {
+  throw new Error("Missing FANATICS_SEARCH_URL_TEMPLATE env var.");
+}
 
 // Regex used to extract product URLs from the search HTML.
 // Provide as a JS regex string WITHOUT the surrounding slashes.
