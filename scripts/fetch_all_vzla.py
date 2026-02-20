@@ -51,12 +51,12 @@ BDB_ENDPOINTS: List[Dict[str, Any]] = [
     {"sport": "Basketball", "league": "NCAAB", "provider": "balldontlie", "path": "/ncaab/v1/players",    "field": "birth_place"},
     {"sport": "Basketball", "league": "NCAAW", "provider": "balldontlie", "path": "/ncaaw/v1/players",    "field": "birth_place"},
 
-    {"sport": "Football",   "league": "NFL",   "provider": "balldontlie", "path": "/nfl/v1/players",      "field": "birth_place"},
-    {"sport": "Football",   "league": "NCAAF", "provider": "balldontlie", "path": "/ncaaf/v1/players",    "field": "birth_place"},
+    #{"sport": "Football",   "league": "NFL",   "provider": "balldontlie", "path": "/nfl/v1/players",      "field": "birth_place"},
+   # {"sport": "Football",   "league": "NCAAF", "provider": "balldontlie", "path": "/ncaaf/v1/players",    "field": "birth_place"},
 
     {"sport": "Baseball",   "league": "MLB",   "provider": "balldontlie", "path": "/mlb/v1/players",      "field": "birth_place", "active_field": "active"},
 
-    {"sport": "Hockey",     "league": "NHL",   "provider": "balldontlie", "path": "/nhl/v1/players",      "field": "birth_place"},
+    #{"sport": "Hockey",     "league": "NHL",   "provider": "balldontlie", "path": "/nhl/v1/players",      "field": "birth_place"},
 
     {"sport": "Soccer", "league": "EPL",        "provider": "balldontlie", "path": "/epl/v2/players",        "field": "birth_place"},
     {"sport": "Soccer", "league": "La Liga",    "provider": "balldontlie", "path": "/laliga/v1/players",     "field": "birth_place"},
@@ -88,10 +88,10 @@ TSDB_TOP_DIVISIONS: List[Dict[str, Any]] = [
     {"sport": "Basketball", "country": "Argentina", "league": "Argentine LNB", "league_id": "4734"},
     {"sport": "Basketball", "country": "Europe",    "league": "EuroLeague Basketball",  "league_id": "4546"},
 
-    {"sport": "Baseball", "country": "Mexico", "league": "Liga Mexicana de Béisbol", "league_id": "5064"},
-    {"sport": "Baseball", "country": "Mexico", "league": "Mexican Pacific League",   "league_id": "5109"},
+    #{"sport": "Baseball", "country": "Mexico", "league": "Liga Mexicana de Béisbol", "league_id": "5064"},
+    #{"sport": "Baseball", "country": "Mexico", "league": "Mexican Pacific League",   "league_id": "5109"},
     {"sport": "Baseball", "country": "Japan",  "league": "Nippon Baseball League",    "league_id": "4591"},
-    {"sport": "Baseball", "country": "Korea",  "league": "Korean KBO League",         "league_id": "4830"},
+    #{"sport": "Baseball", "country": "Korea",  "league": "Korean KBO League",         "league_id": "4830"},
 ]
 
 TSDB_GOLF_TOP_TOURS: List[Dict[str, str]] = [
