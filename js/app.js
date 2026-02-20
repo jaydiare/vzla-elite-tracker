@@ -246,7 +246,10 @@ function renderGrid(list) {
           
           ${money ? `
             <span class="text-black font-bold text-[11px] tracking-tight leading-none opacity-80">
-              (eBay Avg Listing: ${money})
+              eBay Avg listing price: ${money}
+            </span>
+            <span class="text-black font-bold text-[6px] tracking-tight leading-none opacity-80">
+              *prices might vary
             </span>
           ` : ''}
         </a>
