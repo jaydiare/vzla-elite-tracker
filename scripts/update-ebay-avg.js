@@ -477,32 +477,46 @@ async function main() {
   console.log(`Wrote ${OUT_PATH}`);
 }
 
-<script>
-  (async function () {
-    try {
-      const res = await fetch("./data/ebay-avg.json", { cache: "no-store" });
-      if (!res.ok) return;
+function timeAgo(isoString) {
+  const then = new Date(isoString);
+  if (Number.isNaN(then.getTime())) return "—";
 
-      const data = await res.json();
-      const iso = data?._meta?.updatedAt;
-      if (!iso) return;
+  const now = new Date();
+  let seconds = Math.floor((now - then) / 1000);
+  if (seconds < 0) seconds = 0;
 
-      const d = new Date(iso);
-      const formatted = d.toLocaleString(undefined, {
-        year: "numeric",
-        month: "short",
-        day: "2-digit",
-        hour: "2-digit",
-        minute: "2-digit",
-      });
+  const mins = Math.floor(seconds / 60);
+  const hrs = Math.floor(mins / 60);
+  const days = Math.floor(hrs / 24);
 
-      const el = document.getElementById("ebay-updated");
-      if (el) el.textContent = `Last updated: ${formatted}`;
-    } catch (e) {
-      // fail silently
-    }
-  })();
-</script>
+  if (seconds < 60) return `${seconds}s ago`;
+  if (mins < 60) return `${mins}m ago`;
+  if (hrs < 24) return `${hrs}h ago`;
+  return `${days}d ago`;
+}
+
+async function updateEbayLastUpdatedLabel() {
+  const el = document.getElementById("ebay-last-updated");
+  if (!el) return;
+
+  try {
+    const res = await fetch("./data/ebay-avg.json", { cache: "no-store" });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const json = await res.json();
+
+    const updatedAt = json?._meta?.updatedAt;
+    el.textContent = `Last updated: ${timeAgo(updatedAt)}`;
+  } catch (e) {
+    // keep it subtle if it fails
+    el.textContent = "Last updated: —";
+  }
+}
+
+// run once on load, then refresh the relative label every minute
+document.addEventListener("DOMContentLoaded", () => {
+  updateEbayLastUpdatedLabel();
+  setInterval(updateEbayLastUpdatedLabel, 60 * 1000);
+});
 
 main().catch((err) => {
   console.error(err);
