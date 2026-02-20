@@ -294,6 +294,13 @@
         "provider": "manual"
     },
     {
+        "name": "Nicolás Claveau-Laviolette",
+        "sport": "Cross-country Ski",
+        "league": "Olympics",
+        "team": "Canada",
+        "provider": "manual"
+    },
+    {
         "name": "Andres Borregales",
         "sport": "Football",
         "league": "NFL",
@@ -452,13 +459,6 @@
         "sport": "Tennis",
         "league": "WTA",
         "team": "Venezuela",
-        "provider": "manual"
-    },
-        {
-        "name": "Nicolás Claveau-Laviolette",
-        "sport": "Cross-country Ski",
-        "league": "Olympics",
-        "team": "Canada",
         "provider": "manual"
     }
 ]
