@@ -240,15 +240,15 @@ function renderGrid(list) {
            rel="noopener noreferrer"
            class="shop-btn bg-[#f2f20d] w-full rounded-full py-5 px-6 flex flex-col items-center justify-center transition-all hover:scale-[1.03] hover:brightness-110 active:scale-[0.97] no-underline shadow-xl">
           
-          <span class="text-black font-black text-[10px] tracking-tighter uppercase leading-none mb-1">
+          <span class="text-black font-black text-[12px] tracking-tighter uppercase leading-none mb-1">
             Shop Collectibles
           </span>
           
           ${money ? `
-            <span class="text-black font-bold text-[8px] tracking-tight leading-none opacity-80">
+            <span class="text-black font-bold text-[10px] tracking-tight leading-none opacity-80">
               eBay Avg listing price: ${money}
             </span>
-            <span class="text-black font-bold text-[2px] tracking-tight leading-none opacity-80">
+            <span class="text-black font-bold text-[10px] font-normal opacity-60 italic">
               *prices might vary*
             </span>
           ` : ''}
