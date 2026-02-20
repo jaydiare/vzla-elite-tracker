@@ -477,6 +477,33 @@ async function main() {
   console.log(`Wrote ${OUT_PATH}`);
 }
 
+<script>
+  (async function () {
+    try {
+      const res = await fetch("./data/ebay-avg.json", { cache: "no-store" });
+      if (!res.ok) return;
+
+      const data = await res.json();
+      const iso = data?._meta?.updatedAt;
+      if (!iso) return;
+
+      const d = new Date(iso);
+      const formatted = d.toLocaleString(undefined, {
+        year: "numeric",
+        month: "short",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
+      });
+
+      const el = document.getElementById("ebay-updated");
+      if (el) el.textContent = `Last updated: ${formatted}`;
+    } catch (e) {
+      // fail silently
+    }
+  })();
+</script>
+
 main().catch((err) => {
   console.error(err);
   process.exit(1);
