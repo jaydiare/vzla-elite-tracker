@@ -84,6 +84,34 @@ async function fetchJsonWithFallback(path) {
   }
 }
 
+// ---------- "Last updated" label (from ebay-avg.json _meta.updatedAt) ----------
+
+function timeAgo(isoString) {
+  const then = new Date(isoString);
+  if (Number.isNaN(then.getTime())) return "—";
+
+  const now = new Date();
+  let seconds = Math.floor((now - then) / 1000);
+  if (seconds < 0) seconds = 0;
+
+  const mins = Math.floor(seconds / 60);
+  const hrs = Math.floor(mins / 60);
+  const days = Math.floor(hrs / 24);
+
+  if (seconds < 60) return `${seconds}s ago`;
+  if (mins < 60) return `${mins}m ago`;
+  if (hrs < 24) return `${hrs}h ago`;
+  return `${days}d ago`;
+}
+
+function updateEbayLastUpdatedLabelFrom(ebayJson) {
+  const el = document.getElementById("ebay-last-updated");
+  if (!el) return;
+
+  const updatedAt = ebayJson?._meta?.updatedAt;
+  el.textContent = updatedAt ? `Last updated: ${timeAgo(updatedAt)}` : "Last updated: —";
+}
+
 // ---------- eBay Avg Index ----------
 
 const ebayAvgByName = {};
@@ -172,16 +200,16 @@ function renderGrid(list) {
 
   const q = norm(document.getElementById("search-input")?.value || "");
 
-const filtered = (list || [])
-  .filter(a => {
-    if (activeSport === "All") return true;
-    if (activeSport === "Other") {
-      // Includes everything except the "Big Three"
-      return !["Baseball", "Soccer", "Basketball"].includes(a.sport);
-    }
-    return a.sport === activeSport;
-  })
-  .filter(a => !q || norm(a.name).includes(q));
+  const filtered = (list || [])
+    .filter(a => {
+      if (activeSport === "All") return true;
+      if (activeSport === "Other") {
+        // Includes everything except the "Big Three"
+        return !["Baseball", "Soccer", "Basketball"].includes(a.sport);
+      }
+      return a.sport === activeSport;
+    })
+    .filter(a => !q || norm(a.name).includes(q));
 
   // Balanced grid gap
   grid.className = "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-10 w-full max-w-7xl mx-auto";
@@ -248,6 +276,12 @@ async function init() {
       : {};
 
   buildEbayIndexes(ebayAvgRaw);
+
+  // ✅ Update "Last updated" label using the SAME fetched JSON
+  updateEbayLastUpdatedLabelFrom(ebayAvgRaw);
+
+  // ✅ Refresh every minute (relative time label)
+  setInterval(() => updateEbayLastUpdatedLabelFrom(ebayAvgRaw), 60 * 1000);
 
   const search = document.getElementById("search-input");
   if (search) {
