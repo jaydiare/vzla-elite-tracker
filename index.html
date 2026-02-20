@@ -23,6 +23,7 @@
       --vzla-yellow:#f2f20d;
       --vzla-bg:#050505;
       --vzla-panel:#0b0b0b;
+      --vzla-mint:#7fffe1; /* mobile menu accent like your reference */
     }
 
     body{
@@ -239,65 +240,179 @@
     }
     .shop-btn:hover { transform: scale(1.02); }
 
-    /* ✅ HAMBURGER (added) */
-    .hamburger{
+    /* =========================================================
+       ✅ NEW MOBILE MENU (Paula-like overlay)
+       ========================================================= */
+
+    /* Hamburger button (nav right) */
+    .nav-toggle{
       display:none;
-      background: transparent;
-      border: 0;
-      cursor: pointer;
-      padding: 8px;
-      border-radius: 12px;
+      width:44px;
+      height:44px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.06);
+      align-items:center;
+      justify-content:center;
+      cursor:pointer;
+      transition: 0.15s ease;
     }
-    .hamburger span{
+    .nav-toggle:hover{
+      border-color: rgba(127,255,225,0.25);
+      background: rgba(127,255,225,0.10);
+    }
+    .nav-toggle-bars{
+      width:22px;
+      height:2px;
+      background: var(--vzla-mint);
+      position:relative;
       display:block;
-      width: 26px;
-      height: 3px;
-      margin: 5px 0;
-      background: var(--vzla-yellow);
-      border-radius: 3px;
+      border-radius:999px;
+    }
+    .nav-toggle-bars::before,
+    .nav-toggle-bars::after{
+      content:"";
+      position:absolute;
+      left:0;
+      width:22px;
+      height:2px;
+      background: var(--vzla-mint);
+      border-radius:999px;
+    }
+    .nav-toggle-bars::before{ top:-7px; }
+    .nav-toggle-bars::after{ top:7px; }
+
+    /* Full-screen overlay */
+    .mobile-menu{
+      position:fixed;
+      inset:0;
+      z-index:10000;
+      background: rgba(10,10,10,0.92);
+      backdrop-filter: blur(14px);
+      display:none;
+      padding: 18px;
+      padding-top: calc(18px + env(safe-area-inset-top));
+      padding-bottom: calc(18px + env(safe-area-inset-bottom));
+    }
+    .mobile-menu.is-open{ display:block; }
+
+    .mobile-menu-top{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
     }
 
-    /* ✅ MOBILE NAV (replaces your old mobile wrap rules) */
-    @media (max-width: 640px){
+    .mobile-brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      text-decoration:none;
+      user-select:none;
+    }
+
+    .mobile-close{
+      width:46px;
+      height:46px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.06);
+      color: var(--vzla-mint);
+      font-size:28px;
+      line-height:1;
+      cursor:pointer;
+    }
+
+    .mobile-menu-content{
+      margin-top: 22px;
+      display:flex;
+      flex-direction:column;
+      gap: 14px;
+      max-width: 520px;
+      margin-left:auto;
+      margin-right:auto;
+    }
+
+    .mobile-link{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      width:100%;
+      padding: 18px 18px;
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,0.16);
+      background: rgba(255,255,255,0.06);
+      color: rgba(255,255,255,0.92);
+      text-decoration:none;
+      font-weight: 800;
+      font-size: 20px;
+      letter-spacing: 0.01em;
+    }
+
+    .mobile-link-dd{
+      cursor:pointer;
+      list-style:none;
+    }
+    details.mobile-dd summary{ list-style:none; }
+    details.mobile-dd summary::-webkit-details-marker{ display:none; }
+
+    .mobile-caret{
+      margin-left:10px;
+      font-size:14px;
+      opacity:0.9;
+      transform: translateY(-1px);
+    }
+
+    .mobile-dd-panel{
+      margin-top: 10px;
+      padding: 14px;
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(0,0,0,0.35);
+    }
+
+    .mobile-sub{
+      display:block;
+      text-align:center;
+      padding: 12px 14px;
+      border-radius: 14px;
+      text-decoration:none;
+      color: rgba(255,255,255,0.9);
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.10);
+    }
+    .mobile-sub:hover{
+      color: var(--vzla-yellow);
+      border-color: rgba(242,242,13,0.25);
+      background: rgba(242,242,13,0.10);
+    }
+
+    .mobile-icons{
+      display:flex;
+      justify-content:center;
+      gap: 14px;
+      padding: 8px 0 2px;
+    }
+
+    .mobile-cta{
+      margin-top: 10px;
+      display:flex;
+      justify-content:center;
+      padding: 16px 18px;
+      border-radius: 9999px;
+      font-weight: 900;
+      background: #45d6a8;
+      color: #07110d;
+      text-decoration:none;
+      font-size: 18px;
+    }
+
+    /* ✅ Mobile behavior: show hamburger + hide desktop links */
+    @media (max-width: 768px){
+      .nav-toggle{ display:flex; }
+      .nav-links{ display:none !important; }
+
       nav{ padding: 14px !important; }
-
-      /* show hamburger on mobile */
-      .hamburger{ display:block; }
-
-      /* hide nav links until opened */
-      .nav-links{
-        display:none;
-        position:absolute;
-        left:0;
-        right:0;
-        top: 100%;
-        background: rgba(0,0,0,0.96);
-        backdrop-filter: blur(10px);
-        border-top: 1px solid rgba(255,255,255,0.08);
-        flex-direction: column;
-        align-items: center;
-        gap: 0;
-        padding: 10px 0;
-        z-index: 9999;
-      }
-      .nav-links.open{ display:flex; }
-
-      .nav-links li{ width:100%; text-align:center; }
-      .nav-links .nav-link{
-        display:block;
-        padding: 14px 0;
-        font-size: 15px;
-      }
-
-      /* dropdown menu should be inline on mobile */
-      .dropdown-menu{
-        position: static;
-        min-width: unset;
-        width: 92%;
-        margin: 10px auto 0;
-      }
-
-      .contact-icons{ justify-content:center; }
 
       .vzla-brand-wrap{ gap:10px; }
       .vzla-brand-top{ font-size:13px; letter-spacing:0.10em; }
@@ -429,7 +544,6 @@
     <span>© 2026 VZLA Sports Elite</span>
   </header>
 
-  <!-- ✅ Added "relative" so the mobile menu can absolutely position under it -->
   <nav class="p-6 border-b border-white/5 flex items-center justify-between sticky top-0 bg-black/85 backdrop-blur-md z-50 relative">
     <a href="index.html" class="vzla-brand-wrap" aria-label="Vzla Sports Elite Home">
       <span class="vzla-flag">🇻🇪</span>
@@ -439,14 +553,12 @@
       </span>
     </a>
 
-    <!-- ✅ Hamburger button added -->
-    <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
-      <span></span>
-      <span></span>
-      <span></span>
+    <!-- ✅ NEW Hamburger button (shows on mobile) -->
+    <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-controls="mobileMenu" aria-expanded="false">
+      <span class="nav-toggle-bars"></span>
     </button>
 
-    <!-- ✅ Added id for JS toggle -->
+    <!-- Desktop nav (unchanged) -->
     <ul class="nav-links" id="navLinks">
       <li><a href="index.html" class="nav-link active">Home</a></li>
       <li><a href="about.html" class="nav-link">About</a></li>
@@ -495,12 +607,72 @@
     </ul>
   </nav>
 
+  <!-- ✅ NEW Full-screen mobile menu overlay -->
+  <div class="mobile-menu" id="mobileMenu" aria-hidden="true">
+    <div class="mobile-menu-top">
+      <a href="index.html" class="mobile-brand" aria-label="Vzla Sports Elite Home">
+        <span class="vzla-flag">🇻🇪</span>
+        <span class="vzla-brand">
+          <span class="vzla-brand-top">VZLA SPORTS</span>
+          <span class="vzla-brand-bottom">ELITE</span>
+        </span>
+      </a>
+
+      <button class="mobile-close" id="navClose" aria-label="Close menu">✕</button>
+    </div>
+
+    <div class="mobile-menu-content">
+      <a class="mobile-link" href="index.html">Home</a>
+      <a class="mobile-link" href="about.html">About</a>
+
+      <details class="mobile-dd">
+        <summary class="mobile-link mobile-link-dd">Shop <span class="mobile-caret">▾</span></summary>
+        <div class="mobile-dd-panel">
+          <a class="mobile-sub"
+             href="https://www.ebay.ca/str/localherossportscards?mkcid=1&mkrid=706-53473-19255-0&siteid=2&campid=5339142305&toolid=10001&mkevt=1"
+             target="_blank" rel="noopener noreferrer">
+            Visit my eBay Store
+          </a>
+        </div>
+      </details>
+
+      <details class="mobile-dd">
+        <summary class="mobile-link mobile-link-dd">Contact <span class="mobile-caret">▾</span></summary>
+        <div class="mobile-dd-panel">
+          <div class="mobile-icons">
+            <a class="icon-btn" href="https://www.instagram.com/localheros_sportscards/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="18" height="18" rx="5"></rect>
+                <circle cx="12" cy="12" r="4"></circle>
+                <circle cx="17.5" cy="6.5" r="1"></circle>
+              </svg>
+            </a>
+
+            <a class="icon-btn" href="https://x.com/jdiegorceli1?s=21" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                <path d="M18.9 2H22l-6.8 7.8L23 22h-6.2l-4.8-7-6.1 7H2l7.3-8.4L1 2h6.4l4.4 6.4L18.9 2zm-1.1 18h1.7L7.2 3.9H5.4L17.8 20z"/>
+              </svg>
+            </a>
+
+            <a class="icon-btn" href="https://www.facebook.com/share/18NzEJirJZ/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                <path d="M22 12a10 10 0 1 0-11.6 9.9v-7H8v-3h2.4V9.7c0-2.4 1.4-3.8 3.6-3.8 1 0 2 .2 2 .2v2.2h-1.1c-1.1 0-1.4.7-1.4 1.4V12H16l-.4 3h-2.1v7A10 10 0 0 0 22 12z"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </details>
+
+      <a class="mobile-cta" href="#top">Top</a>
+    </div>
+  </div>
+
   <div class="page-shell">
     <aside class="side-banner">
       <a href="https://www.cardhedger.com?via=vzlaelite"
          target="_blank" rel="noopener noreferrer" title="Card Hedge Sports & Trading Card Analytics">
         <img src="./assets/cardhedge.jpg" alt="Card Hedge Sports & Trading Card Analytics">
-      </a>  
+      </a>
       <a href="https://www.ebay.ca/sch/i.html?_nkw=trading+cards&mkevt=1&mkcid=1&mkrid=706-53473-19255-0&campid=5339142321&toolid=10001"
          target="_blank" rel="noopener noreferrer" title="Shop Trading Cards on eBay">
         <img src="./assets/ebay-300x600-left.jpg" alt="Shop Trading Cards on eBay">
@@ -591,7 +763,7 @@
       <a href="https://www.cardhedger.com?via=vzlaelite"
          target="_blank" rel="noopener noreferrer" title="Card Hedge Sports & Trading Card Analytics">
         <img src="./assets/cardhedge.jpg" alt="Card Hedge Sports & Trading Card Analytics">
-      </a>  
+      </a>
       <a href="https://www.ebay.ca/sch/i.html?_nkw=trading+cards&mkevt=1&mkcid=1&mkrid=706-53473-19255-0&campid=5339142321&toolid=10001"
          target="_blank" rel="noopener noreferrer" title="Shop Trading Cards on eBay">
         <img src="./assets/ebay-300x600-right.jpg" alt="Shop Trading Cards on eBay">
@@ -613,7 +785,7 @@
   <script src="./js/app.js" defer></script>
 
   <script>
-    // Keep your existing dropdown behavior
+    // Keep your existing desktop dropdown behavior
     document.querySelectorAll("details.dropdown").forEach(d => {
       d.addEventListener("toggle", () => {
         if (d.open) {
@@ -630,26 +802,57 @@
       });
     });
 
-    // ✅ Hamburger toggle
-    document.addEventListener("DOMContentLoaded", () => {
-      const hamburger = document.getElementById("hamburger");
-      const navLinks = document.getElementById("navLinks");
+    // ✅ NEW Mobile overlay menu behavior
+    (function(){
+      const navToggle = document.getElementById("navToggle");
+      const navClose = document.getElementById("navClose");
+      const mobileMenu = document.getElementById("mobileMenu");
 
-      if (!hamburger || !navLinks) return;
+      if (!navToggle || !navClose || !mobileMenu) return;
 
-      hamburger.addEventListener("click", () => {
-        const isOpen = navLinks.classList.toggle("open");
-        hamburger.setAttribute("aria-expanded", String(isOpen));
+      function openMenu(){
+        mobileMenu.classList.add("is-open");
+        mobileMenu.setAttribute("aria-hidden", "false");
+        navToggle.setAttribute("aria-expanded", "true");
+        document.documentElement.style.overflow = "hidden";
+        document.body.style.overflow = "hidden";
+      }
+
+      function closeMenu(){
+        mobileMenu.classList.remove("is-open");
+        mobileMenu.setAttribute("aria-hidden", "true");
+        navToggle.setAttribute("aria-expanded", "false");
+        document.documentElement.style.overflow = "";
+        document.body.style.overflow = "";
+        mobileMenu.querySelectorAll("details[open]").forEach(d => d.open = false);
+      }
+
+      navToggle.addEventListener("click", openMenu);
+      navClose.addEventListener("click", closeMenu);
+
+      // Close on ESC
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && mobileMenu.classList.contains("is-open")) closeMenu();
       });
 
-      // Close menu when tapping actual links/icons (not summaries)
-      navLinks.querySelectorAll("a").forEach((a) => {
-        a.addEventListener("click", () => {
-          navLinks.classList.remove("open");
-          hamburger.setAttribute("aria-expanded", "false");
+      // Close when clicking any link in the menu
+      mobileMenu.addEventListener("click", (e) => {
+        const a = e.target.closest("a");
+        if (!a) return;
+        closeMenu();
+      });
+
+      // Only one dropdown open at a time inside mobile menu
+      mobileMenu.querySelectorAll("details.mobile-dd").forEach(d => {
+        d.addEventListener("toggle", () => {
+          if (d.open) {
+            mobileMenu.querySelectorAll("details.mobile-dd").forEach(other => {
+              if (other !== d) other.open = false;
+            });
+          }
         });
       });
-    });
+    })();
   </script>
 </body>
 </html>
