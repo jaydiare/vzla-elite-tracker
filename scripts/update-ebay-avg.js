@@ -20,7 +20,8 @@
 // Notes:
 // - Includes graded + listings under $1 (no price floor).
 // - Category used: Trading Card Singles (261328) - keep or change as needed.
-// - NEW: Converts listing prices to CAD using CBSA Exchange Rates API.
+// - NEW: Normalizes listing prices to USD using CBSA Exchange Rates API as a base.
+//        (CBSA returns CAD per 1 unit; we convert that to USD-per-currency.)
 
 import fs from "node:fs";
 import path from "node:path";
@@ -107,8 +108,6 @@ function buildQuery(name, sport) {
 function sportAspectCandidates(sportRaw) {
   const s = (sportRaw || "").toLowerCase().trim();
 
-  // Common eBay aspect values tend to be Title Case
-  // (fixed duplicate "football" key)
   const map = {
     baseball: ["Baseball"],
     soccer: ["Soccer"],
@@ -125,12 +124,14 @@ function sportAspectCandidates(sportRaw) {
   return map[s] || [sportRaw];
 }
 
-// --- FX (USD/EUR -> CAD) ---
+// --- FX (Normalize ANY currency -> USD) ---
 // CBSA Exchange Rates API (rates are CAD per 1 unit of foreign currency)
 const CBSA_FX_URL =
   "https://bcd-api-dca-ipa.cbsa-asfc.cloud-nuage.canada.ca/exchange-rate-lambda/exchange-rates";
 
-async function getFxRatesToCAD() {
+// Returns rates as "USD per 1 unit of currency":
+// { USD: 1, CAD: <usd_per_cad>, EUR: <usd_per_eur>, ... }
+async function getFxRatesToUSD() {
   const res = await fetch(CBSA_FX_URL, {
     headers: { "Content-Type": "application/json" },
   });
@@ -143,8 +144,8 @@ async function getFxRatesToCAD() {
   const json = await res.json();
   const rows = json?.ForeignExchangeRates || json?.foreignExchangeRates || [];
 
-  // Build: { CAD: 1, USD: <cad_per_usd>, EUR: <cad_per_eur>, ... }
-  const rates = { CAD: 1 };
+  // Build CAD per 1 unit first
+  const cadPer = { CAD: 1 };
   let asOf = null;
 
   for (const r of rows) {
@@ -153,7 +154,7 @@ async function getFxRatesToCAD() {
     const rate = Number(r?.Rate);
 
     if (to === "CAD" && Number.isFinite(rate) && rate > 0 && from) {
-      rates[from] = rate;
+      cadPer[from] = rate;
       asOf =
         asOf ||
         r?.ExchangeRateEffectiveTimestamp ||
@@ -163,19 +164,34 @@ async function getFxRatesToCAD() {
     }
   }
 
-  return { rates, asOf };
+  const cadPerUsd = cadPer.USD;
+  if (!Number.isFinite(cadPerUsd) || cadPerUsd <= 0) {
+    throw new Error("CBSA FX: missing/invalid USD->CAD rate (needed to normalize to USD).");
+  }
+
+  // Convert CAD-per to USD-per using:
+  // usdPer[cur] = cadPer[cur] / cadPer[USD]
+  const usdPer = { USD: 1 };
+
+  for (const [cur, cadPerCur] of Object.entries(cadPer)) {
+    if (!Number.isFinite(cadPerCur) || cadPerCur <= 0) continue;
+    usdPer[cur] = cadPerCur / cadPerUsd;
+  }
+
+  // CAD -> USD specifically
+  usdPer.CAD = 1 / cadPerUsd;
+
+  return { rates: usdPer, asOf };
 }
 
-function convertToCAD(amount, currency, fxRates) {
+function convertToUSD(amount, currency, fxRatesToUSD) {
   const cur = String(currency || "").toUpperCase();
-  if (!Number.isFinite(amount)) return { cad: null, rateUsed: null };
+  if (!Number.isFinite(amount)) return { usd: null, rateUsed: null };
 
-  if (!cur || cur === "CAD") return { cad: amount, rateUsed: 1 };
+  const rate = fxRatesToUSD?.[cur];
+  if (!Number.isFinite(rate) || rate <= 0) return { usd: null, rateUsed: null };
 
-  const rate = fxRates?.[cur];
-  if (!Number.isFinite(rate)) return { cad: null, rateUsed: null };
-
-  return { cad: amount * rate, rateUsed: rate };
+  return { usd: amount * rate, rateUsed: rate };
 }
 
 // --- eBay auth ---
@@ -265,7 +281,6 @@ function candidateAspectValuesForName(name) {
 }
 
 // We "validate" Player/Athlete by directly testing aspect_filter queries.
-// This avoids missing names that don't appear in refinement distributions.
 async function validatePlayerAthleteMatch({ token, marketplaceId, name, sport }) {
   const q = buildQuery(name, sport);
 
@@ -327,7 +342,7 @@ async function computeAvgActiveListing({
   sport,
   aspectMode,
   aspectValue,
-  fxRates, // NEW
+  fxRates, // USD per 1 unit of currency
 }) {
   const q = buildQuery(name, sport);
 
@@ -344,8 +359,8 @@ async function computeAvgActiveListing({
 
   let offset = 0;
 
-  // We will store CAD-converted prices here
-  const pricesCAD = [];
+  // USD-normalized prices
+  const pricesUSD = [];
 
   // Keep some debug info about original currencies and rates used
   let originalCurrency = null;
@@ -372,10 +387,10 @@ async function computeAvgActiveListing({
       const cur = p?.currency || null;
       originalCurrency = originalCurrency || cur;
 
-      const { cad, rateUsed } = convertToCAD(v, cur, fxRates);
-      if (cad == null) continue;
+      const { usd, rateUsed } = convertToUSD(v, cur, fxRates);
+      if (usd == null) continue;
 
-      pricesCAD.push(cad);
+      pricesUSD.push(usd);
       fxRateUsed = fxRateUsed || rateUsed;
     }
 
@@ -385,14 +400,11 @@ async function computeAvgActiveListing({
   }
 
   return {
-    // avgListing is now CAD-normalized
-    avgListing: avg(pricesCAD),
-    nListing: pricesCAD.length,
+    avgListing: avg(pricesUSD),
+    nListing: pricesUSD.length,
+    currency: "USD",
 
-    // currency is always CAD for normalized values
-    currency: "CAD",
-
-    // extra debug fields (optional but helpful)
+    // debug fields
     originalCurrency: originalCurrency || null,
     fxRateUsed: fxRateUsed || null,
   };
@@ -409,7 +421,7 @@ function loadAthletes() {
   const raw = fs.readFileSync(ATHLETES_PATH, "utf8");
   const arr = JSON.parse(raw);
 
-  // Normalize to { name, sport } (keep sport as given in your file; we map internally)
+  // Normalize to { name, sport }
   return (arr || [])
     .map((x) => ({
       name: normSpaces(x?.name),
@@ -422,8 +434,8 @@ function loadAthletes() {
 async function main() {
   const token = await getAppToken();
 
-  // NEW: fetch FX once (CAD per 1 unit foreign currency)
-  const fx = await getFxRatesToCAD();
+  // Fetch FX once (USD per 1 unit)
+  const fx = await getFxRatesToUSD();
 
   const athletes = loadAthletes();
 
@@ -434,14 +446,13 @@ async function main() {
       minSampleSize: MIN_EBAY_SAMPLE_SIZE,
       marketplaces: MARKETPLACES,
       categoryId: CATEGORY_ID,
-      note: "Active listing averages only (Browse API FIXED_PRICE). No sold data. Prices normalized to CAD.",
+      note: "Active listing averages only (Browse API FIXED_PRICE). No sold data. Prices normalized to USD.",
       fx: {
         source: "CBSA Exchange Rates API",
         asOf: fx.asOf,
-        // Keep just the common ones for transparency (you can store all if you want)
-        ratesToCAD: {
-          CAD: 1,
-          USD: fx.rates?.USD ?? null,
+        ratesToUSD: {
+          USD: 1,
+          CAD: fx.rates?.CAD ?? null,
           EUR: fx.rates?.EUR ?? null,
         },
       },
@@ -488,7 +499,7 @@ async function main() {
       n: 0,
       avgListing: null,
       nListing: 0,
-      currency: "CAD", // NEW: rollup is CAD
+      currency: "USD",
     };
 
     for (const marketplaceId of MARKETPLACES) {
@@ -500,17 +511,17 @@ async function main() {
           sport,
           aspectMode: match.mode,
           aspectValue: match.value,
-          fxRates: fx.rates, // NEW
+          fxRates: fx.rates,
         });
 
         rec.marketplaces[marketplaceId] = {
           aspectMode: match.mode,
           aspectValue: match.value,
 
-          // CAD-normalized
+          // USD-normalized
           avgListing: listing.avgListing,
           nListing: listing.nListing,
-          currency: listing.currency, // "CAD"
+          currency: listing.currency, // "USD"
 
           // debug fields
           originalCurrency: listing.originalCurrency,
@@ -538,7 +549,7 @@ async function main() {
 
     rec.avgListing = pick?.avgListing ?? null;
     rec.nListing = pick?.nListing ?? 0;
-    rec.currency = "CAD";
+    rec.currency = "USD";
 
     // Backward-compatible fields (so your UI can read rec.avg / rec.n)
     rec.avg = rec.avgListing;
