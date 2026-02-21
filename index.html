@@ -6,7 +6,7 @@
   <title>VZLA Sports Elite</title>
 
   <meta name="impact-site-verification" value="01c83abd-89b3-4408-b3a4-78e22587515e">
-  <link rel="stylesheet" href="./css/style.css?v=2026">
+
   <!-- Google Tag Manager -->
   <script>
     (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -35,18 +35,7 @@
 
   <!-- CSS -->
   <link rel="stylesheet" href="./dist/tailwind.css?v=2026">
-
-  <!-- ✅ IMPORTANT FIX:
-       You said your file is named style.css (singular) and you posted it.
-       Your prior link was ./css/styles.css (plural) which will 404 and make the site look unstyled.
-       Use ONE of the following depending on where the file lives:
-
-       If style.css is in the project root (recommended): -->
-  <link rel="stylesheet" href="./style.css?v=2026">
-
-  <!-- If style.css is inside /css instead, comment the line above and use this:
   <link rel="stylesheet" href="./css/style.css?v=2026">
-  -->
 </head>
 
 <body id="top">
@@ -221,7 +210,6 @@
         <button onclick="setSport('Other', this)" class="text-slate-500">Other</button>
       </div>
 
-      <!-- JS will populate this -->
       <div id="athletes-grid" class="vzla-grid"></div>
 
       <footer class="vzla-footer">
@@ -340,19 +328,16 @@
       navToggle.addEventListener("click", openMenu);
       navClose.addEventListener("click", closeMenu);
 
-      // Close on ESC
       document.addEventListener("keydown", (e) => {
         if (e.key === "Escape" && mobileMenu.classList.contains("is-open")) closeMenu();
       });
 
-      // Close when clicking any link in the menu
       mobileMenu.addEventListener("click", (e) => {
         const a = e.target.closest("a");
         if (!a) return;
         closeMenu();
       });
 
-      // Only one dropdown open at a time inside mobile menu
       mobileMenu.querySelectorAll("details.mobile-dd").forEach(d => {
         d.addEventListener("toggle", () => {
           if (d.open) {
