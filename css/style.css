@@ -4,7 +4,6 @@
   --vzla-panel:#0b0b0b;
   --vzla-mint:#7fffe1;
 }
-<link rel="stylesheet" href="./css/style.css?v=2026">
 
 body{
   background: var(--vzla-bg);
@@ -55,7 +54,6 @@ body{
   font-size: 22px;
   letter-spacing: 0.06em;
 
-  /* Your theme */
   background: rgba(242,242,13,0.12);
   border: 1px solid rgba(242,242,13,0.18);
   color: var(--vzla-yellow);
@@ -85,7 +83,6 @@ body{
   font-size: 14px;
   font-weight: 900;
 
-  /* Neutral pill like CardHedge (still fits your dark theme) */
   background: rgba(255,255,255,0.06);
   border: 1px solid rgba(255,255,255,0.10);
   color: rgba(255,255,255,0.88);
