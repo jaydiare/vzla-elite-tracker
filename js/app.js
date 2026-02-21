@@ -269,6 +269,105 @@ function renderGrid(list) {
   grid.innerHTML = filtered.map(renderAthleteCard).join("");
 }
 
+function formatIndexNumber(n) {
+  const num = Number(n);
+  if (!Number.isFinite(num)) return "—";
+  return new Intl.NumberFormat("en-US").format(Math.round(num));
+}
+
+function getSportCounts(list) {
+  const counts = new Map();
+  (list || []).forEach(a => {
+    const sport = a?.sport || "Other";
+    counts.set(sport, (counts.get(sport) || 0) + 1);
+  });
+  return counts;
+}
+
+function computeIndexForSport(list, sportOrAll) {
+  // Index = SUM of eBay avg listing prices for athletes in that sport
+  // (Only sums athletes that actually have an avg price in ebay-avg.json)
+  let sum = 0;
+  let used = 0;
+
+  (list || []).forEach(a => {
+    if (sportOrAll !== "All" && a.sport !== sportOrAll) return;
+
+    const avg = getEbayAvgFor(a);
+    const avgNum =
+      avg?.avgListing ??
+      avg?.avg_list_price ??
+      avg?.avgListPrice ??
+      avg?.avg ??
+      avg?.average ??
+      null;
+
+    const v = Number(avgNum);
+    if (Number.isFinite(v)) {
+      sum += v;
+      used += 1;
+    }
+  });
+
+  return { sum, used };
+}
+
+function makeIndexCardHTML({ title, badgeText, value, sub }) {
+  return `
+    <div class="vzla-index-card">
+      <div class="vzla-index-top">
+        <div class="vzla-index-title">
+          <div class="vzla-index-badge">${badgeText}</div>
+          <div>${title}</div>
+        </div>
+      </div>
+
+      <div class="vzla-index-value">${value}</div>
+      <div class="vzla-index-sub">${sub}</div>
+    </div>
+  `;
+}
+
+function renderIndexCards() {
+  const row = document.getElementById("vzlaIndexRow");
+  if (!row) return;
+
+  // Find top 2 sports by how many athletes you have
+  const counts = getSportCounts(athleteData);
+
+  // Optional: ignore "Other" when picking top 2 (usually cleaner)
+  const entries = Array.from(counts.entries())
+    .filter(([sport]) => sport !== "Other")
+    .sort((a, b) => b[1] - a[1]);
+
+  const top1 = entries[0]?.[0] || "Baseball";
+  const top2 = entries[1]?.[0] || "Soccer";
+
+  const i1 = computeIndexForSport(athleteData, top1);
+  const i2 = computeIndexForSport(athleteData, top2);
+  const iAll = computeIndexForSport(athleteData, "All");
+
+  row.innerHTML =
+    makeIndexCardHTML({
+      title: `${top1} Index`,
+      badgeText: "I",
+      value: formatIndexNumber(i1.sum),
+      sub: `${counts.get(top1) || 0} athletes • ${i1.used} priced`,
+    }) +
+    makeIndexCardHTML({
+      title: `${top2} Index`,
+      badgeText: "I",
+      value: formatIndexNumber(i2.sum),
+      sub: `${counts.get(top2) || 0} athletes • ${i2.used} priced`,
+    }) +
+    makeIndexCardHTML({
+      title: `All Index`,
+      badgeText: "I",
+      value: formatIndexNumber(iAll.sum),
+      sub: `${athleteData.length} athletes • ${iAll.used} priced`,
+    });
+}
+
 // ---------- Init ----------
 async function init() {
   if (!document.getElementById("athletes-grid")) return;
@@ -292,6 +391,7 @@ async function init() {
   if (search) search.addEventListener("input", () => renderGrid(athleteData));
 
   renderGrid(athleteData);
+  renderIndexCards();
 }
 
 document.addEventListener("DOMContentLoaded", init);
