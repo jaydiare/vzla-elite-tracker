@@ -38,7 +38,6 @@ let ebayAvgRaw = {};
 let activeSport = "All";
 
 // ---------- Helpers ----------
-
 function norm(s) {
   return String(s || "").trim().toLowerCase();
 }
@@ -61,11 +60,8 @@ function mergeByNameSportKeepBest(localArr, fetchedArr) {
     if (!key || key === "|") return;
 
     const prev = map.get(key);
-    if (!prev) {
-      map.set(key, a);
-    } else {
-      map.set(key, score(a) >= score(prev) ? a : prev);
-    }
+    if (!prev) map.set(key, a);
+    else map.set(key, score(a) >= score(prev) ? a : prev);
   };
 
   (localArr || []).forEach(add);
@@ -94,7 +90,6 @@ function initialsFromName(name) {
 }
 
 // ---------- "Last updated" label (from ebay-avg.json _meta.updatedAt) ----------
-
 function timeAgo(isoString) {
   const then = new Date(isoString);
   if (Number.isNaN(then.getTime())) return "—";
@@ -122,7 +117,6 @@ function updateEbayLastUpdatedLabelFrom(ebayJson) {
 }
 
 // ---------- eBay Avg Index ----------
-
 const ebayAvgByName = {};
 const ebayAvgByKey = {};
 
@@ -153,7 +147,6 @@ function buildEbayIndexes(obj) {
 
 function getEbayAvgFor(athlete) {
   if (!athlete) return null;
-
   const key = makeNameSportKey(athlete.name, athlete.sport);
   return ebayAvgByKey[key] || ebayAvgByName[athlete.name] || null;
 }
@@ -162,15 +155,10 @@ function formatCurrency(amount, currency) {
   const n = Number(amount);
   if (!Number.isFinite(n)) return "";
 
-  if ((currency || "").toUpperCase() === "CAD") {
-    return `C$${n.toFixed(2)}`;
-  }
-
-  if ((currency || "").toUpperCase() === "USD") {
-    return `$${n.toFixed(2)}`;
-  }
-
-  return `${(currency || "").toUpperCase()} ${n.toFixed(2)}`;
+  const c = String(currency || "").toUpperCase();
+  if (c === "CAD") return `C$${n.toFixed(2)}`;
+  if (c === "USD") return `$${n.toFixed(2)}`;
+  return `${c} ${n.toFixed(2)}`;
 }
 
 function buildEbaySearchUrl(name, sport) {
@@ -180,7 +168,6 @@ function buildEbaySearchUrl(name, sport) {
 }
 
 // ---------- UI ----------
-
 function setSport(sport, btn) {
   activeSport = sport;
 
@@ -192,13 +179,12 @@ function setSport(sport, btn) {
     });
   }
 
-  // btn may be omitted (dropdown / programmatic calls)
   if (btn) {
     btn.classList.remove("text-slate-500");
     btn.classList.add("text-[#f2f20d]");
   } else {
-    // if no btn passed, try to highlight the matching button by text
-    filterBar?.querySelectorAll("button")?.forEach((x) => {
+    const buttons = filterBar?.querySelectorAll("button");
+    buttons?.forEach((x) => {
       const t = x.textContent.trim().toLowerCase();
       const s = String(sport || "").trim().toLowerCase();
       if (t === s) {
@@ -211,10 +197,9 @@ function setSport(sport, btn) {
   renderGrid(athleteData);
 }
 
-// Make sure inline onclick="setSport(...)" works
 window.setSport = setSport;
 
-// CardHedge-like card (no photos), keeps your data + CTA
+// CardHedge-like card (no photos)
 function renderAthleteCard(a) {
   const avg = getEbayAvgFor(a);
   const avgNum =
@@ -227,16 +212,16 @@ function renderAthleteCard(a) {
 
   const currency = avg?.currency || "CAD";
   const money =
-    avgNum != null && Number.isFinite(Number(avgNum)) ? formatCurrency(avgNum, currency) : "—";
+    avgNum != null && Number.isFinite(Number(avgNum))
+      ? formatCurrency(avgNum, currency)
+      : "—";
 
   const shopUrl = buildEbaySearchUrl(a.name, a.sport);
   const initials = initialsFromName(a.name);
 
-  // You don’t have 30d change yet; keep placeholder (matches CardHedge UI)
+  // Placeholder for 30d change (until you have that data)
   const chgText = "—";
   const chgClass = "chg-neutral";
-
-  const metaParts = [a.league, a.team].filter(Boolean);
 
   return `
     <article class="athlete-card">
@@ -254,17 +239,16 @@ function renderAthleteCard(a) {
 
       <div class="athlete-card__bottom">
         <div class="athlete-card__spark" aria-hidden="true"></div>
-
-        <div class="athlete-card__chg ${chgClass}">
-          ${chgText} <small>30d</small>
-        </div>
+        <div class="athlete-card__chg ${chgClass}">${chgText} <small>30d</small></div>
       </div>
 
       <a href="${shopUrl}" target="_blank" rel="noopener noreferrer" class="athlete-card__cta">
         Shop Collectibles
       </a>
 
-      <div class="athlete-card__meta">${metaParts.join(" • ")}</div>
+      <div class="athlete-card__meta">
+        ${a.league ? `${a.league}` : ""}${a.league && a.team ? " • " : ""}${a.team ? `${a.team}` : ""}
+      </div>
     </article>
   `;
 }
@@ -279,20 +263,17 @@ function renderGrid(list) {
     .filter((a) => {
       if (activeSport === "All") return true;
       if (activeSport === "Other") {
-        // Includes everything except the "Big Three"
         return !["Baseball", "Soccer", "Basketball"].includes(a.sport);
       }
       return a.sport === activeSport;
     })
     .filter((a) => !q || norm(a.name).includes(q));
 
-  // IMPORTANT: use your new CSS grid class (CardHedge-like density)
   grid.className = "vzla-grid";
   grid.innerHTML = filtered.map(renderAthleteCard).join("");
 }
 
 // ---------- Init ----------
-
 async function init() {
   if (!document.getElementById("athletes-grid")) return;
 
@@ -304,22 +285,15 @@ async function init() {
   athleteData = mergeByNameSportKeepBest(athleteDataRaw, fetchedAthletes || []);
 
   ebayAvgRaw =
-    fetchedEbayAvg && typeof fetchedEbayAvg === "object"
-      ? fetchedEbayAvg
-      : {};
+    fetchedEbayAvg && typeof fetchedEbayAvg === "object" ? fetchedEbayAvg : {};
 
   buildEbayIndexes(ebayAvgRaw);
 
-  // Update "Last updated" label using the SAME fetched JSON
   updateEbayLastUpdatedLabelFrom(ebayAvgRaw);
-
-  // Refresh every minute (relative time label)
   setInterval(() => updateEbayLastUpdatedLabelFrom(ebayAvgRaw), 60 * 1000);
 
   const search = document.getElementById("search-input");
-  if (search) {
-    search.addEventListener("input", () => renderGrid(athleteData));
-  }
+  if (search) search.addEventListener("input", () => renderGrid(athleteData));
 
   renderGrid(athleteData);
 }
