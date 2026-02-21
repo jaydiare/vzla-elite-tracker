@@ -521,11 +521,10 @@ details.mobile-dd summary::-webkit-details-marker{ display:none; }
 /* =========================
    CardHedge-like grid/cards
    ========================= */
-.vzla-grid{
-  display:grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 18px;
-  margin-top: 18px;
+@media (min-width: 1600px){
+  .vzla-grid{
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  }
 }
 
 .athlete-card{
