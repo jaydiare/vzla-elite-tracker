@@ -31,7 +31,7 @@ TSDB_CACHE_PATH = "data/tsdb_cache.json"
 
 # Free-tier safety
 BDB_SLEEP_SEC = 13
-BDB_MAX_PAGES_PER_ENDPOINT = None
+BDB_MAX_PAGES_PER_ENDPOINT = 10
 
 # TSDB safety (free-tier is strict)
 TSDB_SLEEP_SEC = 8.0
@@ -58,31 +58,31 @@ BDB_ENDPOINTS: List[Dict[str, Any]] = [
 
     #{"sport": "Hockey",     "league": "NHL",   "provider": "balldontlie", "path": "/nhl/v1/players",      "field": "birth_place"},
 
-    {"sport": "Soccer", "league": "EPL",        "provider": "balldontlie", "path": "/epl/v2/players",        "field": "birth_place"},
-    {"sport": "Soccer", "league": "La Liga",    "provider": "balldontlie", "path": "/laliga/v1/players",     "field": "birth_place"},
-    {"sport": "Soccer", "league": "MLS",        "provider": "balldontlie", "path": "/mls/v1/players",        "field": "birth_place"},
-    {"sport": "Soccer", "league": "UCL",        "provider": "balldontlie", "path": "/ucl/v1/players",        "field": "birth_place"},
-    {"sport": "Soccer", "league": "Ligue 1",    "provider": "balldontlie", "path": "/ligue1/v1/players",     "field": "birth_place"},
-    {"sport": "Soccer", "league": "Bundesliga", "provider": "balldontlie", "path": "/bundesliga/v1/players", "field": "birth_place"},
-    {"sport": "Soccer", "league": "Serie A",    "provider": "balldontlie", "path": "/seriea/v1/players",     "field": "birth_place"},
+    #{"sport": "Soccer", "league": "EPL",        "provider": "balldontlie", "path": "/epl/v2/players",        "field": "birth_place"},
+    #{"sport": "Soccer", "league": "La Liga",    "provider": "balldontlie", "path": "/laliga/v1/players",     "field": "birth_place"},
+    #{"sport": "Soccer", "league": "MLS",        "provider": "balldontlie", "path": "/mls/v1/players",        "field": "birth_place"},
+    #{"sport": "Soccer", "league": "UCL",        "provider": "balldontlie", "path": "/ucl/v1/players",        "field": "birth_place"},
+    #{"sport": "Soccer", "league": "Ligue 1",    "provider": "balldontlie", "path": "/ligue1/v1/players",     "field": "birth_place"},
+    #{"sport": "Soccer", "league": "Bundesliga", "provider": "balldontlie", "path": "/bundesliga/v1/players", "field": "birth_place"},
+    #{"sport": "Soccer", "league": "Serie A",    "provider": "balldontlie", "path": "/seriea/v1/players",     "field": "birth_place"},
 
-    {"sport": "MMA",        "league": "MMA",       "provider": "balldontlie", "path": "/mma/v1/fighters",   "field": "birth_place"},
-    {"sport": "Golf",       "league": "PGA Tour",  "provider": "balldontlie", "path": "/pga/v1/players",    "field": "birth_place"},
-    {"sport": "Tennis",     "league": "ATP",       "provider": "balldontlie", "path": "/atp/v1/players",    "field": "birth_place"},
-    {"sport": "Tennis",     "league": "WTA",       "provider": "balldontlie", "path": "/wta/v1/players",    "field": "birth_place"},
-    {"sport": "Motorsport", "league": "F1",        "provider": "balldontlie", "path": "/f1/v1/drivers",     "field": "birth_place"},
+    #{"sport": "MMA",        "league": "MMA",       "provider": "balldontlie", "path": "/mma/v1/fighters",   "field": "birth_place"},
+    #{"sport": "Golf",       "league": "PGA Tour",  "provider": "balldontlie", "path": "/pga/v1/players",    "field": "birth_place"},
+    #{"sport": "Tennis",     "league": "ATP",       "provider": "balldontlie", "path": "/atp/v1/players",    "field": "birth_place"},
+    #{"sport": "Tennis",     "league": "WTA",       "provider": "balldontlie", "path": "/wta/v1/players",    "field": "birth_place"},
+    #{"sport": "Motorsport", "league": "F1",        "provider": "balldontlie", "path": "/f1/v1/drivers",     "field": "birth_place"},
 ]
 
 # =========================
 # THESPORTSDB TOP DIVISIONS
 # =========================
 TSDB_TOP_DIVISIONS: List[Dict[str, Any]] = [
-    {"sport": "Soccer", "country": "Mexico",    "league": "Mexican Primera League",       "league_id": "4350"},
-    {"sport": "Soccer", "country": "Argentina", "league": "Argentinian Primera Division", "league_id": "4406"},
-    {"sport": "Soccer", "country": "Brazil",    "league": "Brazilian Serie A",            "league_id": "4351"},
-    {"sport": "Soccer", "country": "Chile",     "league": "Chile Primera Division",       "league_id": "4627"},
-    {"sport": "Soccer", "country": "Italy",     "league": "Italian Serie A",              "league_id": "4332"},
-    {"sport": "Soccer", "country": "France",    "league": "French Ligue 1",               "league_id": "4334"},
+    #{"sport": "Soccer", "country": "Mexico",    "league": "Mexican Primera League",       "league_id": "4350"},
+    #{"sport": "Soccer", "country": "Argentina", "league": "Argentinian Primera Division", "league_id": "4406"},
+    #{"sport": "Soccer", "country": "Brazil",    "league": "Brazilian Serie A",            "league_id": "4351"},
+    #{"sport": "Soccer", "country": "Chile",     "league": "Chile Primera Division",       "league_id": "4627"},
+    #{"sport": "Soccer", "country": "Italy",     "league": "Italian Serie A",              "league_id": "4332"},
+    #{"sport": "Soccer", "country": "France",    "league": "French Ligue 1",               "league_id": "4334"},
 
     #{"sport": "Basketball", "country": "Mexico",    "league": "Mexican LNBP",  "league_id": "5119"},
     #{"sport": "Basketball", "country": "Argentina", "league": "Argentine LNB", "league_id": "4734"},
@@ -91,14 +91,14 @@ TSDB_TOP_DIVISIONS: List[Dict[str, Any]] = [
     #{"sport": "Baseball", "country": "Mexico", "league": "Liga Mexicana de Béisbol", "league_id": "5064"},
     #{"sport": "Baseball", "country": "Mexico", "league": "Mexican Pacific League",   "league_id": "5109"},
     {"sport": "Baseball", "country": "Japan",  "league": "Nippon Baseball League",    "league_id": "4591"},
-    #{"sport": "Baseball", "country": "Korea",  "league": "Korean KBO League",         "league_id": "4830"},
+    {"sport": "Baseball", "country": "Korea",  "league": "Korean KBO League",         "league_id": "4830"},
 ]
 
 TSDB_GOLF_TOP_TOURS: List[Dict[str, str]] = [
-    {"league_id": "4486", "league": "European Tour"},
-    {"league_id": "4425", "league": "PGA Tour"},
-    {"league_id": "4553", "league": "LPGA Tour"},
-    {"league_id": "4426", "league": "European Tour"},
+    #{"league_id": "4486", "league": "European Tour"},
+    #{"league_id": "4425", "league": "PGA Tour"},
+    #{"league_id": "4553", "league": "LPGA Tour"},
+    #{"league_id": "4426", "league": "European Tour"},
 ]
 
 # =========================
