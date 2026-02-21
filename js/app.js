@@ -84,6 +84,15 @@ async function fetchJsonWithFallback(path) {
   }
 }
 
+// Initials avatar (no photos)
+function initialsFromName(name) {
+  const parts = String(name || "").trim().split(/\s+/).filter(Boolean);
+  if (!parts.length) return "VZ";
+  const a = parts[0]?.[0] || "";
+  const b = parts.length > 1 ? (parts[1]?.[0] || "") : (parts[0]?.[1] || "");
+  return (a + b).toUpperCase();
+}
+
 // ---------- "Last updated" label (from ebay-avg.json _meta.updatedAt) ----------
 
 function timeAgo(isoString) {
@@ -183,9 +192,21 @@ function setSport(sport, btn) {
     });
   }
 
+  // btn may be omitted (dropdown / programmatic calls)
   if (btn) {
     btn.classList.remove("text-slate-500");
     btn.classList.add("text-[#f2f20d]");
+  } else {
+    // if no btn passed, try to highlight the matching button by text
+    const b = filterBar?.querySelectorAll("button");
+    b?.forEach((x) => {
+      const t = x.textContent.trim().toLowerCase();
+      const s = String(sport || "").trim().toLowerCase();
+      if (t === s) {
+        x.classList.remove("text-slate-500");
+        x.classList.add("text-[#f2f20d]");
+      }
+    });
   }
 
   renderGrid(athleteData);
@@ -193,6 +214,61 @@ function setSport(sport, btn) {
 
 // Make sure inline onclick="setSport(...)" works
 window.setSport = setSport;
+
+// CardHedge-like card (no photos), keeps your data + CTA
+function renderAthleteCard(a) {
+  const avg = getEbayAvgFor(a);
+  const avgNum =
+    avg?.avgListing ??
+    avg?.avg_list_price ??
+    avg?.avgListPrice ??
+    avg?.avg ??
+    avg?.average ??
+    null;
+
+  const currency = avg?.currency || "CAD";
+  const money =
+    avgNum != null && Number.isFinite(Number(avgNum)) ? formatCurrency(avgNum, currency) : "—";
+
+  const shopUrl = buildEbaySearchUrl(a.name, a.sport);
+  const initials = initialsFromName(a.name);
+
+  // You don’t have 30d change yet; keep placeholder (matches CardHedge UI)
+  const chgText = "—";
+  const chgClass = "chg-neutral";
+
+  return `
+    <article class="athlete-card">
+      <div class="athlete-card__top">
+        <div class="athlete-card__avatar" aria-hidden="true">${initials}</div>
+
+        <div class="athlete-card__head">
+          <div class="athlete-card__name" title="${a.name}">${a.name}</div>
+          <div class="athlete-card__pill">${a.sport}</div>
+        </div>
+      </div>
+
+      <div class="athlete-card__value">${money}</div>
+      <div class="athlete-card__label">eBay Avg listing price</div>
+
+      <div class="athlete-card__bottom">
+        <div class="athlete-card__spark" aria-hidden="true"></div>
+
+        <div class="athlete-card__chg ${chgClass}">
+          ${chgText} <small>30d</small>
+        </div>
+      </div>
+
+      <a href="${shopUrl}" target="_blank" rel="noopener noreferrer" class="athlete-card__cta">
+        Shop Collectibles
+      </a>
+
+      <div class="athlete-card__meta">
+        ${a.league ? `${a.league}` : ""}${a.league && a.team ? " • " : ""}${a.team ? `${a.team}` : ""}
+      </div>
+    </article>
+  `;
+}
 
 function renderGrid(list) {
   const grid = document.getElementById("athletes-grid");
@@ -211,51 +287,9 @@ function renderGrid(list) {
     })
     .filter(a => !q || norm(a.name).includes(q));
 
-  // Balanced grid gap
-  grid.className = "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-10 w-full max-w-7xl mx-auto";
-
-  grid.innerHTML = filtered.map(a => {
-    const avg = getEbayAvgFor(a);
-    const avgNum = avg?.avgListing ?? avg?.avg_list_price ?? avg?.avgListPrice ?? avg?.avg ?? avg?.average ?? null;
-    const currency = avg?.currency || "CAD";
-    const money = avgNum != null && Number.isFinite(Number(avgNum)) ? formatCurrency(avgNum, currency) : "";
-    const shopUrl = buildEbaySearchUrl(a.name, a.sport);
-
-    return `
-      <main class="athlete-card bg-[#111111] border border-white/5 rounded-[45px] p-10 w-full shadow-2xl flex flex-col items-center text-center justify-between min-h-[340px] transition-all hover:border-white/20">
-        
-        <header class="flex-grow flex flex-col justify-center mb-4">
-          <h1 class="athlete-name text-white text-[16px] font-black italic uppercase leading-[0.9] tracking-tighter mb-4">
-            ${a.name}
-          </h1>
-          
-          <div class="flex items-center justify-center space-x-2 text-[#777777] font-bold text-[12px] tracking-[0.25em] uppercase">
-            <span class="inline-block w-1.5 h-1.5 bg-[#00ff00] rounded-full inline-block mx-1 shadow-[0_0_8px_#00ff00]"></span>
-            <span>${a.league} • ${a.sport} • ${a.team}</span>
-          </div>
-        </header>
-
-        <a href="${shopUrl}" 
-           target="_blank" 
-           rel="noopener noreferrer"
-           class="shop-btn bg-[#f2f20d] w-full rounded-full py-5 px-6 flex flex-col items-center justify-center transition-all hover:scale-[1.03] hover:brightness-110 active:scale-[0.97] no-underline shadow-xl">
-          
-          <span class="text-black font-black text-[12px] tracking-tighter uppercase leading-none mb-1">
-            Shop Collectibles
-          </span>
-          
-          ${money ? `
-            <span class="text-black font-bold text-[11px] tracking-tight leading-none opacity-80">
-              eBay Avg listing price: ${money}
-            </span>
-            <span class="text-black font-bold text-[10px] font-normal opacity-60 italic">
-              *prices might vary*
-            </span>
-          ` : ''}
-        </a>
-      </main>
-    `;
-  }).join("");
+  // IMPORTANT: use your new CSS grid class (CardHedge-like density)
+  grid.className = "vzla-grid";
+  grid.innerHTML = filtered.map(renderAthleteCard).join("");
 }
 
 // ---------- Init ----------
@@ -268,10 +302,7 @@ async function init() {
     fetchJsonWithFallback("data/ebay-avg.json"),
   ]);
 
-  athleteData = mergeByNameSportKeepBest(
-    athleteDataRaw,
-    fetchedAthletes || []
-  );
+  athleteData = mergeByNameSportKeepBest(athleteDataRaw, fetchedAthletes || []);
 
   ebayAvgRaw =
     fetchedEbayAvg && typeof fetchedEbayAvg === "object"
@@ -280,10 +311,10 @@ async function init() {
 
   buildEbayIndexes(ebayAvgRaw);
 
-  // ✅ Update "Last updated" label using the SAME fetched JSON
+  // Update "Last updated" label using the SAME fetched JSON
   updateEbayLastUpdatedLabelFrom(ebayAvgRaw);
 
-  // ✅ Refresh every minute (relative time label)
+  // Refresh every minute (relative time label)
   setInterval(() => updateEbayLastUpdatedLabelFrom(ebayAvgRaw), 60 * 1000);
 
   const search = document.getElementById("search-input");
