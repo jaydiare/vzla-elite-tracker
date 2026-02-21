@@ -585,8 +585,8 @@ details.mobile-dd summary::-webkit-details-marker{ display:none; }
   align-self:flex-start;
   padding: 6px 12px;
   border-radius: 999px;
-  font-size: 13px;
-  font-weight: 900;
+  font-size: 12px;
+  font-weight: 800;
   background: rgba(242,242,13,0.12);
   border: 1px solid rgba(242,242,13,0.18);
   color: var(--vzla-yellow);
@@ -594,16 +594,16 @@ details.mobile-dd summary::-webkit-details-marker{ display:none; }
 
 .athlete-card__value{
   margin-top: 14px;
-  font-size: 36px;
+  font-size: 16px;
   font-weight: 950;
   letter-spacing: -0.02em;
 }
 
 .athlete-card__label{
   margin-top: 2px;
-  font-size: 16px;
+  font-size: 12px;
   color: rgba(255,255,255,0.55);
-  font-weight: 800;
+  font-weight: 700;
 }
 
 .athlete-card__bottom{
