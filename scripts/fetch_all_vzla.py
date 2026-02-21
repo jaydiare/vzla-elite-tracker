@@ -47,19 +47,19 @@ TSDB_TEAM_RETRY_COOLDOWN_SEC = 6 * 60 * 60  # 6 hours
 # BALLDONTLIE ENDPOINTS (free-safe list)
 # =========================
 BDB_ENDPOINTS: List[Dict[str, Any]] = [
-    {"sport": "Basketball", "league": "NBA",   "provider": "balldontlie", "path": "/nba/v1/players",      "field": "birth_place"},
-    {"sport": "Basketball", "league": "NCAAB", "provider": "balldontlie", "path": "/ncaab/v1/players",    "field": "birth_place"},
-    {"sport": "Basketball", "league": "NCAAW", "provider": "balldontlie", "path": "/ncaaw/v1/players",    "field": "birth_place"},
+    {"sport": "Basketball", "league": "NBA",   "provider": "balldontlie", "path": "/nba/v1/players?per_page=5",      "field": "birth_place"},
+    {"sport": "Basketball", "league": "NCAAB", "provider": "balldontlie", "path": "/ncaab/v1/players?per_page=5",    "field": "birth_place"},
+    {"sport": "Basketball", "league": "NCAAW", "provider": "balldontlie", "path": "/ncaaw/v1/players?per_page=5",    "field": "birth_place"},
 
     #{"sport": "Football",   "league": "NFL",   "provider": "balldontlie", "path": "/nfl/v1/players",      "field": "birth_place"},
    # {"sport": "Football",   "league": "NCAAF", "provider": "balldontlie", "path": "/ncaaf/v1/players",    "field": "birth_place"},
 
-    {"sport": "Baseball",   "league": "MLB",   "provider": "balldontlie", "path": "/mlb/v1/players",      "field": "birth_place", "active_field": "active"},
+    {"sport": "Baseball",   "league": "MLB",   "provider": "balldontlie", "path": "/mlb/v1/players?per_page=5",      "field": "birth_place", "active_field": "active"},
 
     #{"sport": "Hockey",     "league": "NHL",   "provider": "balldontlie", "path": "/nhl/v1/players",      "field": "birth_place"},
 
-    {"sport": "Soccer", "league": "EPL",        "provider": "balldontlie", "path": "/epl/v2/players",        "field": "birth_place"},
-    {"sport": "Soccer", "league": "La Liga",    "provider": "balldontlie", "path": "/laliga/v1/players",     "field": "birth_place"},
+    {"sport": "Soccer", "league": "EPL",        "provider": "balldontlie", "path": "/epl/v2/players?per_page=5",        "field": "birth_place"},
+    {"sport": "Soccer", "league": "La Liga",    "provider": "balldontlie", "path": "/laliga/v1/players?per_page=5",     "field": "birth_place"},
     {"sport": "Soccer", "league": "MLS",        "provider": "balldontlie", "path": "/mls/v1/players",        "field": "birth_place"},
     {"sport": "Soccer", "league": "UCL",        "provider": "balldontlie", "path": "/ucl/v1/players",        "field": "birth_place"},
     {"sport": "Soccer", "league": "Ligue 1",    "provider": "balldontlie", "path": "/ligue1/v1/players",     "field": "birth_place"},
