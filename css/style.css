@@ -40,16 +40,6 @@ a{ color:inherit; }
   align-items: start;
 }
 
-@media (min-width: 1400px){
-  .page-shell{
-    grid-template-columns: 220px 1fr 220px;
-  }
-
-  .side-banner img{
-    max-width: 220px;
-  }
-}
-
 .side-banner{
   position: sticky;
   top: 100px;
@@ -531,10 +521,11 @@ details.mobile-dd summary::-webkit-details-marker{ display:none; }
 /* =========================
    CardHedge-like grid/cards
    ========================= */
-@media (min-width: 1600px){
-  .vzla-grid{
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  }
+.vzla-grid{
+  display:grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 18px;
+  margin-top: 18px;
 }
 
 .athlete-card{
