@@ -109,7 +109,8 @@ function sportAspectCandidates(sportRaw) {
   // Common eBay aspect values tend to be Title Case
   const map = {
     baseball: ["Baseball"],
-    soccer: ["Soccer", "Football"],
+    soccer: ["Soccer"],
+    football:[ "Football"],
     basketball: ["Basketball"],
     football: ["Football"],
     golf: ["Golf"],
