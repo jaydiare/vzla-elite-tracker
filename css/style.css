@@ -31,7 +31,7 @@ a{ color:inherit; }
    Layout shell + side banners
    ========================= */
 .page-shell{
-  max-width: 1400px;
+  max-width: 1800px;
   margin: 0 auto;
   padding: 18px 18px 120px;
   display: grid;
