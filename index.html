@@ -35,8 +35,18 @@
 
   <!-- CSS -->
   <link rel="stylesheet" href="./dist/tailwind.css?v=2026">
-  <!-- ✅ Your extracted CSS file (adjust path/name if different) -->
-  <link rel="stylesheet" href="./css/styles.css?v=2026">
+
+  <!-- ✅ IMPORTANT FIX:
+       You said your file is named style.css (singular) and you posted it.
+       Your prior link was ./css/styles.css (plural) which will 404 and make the site look unstyled.
+       Use ONE of the following depending on where the file lives:
+
+       If style.css is in the project root (recommended): -->
+  <link rel="stylesheet" href="./style.css?v=2026">
+
+  <!-- If style.css is inside /css instead, comment the line above and use this:
+  <link rel="stylesheet" href="./css/style.css?v=2026">
+  -->
 </head>
 
 <body id="top">
@@ -157,11 +167,11 @@
             <a class="icon-btn" href="https://www.facebook.com/share/18NzEJirJZ/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
               <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
                 <path d="M22 12a10 10 0 1 0-11.6 9.9v-7H8v-3h2.4V9.7c0-2.4 1.4-3.8 3.6-3.8 1 0 2 .2 2 .2v2.2h-1.1c-1.1 0-1.4.7-1.4 1.4V12H16l-.4 3h-2.1v7A10 10 0 0 0 22 12z"/>
-                </svg>
-              </a>
-            </div>
+              </svg>
+            </a>
           </div>
-        </details>
+        </div>
+      </details>
 
       <a class="mobile-cta" href="#top">Top</a>
     </div>
@@ -254,7 +264,7 @@
 
         <div class="vzla-footer-copy">
           <div>© VZLA SPORTS ELITE 2026</div>
-          <div class="mt-2 text-sm tracking-wide opacity-80"> Whitby, Ontario, Canada 🇨🇦</div>
+          <div class="mt-2 text-sm tracking-wide opacity-80">Whitby, Ontario, Canada 🇨🇦</div>
         </div>
       </footer>
 
@@ -285,7 +295,7 @@
   <script src="./js/app.js" defer></script>
 
   <script>
-    // Keep your existing desktop dropdown behavior
+    // Desktop dropdown behavior
     document.querySelectorAll("details.dropdown").forEach(d => {
       d.addEventListener("toggle", () => {
         if (d.open) {
