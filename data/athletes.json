@@ -1069,5 +1069,215 @@
         "league": "WTA",
         "team": "Venezuela",
         "provider": "manual"
-    }
+    },
+    {
+    "name": "Asdrúbal Cabrera",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Reds",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Oswaldo Cabrera",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Yankees",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Orlando Arcia",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Braves",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Gabriel Arias",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Guardians",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Humberto Arteaga",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Marlins",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Willians Astudillo",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Marlins",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Luis Avilán",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Nationals",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Silvino Bracho",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Braves",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "José Buttó",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Mets",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Carlos Carrasco",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Guardians",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Yonny Chirinos",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Braves",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Jackson Chourio",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Brewers",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Elias Díaz",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Rockies",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Félix Hernández",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Mariners",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Kelvim Escobar",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Brewers",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Eduardo Escobar",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Mets",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Freddy Galvis",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Reds",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Avisaíl García",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Marlins",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Andrés Galarraga",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Giants",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Germán Márquez",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Rockies",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Martín Pérez",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Pirates",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "José Peraza",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Mets",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "René Pinto",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Rays",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Yusmeiro Petit",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Athletics",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Miguel Montero",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Blue Jays",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Wilson Ramos",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Indians",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Bruce Rondón",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Cardinals",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Héctor Rondón",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Cardinals",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Aníbal Sánchez",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Nationals",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Marco Scutaro",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Giants",
+    "provider": "balldontlie"
+  }
 ]
