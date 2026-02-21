@@ -3,7 +3,7 @@
 //
 // Computes ACTIVE listing average price from eBay Browse API:
 // - Buy It Now only (FIXED_PRICE) => excludes auctions
-// - Dual marketplace: EBAY_US + EBAY_CA
+// - Dual marketplace: EBAY_US + EBAY_CA (+ EBAY_ES if you keep it)
 //
 // Env vars required:
 //   EBAY_CLIENT_ID
@@ -20,6 +20,7 @@
 // Notes:
 // - Includes graded + listings under $1 (no price floor).
 // - Category used: Trading Card Singles (261328) - keep or change as needed.
+// - NEW: Converts listing prices to CAD using CBSA Exchange Rates API.
 
 import fs from "node:fs";
 import path from "node:path";
@@ -107,12 +108,12 @@ function sportAspectCandidates(sportRaw) {
   const s = (sportRaw || "").toLowerCase().trim();
 
   // Common eBay aspect values tend to be Title Case
+  // (fixed duplicate "football" key)
   const map = {
     baseball: ["Baseball"],
     soccer: ["Soccer"],
-    football:[ "Football"],
-    basketball: ["Basketball"],
     football: ["Football"],
+    basketball: ["Basketball"],
     golf: ["Golf"],
     tennis: ["Tennis"],
     mma: ["MMA", "Mixed Martial Arts"],
@@ -122,6 +123,59 @@ function sportAspectCandidates(sportRaw) {
   };
 
   return map[s] || [sportRaw];
+}
+
+// --- FX (USD/EUR -> CAD) ---
+// CBSA Exchange Rates API (rates are CAD per 1 unit of foreign currency)
+const CBSA_FX_URL =
+  "https://bcd-api-dca-ipa.cbsa-asfc.cloud-nuage.canada.ca/exchange-rate-lambda/exchange-rates";
+
+async function getFxRatesToCAD() {
+  const res = await fetch(CBSA_FX_URL, {
+    headers: { "Content-Type": "application/json" },
+  });
+
+  if (!res.ok) {
+    const txt = await res.text().catch(() => "");
+    throw new Error(`Failed to fetch FX rates (${res.status}): ${txt}`);
+  }
+
+  const json = await res.json();
+  const rows = json?.ForeignExchangeRates || json?.foreignExchangeRates || [];
+
+  // Build: { CAD: 1, USD: <cad_per_usd>, EUR: <cad_per_eur>, ... }
+  const rates = { CAD: 1 };
+  let asOf = null;
+
+  for (const r of rows) {
+    const from = String(r?.FromCurrency?.Value || r?.FromCurrency || "").toUpperCase();
+    const to = String(r?.ToCurrency?.Value || r?.ToCurrency || "").toUpperCase();
+    const rate = Number(r?.Rate);
+
+    if (to === "CAD" && Number.isFinite(rate) && rate > 0 && from) {
+      rates[from] = rate;
+      asOf =
+        asOf ||
+        r?.ExchangeRateEffectiveTimestamp ||
+        r?.ValidStartDate ||
+        r?.ExchangeRateExpiryTimestamp ||
+        null;
+    }
+  }
+
+  return { rates, asOf };
+}
+
+function convertToCAD(amount, currency, fxRates) {
+  const cur = String(currency || "").toUpperCase();
+  if (!Number.isFinite(amount)) return { cad: null, rateUsed: null };
+
+  if (!cur || cur === "CAD") return { cad: amount, rateUsed: 1 };
+
+  const rate = fxRates?.[cur];
+  if (!Number.isFinite(rate)) return { cad: null, rateUsed: null };
+
+  return { cad: amount * rate, rateUsed: rate };
 }
 
 // --- eBay auth ---
@@ -205,14 +259,7 @@ function candidateAspectValuesForName(name) {
   const noJrAscii = ascii.replace(/\s+Jr\.?$/i, "").trim();
 
   // Also try removing "Jr" in middle patterns like "Acuña Jr."
-  const variants = new Set([
-    raw,
-    ascii,
-    noDotsRaw,
-    noDotsAscii,
-    noJrRaw,
-    noJrAscii,
-  ]);
+  const variants = new Set([raw, ascii, noDotsRaw, noDotsAscii, noJrRaw, noJrAscii]);
 
   return [...variants].map(normSpaces).filter(Boolean);
 }
@@ -280,6 +327,7 @@ async function computeAvgActiveListing({
   sport,
   aspectMode,
   aspectValue,
+  fxRates, // NEW
 }) {
   const q = buildQuery(name, sport);
 
@@ -295,8 +343,13 @@ async function computeAvgActiveListing({
   }
 
   let offset = 0;
-  const prices = [];
-  let currency = null;
+
+  // We will store CAD-converted prices here
+  const pricesCAD = [];
+
+  // Keep some debug info about original currencies and rates used
+  let originalCurrency = null;
+  let fxRateUsed = null;
 
   while (offset < LISTING_PAGE_LIMIT) {
     const data = await ebayBrowseSearch({
@@ -315,8 +368,15 @@ async function computeAvgActiveListing({
       const p = it?.price;
       const v = safeNum(p?.value);
       if (v == null) continue;
-      prices.push(v);
-      currency = currency || p?.currency;
+
+      const cur = p?.currency || null;
+      originalCurrency = originalCurrency || cur;
+
+      const { cad, rateUsed } = convertToCAD(v, cur, fxRates);
+      if (cad == null) continue;
+
+      pricesCAD.push(cad);
+      fxRateUsed = fxRateUsed || rateUsed;
     }
 
     if (items.length < PAGE_SIZE) break;
@@ -325,9 +385,16 @@ async function computeAvgActiveListing({
   }
 
   return {
-    avgListing: avg(prices),
-    nListing: prices.length,
-    currency: currency || null,
+    // avgListing is now CAD-normalized
+    avgListing: avg(pricesCAD),
+    nListing: pricesCAD.length,
+
+    // currency is always CAD for normalized values
+    currency: "CAD",
+
+    // extra debug fields (optional but helpful)
+    originalCurrency: originalCurrency || null,
+    fxRateUsed: fxRateUsed || null,
   };
 }
 
@@ -354,29 +421,30 @@ function loadAthletes() {
 // --- main ---
 async function main() {
   const token = await getAppToken();
+
+  // NEW: fetch FX once (CAD per 1 unit foreign currency)
+  const fx = await getFxRatesToCAD();
+
   const athletes = loadAthletes();
 
-  // Output is a flat map keyed by athlete name for easy frontend lookup:
-  // {
-  //   "Jose Altuve": {
-  //      avg: <avgListing>, n: <nListing>, currency,
-  //      avgListing, nListing,
-  //      marketplaces: {
-  //        EBAY_CA: { ... },
-  //        EBAY_US: { ... }
-  //      },
-  //      match: { mode: "player"|"sport", value: "..." }
-  //   },
-  //   ...
-  //   "_meta": { updatedAt, minSampleSize }
-  // }
+  // Output is a flat map keyed by athlete name for easy frontend lookup.
   const out = {
     _meta: {
       updatedAt: new Date().toISOString(),
       minSampleSize: MIN_EBAY_SAMPLE_SIZE,
       marketplaces: MARKETPLACES,
       categoryId: CATEGORY_ID,
-      note: "Active listing averages only (Browse API FIXED_PRICE). No sold data.",
+      note: "Active listing averages only (Browse API FIXED_PRICE). No sold data. Prices normalized to CAD.",
+      fx: {
+        source: "CBSA Exchange Rates API",
+        asOf: fx.asOf,
+        // Keep just the common ones for transparency (you can store all if you want)
+        ratesToCAD: {
+          CAD: 1,
+          USD: fx.rates?.USD ?? null,
+          EUR: fx.rates?.EUR ?? null,
+        },
+      },
     },
   };
 
@@ -412,7 +480,7 @@ async function main() {
       continue;
     }
 
-    // Compute for both marketplaces using the chosen match mode/value
+    // Compute for marketplaces using the chosen match mode/value
     const rec = {
       match,
       marketplaces: {},
@@ -420,7 +488,7 @@ async function main() {
       n: 0,
       avgListing: null,
       nListing: 0,
-      currency: null,
+      currency: "CAD", // NEW: rollup is CAD
     };
 
     for (const marketplaceId of MARKETPLACES) {
@@ -432,14 +500,21 @@ async function main() {
           sport,
           aspectMode: match.mode,
           aspectValue: match.value,
+          fxRates: fx.rates, // NEW
         });
 
         rec.marketplaces[marketplaceId] = {
           aspectMode: match.mode,
           aspectValue: match.value,
+
+          // CAD-normalized
           avgListing: listing.avgListing,
           nListing: listing.nListing,
-          currency: listing.currency,
+          currency: listing.currency, // "CAD"
+
+          // debug fields
+          originalCurrency: listing.originalCurrency,
+          fxRateUsed: listing.fxRateUsed,
         };
       } catch (e) {
         console.log(`${name} (${marketplaceId}): ERROR ${e?.message || e}`);
@@ -448,20 +523,22 @@ async function main() {
     }
 
     // Pick a convenience rollup for frontend:
-    // Prefer EBAY_CA if it has a currency (CAD), else fallback to US.
+    // Prefer EBAY_CA if it has data, else fallback to US, else others.
     const ca = rec.marketplaces.EBAY_CA;
     const us = rec.marketplaces.EBAY_US;
+    const es = rec.marketplaces.EBAY_ES;
 
     const pick =
-      (ca && ca.currency === "CAD" ? ca : null) ||
       (ca && ca.avgListing != null ? ca : null) ||
       (us && us.avgListing != null ? us : null) ||
+      (es && es.avgListing != null ? es : null) ||
       ca ||
-      us;
+      us ||
+      es;
 
     rec.avgListing = pick?.avgListing ?? null;
     rec.nListing = pick?.nListing ?? 0;
-    rec.currency = pick?.currency ?? null;
+    rec.currency = "CAD";
 
     // Backward-compatible fields (so your UI can read rec.avg / rec.n)
     rec.avg = rec.avgListing;
