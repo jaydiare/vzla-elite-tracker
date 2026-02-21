@@ -573,17 +573,17 @@ details.mobile-dd summary::-webkit-details-marker{ display:none; }
 
 .athlete-card__name{
   font-weight: 950;
-  font-size: 24px;
-  line-height: 1.15;
+  font-size: 26px;
+  line-height: 1.05;
 
-  /* ✅ allow wrapping (2 lines) */
+  /* allow wrapping + clamp */
   white-space: normal;
   overflow: hidden;
   text-overflow: ellipsis;
 
   display: -webkit-box;
+  -webkit-line-clamp: 2;      /* show up to 2 lines */
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2; /* show up to 2 lines */
 }
 
 .athlete-card__pill{
@@ -597,6 +597,10 @@ details.mobile-dd summary::-webkit-details-marker{ display:none; }
   border: 1px solid rgba(242,242,13,0.18);
   color: var(--vzla-yellow);
   width: fit-content;
+}
+
+.athlete-card__spark { 
+  display: none !important; 
 }
 
 .athlete-card__value{
