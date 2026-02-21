@@ -223,33 +223,30 @@ function renderAthleteCard(a) {
   const chgText = "—";
   const chgClass = "chg-neutral";
 
-  return `
-    <article class="athlete-card">
-      <div class="athlete-card__top">
-        <div class="athlete-card__avatar" aria-hidden="true">${initials}</div>
+ return `
+  <article class="athlete-card">
+    <div class="athlete-card__top">
+      <div class="athlete-card__avatar">${initials}</div>
 
-        <div class="athlete-card__head">
-          <div class="athlete-card__name" title="${a.name}">${a.name}</div>
-          <div class="athlete-card__pill">${a.sport}</div>
-        </div>
+      <div class="athlete-card__head">
+        <div class="athlete-card__name">${a.name}</div>
+        <div class="athlete-card__pill">${a.sport}</div>
       </div>
+    </div>
 
-      <div class="athlete-card__value">${money}</div>
-      <div class="athlete-card__label">eBay Avg listing price</div>
+    <div class="athlete-card__value">${money}</div>
+    <div class="athlete-card__label">eBay Avg listing price</div>
 
-      <div class="athlete-card__bottom">
-        <div class="athlete-card__chg ${chgClass}">${chgText} </div>
-      </div>
+    <a href="${shopUrl}" target="_blank"
+       class="athlete-card__cta">
+       Shop Collectibles
+    </a>
 
-      <a href="${shopUrl}" target="_blank" rel="noopener noreferrer" class="athlete-card__cta">
-        Shop Collectibles
-      </a>
-
-      <div class="athlete-card__meta">
-        ${a.league ? `${a.league}` : ""}${a.league && a.team ? " • " : ""}${a.team ? `${a.team}` : ""}
-      </div>
-    </article>
-  `;
+    <div class="athlete-card__meta">
+      ${a.league} • ${a.team}
+    </div>
+  </article>
+`;
 }
 
 function renderGrid(list) {
