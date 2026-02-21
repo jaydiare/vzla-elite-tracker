@@ -1636,5 +1636,26 @@
     "league": "MLB",
     "team": "Mets",
     "provider": "balldontlie"
+  },
+  {
+    "name": "Vic Davalillo",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Dodgers",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Luis Aparicio",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "White Sox",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "David Concepcion",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Reds",
+    "provider": "balldontlie"
   }
 ]
