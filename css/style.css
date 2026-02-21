@@ -5,11 +5,27 @@
   --vzla-mint:#7fffe1;
 }
 
+/* =========================
+   Base reset (prevents “broken” mobile look)
+   ========================= */
+*,
+*::before,
+*::after{ box-sizing:border-box; }
+
+html, body{ height:100%; }
+
 body{
+  margin:0;
   background: var(--vzla-bg);
   color:#fff;
   min-height:100vh;
+  overflow-x:hidden;
 }
+
+img{ max-width:100%; display:block; }
+ul{ margin:0; padding:0; }
+li{ list-style:none; }
+a{ color:inherit; }
 
 /* =========================
    Layout shell + side banners
@@ -33,6 +49,7 @@ body{
   max-height: calc(100vh - 120px);
   overflow-y: auto;
   scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
 }
 
 .side-banner img{
@@ -100,9 +117,8 @@ body{
   font-size:18px;
   letter-spacing:0.02em;
   list-style:none;
-  margin:0;
-  padding:0;
 }
+
 .nav-link{
   color:rgba(255,255,255,0.92);
   text-decoration:none;
@@ -114,6 +130,7 @@ body{
 
 .nav-dd{ position:relative; }
 
+/* Make <summary> behave like a button (and remove markers everywhere) */
 .dropdown summary{ list-style:none; cursor:pointer; }
 .dropdown summary::-webkit-details-marker{ display:none; }
 
@@ -220,7 +237,7 @@ body{
 .nav-toggle-bars::before{ top:-7px; }
 .nav-toggle-bars::after{ top:7px; }
 
-/* IMPORTANT: hidden by default */
+/* Hidden by default */
 .mobile-menu{
   position:fixed;
   inset:0;
@@ -292,6 +309,7 @@ body{
   background: rgba(242,242,13,0.08);
 }
 
+/* Clean up <details> markers and spacing on mobile too */
 details.mobile-dd summary{ list-style:none; }
 details.mobile-dd summary::-webkit-details-marker{ display:none; }
 
@@ -346,7 +364,7 @@ details.mobile-dd summary::-webkit-details-marker{ display:none; }
   box-shadow: 0 18px 45px rgba(0,0,0,0.55);
 }
 
-/* ✅ This is what fixes your “double menu” on iPhone */
+/* ✅ Fix “double menu” on iPhone: show hamburger, hide desktop links */
 @media (max-width: 768px){
   .nav-toggle{ display:flex; }
   .nav-links{ display:none !important; }
@@ -501,7 +519,7 @@ details.mobile-dd summary::-webkit-details-marker{ display:none; }
 }
 
 /* =========================
-   Your CardHedge-like grid/cards
+   CardHedge-like grid/cards
    ========================= */
 .vzla-grid{
   display:grid;
@@ -573,9 +591,10 @@ details.mobile-dd summary::-webkit-details-marker{ display:none; }
   font-size: 14px;
   font-weight: 900;
 
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.10);
-  color: rgba(255,255,255,0.88);
+  /* ✅ Yellow theme pill */
+  background: rgba(242,242,13,0.12);
+  border: 1px solid rgba(242,242,13,0.18);
+  color: var(--vzla-yellow);
 }
 
 .athlete-card__value{
@@ -616,6 +635,49 @@ details.mobile-dd summary::-webkit-details-marker{ display:none; }
   inset:0;
   background: radial-gradient(circle at 30% 70%, rgba(242,242,13,0.12), transparent 60%);
   opacity:0.8;
+}
+
+.athlete-card__chg{
+  text-align:right;
+  font-weight: 950;
+  font-size: 22px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  white-space:nowrap;
+}
+.athlete-card__chg small{
+  font-size: 16px;
+  color: rgba(255,255,255,0.50);
+  font-weight: 900;
+}
+.chg-neutral{ color: rgba(255,255,255,0.65); }
+.chg-pos{ color:#22c55e; }
+.chg-neg{ color:#ef4444; }
+
+.athlete-card__cta{
+  margin-top: 14px;
+  align-self:flex-start;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding: 12px 16px;
+  border-radius: 9999px;
+  background: var(--vzla-yellow);
+  color:#000;
+  text-decoration:none;
+  font-weight: 950;
+  transition: transform .15s ease;
+}
+.athlete-card__cta:hover{ transform: scale(1.02); }
+
+.athlete-card__meta{
+  margin-top: 10px;
+  color: rgba(255,255,255,0.55);
+  font-weight: 800;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
 }
 
 @media (max-width: 520px){
