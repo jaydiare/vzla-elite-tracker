@@ -14,6 +14,13 @@
         "provider": "balldontlie"
     },
     {
+        "name": "Andruw Monasterio",
+        "sport": "Baseball",
+        "league": "MLB",
+        "team": "Red Sox",
+        "provider": "balldontlie"
+    },
+    {
         "name": "Angel Zerpa",
         "sport": "Baseball",
         "league": "MLB",
@@ -28,6 +35,13 @@
         "provider": "manual"
     },
     {
+        "name": "Anthony Santander",
+        "sport": "Baseball",
+        "league": "MLB",
+        "team": "Blue Jays",
+        "provider": "balldontlie"
+    },
+    {
         "name": "Antonio Senzatela",
         "sport": "Baseball",
         "league": "MLB",
@@ -40,6 +54,34 @@
         "league": "MLB",
         "team": "Guardians",
         "provider": "manual"
+    },
+    {
+        "name": "Brayan Rocchio",
+        "sport": "Baseball",
+        "league": "MLB",
+        "team": "Guardians",
+        "provider": "balldontlie"
+    },
+    {
+        "name": "Brusdar Graterol",
+        "sport": "Baseball",
+        "league": "MLB",
+        "team": "Dodgers",
+        "provider": "balldontlie"
+    },
+    {
+        "name": "Daniel Palencia",
+        "sport": "Baseball",
+        "league": "MLB",
+        "team": "Cubs",
+        "provider": "balldontlie"
+    },
+    {
+        "name": "Eduard Bazardo",
+        "sport": "Baseball",
+        "league": "MLB",
+        "team": "Mariners",
+        "provider": "balldontlie"
     },
     {
         "name": "Eduardo Rodriguez",
@@ -77,10 +119,24 @@
         "provider": "manual"
     },
     {
+        "name": "Francisco Alvarez",
+        "sport": "Baseball",
+        "league": "MLB",
+        "team": "Mets",
+        "provider": "balldontlie"
+    },
+    {
         "name": "Freddy Fermin",
         "sport": "Baseball",
         "league": "MLB",
         "team": "Padres",
+        "provider": "balldontlie"
+    },
+    {
+        "name": "Gabriel Arias",
+        "sport": "Baseball",
+        "league": "MLB",
+        "team": "Guardians",
         "provider": "balldontlie"
     },
     {
@@ -91,11 +147,25 @@
         "provider": "balldontlie"
     },
     {
+        "name": "German Marquez",
+        "sport": "Baseball",
+        "league": "MLB",
+        "team": "Padres",
+        "provider": "balldontlie"
+    },
+    {
         "name": "Gleyber Torres",
         "sport": "Baseball",
         "league": "MLB",
         "team": "Tigers",
         "provider": "manual"
+    },
+    {
+        "name": "Gleyber Torres",
+        "sport": "Baseball",
+        "league": "MLB",
+        "team": "Tigers",
+        "provider": "balldontlie"
     },
     {
         "name": "Jackson Chourio",
@@ -105,10 +175,31 @@
         "provider": "manual"
     },
     {
+        "name": "Jackson Chourio",
+        "sport": "Baseball",
+        "league": "MLB",
+        "team": "Brewers",
+        "provider": "balldontlie"
+    },
+    {
+        "name": "Javier Sanoja",
+        "sport": "Baseball",
+        "league": "MLB",
+        "team": "Marlins",
+        "provider": "balldontlie"
+    },
+    {
         "name": "Jeferson Quero",
         "sport": "Baseball",
         "league": "MLB",
         "team": "Brewers",
+        "provider": "balldontlie"
+    },
+    {
+        "name": "Jhonny Pereda",
+        "sport": "Baseball",
+        "league": "MLB",
+        "team": "Mariners",
         "provider": "balldontlie"
     },
     {
@@ -126,10 +217,31 @@
         "provider": "manual"
     },
     {
+        "name": "Jose Altuve",
+        "sport": "Baseball",
+        "league": "MLB",
+        "team": "Astros",
+        "provider": "balldontlie"
+    },
+    {
+        "name": "Jose Alvarado",
+        "sport": "Baseball",
+        "league": "MLB",
+        "team": "Phillies",
+        "provider": "balldontlie"
+    },
+    {
         "name": "Jose Butto",
         "sport": "Baseball",
         "league": "MLB",
         "team": "Giants",
+        "provider": "balldontlie"
+    },
+    {
+        "name": "Jose Suarez",
+        "sport": "Baseball",
+        "league": "MLB",
+        "team": "Braves",
         "provider": "balldontlie"
     },
     {
@@ -147,6 +259,20 @@
         "provider": "balldontlie"
     },
     {
+        "name": "Lenyn Sosa",
+        "sport": "Baseball",
+        "league": "MLB",
+        "team": "White Sox",
+        "provider": "balldontlie"
+    },
+    {
+        "name": "Leo Rivas",
+        "sport": "Baseball",
+        "league": "MLB",
+        "team": "Mariners",
+        "provider": "balldontlie"
+    },
+    {
         "name": "Luis Arraez",
         "sport": "Baseball",
         "league": "MLB",
@@ -154,10 +280,45 @@
         "provider": "manual"
     },
     {
+        "name": "Luis Arraez",
+        "sport": "Baseball",
+        "league": "MLB",
+        "team": "Giants",
+        "provider": "balldontlie"
+    },
+    {
         "name": "Luis Matos",
         "sport": "Baseball",
         "league": "MLB",
         "team": "Giants",
+        "provider": "balldontlie"
+    },
+    {
+        "name": "Luis Perales",
+        "sport": "Baseball",
+        "league": "MLB",
+        "team": "Nationals",
+        "provider": "balldontlie"
+    },
+    {
+        "name": "Luis Rengifo",
+        "sport": "Baseball",
+        "league": "MLB",
+        "team": "Brewers",
+        "provider": "balldontlie"
+    },
+    {
+        "name": "Luis Torrens",
+        "sport": "Baseball",
+        "league": "MLB",
+        "team": "Mets",
+        "provider": "balldontlie"
+    },
+    {
+        "name": "Luisangel Acuna",
+        "sport": "Baseball",
+        "league": "MLB",
+        "team": "White Sox",
         "provider": "balldontlie"
     },
     {
@@ -189,11 +350,46 @@
         "provider": "manual"
     },
     {
+        "name": "Oswald Peraza",
+        "sport": "Baseball",
+        "league": "MLB",
+        "team": "Angels",
+        "provider": "balldontlie"
+    },
+    {
+        "name": "Oswaldo Cabrera",
+        "sport": "Baseball",
+        "league": "MLB",
+        "team": "Yankees",
+        "provider": "balldontlie"
+    },
+    {
+        "name": "Pablo Lopez",
+        "sport": "Baseball",
+        "league": "MLB",
+        "team": "Twins",
+        "provider": "balldontlie"
+    },
+    {
         "name": "Pablo López",
         "sport": "Baseball",
         "league": "MLB",
         "team": "Twins",
         "provider": "manual"
+    },
+    {
+        "name": "Rafael Marchan",
+        "sport": "Baseball",
+        "league": "MLB",
+        "team": "Phillies",
+        "provider": "balldontlie"
+    },
+    {
+        "name": "Ranger Suarez",
+        "sport": "Baseball",
+        "league": "MLB",
+        "team": "Red Sox",
+        "provider": "balldontlie"
     },
     {
         "name": "Ranger Suárez",
@@ -210,6 +406,20 @@
         "provider": "manual"
     },
     {
+        "name": "Robert Suarez",
+        "sport": "Baseball",
+        "league": "MLB",
+        "team": "Braves",
+        "provider": "balldontlie"
+    },
+    {
+        "name": "Ronald Acuna Jr.",
+        "sport": "Baseball",
+        "league": "MLB",
+        "team": "Braves",
+        "provider": "balldontlie"
+    },
+    {
         "name": "Ronald Acuña Jr.",
         "sport": "Baseball",
         "league": "MLB",
@@ -221,6 +431,13 @@
         "sport": "Baseball",
         "league": "MLB",
         "team": "Royals",
+        "provider": "balldontlie"
+    },
+    {
+        "name": "Wilkelman Gonzalez",
+        "sport": "Baseball",
+        "league": "MLB",
+        "team": "White Sox",
         "provider": "balldontlie"
     },
     {
@@ -238,6 +455,13 @@
         "provider": "manual"
     },
     {
+        "name": "Willson Contreras",
+        "sport": "Baseball",
+        "league": "MLB",
+        "team": "Red Sox",
+        "provider": "balldontlie"
+    },
+    {
         "name": "Wilyer Abreu",
         "sport": "Baseball",
         "league": "MLB",
@@ -245,10 +469,24 @@
         "provider": "manual"
     },
     {
+        "name": "Wilyer Abreu",
+        "sport": "Baseball",
+        "league": "MLB",
+        "team": "Red Sox",
+        "provider": "balldontlie"
+    },
+    {
         "name": "Yilber Diaz",
         "sport": "Baseball",
         "league": "MLB",
         "team": "Diamondbacks",
+        "provider": "balldontlie"
+    },
+    {
+        "name": "Yohel Pozo",
+        "sport": "Baseball",
+        "league": "MLB",
+        "team": "Cardinals",
         "provider": "balldontlie"
     },
     {
