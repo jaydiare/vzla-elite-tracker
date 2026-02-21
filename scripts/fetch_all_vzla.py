@@ -60,11 +60,11 @@ BDB_ENDPOINTS: List[Dict[str, Any]] = [
 
     #{"sport": "Soccer", "league": "EPL",        "provider": "balldontlie", "path": "/epl/v2/players",        "field": "birth_place"},
     {"sport": "Soccer", "league": "La Liga",    "provider": "balldontlie", "path": "/laliga/v1/players",     "field": "birth_place"},
-    #{"sport": "Soccer", "league": "MLS",        "provider": "balldontlie", "path": "/mls/v1/players",        "field": "birth_place"},
+    {"sport": "Soccer", "league": "MLS",        "provider": "balldontlie", "path": "/mls/v1/players",        "field": "birth_place"},
     #{"sport": "Soccer", "league": "UCL",        "provider": "balldontlie", "path": "/ucl/v1/players",        "field": "birth_place"},
-    #{"sport": "Soccer", "league": "Ligue 1",    "provider": "balldontlie", "path": "/ligue1/v1/players",     "field": "birth_place"},
-    #{"sport": "Soccer", "league": "Bundesliga", "provider": "balldontlie", "path": "/bundesliga/v1/players", "field": "birth_place"},
-    #{"sport": "Soccer", "league": "Serie A",    "provider": "balldontlie", "path": "/seriea/v1/players",     "field": "birth_place"},
+    {"sport": "Soccer", "league": "Ligue 1",    "provider": "balldontlie", "path": "/ligue1/v1/players",     "field": "birth_place"},
+    {"sport": "Soccer", "league": "Bundesliga", "provider": "balldontlie", "path": "/bundesliga/v1/players", "field": "birth_place"},
+    {"sport": "Soccer", "league": "Serie A",    "provider": "balldontlie", "path": "/seriea/v1/players",     "field": "birth_place"},
 
     #{"sport": "MMA",        "league": "MMA",       "provider": "balldontlie", "path": "/mma/v1/fighters",   "field": "birth_place"},
     #{"sport": "Golf",       "league": "PGA Tour",  "provider": "balldontlie", "path": "/pga/v1/players",    "field": "birth_place"},
@@ -77,9 +77,9 @@ BDB_ENDPOINTS: List[Dict[str, Any]] = [
 # THESPORTSDB TOP DIVISIONS
 # =========================
 TSDB_TOP_DIVISIONS: List[Dict[str, Any]] = [
-    #{"sport": "Soccer", "country": "Mexico",    "league": "Mexican Primera League",       "league_id": "4350"},
-    #{"sport": "Soccer", "country": "Argentina", "league": "Argentinian Primera Division", "league_id": "4406"},
-    #{"sport": "Soccer", "country": "Brazil",    "league": "Brazilian Serie A",            "league_id": "4351"},
+    {"sport": "Soccer", "country": "Mexico",    "league": "Mexican Primera League",       "league_id": "4350"},
+    {"sport": "Soccer", "country": "Argentina", "league": "Argentinian Primera Division", "league_id": "4406"},
+    {"sport": "Soccer", "country": "Brazil",    "league": "Brazilian Serie A",            "league_id": "4351"},
     #{"sport": "Soccer", "country": "Chile",     "league": "Chile Primera Division",       "league_id": "4627"},
     {"sport": "Soccer", "country": "Italy",     "league": "Italian Serie A",              "league_id": "4332"},
     #{"sport": "Soccer", "country": "France",    "league": "French Ligue 1",               "league_id": "4334"},
@@ -94,7 +94,7 @@ TSDB_TOP_DIVISIONS: List[Dict[str, Any]] = [
     #{"sport": "Baseball", "country": "Korea",  "league": "Korean KBO League",         "league_id": "4830"},
 ]
 
-TSDB_GOLF_TOP_TOURS: List[Dict[str, str]] = [
+#TSDB_GOLF_TOP_TOURS: List[Dict[str, str]] = [
     #{"league_id": "4486", "league": "European Tour"},
     #{"league_id": "4425", "league": "PGA Tour"},
     #{"league_id": "4553", "league": "LPGA Tour"},
