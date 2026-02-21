@@ -1279,5 +1279,201 @@
     "league": "MLB",
     "team": "Giants",
     "provider": "balldontlie"
+  },
+  {
+    "name": "Alcides Escobar",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Nationals",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Edwin Escobar",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Diamondbacks",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Kelvim Escobar",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Brewers",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Álvaro Espinoza",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Mets",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Wilmer Flores",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Giants",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Wilmer Font",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Blue Jays",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Armando Galarraga",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Diamondbacks",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Freddy García",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Orioles",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Luis Guillorme",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Braves",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Franklin Gutiérrez",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Dodgers",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Carlos Guillén",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Tigers",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Ozzie Guillén",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Braves",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Ángel Guzmán",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Rays",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Félix Hernández",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Mariners",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Gorkys Hernández",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Red Sox",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Odúbel Herrera",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Phillies",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Omar Infante",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Royals",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Maicer Izturis",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Blue Jays",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Ugueth Urbina",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Phillies",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Luis Sojo",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Yankees",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Yangervis Solarte",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Giants",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "José Tábata",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Pirates",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Ronald Torreyes",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Phillies",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Luis Torrens",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Cubs",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Ildemaro Vargas",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Nationals",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Omar Vizquel",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Blue Jays",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Víctor Zambrano",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Phillies",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Angel Zerpa",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Royals",
+    "provider": "balldontlie"
   }
 ]
