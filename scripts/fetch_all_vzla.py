@@ -31,7 +31,7 @@ TSDB_CACHE_PATH = "data/tsdb_cache.json"
 
 # Free-tier safety
 BDB_SLEEP_SEC = 13
-BDB_MAX_PAGES_PER_ENDPOINT = 2
+BDB_MAX_PAGES_PER_ENDPOINT = None
 
 # TSDB safety (free-tier is strict)
 TSDB_SLEEP_SEC = 8.0
@@ -80,13 +80,13 @@ TSDB_TOP_DIVISIONS: List[Dict[str, Any]] = [
     {"sport": "Soccer", "country": "Mexico",    "league": "Mexican Primera League",       "league_id": "4350"},
     {"sport": "Soccer", "country": "Argentina", "league": "Argentinian Primera Division", "league_id": "4406"},
     {"sport": "Soccer", "country": "Brazil",    "league": "Brazilian Serie A",            "league_id": "4351"},
-    #{"sport": "Soccer", "country": "Chile",     "league": "Chile Primera Division",       "league_id": "4627"},
+    {"sport": "Soccer", "country": "Chile",     "league": "Chile Primera Division",       "league_id": "4627"},
     {"sport": "Soccer", "country": "Italy",     "league": "Italian Serie A",              "league_id": "4332"},
     {"sport": "Soccer", "country": "France",    "league": "French Ligue 1",               "league_id": "4334"},
 
     #{"sport": "Basketball", "country": "Mexico",    "league": "Mexican LNBP",  "league_id": "5119"},
-    {"sport": "Basketball", "country": "Argentina", "league": "Argentine LNB", "league_id": "4734"},
-    {"sport": "Basketball", "country": "Europe",    "league": "EuroLeague Basketball",  "league_id": "4546"},
+    #{"sport": "Basketball", "country": "Argentina", "league": "Argentine LNB", "league_id": "4734"},
+    #{"sport": "Basketball", "country": "Europe",    "league": "EuroLeague Basketball",  "league_id": "4546"},
 
     #{"sport": "Baseball", "country": "Mexico", "league": "Liga Mexicana de Béisbol", "league_id": "5064"},
     #{"sport": "Baseball", "country": "Mexico", "league": "Mexican Pacific League",   "league_id": "5109"},
@@ -288,6 +288,7 @@ def scan_balldontlie(entry: Dict[str, Any], out: List[Dict[str, Any]], seen: set
                 continue
 
             if resp.status_code in (401, 403):
+                print(f"Auth failed {resp.status_code} for {resp.url}: {resp.text[:200]}")
                 return
 
             resp.raise_for_status()
