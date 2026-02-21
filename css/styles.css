@@ -1,3 +1,16 @@
+:root{
+  --vzla-yellow:#f2f20d;
+  --vzla-bg:#050505;
+  --vzla-panel:#0b0b0b;
+  --vzla-mint:#7fffe1;
+}
+
+body{
+  background: var(--vzla-bg);
+  color:#fff;
+  min-height:100vh;
+}
+
 /* Grid like CardHedge (structure only) */
 .vzla-grid{
   display:grid;
