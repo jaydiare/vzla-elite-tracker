@@ -1475,5 +1475,166 @@
     "league": "MLB",
     "team": "Royals",
     "provider": "balldontlie"
+  },
+    {
+    "name": "Hernán Pérez",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Nationals",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Carlos González",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Cubs",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "José Pirela",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Phillies",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "José Osuna",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Pirates",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "José Rondón",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Cardinals",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "José Ruiz",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Phillies",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Robert Suárez",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Padres",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "José Suárez",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Angels",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Jesús Sucre",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Orioles",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Jesús Tinoco",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Cubs",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Carlos Tocci",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Rangers",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Luis Valbuena",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Angels",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Brayan Villarreal",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Cubs",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Miguel Yajure",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Pirates",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Edward Mujica",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Athletics",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Jhoulys Chacín",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Rockies",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Carlos Silva",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Cubs",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Rich Garcés",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Red Sox",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Víctor Martínez",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Tigers",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Marco Scutaro",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Giants",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Magglio Ordóñez",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Tigers",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Carlos Zambrano",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Marlins",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Johan Santana",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Mets",
+    "provider": "balldontlie"
   }
 ]
