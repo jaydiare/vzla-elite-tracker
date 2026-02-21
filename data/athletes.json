@@ -560,7 +560,112 @@
         "provider": "manual"
     },
     {
+        "name": "Andrés Túñez",
+        "sport": "Soccer",
+        "league": "La Liga",
+        "team": "Unknown",
+        "provider": "balldontlie"
+    },
+    {
+        "name": "Christian Santos",
+        "sport": "Soccer",
+        "league": "La Liga",
+        "team": "Unknown",
+        "provider": "balldontlie"
+    },
+    {
+        "name": "Fernando Amorebieta",
+        "sport": "Soccer",
+        "league": "La Liga",
+        "team": "Unknown",
+        "provider": "balldontlie"
+    },
+    {
+        "name": "Jeffrén Suárez",
+        "sport": "Soccer",
+        "league": "La Liga",
+        "team": "Unknown",
+        "provider": "balldontlie"
+    },
+    {
         "name": "Jon Aramburu",
+        "sport": "Soccer",
+        "league": "La Liga",
+        "team": "Real Sociedad",
+        "provider": "manual"
+    },
+    {
+        "name": "Jon Aramburu",
+        "sport": "Soccer",
+        "league": "La Liga",
+        "team": "Unknown",
+        "provider": "balldontlie"
+    },
+    {
+        "name": "Jorge Gómez",
+        "sport": "Soccer",
+        "league": "La Liga",
+        "team": "Unknown",
+        "provider": "balldontlie"
+    },
+    {
+        "name": "Juan Arango",
+        "sport": "Soccer",
+        "league": "La Liga",
+        "team": "Unknown",
+        "provider": "balldontlie"
+    },
+    {
+        "name": "Miguel Silva",
+        "sport": "Soccer",
+        "league": "La Liga",
+        "team": "Unknown",
+        "provider": "balldontlie"
+    },
+    {
+        "name": "Miku Fedor",
+        "sport": "Soccer",
+        "league": "La Liga",
+        "team": "Unknown",
+        "provider": "balldontlie"
+    },
+    {
+        "name": "Nicolas Fedor Miku",
+        "sport": "Soccer",
+        "league": "La Liga",
+        "team": "Unknown",
+        "provider": "balldontlie"
+    },
+    {
+        "name": "Roberto Rosales",
+        "sport": "Soccer",
+        "league": "La Liga",
+        "team": "Unknown",
+        "provider": "balldontlie"
+    },
+    {
+        "name": "Rubén Suárez Estrada",
+        "sport": "Soccer",
+        "league": "La Liga",
+        "team": "Unknown",
+        "provider": "balldontlie"
+    },
+    {
+        "name": "Salomón Rondón",
+        "sport": "Soccer",
+        "league": "La Liga",
+        "team": "Unknown",
+        "provider": "balldontlie"
+    },
+    {
+        "name": "Víctor García",
+        "sport": "Soccer",
+        "league": "La Liga",
+        "team": "Unknown",
+        "provider": "balldontlie"
+    },
+    {
+        "name": "Yangel Herrera",
         "sport": "Soccer",
         "league": "La Liga",
         "team": "Real Sociedad",
@@ -570,8 +675,8 @@
         "name": "Yangel Herrera",
         "sport": "Soccer",
         "league": "La Liga",
-        "team": "Real Sociedad",
-        "provider": "manual"
+        "team": "Unknown",
+        "provider": "balldontlie"
     },
     {
         "name": "Salomon Rondon",
