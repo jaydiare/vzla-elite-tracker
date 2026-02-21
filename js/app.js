@@ -238,7 +238,6 @@ function renderAthleteCard(a) {
       <div class="athlete-card__label">eBay Avg listing price</div>
 
       <div class="athlete-card__bottom">
-        <div class="athlete-card__spark" aria-hidden="true"></div>
         <div class="athlete-card__chg ${chgClass}">${chgText} <small>30d</small></div>
       </div>
 
