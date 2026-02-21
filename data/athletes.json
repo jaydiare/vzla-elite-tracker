@@ -623,11 +623,277 @@
         "provider": "balldontlie"
     },
     {
+        "name": "Bernardo Anor",
+        "sport": "Soccer",
+        "league": "MLS",
+        "team": "Unknown",
+        "provider": "balldontlie"
+    },
+    {
+        "name": "Brayan Martínez",
+        "sport": "Soccer",
+        "league": "MLS",
+        "team": "Unknown",
+        "provider": "balldontlie"
+    },
+    {
+        "name": "Carlos Cermeño",
+        "sport": "Soccer",
+        "league": "MLS",
+        "team": "Unknown",
+        "provider": "balldontlie"
+    },
+    {
+        "name": "Carlos Varela",
+        "sport": "Soccer",
+        "league": "MLS",
+        "team": "Unknown",
+        "provider": "balldontlie"
+    },
+    {
+        "name": "Christian Makoun",
+        "sport": "Soccer",
+        "league": "MLS",
+        "team": "Unknown",
+        "provider": "balldontlie"
+    },
+    {
+        "name": "Cristian Cásseres Jr.",
+        "sport": "Soccer",
+        "league": "MLS",
+        "team": "Unknown",
+        "provider": "balldontlie"
+    },
+    {
+        "name": "Dani Pereira",
+        "sport": "Soccer",
+        "league": "MLS",
+        "team": "Unknown",
+        "provider": "balldontlie"
+    },
+    {
         "name": "David Martínez",
         "sport": "Soccer",
         "league": "MLS",
         "team": "LAFC",
         "provider": "manual"
+    },
+    {
+        "name": "David Martínez",
+        "sport": "Soccer",
+        "league": "MLS",
+        "team": "Unknown",
+        "provider": "balldontlie"
+    },
+    {
+        "name": "Eduardo Sosa",
+        "sport": "Soccer",
+        "league": "MLS",
+        "team": "Unknown",
+        "provider": "balldontlie"
+    },
+    {
+        "name": "Emilio Rentería",
+        "sport": "Soccer",
+        "league": "MLS",
+        "team": "Unknown",
+        "provider": "balldontlie"
+    },
+    {
+        "name": "Ender Echenique",
+        "sport": "Soccer",
+        "league": "MLS",
+        "team": "Unknown",
+        "provider": "balldontlie"
+    },
+    {
+        "name": "Erickson Gallardo",
+        "sport": "Soccer",
+        "league": "MLS",
+        "team": "Unknown",
+        "provider": "balldontlie"
+    },
+    {
+        "name": "Fernando Aristeguieta",
+        "sport": "Soccer",
+        "league": "MLS",
+        "team": "Unknown",
+        "provider": "balldontlie"
+    },
+    {
+        "name": "Gabriel Cichero",
+        "sport": "Soccer",
+        "league": "MLS",
+        "team": "Unknown",
+        "provider": "balldontlie"
+    },
+    {
+        "name": "Gustavo Caraballo",
+        "sport": "Soccer",
+        "league": "MLS",
+        "team": "Unknown",
+        "provider": "balldontlie"
+    },
+    {
+        "name": "Javier Otero",
+        "sport": "Soccer",
+        "league": "MLS",
+        "team": "Unknown",
+        "provider": "balldontlie"
+    },
+    {
+        "name": "Jefferson Savarino",
+        "sport": "Soccer",
+        "league": "MLS",
+        "team": "Unknown",
+        "provider": "balldontlie"
+    },
+    {
+        "name": "Jesús Bueno",
+        "sport": "Soccer",
+        "league": "MLS",
+        "team": "Unknown",
+        "provider": "balldontlie"
+    },
+    {
+        "name": "Jesús Castellano",
+        "sport": "Soccer",
+        "league": "MLS",
+        "team": "Unknown",
+        "provider": "balldontlie"
+    },
+    {
+        "name": "Josef Martínez",
+        "sport": "Soccer",
+        "league": "MLS",
+        "team": "Unknown",
+        "provider": "balldontlie"
+    },
+    {
+        "name": "José Andrés Martínez",
+        "sport": "Soccer",
+        "league": "MLS",
+        "team": "Unknown",
+        "provider": "balldontlie"
+    },
+    {
+        "name": "Júnior Moreno",
+        "sport": "Soccer",
+        "league": "MLS",
+        "team": "Unknown",
+        "provider": "balldontlie"
+    },
+    {
+        "name": "Kevin Kelsy",
+        "sport": "Soccer",
+        "league": "MLS",
+        "team": "Unknown",
+        "provider": "balldontlie"
+    },
+    {
+        "name": "Luis González",
+        "sport": "Soccer",
+        "league": "MLS",
+        "team": "Unknown",
+        "provider": "balldontlie"
+    },
+    {
+        "name": "Miguel Navarro",
+        "sport": "Soccer",
+        "league": "MLS",
+        "team": "Unknown",
+        "provider": "balldontlie"
+    },
+    {
+        "name": "Moises Tablante",
+        "sport": "Soccer",
+        "league": "MLS",
+        "team": "Unknown",
+        "provider": "balldontlie"
+    },
+    {
+        "name": "Pablo Bonilla",
+        "sport": "Soccer",
+        "league": "MLS",
+        "team": "Unknown",
+        "provider": "balldontlie"
+    },
+    {
+        "name": "Rafael Romo",
+        "sport": "Soccer",
+        "league": "MLS",
+        "team": "Unknown",
+        "provider": "balldontlie"
+    },
+    {
+        "name": "Renzo Zambrano",
+        "sport": "Soccer",
+        "league": "MLS",
+        "team": "Unknown",
+        "provider": "balldontlie"
+    },
+    {
+        "name": "Rodrigo Neri",
+        "sport": "Soccer",
+        "league": "MLS",
+        "team": "Unknown",
+        "provider": "balldontlie"
+    },
+    {
+        "name": "Rolando Escobar",
+        "sport": "Soccer",
+        "league": "MLS",
+        "team": "Unknown",
+        "provider": "balldontlie"
+    },
+    {
+        "name": "Rolf Feltscher",
+        "sport": "Soccer",
+        "league": "MLS",
+        "team": "Unknown",
+        "provider": "balldontlie"
+    },
+    {
+        "name": "Ronald Hernández",
+        "sport": "Soccer",
+        "league": "MLS",
+        "team": "Unknown",
+        "provider": "balldontlie"
+    },
+    {
+        "name": "Ronaldo Peña",
+        "sport": "Soccer",
+        "league": "MLS",
+        "team": "Unknown",
+        "provider": "balldontlie"
+    },
+    {
+        "name": "Sergio Córdova",
+        "sport": "Soccer",
+        "league": "MLS",
+        "team": "Unknown",
+        "provider": "balldontlie"
+    },
+    {
+        "name": "Telasco Segovia",
+        "sport": "Soccer",
+        "league": "MLS",
+        "team": "Unknown",
+        "provider": "balldontlie"
+    },
+    {
+        "name": "Wikelman Carmona",
+        "sport": "Soccer",
+        "league": "MLS",
+        "team": "Unknown",
+        "provider": "balldontlie"
+    },
+    {
+        "name": "Yangel Herrera",
+        "sport": "Soccer",
+        "league": "MLS",
+        "team": "Unknown",
+        "provider": "balldontlie"
     },
     {
         "name": "Alejandro Marqués",
