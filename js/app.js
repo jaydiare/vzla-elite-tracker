@@ -210,7 +210,7 @@ function renderAthleteCard(a) {
     avg?.average ??
     null;
 
-  const currency = avg?.currency || "CAD";
+  const currency = avg?.currency || "USD";
   const money =
     avgNum != null && Number.isFinite(Number(avgNum))
       ? formatCurrency(avgNum, currency)
