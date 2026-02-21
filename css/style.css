@@ -40,6 +40,9 @@ a{ color:inherit; }
   align-items: start;
 }
 
+/* CRITICAL: prevents grid children from overflowing */
+.page-shell > main{ min-width:0; }
+
 .side-banner{
   position: sticky;
   top: 100px;
@@ -50,10 +53,11 @@ a{ color:inherit; }
   overflow-y: auto;
   scrollbar-width: none;
   -webkit-overflow-scrolling: touch;
+  align-items: center;
 }
 
 .side-banner img{
-  width: 90%;
+  width: 100%;
   max-width: 260px;
   height: auto;
   border-radius: 16px;
@@ -117,6 +121,8 @@ a{ color:inherit; }
   font-size:18px;
   letter-spacing:0.02em;
   list-style:none;
+  margin:0;
+  padding:0;
 }
 
 .nav-link{
@@ -130,7 +136,6 @@ a{ color:inherit; }
 
 .nav-dd{ position:relative; }
 
-/* Make <summary> behave like a button (and remove markers everywhere) */
 .dropdown summary{ list-style:none; cursor:pointer; }
 .dropdown summary::-webkit-details-marker{ display:none; }
 
@@ -237,7 +242,6 @@ a{ color:inherit; }
 .nav-toggle-bars::before{ top:-7px; }
 .nav-toggle-bars::after{ top:7px; }
 
-/* Hidden by default */
 .mobile-menu{
   position:fixed;
   inset:0;
@@ -309,7 +313,6 @@ a{ color:inherit; }
   background: rgba(242,242,13,0.08);
 }
 
-/* Clean up <details> markers and spacing on mobile too */
 details.mobile-dd summary{ list-style:none; }
 details.mobile-dd summary::-webkit-details-marker{ display:none; }
 
@@ -364,7 +367,6 @@ details.mobile-dd summary::-webkit-details-marker{ display:none; }
   box-shadow: 0 18px 45px rgba(0,0,0,0.55);
 }
 
-/* ✅ Fix “double menu” on iPhone: show hamburger, hide desktop links */
 @media (max-width: 768px){
   .nav-toggle{ display:flex; }
   .nav-links{ display:none !important; }
@@ -425,6 +427,7 @@ details.mobile-dd summary::-webkit-details-marker{ display:none; }
   border-top: 1px solid rgba(255,255,255,0.08);
   background: #070707;
 }
+
 .vzla-footer-inner{
   max-width: 1400px;
   margin: 0 auto;
@@ -434,16 +437,9 @@ details.mobile-dd summary::-webkit-details-marker{ display:none; }
   justify-content: space-between;
   gap:18px;
 }
-.footer-brand{
-  display:flex;
-  flex-direction:column;
-  line-height:1;
-}
-.footer-brand-top{
-  font-weight:950;
-  letter-spacing:0.14em;
-  text-transform:uppercase;
-}
+
+.footer-brand{ display:flex; flex-direction:column; line-height:1; }
+.footer-brand-top{ font-weight:950; letter-spacing:0.14em; text-transform:uppercase; }
 .footer-brand-sub{
   margin-top:6px;
   padding-top:6px;
@@ -455,6 +451,7 @@ details.mobile-dd summary::-webkit-details-marker{ display:none; }
   text-transform:uppercase;
   text-align:center;
 }
+
 .footer-links{
   display:flex;
   gap:18px;
@@ -475,15 +472,8 @@ details.mobile-dd summary::-webkit-details-marker{ display:none; }
   background: rgba(242,242,13,0.08);
 }
 
-.footer-icons{
-  display:flex;
-  gap:12px;
-}
-.footer-icons .icon-btn{
-  width:42px;
-  height:42px;
-  border-radius:14px;
-}
+.footer-icons{ display:flex; gap:12px; }
+.footer-icons .icon-btn{ width:42px; height:42px; border-radius:14px; }
 
 .vzla-footer-copy{
   text-align:center;
@@ -519,16 +509,24 @@ details.mobile-dd summary::-webkit-details-marker{ display:none; }
 }
 
 /* =========================
-   CardHedge-like grid/cards
+   Card grid/cards (MORE columns like CardHedge)
    ========================= */
 .vzla-grid{
   display:grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   gap: 18px;
   margin-top: 18px;
 }
 
+@media (min-width: 1280px){
+  .vzla-grid{ grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); }
+}
+@media (min-width: 1600px){
+  .vzla-grid{ grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
+}
+
 .athlete-card{
+  min-width: 0;
   padding: 16px;
   background: rgba(18,18,18,0.95);
   border-radius: 18px;
@@ -552,16 +550,15 @@ details.mobile-dd summary::-webkit-details-marker{ display:none; }
 }
 
 .athlete-card__avatar{
-  width:72px;
-  height:72px;
+  width:64px;
+  height:64px;
   border-radius: 16px;
   display:flex;
   align-items:center;
   justify-content:center;
   font-weight: 950;
-  font-size: 22px;
+  font-size: 20px;
   letter-spacing: 0.06em;
-
   background: rgba(242,242,13,0.12);
   border: 1px solid rgba(242,242,13,0.18);
   color: var(--vzla-yellow);
@@ -576,7 +573,7 @@ details.mobile-dd summary::-webkit-details-marker{ display:none; }
 
 .athlete-card__name{
   font-weight: 950;
-  font-size: 26px;
+  font-size: 22px;
   line-height: 1.05;
   white-space:nowrap;
   overflow:hidden;
@@ -588,25 +585,23 @@ details.mobile-dd summary::-webkit-details-marker{ display:none; }
   align-self:flex-start;
   padding: 6px 12px;
   border-radius: 999px;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 900;
-
-  /* ✅ Yellow theme pill */
   background: rgba(242,242,13,0.12);
   border: 1px solid rgba(242,242,13,0.18);
   color: var(--vzla-yellow);
 }
 
 .athlete-card__value{
-  margin-top: 18px;
-  font-size: 40px;
+  margin-top: 14px;
+  font-size: 36px;
   font-weight: 950;
   letter-spacing: -0.02em;
 }
 
 .athlete-card__label{
   margin-top: 2px;
-  font-size: 18px;
+  font-size: 16px;
   color: rgba(255,255,255,0.55);
   font-weight: 800;
 }
@@ -621,8 +616,8 @@ details.mobile-dd summary::-webkit-details-marker{ display:none; }
 }
 
 .athlete-card__spark{
-  width: 180px;
-  height: 56px;
+  width: 150px;
+  height: 52px;
   border-radius: 12px;
   background: rgba(255,255,255,0.04);
   border: 1px solid rgba(255,255,255,0.06);
@@ -636,24 +631,6 @@ details.mobile-dd summary::-webkit-details-marker{ display:none; }
   background: radial-gradient(circle at 30% 70%, rgba(242,242,13,0.12), transparent 60%);
   opacity:0.8;
 }
-
-.athlete-card__chg{
-  text-align:right;
-  font-weight: 950;
-  font-size: 22px;
-  display:flex;
-  align-items:center;
-  gap:10px;
-  white-space:nowrap;
-}
-.athlete-card__chg small{
-  font-size: 16px;
-  color: rgba(255,255,255,0.50);
-  font-weight: 900;
-}
-.chg-neutral{ color: rgba(255,255,255,0.65); }
-.chg-pos{ color:#22c55e; }
-.chg-neg{ color:#ef4444; }
 
 .athlete-card__cta{
   margin-top: 14px;
@@ -681,7 +658,7 @@ details.mobile-dd summary::-webkit-details-marker{ display:none; }
 }
 
 @media (max-width: 520px){
-  .athlete-card__value{ font-size: 40px; }
-  .athlete-card__name{ font-size: 22px; }
-  .athlete-card__spark{ width: 150px; }
+  .athlete-card__value{ font-size: 34px; }
+  .athlete-card__name{ font-size: 20px; }
+  .athlete-card__spark{ width: 140px; }
 }
