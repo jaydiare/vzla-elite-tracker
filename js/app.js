@@ -127,8 +127,8 @@ const ebayAvgByName = {};
 const ebayAvgByKey = {};
 
 function buildEbayIndexes(obj) {
-  Object.keys(ebayAvgByName).forEach(k => delete ebayAvgByName[k]);
-  Object.keys(ebayAvgByKey).forEach(k => delete ebayAvgByKey[k]);
+  Object.keys(ebayAvgByName).forEach((k) => delete ebayAvgByName[k]);
+  Object.keys(ebayAvgByKey).forEach((k) => delete ebayAvgByKey[k]);
 
   if (!obj || typeof obj !== "object") return;
 
@@ -186,7 +186,7 @@ function setSport(sport, btn) {
 
   const filterBar = document.getElementById("sport-filters");
   if (filterBar) {
-    filterBar.querySelectorAll("button").forEach(b => {
+    filterBar.querySelectorAll("button").forEach((b) => {
       b.classList.remove("text-[#f2f20d]");
       b.classList.add("text-slate-500");
     });
@@ -198,8 +198,7 @@ function setSport(sport, btn) {
     btn.classList.add("text-[#f2f20d]");
   } else {
     // if no btn passed, try to highlight the matching button by text
-    const b = filterBar?.querySelectorAll("button");
-    b?.forEach((x) => {
+    filterBar?.querySelectorAll("button")?.forEach((x) => {
       const t = x.textContent.trim().toLowerCase();
       const s = String(sport || "").trim().toLowerCase();
       if (t === s) {
@@ -237,6 +236,8 @@ function renderAthleteCard(a) {
   const chgText = "—";
   const chgClass = "chg-neutral";
 
+  const metaParts = [a.league, a.team].filter(Boolean);
+
   return `
     <article class="athlete-card">
       <div class="athlete-card__top">
@@ -263,9 +264,7 @@ function renderAthleteCard(a) {
         Shop Collectibles
       </a>
 
-      <div class="athlete-card__meta">
-        ${a.league ? `${a.league}` : ""}${a.league && a.team ? " • " : ""}${a.team ? `${a.team}` : ""}
-      </div>
+      <div class="athlete-card__meta">${metaParts.join(" • ")}</div>
     </article>
   `;
 }
@@ -277,7 +276,7 @@ function renderGrid(list) {
   const q = norm(document.getElementById("search-input")?.value || "");
 
   const filtered = (list || [])
-    .filter(a => {
+    .filter((a) => {
       if (activeSport === "All") return true;
       if (activeSport === "Other") {
         // Includes everything except the "Big Three"
@@ -285,7 +284,7 @@ function renderGrid(list) {
       }
       return a.sport === activeSport;
     })
-    .filter(a => !q || norm(a.name).includes(q));
+    .filter((a) => !q || norm(a.name).includes(q));
 
   // IMPORTANT: use your new CSS grid class (CardHedge-like density)
   grid.className = "vzla-grid";
