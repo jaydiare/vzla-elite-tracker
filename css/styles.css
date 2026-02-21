@@ -4,6 +4,7 @@
   --vzla-panel:#0b0b0b;
   --vzla-mint:#7fffe1;
 }
+<link rel="stylesheet" href="./css/style.css?v=2026">
 
 body{
   background: var(--vzla-bg);
