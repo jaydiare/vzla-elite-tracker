@@ -109,8 +109,8 @@ function sportAspectCandidates(sportRaw) {
   const s = (sportRaw || "").toLowerCase().trim();
 
   const map = {
-    baseball: ["Baseball"],
-    soccer: ["Soccer"],
+    baseball: ["Baseball", "Beisbol"],
+    soccer: ["Soccer", "futbol"],
     football: ["Football"],
     basketball: ["Basketball"],
     golf: ["Golf"],
