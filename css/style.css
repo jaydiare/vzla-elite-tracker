@@ -598,6 +598,13 @@ details.mobile-dd summary::-webkit-details-marker{ display:none; }
   color: rgba(255,255,255,0.45);
 }
 
+/* Desktop spacing fix for search count alignment */
+@media (min-width: 981px){
+  .vzla-search-count{
+    margin-top: 22px; /* matches label height + gap */
+  }
+}
+
 /* =========================
    NEW: Search + Filters row (CardHedge style)
    ========================= */
