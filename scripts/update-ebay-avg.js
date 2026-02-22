@@ -20,8 +20,8 @@
 // Notes:
 // - Includes graded + listings under $1 (no price floor).
 // - Category used: Trading Card Singles (261328) - keep or change as needed.
-// - Converts listing prices to CAD using CBSA Exchange Rates API.
-// - NEW: Robust 429 retry/backoff + optional match cache.
+// - NEW: Normalizes listing prices to USD using CBSA Exchange Rates API as a base.
+//        (CBSA returns CAD per 1 unit; we convert that to USD-per-currency.)
 
 import fs from "node:fs";
 import path from "node:path";
@@ -44,9 +44,6 @@ const OUT_PATH = path.join(__dirname, "..", "data", "ebay-avg.json");
 // data/athletes.json: [{ name: "Jose Altuve", sport: "Baseball" }, ...]
 const ATHLETES_PATH = path.join(__dirname, "..", "data", "athletes.json");
 
-// NEW: cache validated matches to avoid re-validating every run
-const MATCH_CACHE_PATH = path.join(__dirname, "..", "data", "ebay-match-cache.json");
-
 // Category you were using (Trading Card Singles)
 const CATEGORY_ID = "261328";
 
@@ -59,9 +56,6 @@ const MIN_EBAY_SAMPLE_SIZE = 8;
 
 // Marketplaces to compute
 const MARKETPLACES = ["EBAY_US", "EBAY_CA", "EBAY_ES"];
-
-// NEW: pick ONE marketplace to validate on (dramatically reduces calls)
-const VALIDATE_ON_MARKETPLACE = "EBAY_US";
 
 // --- helpers ---
 function sleep(ms) {
@@ -76,6 +70,16 @@ function stripDiacritics(s) {
 
 function normSpaces(s) {
   return String(s || "").replace(/\s+/g, " ").trim();
+}
+
+// Normalized name for comparisons (accents removed, punctuation softened)
+function normalizeNameForCompare(s) {
+  return normSpaces(
+    stripDiacritics(s)
+      .toLowerCase()
+      .replace(/[.'’"]/g, "") // remove common punctuation in names
+      .replace(/\b(jr|jr\.|sr|sr\.)\b/g, "")
+  );
 }
 
 function safeNum(x) {
@@ -100,8 +104,10 @@ function buildQuery(name, sport) {
 }
 
 // Map your sports to likely eBay "Sport" aspect values in Trading Card Singles.
+// (We try multiple candidates for safety.)
 function sportAspectCandidates(sportRaw) {
   const s = (sportRaw || "").toLowerCase().trim();
+
   const map = {
     baseball: ["Baseball"],
     soccer: ["Soccer"],
@@ -114,15 +120,18 @@ function sportAspectCandidates(sportRaw) {
     olympics: ["Track & Field"],
     other: [],
   };
+
   return map[s] || [sportRaw];
 }
 
-// --- FX (USD/EUR -> CAD) ---
+// --- FX (Normalize ANY currency -> USD) ---
 // CBSA Exchange Rates API (rates are CAD per 1 unit of foreign currency)
 const CBSA_FX_URL =
   "https://bcd-api-dca-ipa.cbsa-asfc.cloud-nuage.canada.ca/exchange-rate-lambda/exchange-rates";
 
-async function getFxRatesToCAD() {
+// Returns rates as "USD per 1 unit of currency":
+// { USD: 1, CAD: <usd_per_cad>, EUR: <usd_per_eur>, ... }
+async function getFxRatesToUSD() {
   const res = await fetch(CBSA_FX_URL, {
     headers: { "Content-Type": "application/json" },
   });
@@ -135,7 +144,8 @@ async function getFxRatesToCAD() {
   const json = await res.json();
   const rows = json?.ForeignExchangeRates || json?.foreignExchangeRates || [];
 
-  const rates = { CAD: 1 };
+  // Build CAD per 1 unit first
+  const cadPer = { CAD: 1 };
   let asOf = null;
 
   for (const r of rows) {
@@ -144,7 +154,7 @@ async function getFxRatesToCAD() {
     const rate = Number(r?.Rate);
 
     if (to === "CAD" && Number.isFinite(rate) && rate > 0 && from) {
-      rates[from] = rate;
+      cadPer[from] = rate;
       asOf =
         asOf ||
         r?.ExchangeRateEffectiveTimestamp ||
@@ -154,19 +164,34 @@ async function getFxRatesToCAD() {
     }
   }
 
-  return { rates, asOf };
+  const cadPerUsd = cadPer.USD;
+  if (!Number.isFinite(cadPerUsd) || cadPerUsd <= 0) {
+    throw new Error("CBSA FX: missing/invalid USD->CAD rate (needed to normalize to USD).");
+  }
+
+  // Convert CAD-per to USD-per using:
+  // usdPer[cur] = cadPer[cur] / cadPer[USD]
+  const usdPer = { USD: 1 };
+
+  for (const [cur, cadPerCur] of Object.entries(cadPer)) {
+    if (!Number.isFinite(cadPerCur) || cadPerCur <= 0) continue;
+    usdPer[cur] = cadPerCur / cadPerUsd;
+  }
+
+  // CAD -> USD specifically
+  usdPer.CAD = 1 / cadPerUsd;
+
+  return { rates: usdPer, asOf };
 }
 
-function convertToCAD(amount, currency, fxRates) {
+function convertToUSD(amount, currency, fxRatesToUSD) {
   const cur = String(currency || "").toUpperCase();
-  if (!Number.isFinite(amount)) return { cad: null, rateUsed: null };
+  if (!Number.isFinite(amount)) return { usd: null, rateUsed: null };
 
-  if (!cur || cur === "CAD") return { cad: amount, rateUsed: 1 };
+  const rate = fxRatesToUSD?.[cur];
+  if (!Number.isFinite(rate) || rate <= 0) return { usd: null, rateUsed: null };
 
-  const rate = fxRates?.[cur];
-  if (!Number.isFinite(rate)) return { cad: null, rateUsed: null };
-
-  return { cad: amount * rate, rateUsed: rate };
+  return { usd: amount * rate, rateUsed: rate };
 }
 
 // --- eBay auth ---
@@ -181,6 +206,7 @@ async function getAppToken() {
     },
     body: new URLSearchParams({
       grant_type: "client_credentials",
+      // Browse API only (no marketplace insights scope)
       scope: "https://api.ebay.com/oauth/api_scope",
     }),
   });
@@ -193,31 +219,6 @@ async function getAppToken() {
   const json = await res.json();
   if (!json.access_token) throw new Error("No access_token in token response");
   return json.access_token;
-}
-
-// --- NEW: retry/backoff wrapper (handles 429) ---
-async function fetchWithRetry(url, options, { maxRetries = 6 } = {}) {
-  let attempt = 0;
-
-  while (true) {
-    const res = await fetch(url, options);
-
-    if (res.status !== 429) return res;
-
-    attempt++;
-    if (attempt > maxRetries) return res;
-
-    // Prefer Retry-After header if provided
-    const retryAfter = Number(res.headers.get("retry-after"));
-    const waitMs = Number.isFinite(retryAfter) && retryAfter > 0
-      ? retryAfter * 1000
-      : Math.min(30000, 1000 * Math.pow(2, attempt)); // 2s,4s,8s,... capped at 30s
-
-    const bodyTxt = await res.text().catch(() => "");
-    console.warn(`429 rate limit. Attempt ${attempt}/${maxRetries}. Waiting ${waitMs}ms. ${bodyTxt ? "Body:" : ""} ${bodyTxt}`);
-
-    await sleep(waitMs);
-  }
 }
 
 // --- eBay Browse Search ---
@@ -240,10 +241,11 @@ async function ebayBrowseSearch({
   url.searchParams.append("filter", "buyingOptions:{FIXED_PRICE}");
 
   if (aspectFilter) {
+    // aspect_filter format: "Player/Athlete:{Jose Altuve}"
     url.searchParams.set("aspect_filter", aspectFilter);
   }
 
-  const res = await fetchWithRetry(url.toString(), {
+  const res = await fetch(url.toString(), {
     headers: {
       Authorization: `Bearer ${token}`,
       "Content-Type": "application/json",
@@ -262,6 +264,7 @@ async function ebayBrowseSearch({
 // --- Matching / Validation ---
 
 function candidateAspectValuesForName(name) {
+  // Try variants that often appear in eBay aspect values (accents/suffix/punctuation).
   const raw = normSpaces(name);
 
   const ascii = normSpaces(stripDiacritics(raw));
@@ -271,12 +274,13 @@ function candidateAspectValuesForName(name) {
   const noJrRaw = raw.replace(/\s+Jr\.?$/i, "").trim();
   const noJrAscii = ascii.replace(/\s+Jr\.?$/i, "").trim();
 
+  // Also try removing "Jr" in middle patterns like "Acuña Jr."
   const variants = new Set([raw, ascii, noDotsRaw, noDotsAscii, noJrRaw, noJrAscii]);
 
   return [...variants].map(normSpaces).filter(Boolean);
 }
 
-// Validate Player/Athlete by directly testing aspect_filter queries.
+// We "validate" Player/Athlete by directly testing aspect_filter queries.
 async function validatePlayerAthleteMatch({ token, marketplaceId, name, sport }) {
   const q = buildQuery(name, sport);
 
@@ -295,14 +299,13 @@ async function validatePlayerAthleteMatch({ token, marketplaceId, name, sport })
     const total = safeNum(data?.total) ?? 0;
     if (total > 0) return { ok: true, aspectValue: cand };
 
-    // IMPORTANT: slow down (was 120ms)
-    await sleep(650);
+    await sleep(120);
   }
 
   return { ok: false, aspectValue: null };
 }
 
-// If Player/Athlete doesn't match, allow proceeding ONLY if Sport aspect matches.
+// If Player/Athlete doesn't match, we allow proceeding ONLY if Sport aspect matches.
 async function validateSportMatch({ token, marketplaceId, name, sport }) {
   const q = buildQuery(name, sport);
   const candidates = sportAspectCandidates(sport);
@@ -324,7 +327,7 @@ async function validateSportMatch({ token, marketplaceId, name, sport }) {
     const total = safeNum(data?.total) ?? 0;
     if (total > 0) return { ok: true, sportAspectValue: s };
 
-    await sleep(650);
+    await sleep(120);
   }
 
   return { ok: false, sportAspectValue: null };
@@ -339,10 +342,14 @@ async function computeAvgActiveListing({
   sport,
   aspectMode,
   aspectValue,
-  fxRates,
+  fxRates, // USD per 1 unit of currency
 }) {
   const q = buildQuery(name, sport);
 
+  // aspectMode:
+  // - "player" => aspectFilter Player/Athlete:{aspectValue}
+  // - "sport"  => aspectFilter Sport:{aspectValue}
+  // - null     => no aspect filter
   let aspectFilter = null;
   if (aspectMode === "player" && aspectValue) {
     aspectFilter = `Player/Athlete:{${aspectValue}}`;
@@ -351,8 +358,11 @@ async function computeAvgActiveListing({
   }
 
   let offset = 0;
-  const pricesCAD = [];
 
+  // USD-normalized prices
+  const pricesUSD = [];
+
+  // Keep some debug info about original currencies and rates used
   let originalCurrency = null;
   let fxRateUsed = null;
 
@@ -377,24 +387,24 @@ async function computeAvgActiveListing({
       const cur = p?.currency || null;
       originalCurrency = originalCurrency || cur;
 
-      const { cad, rateUsed } = convertToCAD(v, cur, fxRates);
-      if (cad == null) continue;
+      const { usd, rateUsed } = convertToUSD(v, cur, fxRates);
+      if (usd == null) continue;
 
-      pricesCAD.push(cad);
+      pricesUSD.push(usd);
       fxRateUsed = fxRateUsed || rateUsed;
     }
 
     if (items.length < PAGE_SIZE) break;
     offset += PAGE_SIZE;
-
-    // IMPORTANT: slow down between pages too
-    await sleep(650);
+    await sleep(120);
   }
 
   return {
-    avgListing: avg(pricesCAD),
-    nListing: pricesCAD.length,
-    currency: "CAD",
+    avgListing: avg(pricesUSD),
+    nListing: pricesUSD.length,
+    currency: "USD",
+
+    // debug fields
     originalCurrency: originalCurrency || null,
     fxRateUsed: fxRateUsed || null,
   };
@@ -411,6 +421,7 @@ function loadAthletes() {
   const raw = fs.readFileSync(ATHLETES_PATH, "utf8");
   const arr = JSON.parse(raw);
 
+  // Normalize to { name, sport }
   return (arr || [])
     .map((x) => ({
       name: normSpaces(x?.name),
@@ -419,41 +430,29 @@ function loadAthletes() {
     .filter((x) => x.name);
 }
 
-function loadMatchCache() {
-  try {
-    if (!fs.existsSync(MATCH_CACHE_PATH)) return {};
-    return JSON.parse(fs.readFileSync(MATCH_CACHE_PATH, "utf8")) || {};
-  } catch {
-    return {};
-  }
-}
-
-function saveMatchCache(cache) {
-  fs.mkdirSync(path.dirname(MATCH_CACHE_PATH), { recursive: true });
-  fs.writeFileSync(MATCH_CACHE_PATH, JSON.stringify(cache, null, 2));
-}
-
 // --- main ---
 async function main() {
   const token = await getAppToken();
-  const fx = await getFxRatesToCAD();
+
+  // Fetch FX once (USD per 1 unit)
+  const fx = await getFxRatesToUSD();
+
   const athletes = loadAthletes();
 
-  const matchCache = loadMatchCache();
-
+  // Output is a flat map keyed by athlete name for easy frontend lookup.
   const out = {
     _meta: {
       updatedAt: new Date().toISOString(),
       minSampleSize: MIN_EBAY_SAMPLE_SIZE,
       marketplaces: MARKETPLACES,
       categoryId: CATEGORY_ID,
-      note: "Active listing averages only (Browse API FIXED_PRICE). No sold data. Prices normalized to CAD.",
+      note: "Active listing averages only (Browse API FIXED_PRICE). No sold data. Prices normalized to USD.",
       fx: {
         source: "CBSA Exchange Rates API",
         asOf: fx.asOf,
-        ratesToCAD: {
-          CAD: 1,
-          USD: fx.rates?.USD ?? null,
+        ratesToUSD: {
+          USD: 1,
+          CAD: fx.rates?.CAD ?? null,
           EUR: fx.rates?.EUR ?? null,
         },
       },
@@ -464,35 +463,35 @@ async function main() {
     const { name, sport } = athletes[i];
     console.log(`[${i + 1}/${athletes.length}] ${name} (${sport || "Unknown"})`);
 
-    // 0) Cache hit?
-    let match = matchCache[name] || null;
+    // 1) Try Player/Athlete validation (CA first, then US)
+    let match = null;
 
-    // 1) Validate once on ONE marketplace (default EBAY_US)
-    if (!match) {
-      const marketplaceId = VALIDATE_ON_MARKETPLACE;
-
+    for (const marketplaceId of ["EBAY_CA", "EBAY_US"]) {
       const v = await validatePlayerAthleteMatch({ token, marketplaceId, name, sport });
       if (v.ok) {
         match = { mode: "player", value: v.aspectValue, validatedOn: marketplaceId };
-      } else {
-        const s = await validateSportMatch({ token, marketplaceId, name, sport });
-        if (s.ok) {
-          match = { mode: "sport", value: s.sportAspectValue, validatedOn: marketplaceId };
-        }
-      }
-
-      if (match) {
-        matchCache[name] = match;
-        saveMatchCache(matchCache);
+        break;
       }
     }
 
-    // 2) If neither matched => skip
+    // 2) If no Player/Athlete match, require Sport aspect match
+    if (!match) {
+      for (const marketplaceId of ["EBAY_CA", "EBAY_US"]) {
+        const s = await validateSportMatch({ token, marketplaceId, name, sport });
+        if (s.ok) {
+          match = { mode: "sport", value: s.sportAspectValue, validatedOn: marketplaceId };
+          break;
+        }
+      }
+    }
+
+    // 3) If neither matched => skip (avoid fake)
     if (!match) {
       console.log(`${name}: SKIPPED (no Player/Athlete match AND sport did not match)`);
       continue;
     }
 
+    // Compute for marketplaces using the chosen match mode/value
     const rec = {
       match,
       marketplaces: {},
@@ -500,10 +499,9 @@ async function main() {
       n: 0,
       avgListing: null,
       nListing: 0,
-      currency: "CAD",
+      currency: "USD",
     };
 
-    // 3) Compute for marketplaces using validated match
     for (const marketplaceId of MARKETPLACES) {
       try {
         const listing = await computeAvgActiveListing({
@@ -519,20 +517,24 @@ async function main() {
         rec.marketplaces[marketplaceId] = {
           aspectMode: match.mode,
           aspectValue: match.value,
+
+          // USD-normalized
           avgListing: listing.avgListing,
           nListing: listing.nListing,
-          currency: listing.currency,
+          currency: listing.currency, // "USD"
+
+          // debug fields
           originalCurrency: listing.originalCurrency,
           fxRateUsed: listing.fxRateUsed,
         };
       } catch (e) {
         console.log(`${name} (${marketplaceId}): ERROR ${e?.message || e}`);
+        // keep going; partial results are ok
       }
-
-      // slow down between marketplaces
-      await sleep(650);
     }
 
+    // Pick a convenience rollup for frontend:
+    // Prefer EBAY_CA if it has data, else fallback to US, else others.
     const ca = rec.marketplaces.EBAY_CA;
     const us = rec.marketplaces.EBAY_US;
     const es = rec.marketplaces.EBAY_ES;
@@ -547,15 +549,16 @@ async function main() {
 
     rec.avgListing = pick?.avgListing ?? null;
     rec.nListing = pick?.nListing ?? 0;
-    rec.currency = "CAD";
+    rec.currency = "USD";
 
+    // Backward-compatible fields (so your UI can read rec.avg / rec.n)
     rec.avg = rec.avgListing;
     rec.n = rec.nListing;
 
     out[name] = rec;
 
-    // polite delay between athletes
-    await sleep(900);
+    // Small delay to be polite
+    await sleep(120);
   }
 
   fs.mkdirSync(path.dirname(OUT_PATH), { recursive: true });
