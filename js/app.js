@@ -162,9 +162,18 @@ function formatCurrency(amount, currency) {
 }
 
 function buildEbaySearchUrl(name, sport) {
-  const sportPart = sport ? ` ${sport}` : "";
-  const q = encodeURIComponent(`${name}${sportPart}`);
-  return `https://www.ebay.ca/sch/i.html?_nkw=${q}&mkevt=1&mkcid=1&mkrid=706-53473-19255-0&campid=5339142321&toolid=10001`;
+  const base = "https://www.ebay.ca/sch/i.html";
+
+  const query = encodeURIComponent(`${name} ${sport} trading card`);
+
+  return `${base}?_nkw=${query}`+
+    `&LH_BIN=1` +
+    `&LH_PrefLoc=1` +
+    `&mkevt=1` +
+    `&mkcid=1` +
+    `&mkrid=706-53473-19255-0` +
+    `&campid=5339142321` +
+    `&toolid=10001`;
 }
 
 // ---------- UI ----------
