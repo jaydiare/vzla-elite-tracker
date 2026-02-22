@@ -124,12 +124,11 @@ a{ color:inherit; }
 
 .side-banner img{
   width: 100%;
-  max-width: 260px;
+  max-width: 200px;   /* match new column width */
   height: auto;
-  border-radius: 16px;
+  border-radius: 14px;
   box-shadow: 0 10px 30px rgba(0,0,0,0.55);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  cursor: pointer;
 }
 
 @media (max-width: 1024px){
