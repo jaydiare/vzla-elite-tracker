@@ -164,17 +164,23 @@ function formatCurrency(amount, currency) {
 function buildEbaySearchUrl(name, sport) {
   const base = "https://www.ebay.ca/sch/i.html";
 
-  const query = encodeURIComponent(`${name} ${sport}`);
+  // Similar intent to your averaging script, but for the public link:
+  // name + sport + trading card
+  const query = encodeURIComponent(`${name} ${sport} trading card`);
 
-  return `${base}?_nkw=${query}`+
-    `&LH_BIN=1` +
-    `&LH_PrefLoc=1` +
+  return (
+    `${base}?_nkw=${query}` +
+    `&_sacat=261328` +     // Trading Card Singles (optional but recommended)
+    `&LH_BIN=1` +          // Buy It Now only
+    `&LH_PrefLoc=1` +      // Prefer local (Canada)
     `&mkevt=1` +
     `&mkcid=1` +
     `&mkrid=706-53473-19255-0` +
     `&campid=5339142321` +
-    `&toolid=10001`;
+    `&toolid=10001`
+  );
 }
+
 
 // ---------- UI ----------
 function setSport(sport, btn) {
