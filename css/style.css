@@ -480,6 +480,12 @@ details.mobile-dd summary::-webkit-details-marker{ display:none; }
   width: 100%;
 }
 
+@media (min-width: 981px){
+  .vzla-search-wrap{
+    padding-top: 22px; /* 14px label height + 8px gap */
+  }
+}
+
 .vzla-search{
   position: relative;
   display: flex;
