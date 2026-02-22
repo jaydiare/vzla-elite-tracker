@@ -16,7 +16,7 @@ const athleteDataRaw = [
 
   { name: "Yeferson Soteldo", sport: "Soccer", league: "Serie A", team: "Grêmio" },
   { name: "Jon Aramburu", sport: "Soccer", league: "La Liga", team: "Real Sociedad" },
-  { name: "Josef Martinez", sport: "Soccer", league: "MLS", team: "CF Montréal" },
+  { name: "Josef Martínez", sport: "Soccer", league: "MLS", team: "CF Montréal" },
   { name: "Salomon Rondon", sport: "Soccer", league: "Liga MX", team: "Pachuca" },
   { name: "Darwin Machís", sport: "Soccer", league: "La Liga", team: "Cádiz" },
   { name: "Jefferson Savarino", sport: "Soccer", league: "Serie A", team: "Botafogo" },
