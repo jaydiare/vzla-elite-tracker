@@ -97,12 +97,12 @@ a{ color:inherit; }
    Layout shell + side banners
    ========================= */
 .page-shell{
-  max-width: 1800px;
+  max-width: 1700px; /* slightly tighter overall */
   margin: 0 auto;
   padding: 18px 18px 120px;
   display: grid;
-  grid-template-columns: 260px 1fr 260px;
-  gap: 22px;
+  grid-template-columns: 200px 1fr 200px; /* slimmer banners */
+  gap: 20px;
   align-items: start;
 }
 
