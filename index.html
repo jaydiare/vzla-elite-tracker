@@ -3,11 +3,10 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>VZLA Sports Elite | Venezuelan Athlete Sports Card Market Index</title>
-<meta name="description" content="Track average eBay listing prices for Venezuelan athletes. The VZLA Sports Cards Index measures collectible market value across MLB, soccer, basketball and more.">
-<link rel="canonical" href="https://www.vzlasportselite.com/">
+  <title>VZLA Sports Elite | Venezuelan Athlete Sports Card Market Index</title>
+  <meta name="description" content="Track average eBay listing prices for Venezuelan athletes. The VZLA Sports Cards Index measures collectible market value across MLB, soccer, basketball and more.">
+  <link rel="canonical" href="https://www.vzlasportselite.com/">
 
-  
   <meta name="impact-site-verification" value="01c83abd-89b3-4408-b3a4-78e22587515e">
 
   <!-- Google Tag Manager -->
@@ -45,9 +44,6 @@
   "description": "Venezuelan athlete sports card market index based on average eBay listing prices."
 }
 </script>
-
-  
-  
 
   <!-- CSS -->
   <link rel="stylesheet" href="./dist/tailwind.css?v=2026">
@@ -201,7 +197,7 @@
           VZLA <span class="text-[#f2f20d] italic">Sports Cards</span> Index
         </h1>
         <div class="hero-sub">
-          The Vzla Sports Elite Card Index measures athlete market value using average sports card listing prices from eBay. By analyzing publicly available listings, we estimate how the market is pricing Venezuelan athletes in the collectibles space. 
+          The Vzla Sports Elite Card Index measures athlete market value using average sports card listing prices from eBay. By analyzing publicly available listings, we estimate how the market is pricing Venezuelan athletes in the collectibles space.
           We also help you discover Venezuela’s top athletes’ collectibles.
         </div>
         <div id="ebay-last-updated" style="opacity:.75; font-weight:800; letter-spacing:.08em; text-transform:lowercase; font-size:10px;">
@@ -211,16 +207,49 @@
 
       <!-- ✅ Index cards (Top 2 sports + All) -->
       <section class="vzla-index-row" id="vzlaIndexRow" aria-label="VZLA Index Cards">
-  <!-- Filled by JS -->
+        <!-- Filled by JS -->
       </section>
 
+      <!-- ✅ Upgraded search bar -->
       <div class="flex justify-center mb-4">
-        <input
-          id="search-input"
-          class="search-input w-full max-w-2xl px-8 py-6 bg-black/30 border border-white/10 text-white placeholder:text-slate-500 focus:outline-none focus:border-[#f2f20d]"
-          placeholder="Search athletes name..."
-          type="text"
-        />
+        <div class="vzla-search-wrap w-full max-w-2xl">
+          <div class="vzla-search" id="vzla-search">
+            <span class="vzla-search__icon" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                <path d="M21 21l-4.3-4.3m1.8-5.2a7 7 0 11-14 0 7 7 0 0114 0z"
+                      stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </span>
+
+            <input
+              id="search-input"
+              class="vzla-search__input"
+              placeholder="Search players..."
+              type="text"
+              autocomplete="off"
+              spellcheck="false"
+            />
+
+            <button
+              id="search-clear"
+              class="vzla-search__clear"
+              type="button"
+              aria-label="Clear search"
+              title="Clear"
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+                <path d="M18 6L6 18M6 6l12 12"
+                      stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </button>
+
+            <div class="vzla-search__kbd" aria-hidden="true">
+              <span class="kbd">⌘</span><span class="kbd">K</span>
+            </div>
+          </div>
+
+          <div id="search-count" class="vzla-search-count"></div>
+        </div>
       </div>
 
       <div class="filters-row" id="sport-filters">
