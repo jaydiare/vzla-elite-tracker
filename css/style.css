@@ -469,7 +469,128 @@ details.mobile-dd summary::-webkit-details-marker{ display:none; }
   .hero-sub{ font-size:16px; padding:14px 16px; }
 }
 
-#search-input, .search-input{ border-radius: 9999px !important; }
+/* ✅ Keep legacy pill rounding ONLY for the old class.
+   The new search uses .vzla-search styles. */
+.search-input{ border-radius: 9999px !important; }
+
+/* =========================
+   Upgraded Search Bar (CardHedge style)
+   ========================= */
+.vzla-search-wrap{
+  width: 100%;
+}
+
+.vzla-search{
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  height: 44px;
+  width: 100%;
+  padding: 0 12px;
+  border-radius: 14px;
+
+  background: rgba(11, 18, 32, 0.72);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  backdrop-filter: blur(10px);
+
+  box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+  transition: border-color .15s ease, box-shadow .15s ease;
+}
+
+.vzla-search:focus-within{
+  border-color: rgba(255, 255, 255, 0.18);
+  box-shadow:
+    0 0 0 3px rgba(242, 242, 13, 0.12),
+    0 10px 30px rgba(0,0,0,0.35);
+}
+
+.vzla-search__icon{
+  color: rgba(255,255,255,0.55);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.vzla-search__input{
+  flex: 1;
+  height: 100%;
+  border: 0;
+  outline: none;
+  background: transparent;
+
+  color: rgba(255,255,255,0.92);
+  font-size: 13px;
+  letter-spacing: 0.2px;
+
+  padding-right: 92px; /* space for clear + kbd */
+}
+
+.vzla-search__input::placeholder{
+  color: rgba(255,255,255,0.35);
+}
+
+/* Clear button toggled by JS */
+.vzla-search__clear{
+  position: absolute;
+  right: 56px;
+
+  height: 30px;
+  width: 30px;
+  border-radius: 10px;
+
+  border: 1px solid rgba(255,255,255,0.10);
+  background: rgba(255,255,255,0.06);
+  color: rgba(255,255,255,0.75);
+
+  display: none; /* JS shows when there is text */
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+  transition: background .15s ease, color .15s ease, transform .05s ease;
+}
+
+.vzla-search__clear:hover{
+  background: rgba(255,255,255,0.10);
+  color: rgba(255,255,255,0.90);
+}
+
+.vzla-search__clear:active{
+  transform: translateY(1px);
+}
+
+/* KBD hint */
+.vzla-search__kbd{
+  position: absolute;
+  right: 12px;
+  display: none; /* shown on >= 640px */
+  align-items: center;
+  gap: 6px;
+
+  border-radius: 10px;
+  padding: 6px 8px;
+
+  border: 1px solid rgba(255,255,255,0.10);
+  background: rgba(255,255,255,0.06);
+
+  color: rgba(255,255,255,0.55);
+  font-size: 11px;
+  user-select: none;
+}
+.vzla-search__kbd .kbd{ font-weight: 600; }
+
+@media (min-width: 640px){
+  .vzla-search__kbd{ display: flex; }
+}
+
+/* Count line under the bar */
+.vzla-search-count{
+  margin-top: 8px;
+  font-size: 11px;
+  color: rgba(255,255,255,0.45);
+}
 
 .filters-row{
   display:flex;
