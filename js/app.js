@@ -89,6 +89,15 @@ function initialsFromName(name) {
   return (a + b).toUpperCase();
 }
 
+// Debounce (for smoother input feel)
+function debounce(fn, delay = 150) {
+  let t;
+  return (...args) => {
+    clearTimeout(t);
+    t = setTimeout(() => fn(...args), delay);
+  };
+}
+
 // ---------- "Last updated" label (from ebay-avg.json _meta.updatedAt) ----------
 function timeAgo(isoString) {
   const then = new Date(isoString);
@@ -181,7 +190,6 @@ function buildEbaySearchUrl(name, sport) {
   );
 }
 
-
 // ---------- UI ----------
 function setSport(sport, btn) {
   activeSport = sport;
@@ -270,7 +278,8 @@ function renderGrid(list) {
   const grid = document.getElementById("athletes-grid");
   if (!grid) return;
 
-  const q = norm(document.getElementById("search-input")?.value || "");
+  const input = document.getElementById("search-input");
+  const q = norm(input?.value || "");
 
   const filtered = (list || [])
     .filter((a) => {
@@ -284,6 +293,20 @@ function renderGrid(list) {
 
   grid.className = "vzla-grid";
   grid.innerHTML = filtered.map(renderAthleteCard).join("");
+
+  // NEW: Showing X of Y players
+  const countEl = document.getElementById("search-count");
+  if (countEl) {
+    countEl.innerHTML =
+      `Showing <span style="color:rgba(255,255,255,.7)">${filtered.length}</span> ` +
+      `of <span style="color:rgba(255,255,255,.7)">${(list || []).length}</span> players`;
+  }
+
+  // NEW: Clear button visibility
+  const clearBtn = document.getElementById("search-clear");
+  if (clearBtn) {
+    clearBtn.style.display = q ? "inline-flex" : "none";
+  }
 }
 
 function formatIndexNumber(n) {
@@ -405,7 +428,33 @@ async function init() {
   setInterval(() => updateEbayLastUpdatedLabelFrom(ebayAvgRaw), 60 * 1000);
 
   const search = document.getElementById("search-input");
-  if (search) search.addEventListener("input", () => renderGrid(athleteData));
+  const clearBtn = document.getElementById("search-clear");
+
+  const rerenderDebounced = debounce(() => renderGrid(athleteData), 150);
+
+  if (search) {
+    search.addEventListener("input", rerenderDebounced);
+
+    // Cmd/Ctrl + K focuses search (Escape blurs)
+    window.addEventListener("keydown", (e) => {
+      const isK = String(e.key || "").toLowerCase() === "k";
+      if ((e.metaKey || e.ctrlKey) && isK) {
+        e.preventDefault();
+        search.focus();
+      }
+      if (e.key === "Escape") {
+        search.blur();
+      }
+    });
+  }
+
+  if (clearBtn && search) {
+    clearBtn.addEventListener("click", () => {
+      search.value = "";
+      renderGrid(athleteData);
+      search.focus();
+    });
+  }
 
   renderGrid(athleteData);
   renderIndexCards();
