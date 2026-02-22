@@ -599,35 +599,61 @@ details.mobile-dd summary::-webkit-details-marker{ display:none; }
   width: 100%;
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
+  gap: 16px;
+
+  /* KEY: align everything from the top */
   align-items: start;
-  gap: 14px;
 }
 
+/* keep left column from overflowing */
+.vzla-search-wrap{ min-width: 0; }
+
 /* Filters container */
+/* Filters should also align from the top */
 .vzla-filters{
   display: flex;
-  align-items: flex-start;
+  gap: 14px;
+  align-items: start;      /* KEY */
   justify-content: flex-end;
-  gap: 12px;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
 }
 
 /* Each filter block */
+/* Each filter is label + select stacked */
 .vzla-filter{
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  min-width: 150px;
+  gap: 8px;                /* consistent spacing */
+  min-width: 220px;        /* helps match the look */
 }
 
 /* Label above select (like screenshot) */
 .vzla-filter__label{
+  height: 14px;            /* KEY: fixed label height */
+  line-height: 14px;
+  margin: 0;
+  padding-left: 6px;
+
   font-size: 10px;
   letter-spacing: 0.18em;
   text-transform: uppercase;
   font-weight: 900;
   color: rgba(255,255,255,0.55);
-  padding-left: 6px;
+}
+
+/* Mobile: stack */
+@media (max-width: 980px){
+  .vzla-controls-row{
+    grid-template-columns: 1fr;
+  }
+  .vzla-filters{
+    justify-content: flex-start;
+    flex-wrap: wrap;
+  }
+  .vzla-filter{
+    min-width: 180px;
+    flex: 1 1 180px;
+  }
 }
 
 /* Select styling */
