@@ -7,6 +7,13 @@
         "provider": "balldontlie"
     },
     {
+        "name": "Miguel Cabrera",
+        "sport": "Baseball",
+        "league": "MLB",
+        "team": "Tigers",
+        "provider": "balldontlie"
+    },
+    {
         "name": "Andres Gimenez",
         "sport": "Baseball",
         "league": "MLB",
