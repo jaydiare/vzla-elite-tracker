@@ -35,7 +35,15 @@ const athleteDataRaw = [
 
 let athleteData = [];
 let ebayAvgRaw = {};
-let activeSport = "All";
+let activeSport = "All"; // kept for your existing sport buttons
+
+// Dropdown filters (optional; only used if the elements exist in HTML)
+let activeCategory = "all";
+let activeLeague = "all";
+let activePrice = "all";
+
+// Price threshold used by the Price dropdown (Low/High). Adjust as you like.
+const PRICE_LOW_MAX = 20;
 
 // ---------- Helpers ----------
 function norm(s) {
@@ -96,6 +104,47 @@ function debounce(fn, delay = 150) {
     clearTimeout(t);
     t = setTimeout(() => fn(...args), delay);
   };
+}
+
+// OS hint for the ⌘K bubble (so Windows shows Ctrl K)
+function isMacPlatform() {
+  return (
+    /Mac|iPhone|iPad|iPod/i.test(navigator.platform) ||
+    /Mac/i.test(navigator.userAgent)
+  );
+}
+
+function setKbdHint() {
+  const el = document.getElementById("search-kbd"); // optional
+  if (!el) return;
+
+  el.innerHTML = isMacPlatform()
+    ? `<span class="kbd">⌘</span><span class="kbd">K</span>`
+    : `<span class="kbd">Ctrl</span><span class="kbd">K</span>`;
+}
+
+// Fill dropdown filter options (only if selects exist)
+function fillFilterOptions() {
+  const catSel = document.getElementById("filter-category");
+  const leagueSel = document.getElementById("filter-league");
+  if (!catSel || !leagueSel) return;
+
+  const sports = Array.from(
+    new Set((athleteData || []).map((a) => a?.sport).filter(Boolean))
+  ).sort();
+
+  catSel.innerHTML =
+    `<option value="all">All</option>` +
+    sports.map((s) => `<option value="${s}">${s}</option>`).join("") +
+    `<option value="Other">Other</option>`;
+
+  const leagues = Array.from(
+    new Set((athleteData || []).map((a) => a?.league).filter(Boolean))
+  ).sort();
+
+  leagueSel.innerHTML =
+    `<option value="all">All</option>` +
+    leagues.map((l) => `<option value="${l}">${l}</option>`).join("");
 }
 
 // ---------- "Last updated" label (from ebay-avg.json _meta.updatedAt) ----------
@@ -172,14 +221,11 @@ function formatCurrency(amount, currency) {
 
 function buildEbaySearchUrl(name, sport) {
   const base = "https://www.ebay.ca/sch/i.html";
-
-  // Similar intent to your averaging script, but for the public link:
-  // name + sport + trading card
   const query = encodeURIComponent(`${name} ${sport} trading card`);
 
   return (
     `${base}?_nkw=${query}` +
-    `&_sacat=261328` +     // Trading Card Singles (optional but recommended)
+    `&_sacat=261328` +     // Trading Card Singles
     `&LH_BIN=1` +          // Buy It Now only
     `&LH_PrefLoc=1` +      // Prefer local (Canada)
     `&mkevt=1` +
@@ -190,7 +236,7 @@ function buildEbaySearchUrl(name, sport) {
   );
 }
 
-// ---------- UI ----------
+// ---------- UI (Sport buttons row) ----------
 function setSport(sport, btn) {
   activeSport = sport;
 
@@ -245,10 +291,6 @@ function renderAthleteCard(a) {
   const shopUrl = buildEbaySearchUrl(a.name, a.sport);
   const initials = initialsFromName(a.name);
 
-  // Placeholder for 30d change (until you have that data)
-  const chgText = "—";
-  const chgClass = "chg-neutral";
-
   return `
     <article class="athlete-card">
       <div class="athlete-card__top">
@@ -281,7 +323,17 @@ function renderGrid(list) {
   const input = document.getElementById("search-input");
   const q = norm(input?.value || "");
 
+  // Optional dropdown filters (only apply if selects exist)
+  const catSel = document.getElementById("filter-category");
+  const leagueSel = document.getElementById("filter-league");
+  const priceSel = document.getElementById("filter-price");
+
+  const category = catSel?.value ?? activeCategory;
+  const league = leagueSel?.value ?? activeLeague;
+  const price = priceSel?.value ?? activePrice;
+
   const filtered = (list || [])
+    // 1) Sport buttons row filter (kept as you have it)
     .filter((a) => {
       if (activeSport === "All") return true;
       if (activeSport === "Other") {
@@ -289,12 +341,50 @@ function renderGrid(list) {
       }
       return a.sport === activeSport;
     })
+    // 2) Category dropdown (if present; can further narrow)
+    .filter((a) => {
+      if (!catSel) return true; // no dropdown on page
+      if (category === "all") return true;
+      if (category === "Other") return !["Baseball", "Soccer", "Basketball"].includes(a.sport);
+      return a.sport === category;
+    })
+    // 3) League dropdown (if present)
+    .filter((a) => {
+      if (!leagueSel) return true;
+      if (league === "all") return true;
+      return a.league === league;
+    })
+    // 4) Price dropdown (if present)
+    .filter((a) => {
+      if (!priceSel) return true;
+      if (price === "all") return true;
+
+      const avg = getEbayAvgFor(a);
+      const avgNum =
+        avg?.avgListing ??
+        avg?.avg_list_price ??
+        avg?.avgListPrice ??
+        avg?.avg ??
+        avg?.average ??
+        null;
+
+      const v = Number(avgNum);
+      const hasPrice = Number.isFinite(v);
+
+      if (price === "none") return !hasPrice;
+      if (!hasPrice) return false;
+
+      if (price === "low") return v < PRICE_LOW_MAX;
+      if (price === "high") return v >= PRICE_LOW_MAX;
+      return true;
+    })
+    // 5) Search query
     .filter((a) => !q || norm(a.name).includes(q));
 
   grid.className = "vzla-grid";
   grid.innerHTML = filtered.map(renderAthleteCard).join("");
 
-  // NEW: Showing X of Y players
+  // Showing X of Y players
   const countEl = document.getElementById("search-count");
   if (countEl) {
     countEl.innerHTML =
@@ -302,7 +392,7 @@ function renderGrid(list) {
       `of <span style="color:rgba(255,255,255,.7)">${(list || []).length}</span> players`;
   }
 
-  // NEW: Clear button visibility
+  // Clear button visibility
   const clearBtn = document.getElementById("search-clear");
   if (clearBtn) {
     clearBtn.style.display = q ? "inline-flex" : "none";
@@ -372,10 +462,8 @@ function renderIndexCards() {
   const row = document.getElementById("vzlaIndexRow");
   if (!row) return;
 
-  // Find top 2 sports by how many athletes you have
   const counts = getSportCounts(athleteData);
 
-  // Optional: ignore "Other" when picking top 2 (usually cleaner)
   const entries = Array.from(counts.entries())
     .filter(([sport]) => sport !== "Other")
     .sort((a, b) => b[1] - a[1]);
@@ -427,6 +515,12 @@ async function init() {
   updateEbayLastUpdatedLabelFrom(ebayAvgRaw);
   setInterval(() => updateEbayLastUpdatedLabelFrom(ebayAvgRaw), 60 * 1000);
 
+  // KBD hint bubble (if present in HTML)
+  setKbdHint();
+
+  // Fill dropdown options (only if dropdowns exist in your HTML)
+  fillFilterOptions();
+
   const search = document.getElementById("search-input");
   const clearBtn = document.getElementById("search-clear");
 
@@ -455,6 +549,17 @@ async function init() {
       search.focus();
     });
   }
+
+  // Dropdown filter listeners (only if the selects exist)
+  const catSel = document.getElementById("filter-category");
+  const leagueSel = document.getElementById("filter-league");
+  const priceSel = document.getElementById("filter-price");
+
+  const rerenderNow = () => renderGrid(athleteData);
+
+  if (catSel) catSel.addEventListener("change", rerenderNow);
+  if (leagueSel) leagueSel.addEventListener("change", rerenderNow);
+  if (priceSel) priceSel.addEventListener("change", rerenderNow);
 
   renderGrid(athleteData);
   renderIndexCards();
