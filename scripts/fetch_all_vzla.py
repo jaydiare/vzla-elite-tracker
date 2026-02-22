@@ -99,7 +99,7 @@ TSDB_TOP_DIVISIONS: List[Dict[str, Any]] = [
     #{"league_id": "4425", "league": "PGA Tour"},
     #{"league_id": "4553", "league": "LPGA Tour"},
     #{"league_id": "4426", "league": "European Tour"},
-]
+#]
 
 # =========================
 # HELPERS
