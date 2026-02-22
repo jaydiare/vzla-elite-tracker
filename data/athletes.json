@@ -82,7 +82,6 @@
   { "name": "David Cubillan", "sport": "Basketball", "league": "SLB", "team": "Trotamundos", "provider": "manual" },
 
   { "name": "Amleto Monacelli", "sport": "Bowling", "league": "PBA50", "team": "Unknown", "provider": "manual" },
-  { "name": "Nicolás Claveau-Laviolette", "sport": "Cross-country Ski", "league": "Olympics", "team": "Canada", "provider": "manual" },
   { "name": "Andres Borregales", "sport": "Football", "league": "NFL", "team": "New England Patriots", "provider": "manual" },
   { "name": "Jhonattan Vegas", "sport": "Golf", "league": "PGA", "team": "Venezuela", "provider": "manual" },
   { "name": "Marlon Vera", "sport": "MMA", "league": "UFC", "team": "Venezuela", "provider": "manual" },
@@ -98,7 +97,6 @@
   { "name": "Juan Arango", "sport": "Soccer", "league": "La Liga", "team": "Unknown", "provider": "balldontlie" },
   { "name": "Miguel Silva", "sport": "Soccer", "league": "La Liga", "team": "Unknown", "provider": "balldontlie" },
   { "name": "Miku Fedor", "sport": "Soccer", "league": "La Liga", "team": "Unknown", "provider": "balldontlie" },
-  { "name": "Nicolas Fedor Miku", "sport": "Soccer", "league": "La Liga", "team": "Unknown", "provider": "balldontlie" },
   { "name": "Roberto Rosales", "sport": "Soccer", "league": "La Liga", "team": "Unknown", "provider": "balldontlie" },
   { "name": "Rubén Suárez Estrada", "sport": "Soccer", "league": "La Liga", "team": "Unknown", "provider": "balldontlie" },
   { "name": "Salomón Rondón", "sport": "Soccer", "league": "La Liga", "team": "Unknown", "provider": "balldontlie" },
@@ -223,5 +221,6 @@
   { "name": "Johan Santana", "sport": "Baseball", "league": "MLB", "team": "Mets", "provider": "balldontlie" },
   { "name": "Vic Davalillo", "sport": "Baseball", "league": "MLB", "team": "Dodgers", "provider": "balldontlie" },
   { "name": "Luis Aparicio", "sport": "Baseball", "league": "MLB", "team": "White Sox", "provider": "balldontlie" },
-  { "name": "David Concepcion", "sport": "Baseball", "league": "MLB", "team": "Reds", "provider": "balldontlie" }
+  { "name": "David Concepcion", "sport": "Baseball", "league": "MLB", "team": "Reds", "provider": "balldontlie" },
+  { "name": "Chico Carrasquel", "sport": "Baseball", "league": "MLB", "team": "Orioles", "provider": "manual" }
 ]
