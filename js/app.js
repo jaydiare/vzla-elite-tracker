@@ -7,7 +7,7 @@ const athleteDataRaw = [
   { name: "Salvador Perez", sport: "Baseball", league: "MLB", team: "Royals" },
   { name: "Eugenio Suárez", sport: "Baseball", league: "MLB", team: "Diamondbacks" },
   { name: "Jose Altuve", sport: "Baseball", league: "MLB", team: "Astros" },
-  { name: "Luis Arraez", sport: "Baseball", league: "MLB", team: "Padres" },
+  { name: "Luis Arráez", sport: "Baseball", league: "MLB", team: "Padres" },
   { name: "William Contreras", sport: "Baseball", league: "MLB", team: "Brewers" },
   { name: "Anthony Santander", sport: "Baseball", league: "MLB", team: "Orioles" },
   { name: "Wilyer Abreu", sport: "Baseball", league: "MLB", team: "Red Sox" },
