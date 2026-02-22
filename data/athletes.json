@@ -8,6 +8,8 @@
   { "name": "Oscar Torres", "sport": "Basketball", "league": "NBA", "team": "Bucks", "provider": "manual"},
   { "name": "Greivis Vasquez", "sport": "Basketball", "league": "NBA", "team": "Nets", "provider": "manual"},
   { "name": "Tony Armas", "sport": "Baseball", "league": "MLB", "team": "Angels", "provider": "manual" },
+  { "name": "Francisco Cervelli", "sport": "Baseball", "league": "MLB", "team": "Padres", "provider": "manual" },
+  { "name": "Max Ramirez", "sport": "Baseball", "league": "MLB", "team": "Texas", "provider": "manual" },
   
   { "name": "Bo Diaz", "sport": "Baseball", "league": "MLB", "team": "Reds", "provider": "manual" },
   { "name": "Andruw Monasterio", "sport": "Baseball", "league": "MLB", "team": "Red Sox", "provider": "balldontlie" },
