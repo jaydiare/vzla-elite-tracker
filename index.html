@@ -47,7 +47,8 @@
 
   <!-- CSS -->
   <link rel="stylesheet" href="./dist/tailwind.css?v=2026">
-  <link rel="stylesheet" href="./css/style.css?v=2026">
+  <!-- bump version to avoid cache -->
+  <link rel="stylesheet" href="./css/style.css?v=2026-02-22-2">
 </head>
 
 <body id="top">
@@ -210,48 +211,80 @@
         <!-- Filled by JS -->
       </section>
 
-      <!-- ✅ Upgraded search bar -->
+      <!-- ✅ Search + Filters row -->
       <div class="flex justify-center mb-4">
-        <div class="vzla-search-wrap w-full max-w-2xl">
-          <div class="vzla-search" id="vzla-search">
-            <span class="vzla-search__icon" aria-hidden="true">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                <path d="M21 21l-4.3-4.3m1.8-5.2a7 7 0 11-14 0 7 7 0 0114 0z"
-                      stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-              </svg>
-            </span>
+        <div class="vzla-controls-row w-full max-w-6xl">
+          <!-- Search -->
+          <div class="vzla-search-wrap">
+            <div class="vzla-search" id="vzla-search">
+              <span class="vzla-search__icon" aria-hidden="true">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                  <path d="M21 21l-4.3-4.3m1.8-5.2a7 7 0 11-14 0 7 7 0 0114 0z"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+              </span>
 
-            <input
-              id="search-input"
-              class="vzla-search__input"
-              placeholder="Search players..."
-              type="text"
-              autocomplete="off"
-              spellcheck="false"
-            />
+              <input
+                id="search-input"
+                class="vzla-search__input"
+                placeholder="Search players..."
+                type="text"
+                autocomplete="off"
+                spellcheck="false"
+              />
 
-            <button
-              id="search-clear"
-              class="vzla-search__clear"
-              type="button"
-              aria-label="Clear search"
-              title="Clear"
-            >
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
-                <path d="M18 6L6 18M6 6l12 12"
-                      stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-              </svg>
-            </button>
+              <button
+                id="search-clear"
+                class="vzla-search__clear"
+                type="button"
+                aria-label="Clear search"
+                title="Clear"
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+                  <path d="M18 6L6 18M6 6l12 12"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+              </button>
 
-            <div class="vzla-search__kbd" aria-hidden="true">
-              <span class="kbd">⌘</span><span class="kbd">K</span>
+              <!-- IMPORTANT: id so JS can switch ⌘ to Ctrl on Windows -->
+              <div class="vzla-search__kbd" id="search-kbd" aria-hidden="true">
+                <span class="kbd">⌘</span><span class="kbd">K</span>
+              </div>
             </div>
+
+            <div id="search-count" class="vzla-search-count"></div>
           </div>
 
-          <div id="search-count" class="vzla-search-count"></div>
+          <!-- Filters -->
+          <div class="vzla-filters" aria-label="Filters">
+            <label class="vzla-filter">
+              <span class="vzla-filter__label">Category</span>
+              <select id="filter-category" class="vzla-filter__select">
+                <option value="all">All</option>
+              </select>
+            </label>
+
+            <label class="vzla-filter">
+              <span class="vzla-filter__label">League</span>
+              <select id="filter-league" class="vzla-filter__select">
+                <option value="all">All</option>
+              </select>
+            </label>
+
+            <label class="vzla-filter">
+              <span class="vzla-filter__label">Price</span>
+              <select id="filter-price" class="vzla-filter__select">
+                <option value="all">All</option>
+                <option value="low">Low</option>
+                <option value="high">High</option>
+                <option value="none">None</option>
+              </select>
+            </label>
+          </div>
         </div>
       </div>
 
+      <!-- Existing sport buttons (still supported) -->
       <div class="filters-row" id="sport-filters">
         <button onclick="setSport('All', this)" class="text-[#f2f20d]">All</button>
         <button onclick="setSport('Baseball', this)" class="text-slate-500">Baseball</button>
