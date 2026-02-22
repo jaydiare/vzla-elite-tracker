@@ -2,6 +2,8 @@
   { "name": "Andres Chaparro", "sport": "Baseball", "league": "MLB", "team": "Nationals", "provider": "balldontlie" },
   { "name": "Miguel Cabrera", "sport": "Baseball", "league": "MLB", "team": "Tigers", "provider": "balldontlie" },
   { "name": "Andres Gimenez", "sport": "Baseball", "league": "MLB", "team": "Blue Jays", "provider": "balldontlie" },
+  { "name": "Elvis Andrus", "sport": "Baseball", "league": "MLB", "team": "White Sox", "provider": "manual" },
+  { "name": "Wilson Alvarez", "sport": "Baseball", "league": "MLB", "team": "Dodgers", "provider": "manual" },
   
   { "name": "Tony Armas", "sport": "Baseball", "league": "MLB", "team": "Angels", "provider": "manual" },
   
