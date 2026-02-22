@@ -671,7 +671,7 @@ details.mobile-dd summary::-webkit-details-marker{ display:none; }
 
 .athlete-card__value{
   margin-top: 14px;
-  font-size: 16px;
+  font-size: 12px;
   font-weight: 950;
   letter-spacing: -0.02em;
 }
