@@ -49,10 +49,10 @@ const CATEGORY_ID = "261328";
 
 // Listing sampling
 const LISTING_PAGE_LIMIT = 100; // max active listings to average per marketplace
-const PAGE_SIZE = 60;
+const PAGE_SIZE = 80;
 
 // Your UI threshold
-const MIN_EBAY_SAMPLE_SIZE = 8;
+const MIN_EBAY_SAMPLE_SIZE = 5;
 
 // Marketplaces to compute
 const MARKETPLACES = ["EBAY_US", "EBAY_CA", "EBAY_ES"];
