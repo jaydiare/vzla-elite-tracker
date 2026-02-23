@@ -107,32 +107,35 @@ a{ color:inherit; }
 }
 
 /* CRITICAL: prevents grid children from overflowing */
-.page-shell > main{ min-width:0; }
+.page-shell{
+  max-width: 1700px;
+  margin: 0 auto;
+  padding: 18px 18px 120px;
+  display: grid;
+  grid-template-columns: 160px 1fr 160px; /* ✅ slimmer columns */
+  gap: 20px;
+  align-items: start;
+}
 
-/* locks the side column width so the layout doesn't collapse */
 .side-banner{
   position: sticky;
   top: 100px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 14px;
   max-height: calc(100vh - 120px);
   overflow-y: auto;
   scrollbar-width: none;
   -webkit-overflow-scrolling: touch;
   align-items: center;
 
-  /* ✅ key part */
-  width: 160px;        /* pick your slim width */
-  flex: 0 0 160px;     /* if this sits in a flex row */
+  width: 100%; /* ✅ fill grid column */
 }
 
-/* banners fit the column */
 .side-banner img{
   width: 100%;
-  max-width: 100%;     /* don't fight the container */
+  max-width: 140px; /* ✅ actual slimness */
   height: auto;
-
   border-radius: 10px;
   box-shadow: 0 6px 18px rgba(0,0,0,0.45);
 }
