@@ -1,5 +1,10 @@
 :root{
-  --vzla-yellow:#f2f20d;
+--vzla-yellow: linear-gradient(
+  90deg,
+  #f4d40d 0%,
+  #1b4fb3 45%,
+  #b11226 100%
+);
   --vzla-bg:#050505;
   --vzla-panel:#0b0b0b;
   --vzla-mint:#7fffe1;
