@@ -987,8 +987,13 @@ details.mobile-dd summary::-webkit-details-marker{ display:none; }
   justify-content:center;
   padding: 12px 16px;
   border-radius: 9999px;
-  background: var(--vzla-yellow);
-  color:#000;
+  background: linear-gradient(
+    180deg,
+    #f7f73a 0%,
+    #f2f20d 60%,
+    #d4d400 100%
+  ) !important;
+  color:#000; !important;
   text-decoration:none;
   font-weight: 950;
   transition: transform .15s ease;
