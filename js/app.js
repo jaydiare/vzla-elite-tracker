@@ -42,9 +42,6 @@ let activeCategory = "all";
 let activeLeague = "all";
 let activePrice = "all";
 
-// Price threshold used by the Price dropdown (Low/High). Adjust as you like.
-const PRICE_LOW_MAX = 20;
-
 // ---------- Helpers ----------
 function norm(s) {
   return String(s || "").trim().toLowerCase();
@@ -209,6 +206,22 @@ function getEbayAvgFor(athlete) {
   return ebayAvgByKey[key] || ebayAvgByName[athlete.name] || null;
 }
 
+// NEW: one canonical way to get the numeric price for filtering/sorting
+function getEbayAvgNumber(athlete) {
+  const avg = getEbayAvgFor(athlete);
+
+  const avgNum =
+    avg?.avgListing ??
+    avg?.avg_list_price ??
+    avg?.avgListPrice ??
+    avg?.avg ??
+    avg?.average ??
+    null;
+
+  const v = Number(avgNum);
+  return Number.isFinite(v) ? v : null;
+}
+
 function formatCurrency(amount, currency) {
   const n = Number(amount);
   if (!Number.isFinite(n)) return "";
@@ -270,21 +283,13 @@ window.setSport = setSport;
 
 // CardHedge-like card (no photos)
 function renderAthleteCard(a) {
-  const avg = getEbayAvgFor(a);
-
-  const avgNum =
-    avg?.avgListing ??
-    avg?.avg_list_price ??
-    avg?.avgListPrice ??
-    avg?.avg ??
-    avg?.average ??
-    null;
+  const avgNum = getEbayAvgNumber(a);
 
   // Force display currency to USD (even if old data says CAD)
   const currency = "USD";
 
   const money =
-    avgNum != null && Number.isFinite(Number(avgNum))
+    avgNum != null
       ? formatCurrency(Number(avgNum), currency)
       : "—";
 
@@ -330,9 +335,10 @@ function renderGrid(list) {
 
   const category = catSel?.value ?? activeCategory;
   const league = leagueSel?.value ?? activeLeague;
-  const price = priceSel?.value ?? activePrice;
+  const price = priceSel?.value ?? activePrice; // "all" | "low" | "high" | "none"
 
-  const filtered = (list || [])
+  // 1-3 + 5 filters (sport/category/league/search)
+  let filtered = (list || [])
     // 1) Sport buttons row filter (kept as you have it)
     .filter((a) => {
       if (activeSport === "All") return true;
@@ -354,32 +360,29 @@ function renderGrid(list) {
       if (league === "all") return true;
       return a.league === league;
     })
-    // 4) Price dropdown (if present)
-    .filter((a) => {
-      if (!priceSel) return true;
-      if (price === "all") return true;
-
-      const avg = getEbayAvgFor(a);
-      const avgNum =
-        avg?.avgListing ??
-        avg?.avg_list_price ??
-        avg?.avgListPrice ??
-        avg?.avg ??
-        avg?.average ??
-        null;
-
-      const v = Number(avgNum);
-      const hasPrice = Number.isFinite(v);
-
-      if (price === "none") return !hasPrice;
-      if (!hasPrice) return false;
-
-      if (price === "low") return v < PRICE_LOW_MAX;
-      if (price === "high") return v >= PRICE_LOW_MAX;
-      return true;
-    })
     // 5) Search query
     .filter((a) => !q || norm(a.name).includes(q));
+
+  // 4) Price dropdown behavior (SORTING, plus "None" filter)
+  if (priceSel) {
+    if (price === "none") {
+      // Show only athletes with no price
+      filtered = filtered.filter((a) => getEbayAvgNumber(a) == null);
+    } else if (price === "low" || price === "high") {
+      // Sort by price (missing prices go to bottom)
+      filtered = filtered.slice().sort((a, b) => {
+        const pa = getEbayAvgNumber(a);
+        const pb = getEbayAvgNumber(b);
+
+        if (pa == null && pb == null) return 0;
+        if (pa == null) return 1;
+        if (pb == null) return -1;
+
+        return price === "low" ? pa - pb : pb - pa;
+      });
+    }
+    // "all" => no sorting; keep existing order
+  }
 
   grid.className = "vzla-grid";
   grid.innerHTML = filtered.map(renderAthleteCard).join("");
@@ -423,17 +426,8 @@ function computeIndexForSport(list, sportOrAll) {
   (list || []).forEach(a => {
     if (sportOrAll !== "All" && a.sport !== sportOrAll) return;
 
-    const avg = getEbayAvgFor(a);
-    const avgNum =
-      avg?.avgListing ??
-      avg?.avg_list_price ??
-      avg?.avgListPrice ??
-      avg?.avg ??
-      avg?.average ??
-      null;
-
-    const v = Number(avgNum);
-    if (Number.isFinite(v)) {
+    const v = getEbayAvgNumber(a);
+    if (v != null) {
       sum += v;
       used += 1;
     }
