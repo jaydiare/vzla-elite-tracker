@@ -1,7 +1,7 @@
 // scripts/update-ebay-avg.js
 // Node 20+ (uses global fetch)
 //
-// Computes ACTIVE listing average price from eBay Browse API:
+// Computes ACTIVE listing price from eBay Browse API:
 // - Buy It Now only (FIXED_PRICE) => excludes auctions
 // - Dual marketplace: EBAY_US + EBAY_CA (+ EBAY_ES if you keep it)
 //
@@ -23,6 +23,7 @@
 // - NEW: Normalizes listing prices to USD using CBSA Exchange Rates API as a base.
 //        (CBSA returns CAD per 1 unit; we convert that to USD-per-currency.)
 // - NEW: Adds Manufacturer aspect filter to focus on major sports card makers.
+// - NEW: Uses TRIMMED MEAN (10%) for listing prices (robust vs outliers).
 
 import fs from "node:fs";
 import path from "node:path";
@@ -97,12 +98,28 @@ function avg(values) {
   return s / values.length;
 }
 
-// ✅ NEW: median helper
+// median helper (used as a fallback for tiny samples)
 function median(values) {
   if (!values.length) return null;
   const sorted = [...values].sort((a, b) => a - b);
   const mid = Math.floor(sorted.length / 2);
   return sorted.length % 2 ? sorted[mid] : (sorted[mid - 1] + sorted[mid]) / 2;
+}
+
+// ✅ NEW: trimmed mean helper (default 10% trim)
+// If sample too small to trim, fallback to median.
+function trimmedMean(values, trimPercent = 0.1) {
+  if (!values || !values.length) return null;
+
+  const sorted = [...values].sort((a, b) => a - b);
+  const trimCount = Math.floor(sorted.length * trimPercent);
+
+  if (sorted.length <= trimCount * 2) {
+    return median(sorted);
+  }
+
+  const trimmed = sorted.slice(trimCount, sorted.length - trimCount);
+  return avg(trimmed);
 }
 
 function getHeaderMarketplace(marketplaceId) {
@@ -295,7 +312,6 @@ async function ebayBrowseSearch({
 // --- Matching / Validation ---
 
 function candidateAspectValuesForName(name) {
-  // Try variants that often appear in eBay aspect values (accents/suffix/punctuation).
   const raw = normSpaces(name);
 
   const ascii = normSpaces(stripDiacritics(raw));
@@ -305,13 +321,11 @@ function candidateAspectValuesForName(name) {
   const noJrRaw = raw.replace(/\s+Jr\.?$/i, "").trim();
   const noJrAscii = ascii.replace(/\s+Jr\.?$/i, "").trim();
 
-  // Also try removing "Jr" in middle patterns like "Acuña Jr."
   const variants = new Set([raw, ascii, noDotsRaw, noDotsAscii, noJrRaw, noJrAscii]);
 
   return [...variants].map(normSpaces).filter(Boolean);
 }
 
-// We "validate" Player/Athlete by directly testing aspect_filter queries.
 async function validatePlayerAthleteMatch({ token, marketplaceId, name, sport }) {
   const q = buildQuery(name, sport);
 
@@ -336,7 +350,6 @@ async function validatePlayerAthleteMatch({ token, marketplaceId, name, sport })
   return { ok: false, aspectValue: null };
 }
 
-// If Player/Athlete doesn't match, we allow proceeding ONLY if Sport aspect matches.
 async function validateSportMatch({ token, marketplaceId, name, sport }) {
   const q = buildQuery(name, sport);
   const candidates = sportAspectCandidates(sport);
@@ -373,18 +386,14 @@ async function computeAvgActiveListing({
   sport,
   aspectMode,
   aspectValue,
-  fxRates, // USD per 1 unit of currency
+  fxRates,
 }) {
   const q = buildQuery(name, sport);
-
   const aspectFilter = buildAspectFilter({ aspectMode, aspectValue });
 
   let offset = 0;
-
-  // USD-normalized prices
   const pricesUSD = [];
 
-  // Keep some debug info about original currencies and rates used
   let originalCurrency = null;
   let fxRateUsed = null;
 
@@ -421,17 +430,15 @@ async function computeAvgActiveListing({
     await sleep(120);
   }
 
-  // ✅ NEW: compute median listing price
-  const medianListing = median(pricesUSD);
+  // ✅ CHANGE: use TRIMMED MEAN instead of median
+  const trimmedListing = trimmedMean(pricesUSD, 0.1); // 10% trim
 
   return {
-    // keep avgListing for compatibility, but set it to median if you want a single field
-    avgListing: medianListing,           // <-- now represents median
-    medianListing,                       // <-- explicit median field
+    // keep field names stable for your frontend: avgListing now represents trimmed mean
+    avgListing: trimmedListing,
+    trimmedListing, // explicit
     nListing: pricesUSD.length,
     currency: "USD",
-
-    // debug fields
     originalCurrency: originalCurrency || null,
     fxRateUsed: fxRateUsed || null,
   };
@@ -448,7 +455,6 @@ function loadAthletes() {
   const raw = fs.readFileSync(ATHLETES_PATH, "utf8");
   const arr = JSON.parse(raw);
 
-  // Normalize to { name, sport }
   return (arr || [])
     .map((x) => ({
       name: normSpaces(x?.name),
@@ -460,20 +466,16 @@ function loadAthletes() {
 // --- main ---
 async function main() {
   const token = await getAppToken();
-
-  // Fetch FX once (USD per 1 unit)
   const fx = await getFxRatesToUSD();
-
   const athletes = loadAthletes();
 
-  // Output is a flat map keyed by athlete name for easy frontend lookup.
   const out = {
     _meta: {
       updatedAt: new Date().toISOString(),
       minSampleSize: MIN_EBAY_SAMPLE_SIZE,
       marketplaces: MARKETPLACES,
       categoryId: CATEGORY_ID,
-      note: "Active listing MEDIAN price only (Browse API FIXED_PRICE). No sold data. Prices normalized to USD.",
+      note: "Active listing TRIMMED MEAN (10%) (Browse API FIXED_PRICE). No sold data. Prices normalized to USD.",
       fx: {
         source: "CBSA Exchange Rates API",
         asOf: fx.asOf,
@@ -484,6 +486,7 @@ async function main() {
         },
       },
       manufacturers: MANUFACTURERS,
+      listingStat: { method: "trimmed_mean", trimPercent: 0.1 },
     },
   };
 
@@ -522,7 +525,7 @@ async function main() {
       avg: null,
       n: 0,
       avgListing: null,
-      medianListing: null,
+      trimmedListing: null,
       nListing: 0,
       currency: "USD",
     };
@@ -543,13 +546,12 @@ async function main() {
           aspectMode: match.mode,
           aspectValue: match.value,
 
-          // USD-normalized
-          avgListing: listing.avgListing,         // now median
-          medianListing: listing.medianListing,   // explicit
+          // USD-normalized (avgListing now trimmed mean)
+          avgListing: listing.avgListing,
+          trimmedListing: listing.trimmedListing,
           nListing: listing.nListing,
           currency: listing.currency,
 
-          // debug fields
           originalCurrency: listing.originalCurrency,
           fxRateUsed: listing.fxRateUsed,
         };
@@ -558,19 +560,22 @@ async function main() {
       }
     }
 
-    // Prefer EBAY_CA if it has data, else fallback to US
     const ca = rec.marketplaces.EBAY_CA;
     const us = rec.marketplaces.EBAY_US;
 
-    const pick = (ca && ca.medianListing != null ? ca : null) || (us && us.medianListing != null ? us : null) || ca || us;
+    const pick =
+      (ca && ca.trimmedListing != null ? ca : null) ||
+      (us && us.trimmedListing != null ? us : null) ||
+      ca ||
+      us;
 
-    rec.medianListing = pick?.medianListing ?? null;
-    rec.avgListing = pick?.avgListing ?? null; // same value (median)
+    rec.trimmedListing = pick?.trimmedListing ?? null;
+    rec.avgListing = pick?.avgListing ?? null; // same value (trimmed mean)
     rec.nListing = pick?.nListing ?? 0;
     rec.currency = "USD";
 
     // Backward-compatible fields (so your UI can read rec.avg / rec.n)
-    rec.avg = rec.avgListing;  // now median
+    rec.avg = rec.avgListing; // now trimmed mean
     rec.n = rec.nListing;
 
     out[name] = rec;
