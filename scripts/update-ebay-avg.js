@@ -97,6 +97,14 @@ function avg(values) {
   return s / values.length;
 }
 
+// ✅ NEW: median helper
+function median(values) {
+  if (!values.length) return null;
+  const sorted = [...values].sort((a, b) => a - b);
+  const mid = Math.floor(sorted.length / 2);
+  return sorted.length % 2 ? sorted[mid] : (sorted[mid - 1] + sorted[mid]) / 2;
+}
+
 function getHeaderMarketplace(marketplaceId) {
   return { "X-EBAY-C-MARKETPLACE-ID": marketplaceId };
 }
@@ -369,12 +377,6 @@ async function computeAvgActiveListing({
 }) {
   const q = buildQuery(name, sport);
 
-  // aspectMode:
-  // - "player" => aspectFilter Player/Athlete:{aspectValue}
-  // - "sport"  => aspectFilter Sport:{aspectValue}
-  // - null     => no aspect filter
-  //
-  // NEW: Also applies Manufacturer filter to focus on sports card makers.
   const aspectFilter = buildAspectFilter({ aspectMode, aspectValue });
 
   let offset = 0;
@@ -419,8 +421,13 @@ async function computeAvgActiveListing({
     await sleep(120);
   }
 
+  // ✅ NEW: compute median listing price
+  const medianListing = median(pricesUSD);
+
   return {
-    avgListing: avg(pricesUSD),
+    // keep avgListing for compatibility, but set it to median if you want a single field
+    avgListing: medianListing,           // <-- now represents median
+    medianListing,                       // <-- explicit median field
     nListing: pricesUSD.length,
     currency: "USD",
 
@@ -466,7 +473,7 @@ async function main() {
       minSampleSize: MIN_EBAY_SAMPLE_SIZE,
       marketplaces: MARKETPLACES,
       categoryId: CATEGORY_ID,
-      note: "Active listing averages only (Browse API FIXED_PRICE). No sold data. Prices normalized to USD.",
+      note: "Active listing MEDIAN price only (Browse API FIXED_PRICE). No sold data. Prices normalized to USD.",
       fx: {
         source: "CBSA Exchange Rates API",
         asOf: fx.asOf,
@@ -476,7 +483,7 @@ async function main() {
           EUR: fx.rates?.EUR ?? null,
         },
       },
-      manufacturers: MANUFACTURERS, // NEW: recorded for transparency
+      manufacturers: MANUFACTURERS,
     },
   };
 
@@ -484,7 +491,6 @@ async function main() {
     const { name, sport } = athletes[i];
     console.log(`[${i + 1}/${athletes.length}] ${name} (${sport || "Unknown"})`);
 
-    // 1) Try Player/Athlete validation (CA first, then US)
     let match = null;
 
     for (const marketplaceId of ["EBAY_CA", "EBAY_US"]) {
@@ -495,7 +501,6 @@ async function main() {
       }
     }
 
-    // 2) If no Player/Athlete match, require Sport aspect match
     if (!match) {
       for (const marketplaceId of ["EBAY_CA", "EBAY_US"]) {
         const s = await validateSportMatch({ token, marketplaceId, name, sport });
@@ -506,19 +511,18 @@ async function main() {
       }
     }
 
-    // 3) If neither matched => skip (avoid fake)
     if (!match) {
       console.log(`${name}: SKIPPED (no Player/Athlete match AND sport did not match)`);
       continue;
     }
 
-    // Compute for marketplaces using the chosen match mode/value
     const rec = {
       match,
       marketplaces: {},
       avg: null,
       n: 0,
       avgListing: null,
+      medianListing: null,
       nListing: 0,
       currency: "USD",
     };
@@ -540,9 +544,10 @@ async function main() {
           aspectValue: match.value,
 
           // USD-normalized
-          avgListing: listing.avgListing,
+          avgListing: listing.avgListing,         // now median
+          medianListing: listing.medianListing,   // explicit
           nListing: listing.nListing,
-          currency: listing.currency, // "USD"
+          currency: listing.currency,
 
           // debug fields
           originalCurrency: listing.originalCurrency,
@@ -550,35 +555,26 @@ async function main() {
         };
       } catch (e) {
         console.log(`${name} (${marketplaceId}): ERROR ${e?.message || e}`);
-        // keep going; partial results are ok
       }
     }
 
-    // Pick a convenience rollup for frontend:
-    // Prefer EBAY_CA if it has data, else fallback to US, else others.
+    // Prefer EBAY_CA if it has data, else fallback to US
     const ca = rec.marketplaces.EBAY_CA;
     const us = rec.marketplaces.EBAY_US;
-    const es = rec.marketplaces.EBAY_ES;
 
-    const pick =
-      (ca && ca.avgListing != null ? ca : null) ||
-      (us && us.avgListing != null ? us : null) ||
-      (es && es.avgListing != null ? es : null) ||
-      ca ||
-      us ||
-      es;
+    const pick = (ca && ca.medianListing != null ? ca : null) || (us && us.medianListing != null ? us : null) || ca || us;
 
-    rec.avgListing = pick?.avgListing ?? null;
+    rec.medianListing = pick?.medianListing ?? null;
+    rec.avgListing = pick?.avgListing ?? null; // same value (median)
     rec.nListing = pick?.nListing ?? 0;
     rec.currency = "USD";
 
     // Backward-compatible fields (so your UI can read rec.avg / rec.n)
-    rec.avg = rec.avgListing;
+    rec.avg = rec.avgListing;  // now median
     rec.n = rec.nListing;
 
     out[name] = rec;
 
-    // Small delay to be polite
     await sleep(500);
   }
 
