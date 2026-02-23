@@ -1054,3 +1054,19 @@ details.mobile-dd summary::-webkit-details-marker{ display:none; }
       rgba(0,0,0,0.92);
   }
 }
+
+/* =========================
+   Gradient replacement for vzla-yellow text
+   ========================= */
+
+.text-\[\#f2f20d\],
+.nav-link.active,
+.vzla-index-badge,
+.athlete-card__avatar,
+.athlete-card__pill {
+  background: var(--vzla-yellow);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+}
