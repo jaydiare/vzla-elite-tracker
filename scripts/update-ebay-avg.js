@@ -59,7 +59,7 @@ const MIN_EBAY_SAMPLE_SIZE = 5;
 const MARKETPLACES = ["EBAY_US", "EBAY_CA", "EBAY_ES"];
 
 // NEW: restrict to major manufacturers (sports card makers)
-const MANUFACTURERS = ["Topps", "Panini", "Upper Deck", "Leaf"];
+const MANUFACTURERS = ["Topps", "Panini", "Upper Deck", "Leaf", "Topps NOW"];
 
 // --- helpers ---
 function sleep(ms) {
