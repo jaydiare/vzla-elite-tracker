@@ -1023,3 +1023,29 @@ details.mobile-dd summary::-webkit-details-marker{ display:none; }
     display: none;
   }
 }
+
+.vzla-nav{
+  background:
+    linear-gradient(
+      90deg,
+      rgba(244,212,13,0.22) 0%,
+      rgba(0,51,160,0.22) 50%,
+      rgba(207,20,43,0.22) 100%
+    ),
+    rgba(0,0,0,0.88);
+
+  backdrop-filter: blur(12px);
+}
+
+@media (max-width: 768px){
+  .vzla-nav{
+    background:
+      linear-gradient(
+        90deg,
+        rgba(244,212,13,0.15) 0%,
+        rgba(0,51,160,0.15) 50%,
+        rgba(207,20,43,0.15) 100%
+      ),
+      rgba(0,0,0,0.92);
+  }
+}
