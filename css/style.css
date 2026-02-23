@@ -54,7 +54,8 @@
   font-size: 12px;
   font-weight: 950;
   color: #000;
-  background: var(--vzla-yellow);
+  background: var(--vzla-yellow) !important;
+  -webkit-text-fill-color: initial; 
 }
 
 .vzla-index-value{
