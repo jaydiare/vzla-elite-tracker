@@ -314,7 +314,7 @@ function renderAthleteCard(a) {
         </div>
       </div>
 
-      <div class="athlete-card__value">${valueText}</div>
+      <div class="athlete-card__value">${money}</div>
       <div class="athlete-card__label">eBay Avg listing price</div>
 
       <a href="${shopUrl}" target="_blank" class="athlete-card__cta">
