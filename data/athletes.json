@@ -3,7 +3,9 @@
   { "name": "Miguel Cabrera", "sport": "Baseball", "league": "MLB", "team": "Tigers", "provider": "balldontlie" },
   { "name": "Andres Gimenez", "sport": "Baseball", "league": "MLB", "team": "Blue Jays", "provider": "balldontlie" },
   { "name": "Elvis Andrus", "sport": "Baseball", "league": "MLB", "team": "White Sox", "provider": "manual" },
+  { "name": "Pablo Sandoval", "sport": "Baseball", "league": "MLB", "team": "Giants", "provider": "manual" },
   { "name": "Manny Trillo", "sport": "Baseball", "league": "MLB", "team": "Reds", "provider": "manual" },
+  { "name": "Maglio Ordoñez", "sport": "Baseball", "league": "MLB", "team": "Tigers", "provider": "manual" },
   
   { "name": "Luis Salazar", "sport": "Baseball", "league": "MLB", "team": "Cubs", "provider": "manual" },
   { "name": "Ugeth Urbina", "sport": "Baseball", "league": "MLB", "team": "Marlins", "provider": "manual" },
