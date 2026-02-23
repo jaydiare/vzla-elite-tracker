@@ -579,7 +579,7 @@ async function main() {
     out[name] = rec;
 
     // Small delay to be polite
-    await sleep(120);
+    await sleep(240);
   }
 
   fs.mkdirSync(path.dirname(OUT_PATH), { recursive: true });
