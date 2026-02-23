@@ -315,7 +315,7 @@ function renderAthleteCard(a) {
       </div>
 
       <div class="athlete-card__value">${money}</div>
-      <div class="athlete-card__label">eBay Median listing Price</div>
+      <div class="athlete-card__label">eBay Avg. listing Price</div>
        <div class="vzla-search-count">*prices may vary*</div>
 
       <a href="${shopUrl}" target="_blank" class="athlete-card__cta">
