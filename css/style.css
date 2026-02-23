@@ -114,7 +114,7 @@ a{ color:inherit; }
   top: 100px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 24px;
   max-height: calc(100vh - 120px);
   overflow-y: auto;
   scrollbar-width: none;
@@ -124,10 +124,10 @@ a{ color:inherit; }
 
 .side-banner img{
   width: 100%;
-  max-width: 150px;
+  max-width: 200px;   /* match new column width */
   height: auto;
-  border-radius: 8px;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.45);
+  border-radius: 14px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.55);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
