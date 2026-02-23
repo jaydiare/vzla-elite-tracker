@@ -5,6 +5,9 @@
   { "name": "Elvis Andrus", "sport": "Baseball", "league": "MLB", "team": "White Sox", "provider": "manual" },
   { "name": "Manny Trillo", "sport": "Baseball", "league": "MLB", "team": "Reds", "provider": "manual" },
   
+  { "name": "Roger Cedeño", "sport": "Baseball", "league": "MLB", "team": "Dodgers", "provider": "manual" },
+  
+  { "name": "Endy Chavez", "sport": "Baseball", "league": "MLB", "team": "Mets", "provider": "manual" },
   { "name": "Cesar Tovar", "sport": "Baseball", "league": "MLB", "team": "Twins", "provider": "manual" },
   { "name": "Wilson Alvarez", "sport": "Baseball", "league": "MLB", "team": "Dodgers", "provider": "manual" },
   { "name": "Carl Herrera", "sport": "Basketball", "league": "NBA", "team": "Rockets", "provider": "manual"},
