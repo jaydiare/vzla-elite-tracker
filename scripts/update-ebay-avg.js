@@ -49,14 +49,14 @@ const ATHLETES_PATH = path.join(__dirname, "..", "data", "athletes.json");
 const CATEGORY_ID = "261328";
 
 // Listing sampling
-const LISTING_PAGE_LIMIT = 100; // max active listings to average per marketplace
+const LISTING_PAGE_LIMIT = 60; // max active listings to average per marketplace
 const PAGE_SIZE = 60;
 
 // Your UI threshold
 const MIN_EBAY_SAMPLE_SIZE = 4;
 
 // Marketplaces to compute
-const MARKETPLACES = ["EBAY_US", "EBAY_CA", "EBAY_ES"];
+const MARKETPLACES = ["EBAY_US", "EBAY_CA"];
 
 // NEW: restrict to major manufacturers (sports card makers)
 const MANUFACTURERS = ["Topps", "Panini", "Upper Deck", "Leaf", "Topps NOW"];
@@ -579,7 +579,7 @@ async function main() {
     out[name] = rec;
 
     // Small delay to be polite
-    await sleep(240);
+    await sleep(500);
   }
 
   fs.mkdirSync(path.dirname(OUT_PATH), { recursive: true });
