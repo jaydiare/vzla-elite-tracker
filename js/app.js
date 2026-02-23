@@ -297,7 +297,7 @@ function renderAthleteCard(a) {
 
   const money =
     avgNum != null
-      ? formatCurrency(Number(avgNum), currency)
+      ? `USD ${formatCurrency(avgNum, "USD")}`
       : "—";
 
   const shopUrl = buildEbaySearchUrl(a.name, a.sport);
