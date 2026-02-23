@@ -5,6 +5,7 @@
   { "name": "Elvis Andrus", "sport": "Baseball", "league": "MLB", "team": "White Sox", "provider": "manual" },
   { "name": "Manny Trillo", "sport": "Baseball", "league": "MLB", "team": "Reds", "provider": "manual" },
   
+  { "name": "Luis Salazar", "sport": "Baseball", "league": "MLB", "team": "Cubs", "provider": "manual" },
   { "name": "Ugeth Urbina", "sport": "Baseball", "league": "MLB", "team": "Marlins", "provider": "manual" },
   { "name": "Melvin Mora", "sport": "Baseball", "league": "MLB", "team": "Orioles", "provider": "manual" },
   { "name": "Roger Cedeño", "sport": "Baseball", "league": "MLB", "team": "Dodgers", "provider": "manual" },
