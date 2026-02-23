@@ -828,7 +828,7 @@ details.mobile-dd summary::-webkit-details-marker{ display:none; }
 }
 
 .ebay-banner-img{
-  width: min(900px, 96vw);
+  width: min(700px, 92vw);
   height: auto;
   border-radius: 10px;
   box-shadow: 0 10px 30px rgba(0,0,0,0.55);
