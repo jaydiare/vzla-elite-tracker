@@ -22,6 +22,7 @@
 // - Category used: Trading Card Singles (261328) - keep or change as needed.
 // - NEW: Normalizes listing prices to USD using CBSA Exchange Rates API as a base.
 //        (CBSA returns CAD per 1 unit; we convert that to USD-per-currency.)
+// - NEW: Adds Manufacturer aspect filter to focus on major sports card makers.
 
 import fs from "node:fs";
 import path from "node:path";
@@ -56,6 +57,9 @@ const MIN_EBAY_SAMPLE_SIZE = 5;
 
 // Marketplaces to compute
 const MARKETPLACES = ["EBAY_US", "EBAY_CA", "EBAY_ES"];
+
+// NEW: restrict to major manufacturers (sports card makers)
+const MANUFACTURERS = ["Topps", "Panini", "Upper Deck", "Leaf"];
 
 // --- helpers ---
 function sleep(ms) {
@@ -122,6 +126,25 @@ function sportAspectCandidates(sportRaw) {
   };
 
   return map[s] || [sportRaw];
+}
+
+// NEW: build a combined eBay aspect_filter including Manufacturer
+function buildAspectFilter({ aspectMode, aspectValue }) {
+  const parts = [];
+
+  if (aspectMode === "player" && aspectValue) {
+    parts.push(`Player/Athlete:{${aspectValue}}`);
+  } else if (aspectMode === "sport" && aspectValue) {
+    parts.push(`Sport:{${aspectValue}}`);
+  }
+
+  // Always restrict to known card manufacturers (sports card makers)
+  const mfg = (MANUFACTURERS || []).filter(Boolean);
+  if (mfg.length) {
+    parts.push(`Manufacturer:{${mfg.join("|")}}`);
+  }
+
+  return parts.length ? parts.join(",") : null;
 }
 
 // --- FX (Normalize ANY currency -> USD) ---
@@ -241,7 +264,7 @@ async function ebayBrowseSearch({
   url.searchParams.append("filter", "buyingOptions:{FIXED_PRICE}");
 
   if (aspectFilter) {
-    // aspect_filter format: "Player/Athlete:{Jose Altuve}"
+    // aspect_filter format: "Player/Athlete:{Jose Altuve},Manufacturer:{Topps|Panini|Upper Deck}"
     url.searchParams.set("aspect_filter", aspectFilter);
   }
 
@@ -350,12 +373,9 @@ async function computeAvgActiveListing({
   // - "player" => aspectFilter Player/Athlete:{aspectValue}
   // - "sport"  => aspectFilter Sport:{aspectValue}
   // - null     => no aspect filter
-  let aspectFilter = null;
-  if (aspectMode === "player" && aspectValue) {
-    aspectFilter = `Player/Athlete:{${aspectValue}}`;
-  } else if (aspectMode === "sport" && aspectValue) {
-    aspectFilter = `Sport:{${aspectValue}}`;
-  }
+  //
+  // NEW: Also applies Manufacturer filter to focus on sports card makers.
+  const aspectFilter = buildAspectFilter({ aspectMode, aspectValue });
 
   let offset = 0;
 
@@ -456,6 +476,7 @@ async function main() {
           EUR: fx.rates?.EUR ?? null,
         },
       },
+      manufacturers: MANUFACTURERS, // NEW: recorded for transparency
     },
   };
 
