@@ -218,8 +218,15 @@ function getEbayAvgNumber(athlete) {
     avg?.average ??
     null;
 
+  // 🚨 DO NOT convert null to Number yet
+  if (avgNum == null) return null;
+
   const v = Number(avgNum);
-  return Number.isFinite(v) ? v : null;
+
+  // Treat 0, NaN, negative as no data
+  if (!Number.isFinite(v) || v <= 0) return null;
+
+  return v;
 }
 
 function formatCurrency(amount, currency) {
