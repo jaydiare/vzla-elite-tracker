@@ -3,6 +3,8 @@
   { "name": "Miguel Cabrera", "sport": "Baseball", "league": "MLB", "team": "Tigers", "provider": "balldontlie" },
   { "name": "Andres Gimenez", "sport": "Baseball", "league": "MLB", "team": "Blue Jays", "provider": "balldontlie" },
   { "name": "Elvis Andrus", "sport": "Baseball", "league": "MLB", "team": "White Sox", "provider": "manual" },
+  
+  { "name": "Cesar Tovar", "sport": "Baseball", "league": "MLB", "team": "Twins", "provider": "manual" },
   { "name": "Wilson Alvarez", "sport": "Baseball", "league": "MLB", "team": "Dodgers", "provider": "manual" },
   { "name": "Carl Herrera", "sport": "Basketball", "league": "NBA", "team": "Rockets", "provider": "manual"},
   { "name": "Oscar Torres", "sport": "Basketball", "league": "NBA", "team": "Bucks", "provider": "manual"},
