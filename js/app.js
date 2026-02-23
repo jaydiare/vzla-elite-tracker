@@ -241,7 +241,7 @@ function formatCurrency(amount, currency) {
 
 function buildEbaySearchUrl(name, sport) {
   const base = "https://www.ebay.ca/sch/i.html";
-  const query = encodeURIComponent(`${name} ${sport} trading card`);
+  const query = encodeURIComponent(`${name} ${sport}`);
 
   return (
     `${base}?_nkw=${query}` +
