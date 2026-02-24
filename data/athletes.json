@@ -28,7 +28,9 @@
   { "name": "Tony Armas", "sport": "Baseball", "league": "MLB", "team": "Angels", "provider": "manual" },
   { "name": "Francisco Cervelli", "sport": "Baseball", "league": "MLB", "team": "Padres", "provider": "manual" },
   { "name": "Max Ramirez", "sport": "Baseball", "league": "MLB", "team": "Texas", "provider": "manual" },
-  
+  { "name": "Anibal Sanchez", "sport": "Baseball", "league": "MLB", "team": "Nationals", "provider": "manual" },
+  { "name": "Jhoulys Chacín", "sport": "Baseball", "league": "MLB", "team": "Rockies", "provider": "manual" },
+  { "name": "Yusmeiro Petit", "sport": "Baseball", "league": "MLB", "team": "Athletics", "provider": "manual" },
   { "name": "Bo Diaz", "sport": "Baseball", "league": "MLB", "team": "Reds", "provider": "manual" },
   { "name": "Andruw Monasterio", "sport": "Baseball", "league": "MLB", "team": "Red Sox", "provider": "balldontlie" },
 
