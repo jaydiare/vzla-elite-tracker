@@ -41,6 +41,7 @@ let activeSport = "All"; // sport buttons row
 let activeCategory = "all";
 let activeLeague = "all";
 let activePrice = "all";
+let activeStability = "all"; // ✅ NEW
 
 // Price threshold used by the Price dropdown (Low/High). Adjust as you like.
 const PRICE_LOW_MAX = 20;
@@ -121,20 +122,33 @@ function setKbdHint() {
 function fillFilterOptions() {
   const catSel = document.getElementById("filter-category");
   const leagueSel = document.getElementById("filter-league");
-  if (!catSel || !leagueSel) return;
+  const stabilitySel = document.getElementById("filter-stability"); // ✅ NEW
 
-  const sports = Array.from(new Set((athleteData || []).map((a) => a?.sport).filter(Boolean))).sort();
+  if (catSel && leagueSel) {
+    const sports = Array.from(new Set((athleteData || []).map((a) => a?.sport).filter(Boolean))).sort();
 
-  catSel.innerHTML =
-    `<option value="all">All</option>` +
-    sports.map((s) => `<option value="${s}">${s}</option>`).join("") +
-    `<option value="Other">Other</option>`;
+    catSel.innerHTML =
+      `<option value="all">All</option>` +
+      sports.map((s) => `<option value="${s}">${s}</option>`).join("") +
+      `<option value="Other">Other</option>`;
 
-  const leagues = Array.from(new Set((athleteData || []).map((a) => a?.league).filter(Boolean))).sort();
+    const leagues = Array.from(new Set((athleteData || []).map((a) => a?.league).filter(Boolean))).sort();
 
-  leagueSel.innerHTML =
-    `<option value="all">All</option>` +
-    leagues.map((l) => `<option value="${l}">${l}</option>`).join("");
+    leagueSel.innerHTML =
+      `<option value="all">All</option>` +
+      leagues.map((l) => `<option value="${l}">${l}</option>`).join("");
+  }
+
+  // ✅ NEW: Stability filter options (only if the select exists)
+  if (stabilitySel) {
+    stabilitySel.innerHTML =
+      `<option value="all">All</option>` +
+      `<option value="stable">Stable (0–10%)</option>` +
+      `<option value="active">Active (10–20%)</option>` +
+      `<option value="volatile">Volatile (20–35%)</option>` +
+      `<option value="highly_unstable">Highly Unstable (35%+)</option>` +
+      `<option value="none">No Score</option>`;
+  }
 }
 
 // ---------- "Last updated" label (from ebay-avg.json _meta.updatedAt) ----------
@@ -182,7 +196,6 @@ function buildEbayIndexes(obj) {
 
     ebayAvgByName[k] = rec;
 
-    // If your json ever includes sport, also index by (name|sport)
     if (rec?.sport) {
       ebayAvgByKey[makeNameSportKey(k, rec.sport)] = rec;
     }
@@ -224,47 +237,22 @@ function getMarketStabilityCV(athlete) {
   return Number.isFinite(n) && n >= 0 ? n : null; // ratio (0.12 = 12%)
 }
 
+// ✅ UPDATED tiers to include Highly Unstable (35%+)
 function marketStabilityScoreFromCV(cv) {
-  if (cv == null) return { label: "—", pctText: "—" };
+  if (cv == null) return { label: "—", pctText: "—", bucket: "none" };
 
   const pct = cv * 100;
   const pctText = `${pct.toFixed(0)}%`;
 
-  if (pct < 10) return { label: "Stable", pctText };
-  if (pct < 20) return { label: "Active", pctText };
-  if (pct < 35) return { label: "Volatile", pctText };
-  return { label: "Highly Unstable", pctText };
+  if (pct < 10) return { label: "Stable", pctText, bucket: "stable" };
+  if (pct < 20) return { label: "Active", pctText, bucket: "active" };
+  if (pct < 35) return { label: "Volatile", pctText, bucket: "volatile" };
+  return { label: "Highly Unstable", pctText, bucket: "highly_unstable" };
 }
 
-// ✅ NEW: Avg days on market (active listing age)
-function getAvgDaysOnMarket(athlete) {
-  const rec = getEbayAvgFor(athlete);
-  if (!rec) return null;
-
-  // Preferred: top-level field your script writes
-  const direct = rec?.avgDaysOnMarket;
-  if (direct != null) {
-    const n = Number(direct);
-    return Number.isFinite(n) && n >= 0 ? n : null;
-  }
-
-  // Fallback: try marketplace pick fields if you ever rely on them
-  const m = rec?.marketplaces;
-  const ca = m?.EBAY_CA?.avgDaysOnMarket;
-  const us = m?.EBAY_US?.avgDaysOnMarket;
-
-  const pick = ca ?? us ?? null;
-  if (pick == null) return null;
-
-  const n = Number(pick);
-  return Number.isFinite(n) && n >= 0 ? n : null;
-}
-
-function formatDaysLabel(days) {
-  if (days == null) return "—";
-  // show as whole days (simple, clean)
-  const d = Math.round(days);
-  return `${d} day${d === 1 ? "" : "s"}`;
+function getStabilityBucketForAthlete(athlete) {
+  const cv = getMarketStabilityCV(athlete);
+  return marketStabilityScoreFromCV(cv).bucket;
 }
 
 function formatCurrency(amount, currency) {
@@ -330,9 +318,6 @@ function renderAthleteCard(a) {
   const cv = getMarketStabilityCV(a);
   const stability = marketStabilityScoreFromCV(cv);
 
-  const dom = getAvgDaysOnMarket(a);
-  const domText = formatDaysLabel(dom);
-
   const shopUrl = buildEbaySearchUrl(a.name, a.sport);
   const initials = initialsFromName(a.name);
 
@@ -354,12 +339,6 @@ function renderAthleteCard(a) {
         Market Stability Score:
         <span class="athlete-card__stability-pill">${stability.label}</span>
         <span class="athlete-card__stability-pct">(${stability.pctText})</span>
-      </div>
-
-      <!-- ✅ NEW: Avg days on market -->
-      <div class="athlete-card__days">
-        Avg days on market:
-        <span class="athlete-card__days-val">${domText}</span>
       </div>
 
       <div class="vzla-search-count">*prices may vary*</div>
@@ -385,10 +364,12 @@ function renderGrid(list) {
   const catSel = document.getElementById("filter-category");
   const leagueSel = document.getElementById("filter-league");
   const priceSel = document.getElementById("filter-price");
+  const stabilitySel = document.getElementById("filter-stability"); // ✅ NEW
 
   const category = catSel?.value ?? activeCategory;
   const league = leagueSel?.value ?? activeLeague;
   const price = priceSel?.value ?? activePrice; // "all" | "low" | "high" | "none"
+  const stability = stabilitySel?.value ?? activeStability; // ✅ NEW
 
   let filtered = (list || [])
     // 1) Sport buttons row
@@ -411,6 +392,15 @@ function renderGrid(list) {
       if (!leagueSel) return true;
       if (league === "all") return true;
       return a.league === league;
+    })
+    // ✅ NEW: Stability dropdown
+    .filter((a) => {
+      if (!stabilitySel) return true;
+      if (stability === "all") return true;
+
+      const bucket = getStabilityBucketForAthlete(a);
+      if (stability === "none") return bucket === "none";
+      return bucket === stability;
     })
     // 5) Search query
     .filter((a) => !q || norm(a.name).includes(q));
@@ -586,12 +576,14 @@ async function init() {
   const catSel = document.getElementById("filter-category");
   const leagueSel = document.getElementById("filter-league");
   const priceSel = document.getElementById("filter-price");
+  const stabilitySel = document.getElementById("filter-stability"); // ✅ NEW
 
   const rerenderNow = () => renderGrid(athleteData);
 
   if (catSel) catSel.addEventListener("change", rerenderNow);
   if (leagueSel) leagueSel.addEventListener("change", rerenderNow);
   if (priceSel) priceSel.addEventListener("change", rerenderNow);
+  if (stabilitySel) stabilitySel.addEventListener("change", rerenderNow); // ✅ NEW
 
   renderGrid(athleteData);
   renderIndexCards();
