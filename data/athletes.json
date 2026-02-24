@@ -13,6 +13,7 @@
   { "name": "Melvin Mora", "sport": "Baseball", "league": "MLB", "team": "Orioles", "provider": "manual" },
   { "name": "Roger Cedeño", "sport": "Baseball", "league": "MLB", "team": "Dodgers", "provider": "manual" },
   
+  { "name": "Henry Blanco", "sport": "Baseball", "league": "MLB", "team": "Mariners", "provider": "manual" },
   { "name": "Álex González", "sport": "Baseball", "league": "MLB", "team": "Tigers", "provider": "manual" },
   { "name": "Willians Astudillo", "sport": "Baseball", "league": "MLB", "team": "Miami", "provider": "manual" },
   { "name": "Asdrúbal Cabrera", "sport": "Baseball", "league": "MLB", "team": "Reds", "provider": "manual" },
