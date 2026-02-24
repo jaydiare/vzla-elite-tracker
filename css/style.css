@@ -1068,7 +1068,6 @@ details.mobile-dd summary::-webkit-details-marker{ display:none; }
 .text-\[\#f2f20d\],
 .nav-link.active,
 .vzla-index-badge,
-.athlete-card__avatar,
 .athlete-card__pill {
   background: var(--vzla-yellow);
   -webkit-background-clip: text;
