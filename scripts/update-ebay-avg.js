@@ -23,7 +23,7 @@
 // - NEW: Normalizes listing prices to USD using CBSA Exchange Rates API as a base.
 //        (CBSA returns CAD per 1 unit; we convert that to USD-per-currency.)
 // - NEW: Adds Manufacturer aspect filter to focus on major sports card makers.
-// - NEW: Uses TRIMMED MEAN (10%) for listing prices (robust vs outliers).
+// - NEW: Uses TAGUCHI trimmed mean (winsorized mean, 10%) for listing prices.
 
 import fs from "node:fs";
 import path from "node:path";
@@ -106,20 +106,30 @@ function median(values) {
   return sorted.length % 2 ? sorted[mid] : (sorted[mid - 1] + sorted[mid]) / 2;
 }
 
-// ✅ NEW: trimmed mean helper (default 10% trim)
-// If sample too small to trim, fallback to median.
-function trimmedMean(values, trimPercent = 0.1) {
+// ✅ NEW: Taguchi "trimmed mean" (winsorized mean).
+// trimPercent = 0.10 means cap bottom 10% and top 10%, then average.
+// If sample too small to winsorize, fallback to median.
+function taguchiTrimmedMean(values, trimPercent = 0.1) {
   if (!values || !values.length) return null;
 
   const sorted = [...values].sort((a, b) => a - b);
-  const trimCount = Math.floor(sorted.length * trimPercent);
+  const n = sorted.length;
 
-  if (sorted.length <= trimCount * 2) {
-    return median(sorted);
+  const k = Math.floor(n * trimPercent);
+
+  // Too small to cap meaningfully
+  if (n < 3 || k === 0) return median(sorted);
+  if (n <= 2 * k) return median(sorted);
+
+  const lowCap = sorted[k];
+  const highCap = sorted[n - k - 1];
+
+  let sum = 0;
+  for (let i = 0; i < n; i++) {
+    const v = sorted[i];
+    sum += v < lowCap ? lowCap : v > highCap ? highCap : v;
   }
-
-  const trimmed = sorted.slice(trimCount, sorted.length - trimCount);
-  return avg(trimmed);
+  return sum / n;
 }
 
 function getHeaderMarketplace(marketplaceId) {
@@ -430,13 +440,13 @@ async function computeAvgActiveListing({
     await sleep(120);
   }
 
-  // ✅ CHANGE: use TRIMMED MEAN instead of median
-  const trimmedListing = trimmedMean(pricesUSD, 0.1); // 10% trim
+  // ✅ CHANGE: Taguchi trimmed mean (winsorized mean), 10% caps
+  const taguchiListing = taguchiTrimmedMean(pricesUSD, 0.1);
 
   return {
-    // keep field names stable for your frontend: avgListing now represents trimmed mean
-    avgListing: trimmedListing,
-    trimmedListing, // explicit
+    // keep field names stable for your frontend: avgListing now represents Taguchi robust mean
+    avgListing: taguchiListing,
+    taguchiListing, // explicit
     nListing: pricesUSD.length,
     currency: "USD",
     originalCurrency: originalCurrency || null,
@@ -475,7 +485,7 @@ async function main() {
       minSampleSize: MIN_EBAY_SAMPLE_SIZE,
       marketplaces: MARKETPLACES,
       categoryId: CATEGORY_ID,
-      note: "Active listing TRIMMED MEAN (10%) (Browse API FIXED_PRICE). No sold data. Prices normalized to USD.",
+      note: "Active listing TAGUCHI trimmed mean (winsorized mean, 10%) (Browse API FIXED_PRICE). No sold data. Prices normalized to USD.",
       fx: {
         source: "CBSA Exchange Rates API",
         asOf: fx.asOf,
@@ -486,7 +496,7 @@ async function main() {
         },
       },
       manufacturers: MANUFACTURERS,
-      listingStat: { method: "trimmed_mean", trimPercent: 0.1 },
+      listingStat: { method: "taguchi_winsorized_mean", trimPercent: 0.1 },
     },
   };
 
@@ -525,7 +535,7 @@ async function main() {
       avg: null,
       n: 0,
       avgListing: null,
-      trimmedListing: null,
+      taguchiListing: null,
       nListing: 0,
       currency: "USD",
     };
@@ -546,9 +556,9 @@ async function main() {
           aspectMode: match.mode,
           aspectValue: match.value,
 
-          // USD-normalized (avgListing now trimmed mean)
+          // USD-normalized (avgListing now Taguchi winsorized mean)
           avgListing: listing.avgListing,
-          trimmedListing: listing.trimmedListing,
+          taguchiListing: listing.taguchiListing,
           nListing: listing.nListing,
           currency: listing.currency,
 
@@ -564,18 +574,18 @@ async function main() {
     const us = rec.marketplaces.EBAY_US;
 
     const pick =
-      (ca && ca.trimmedListing != null ? ca : null) ||
-      (us && us.trimmedListing != null ? us : null) ||
+      (ca && ca.taguchiListing != null ? ca : null) ||
+      (us && us.taguchiListing != null ? us : null) ||
       ca ||
       us;
 
-    rec.trimmedListing = pick?.trimmedListing ?? null;
-    rec.avgListing = pick?.avgListing ?? null; // same value (trimmed mean)
+    rec.taguchiListing = pick?.taguchiListing ?? null;
+    rec.avgListing = pick?.avgListing ?? null; // same value (Taguchi)
     rec.nListing = pick?.nListing ?? 0;
     rec.currency = "USD";
 
     // Backward-compatible fields (so your UI can read rec.avg / rec.n)
-    rec.avg = rec.avgListing; // now trimmed mean
+    rec.avg = rec.avgListing; // now Taguchi winsorized mean
     rec.n = rec.nListing;
 
     out[name] = rec;
