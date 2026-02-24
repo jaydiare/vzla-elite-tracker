@@ -77,12 +77,14 @@ BDB_ENDPOINTS: List[Dict[str, Any]] = [
 # THESPORTSDB TOP DIVISIONS
 # =========================
 TSDB_TOP_DIVISIONS: List[Dict[str, Any]] = [
-    {"sport": "Soccer", "country": "Mexico",    "league": "Mexican Primera League",       "league_id": "4350"},
+    #{"sport": "Soccer", "country": "Mexico",    "league": "Mexican Primera League",       "league_id": "4350"},
     {"sport": "Soccer", "country": "Argentina", "league": "Argentinian Primera Division", "league_id": "4406"},
     {"sport": "Soccer", "country": "Brazil",    "league": "Brazilian Serie A",            "league_id": "4351"},
     #{"sport": "Soccer", "country": "Chile",     "league": "Chile Primera Division",       "league_id": "4627"},
     {"sport": "Soccer", "country": "Italy",     "league": "Italian Serie A",              "league_id": "4332"},
     #{"sport": "Soccer", "country": "France",    "league": "French Ligue 1",               "league_id": "4334"},
+    {"sport": "Soccer", "country": "United States",    "league": "American NWSL",          "league_id": "4521"},
+    
 
     #{"sport": "Basketball", "country": "Mexico",    "league": "Mexican LNBP",  "league_id": "5119"},
     #{"sport": "Basketball", "country": "Argentina", "league": "Argentine LNB", "league_id": "4734"},
