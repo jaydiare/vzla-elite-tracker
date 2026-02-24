@@ -360,8 +360,8 @@ function renderAthleteCard(a) {
       <div class="athlete-card__value">${money}</div>
       <div class="athlete-card__label">eBay Avg. listing Price</div>
 
-    <div class="athlete-card__stability">
-      MS Score:
+    <div class="vzla-search-count">
+      Market Stability Score:
       <span class="athlete-card__stability-pill">${stability.label}</span>
       <span class="athlete-card__stability-pct">(${stability.pctText})</span>
     </div>
