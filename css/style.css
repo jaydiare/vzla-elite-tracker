@@ -939,6 +939,17 @@ details.mobile-dd summary::-webkit-details-marker{ display:none; }
   display: none !important; 
 }
 
+.athlete-card__days {
+  margin-top: 6px; 
+  font-size: 12px; 
+  opacity: .9; 
+}
+
+.athlete-card__days-val { 
+  font-weight: 600; 
+  margin-left: 6px; 
+}
+
 .athlete-card__value{
   margin-top: 14px;
   font-size: 12px;
