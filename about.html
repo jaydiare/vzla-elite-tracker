@@ -516,6 +516,40 @@
       .vzla-footer-inner{ flex-direction:column; gap:14px; }
       .footer-links{ flex-wrap:wrap; justify-content:center; }
     }
+
+    /* Lock the top nav */
+      .vzla-nav{
+        position: fixed;
+       top: 0;
+       left: 0;  
+  right: 0;
+  z-index: 10050;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(244,212,13,0.22) 0%,
+      rgba(27,79,179,0.22) 45%,
+      rgba(177,18,38,0.22) 100%
+    ),
+    rgba(0,0,0,0.88);
+
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+@media (max-width: 768px){
+  .vzla-nav{
+    background:
+      linear-gradient(
+        90deg,
+        rgba(244,212,13,0.15) 0%,
+        rgba(27,79,179,0.15) 45%,
+        rgba(177,18,38,0.15) 100%
+      ),
+      rgba(0,0,0,0.92);
+  }
+}
     
     body{
   padding-top: 96px; /* adjust slightly if needed */
@@ -528,7 +562,7 @@
     <span>© 2026 VZLA Sports Elite</span>
   </header>-->
 
-  <nav class="p-6 border-b border-white/5 flex items-center justify-between  bg-black/85 backdrop-blur-md z-50 relative">
+  <nav class="p-6 border-b border-white/5 flex items-center justify-between  backdrop-blur-md z-50 relative vzla-nav">
     <a href="index.html" class="vzla-brand-wrap" aria-label="Vzla Sports Elite Home">
       <span class="vzla-brand">
         <span class="vzla-brand-top">VZLA SPORTS</span>
