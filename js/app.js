@@ -1,830 +1,600 @@
-// scripts/update-ebay-avg.js
-// Node 20+ (uses global fetch)
-//
-// Computes ACTIVE listing price from eBay Browse API:
-// - Buy It Now only (FIXED_PRICE) => excludes auctions
-// - Dual marketplace: EBAY_US + EBAY_CA (+ EBAY_ES if you keep it)
-//
-// Env vars required:
-//   EBAY_CLIENT_ID
-//   EBAY_CLIENT_SECRET
-//
-// Output:
-//   data/ebay-avg.json
-//
-// Matching rules (your latest):
-// 1) Prefer Player/Athlete aspect_filter match (with name variations / accents).
-// 2) If Player/Athlete is NOT matched, then only proceed if Sport aspect matches.
-// 3) If no Player/Athlete AND sport does not match => skip (avoid fake info).
-//
-// Notes:
-// - Includes graded + listings under $1 (no price floor).
-// - Category used: Trading Card Singles (261328) - keep or change as needed.
-// - Normalizes listing prices to USD using CBSA Exchange Rates API as a base.
-// - Adds Manufacturer aspect filter to focus on major sports card makers.
-// - Uses TAGUCHI trimmed mean (winsorized mean, X%) for listing prices.
-// - Adds market stability CV (Coefficient of Variation) on the SAME winsorized sample:
-//        CV = s / mean  (lower CV => more stable)
-//
-// NEW (this change):
-// - Ungraded listings must be Card Condition: Near Mint or Better OR Excellent only
-// - Excludes damaged/low-condition ungraded listings using descriptors if present,
-//   otherwise falls back to title-based detection.
-//
-// NEW (this change):
-// - Adds average days on market for ACTIVE listings (avg age in days since listing created).
-//   This is NOT "time to sell" — it's "how long current listings have been live".
+// js/app.js
 
-import fs from "node:fs";
-import path from "node:path";
-import { fileURLToPath } from "node:url";
+const athleteDataRaw = [
+  { name: "Ronald Acuña Jr.", sport: "Baseball", league: "MLB", team: "Braves" },
+  { name: "Jackson Chourio", sport: "Baseball", league: "MLB", team: "Brewers" },
+  { name: "Maikel Garcia", sport: "Baseball", league: "MLB", team: "Royals" },
+  { name: "Salvador Perez", sport: "Baseball", league: "MLB", team: "Royals" },
+  { name: "Eugenio Suárez", sport: "Baseball", league: "MLB", team: "Diamondbacks" },
+  { name: "Jose Altuve", sport: "Baseball", league: "MLB", team: "Astros" },
+  { name: "Luis Arráez", sport: "Baseball", league: "MLB", team: "Padres" },
+  { name: "William Contreras", sport: "Baseball", league: "MLB", team: "Brewers" },
+  { name: "Anthony Santander", sport: "Baseball", league: "MLB", team: "Orioles" },
+  { name: "Wilyer Abreu", sport: "Baseball", league: "MLB", team: "Red Sox" },
+  { name: "Eduardo Rodriguez", sport: "Baseball", league: "MLB", team: "Diamondbacks" },
+  { name: "Francisco Alvarez", sport: "Baseball", league: "MLB", team: "Mets" },
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+  { name: "Yeferson Soteldo", sport: "Soccer", league: "Serie A", team: "Grêmio" },
+  { name: "Jon Aramburu", sport: "Soccer", league: "La Liga", team: "Real Sociedad" },
+  { name: "Josef Martínez", sport: "Soccer", league: "MLS", team: "CF Montréal" },
+  { name: "Salomon Rondon", sport: "Soccer", league: "Liga MX", team: "Pachuca" },
+  { name: "Darwin Machís", sport: "Soccer", league: "La Liga", team: "Cádiz" },
+  { name: "Jefferson Savarino", sport: "Soccer", league: "Serie A", team: "Botafogo" },
+  { name: "Yangel Herrera", sport: "Soccer", league: "La Liga", team: "Girona" },
 
-const EBAY_CLIENT_ID = process.env.EBAY_CLIENT_ID;
-const EBAY_CLIENT_SECRET = process.env.EBAY_CLIENT_SECRET;
+  { name: "Michael Carrera", sport: "Basketball", league: "LNBP", team: "Astros de Jalisco" },
 
-if (!EBAY_CLIENT_ID || !EBAY_CLIENT_SECRET) {
-  console.error("Missing EBAY_CLIENT_ID or EBAY_CLIENT_SECRET in env.");
-  process.exit(1);
-}
-
-const OUT_PATH = path.join(__dirname, "..", "data", "ebay-avg.json");
-
-// This script expects:
-// data/athletes.json: [{ name: "Jose Altuve", sport: "Baseball" }, ...]
-const ATHLETES_PATH = path.join(__dirname, "..", "data", "athletes.json");
-
-// Category you were using (Trading Card Singles)
-const CATEGORY_ID = "261328";
-
-// Listing sampling
-const LISTING_PAGE_LIMIT = 60; // max active listings to sample per marketplace
-const PAGE_SIZE = 60;
-
-// Your UI threshold
-const MIN_EBAY_SAMPLE_SIZE = 4;
-
-// Marketplaces to compute
-const MARKETPLACES = ["EBAY_US", "EBAY_CA"];
-
-// restrict to major manufacturers (sports card makers)
-const MANUFACTURERS = ["Topps", "Panini", "Upper Deck", "Leaf", "Topps NOW"];
-
-// Taguchi caps (winsorization %)
-const TAGUCHI_TRIM_PCT = 0.4;
-
-// --------------------
-// ✅ UNGRADED condition policy
-// --------------------
-const UNGRADED_ALLOWED_CONDITIONS = [
-  "near mint or better",
-  "near-mint or better",
-  "near mint",
-  "nm",
-  "nm-mt",
-  "nmt",
-  "excellent",
-  "ex",
+  { name: "Daniel Dhers", sport: "BMX", league: "BMX", team: "BMX" },
+  { name: "Yulimar Rojas", sport: "Track & Field", league: "Track & Field", team: "Track & Field" },
+  { name: "Jhonattan Vegas", sport: "Golf", league: "PGA", team: "Golf" },
+  { name: "Garbiñe Muguruza", sport: "Tennis", league: "WTA", team: "Venezuela" },
+  { name: "Marlon Vera", sport: "MMA", league: "UFC", team: "Venezuela" },
+  { name: "Andres Borregales", sport: "Football", league: "NFL", team: "New England Patriots" },
+  { name: "Amleto Monacelli", sport: "Bowling", league: "Bowling", team: "PBA50" }
 ];
 
-// if any of these appear (descriptor/title), reject ungraded listing
-const UNGRADED_BLOCKLIST = [
-  "damaged",
-  "damage",
-  "poor",
-  "fair",
-  "very good",
-  "vg",
-  "good",
-  "gd",
-  "creases",
-  "crease",
-  "wrinkle",
-  "wrinkling",
-  "corner wear",
-  "surface wear",
-  "paper loss",
-  "stain",
-  "stained",
-  "water damage",
-  "tape",
-  "writing",
-  "marked",
-  "marked up",
-  "pin hole",
-  "hole",
-  "torn",
-  "tear",
-  "scratches",
-  "scratch",
-];
+let athleteData = [];
+let ebayAvgRaw = {};
+let activeSport = "All"; // sport buttons row
 
-// --- helpers ---
-function sleep(ms) {
-  return new Promise((r) => setTimeout(r, ms));
+// Dropdown filters (optional; only used if the elements exist in HTML)
+let activeCategory = "all";
+let activeLeague = "all";
+let activePrice = "all";
+
+// Price threshold used by the Price dropdown (Low/High). Adjust as you like.
+const PRICE_LOW_MAX = 20;
+
+// ---------- Helpers ----------
+function norm(s) {
+  return String(s || "").trim().toLowerCase();
 }
 
-function stripDiacritics(s) {
-  return String(s || "")
-    .normalize("NFKD")
-    .replace(/[\u0300-\u036f]/g, "");
+function makeNameSportKey(name, sport) {
+  return `${norm(name)}|${norm(sport)}`;
 }
 
-function normSpaces(s) {
-  return String(s || "").replace(/\s+/g, " ").trim();
+function mergeByNameSportKeepBest(localArr, fetchedArr) {
+  const map = new Map();
+
+  const score = (o) =>
+    ["league", "team", "tier", "sport"].reduce((n, f) => n + (o?.[f] ? 1 : 0), 0);
+
+  const add = (a) => {
+    const key = makeNameSportKey(a?.name, a?.sport);
+    if (!key || key === "|") return;
+
+    const prev = map.get(key);
+    if (!prev) map.set(key, a);
+    else map.set(key, score(a) >= score(prev) ? a : prev);
+  };
+
+  (localArr || []).forEach(add);
+  (fetchedArr || []).forEach(add);
+
+  return Array.from(map.values());
 }
 
-// Normalized name for comparisons (accents removed, punctuation softened)
-function normalizeNameForCompare(s) {
-  return normSpaces(
-    stripDiacritics(s)
-      .toLowerCase()
-      .replace(/[.'’"]/g, "")
-      .replace(/\b(jr|jr\.|sr|sr\.)\b/g, "")
-  );
-}
-
-function safeNum(x) {
-  const n = Number(x);
-  return Number.isFinite(n) ? n : null;
-}
-
-function avg(values) {
-  if (!values.length) return null;
-  const s = values.reduce((a, b) => a + b, 0);
-  return s / values.length;
-}
-
-// median helper (used as a fallback for tiny samples)
-function median(values) {
-  if (!values.length) return null;
-  const sorted = [...values].sort((a, b) => a - b);
-  const mid = Math.floor(sorted.length / 2);
-  return sorted.length % 2 ? sorted[mid] : (sorted[mid - 1] + sorted[mid]) / 2;
-}
-
-// Sample standard deviation
-function stdev(values) {
-  if (!values || values.length < 2) return null;
-  const m = avg(values);
-  if (m == null) return null;
-  let s = 0;
-  for (const v of values) s += (v - m) * (v - m);
-  const varSample = s / (values.length - 1);
-  const sd = Math.sqrt(varSample);
-  return Number.isFinite(sd) ? sd : null;
-}
-
-// Taguchi "trimmed mean" (winsorized mean).
-function taguchiTrimmedMean(values, trimPercent = TAGUCHI_TRIM_PCT) {
-  if (!values || !values.length) return null;
-
-  const sorted = [...values].sort((a, b) => a - b);
-  const n = sorted.length;
-  const k = Math.floor(n * trimPercent);
-
-  if (n < 3 || k === 0) return median(sorted);
-  if (n <= 2 * k) return median(sorted);
-
-  const lowCap = sorted[k];
-  const highCap = sorted[n - k - 1];
-
-  let sum = 0;
-  for (let i = 0; i < n; i++) {
-    const v = sorted[i];
-    sum += v < lowCap ? lowCap : v > highCap ? highCap : v;
+async function fetchJsonWithFallback(path) {
+  try {
+    const res = await fetch(path, { cache: "no-store" });
+    if (!res.ok) return null;
+    return await res.json();
+  } catch {
+    return null;
   }
-  return sum / n;
 }
 
-function taguchiWinsorizedSample(values, trimPercent = TAGUCHI_TRIM_PCT) {
-  if (!values || !values.length) return [];
-
-  const sorted = [...values].sort((a, b) => a - b);
-  const n = sorted.length;
-  const k = Math.floor(n * trimPercent);
-
-  if (n < 3 || k === 0 || n <= 2 * k) return sorted;
-
-  const lowCap = sorted[k];
-  const highCap = sorted[n - k - 1];
-
-  return sorted.map((v) => (v < lowCap ? lowCap : v > highCap ? highCap : v));
+// Initials avatar (no photos)
+function initialsFromName(name) {
+  const parts = String(name || "").trim().split(/\s+/).filter(Boolean);
+  if (!parts.length) return "VZ";
+  const a = parts[0]?.[0] || "";
+  const b = parts.length > 1 ? (parts[1]?.[0] || "") : (parts[0]?.[1] || "");
+  return (a + b).toUpperCase();
 }
 
-function taguchiCV(values, trimPercent = TAGUCHI_TRIM_PCT) {
-  if (!values || values.length < 3) return null;
-
-  const wins = taguchiWinsorizedSample(values, trimPercent);
-  if (!wins || wins.length < 3) return null;
-
-  const m = avg(wins);
-  const sd = stdev(wins);
-
-  if (m == null || sd == null) return null;
-  if (!Number.isFinite(m) || !Number.isFinite(sd)) return null;
-  if (m <= 0) return null;
-
-  return sd / m;
+// Debounce (for smoother input feel)
+function debounce(fn, delay = 150) {
+  let t;
+  return (...args) => {
+    clearTimeout(t);
+    t = setTimeout(() => fn(...args), delay);
+  };
 }
 
-// ✅ string utilities for ungraded condition policy
-function normText(s) {
-  return String(s || "")
-    .toLowerCase()
-    .replace(/\s+/g, " ")
-    .trim();
+// OS hint for the ⌘K bubble (so Windows shows Ctrl K)
+function isMacPlatform() {
+  return /Mac|iPhone|iPad|iPod/i.test(navigator.platform) || /Mac/i.test(navigator.userAgent);
 }
 
-function includesAny(text, arr) {
-  const t = normText(text);
-  return arr.some((w) => t.includes(normText(w)));
+function setKbdHint() {
+  const el = document.getElementById("search-kbd"); // optional
+  if (!el) return;
+
+  el.innerHTML = isMacPlatform()
+    ? `<span class="kbd">⌘</span><span class="kbd">K</span>`
+    : `<span class="kbd">Ctrl</span><span class="kbd">K</span>`;
 }
 
-// Try to read condition descriptor names from multiple possible shapes.
-function extractConditionDescriptorTexts(item) {
-  const out = [];
+// Fill dropdown filter options (only if selects exist)
+function fillFilterOptions() {
+  const catSel = document.getElementById("filter-category");
+  const leagueSel = document.getElementById("filter-league");
+  if (!catSel || !leagueSel) return;
 
-  const cds = item?.conditionDescriptors;
-  if (Array.isArray(cds)) {
-    for (const d of cds) {
-      if (!d) continue;
-      out.push(d?.name);
-      out.push(d?.descriptorName);
-      out.push(d?.value);
-      out.push(d?.valueName);
+  const sports = Array.from(new Set((athleteData || []).map((a) => a?.sport).filter(Boolean))).sort();
+
+  catSel.innerHTML =
+    `<option value="all">All</option>` +
+    sports.map((s) => `<option value="${s}">${s}</option>`).join("") +
+    `<option value="Other">Other</option>`;
+
+  const leagues = Array.from(new Set((athleteData || []).map((a) => a?.league).filter(Boolean))).sort();
+
+  leagueSel.innerHTML =
+    `<option value="all">All</option>` +
+    leagues.map((l) => `<option value="${l}">${l}</option>`).join("");
+}
+
+// ---------- "Last updated" label (from ebay-avg.json _meta.updatedAt) ----------
+function timeAgo(isoString) {
+  const then = new Date(isoString);
+  if (Number.isNaN(then.getTime())) return "—";
+
+  const now = new Date();
+  let seconds = Math.floor((now - then) / 1000);
+  if (seconds < 0) seconds = 0;
+
+  const mins = Math.floor(seconds / 60);
+  const hrs = Math.floor(mins / 60);
+  const days = Math.floor(hrs / 24);
+
+  if (seconds < 60) return `${seconds}s ago`;
+  if (mins < 60) return `${mins}m ago`;
+  if (hrs < 24) return `${hrs}h ago`;
+  return `${days}d ago`;
+}
+
+function updateEbayLastUpdatedLabelFrom(ebayJson) {
+  const el = document.getElementById("ebay-last-updated");
+  if (!el) return;
+
+  const updatedAt = ebayJson?._meta?.updatedAt;
+  el.textContent = updatedAt ? `Last updated: ${timeAgo(updatedAt)}` : "Last updated: —";
+}
+
+// ---------- eBay Avg Index ----------
+const ebayAvgByName = {};
+const ebayAvgByKey = {};
+
+function buildEbayIndexes(obj) {
+  Object.keys(ebayAvgByName).forEach((k) => delete ebayAvgByName[k]);
+  Object.keys(ebayAvgByKey).forEach((k) => delete ebayAvgByKey[k]);
+
+  if (!obj || typeof obj !== "object") return;
+
+  for (const k of Object.keys(obj)) {
+    if (k === "_meta") continue;
+
+    const rec = obj[k];
+    if (!rec) continue;
+
+    ebayAvgByName[k] = rec;
+
+    // If your json ever includes sport, also index by (name|sport)
+    if (rec?.sport) {
+      ebayAvgByKey[makeNameSportKey(k, rec.sport)] = rec;
     }
   }
+}
 
-  const cdv = item?.conditionDescriptorValues;
-  if (Array.isArray(cdv)) {
-    for (const d of cdv) {
-      if (!d) continue;
-      out.push(d?.name);
-      out.push(d?.descriptorName);
-      out.push(d?.value);
-      out.push(d?.valueName);
-    }
+function getEbayAvgFor(athlete) {
+  if (!athlete) return null;
+  const key = makeNameSportKey(athlete.name, athlete.sport);
+  return ebayAvgByKey[key] || ebayAvgByName[athlete.name] || null;
+}
+
+// Canonical numeric price (works for avgListing / taguchiListing / legacy avg)
+function getEbayAvgNumber(athlete) {
+  const avg = getEbayAvgFor(athlete);
+
+  const avgNum =
+    avg?.avgListing ??
+    avg?.taguchiListing ??
+    avg?.trimmedListing ??
+    avg?.avg ??
+    avg?.average ??
+    null;
+
+  if (avgNum == null) return null;
+
+  const v = Number(avgNum);
+  if (!Number.isFinite(v) || v <= 0) return null;
+
+  return v;
+}
+
+// Market stability CV -> label
+function getMarketStabilityCV(athlete) {
+  const rec = getEbayAvgFor(athlete);
+  const v = rec?.marketStabilityCV ?? null;
+
+  const n = Number(v);
+  return Number.isFinite(n) && n >= 0 ? n : null; // ratio (0.12 = 12%)
+}
+
+function marketStabilityScoreFromCV(cv) {
+  if (cv == null) return { label: "—", pctText: "—" };
+
+  const pct = cv * 100;
+  const pctText = `${pct.toFixed(0)}%`;
+
+  if (pct < 10) return { label: "Stable", pctText };
+  if (pct < 20) return { label: "Active", pctText };
+  if (pct < 35) return { label: "Volatile", pctText };
+  return { label: "Highly Unstable", pctText };
+}
+
+// ✅ NEW: Avg days on market (active listing age)
+function getAvgDaysOnMarket(athlete) {
+  const rec = getEbayAvgFor(athlete);
+  if (!rec) return null;
+
+  // Preferred: top-level field your script writes
+  const direct = rec?.avgDaysOnMarket;
+  if (direct != null) {
+    const n = Number(direct);
+    return Number.isFinite(n) && n >= 0 ? n : null;
   }
 
-  return out.filter(Boolean).map(normText);
+  // Fallback: try marketplace pick fields if you ever rely on them
+  const m = rec?.marketplaces;
+  const ca = m?.EBAY_CA?.avgDaysOnMarket;
+  const us = m?.EBAY_US?.avgDaysOnMarket;
+
+  const pick = ca ?? us ?? null;
+  if (pick == null) return null;
+
+  const n = Number(pick);
+  return Number.isFinite(n) && n >= 0 ? n : null;
 }
 
-// ✅ decide if listing should be included when it's UNGRADED
-function ungradedPassesConditionPolicy(item) {
-  const title = normText(item?.title || "");
-  const cond = normText(item?.condition || "");
-  const descs = extractConditionDescriptorTexts(item);
-
-  const joined = [title, cond, ...descs].join(" | ");
-
-  // reject damaged/low-grade hints
-  if (includesAny(joined, UNGRADED_BLOCKLIST)) return false;
-
-  // accept only near mint/excellent hints
-  if (includesAny(joined, UNGRADED_ALLOWED_CONDITIONS)) return true;
-
-  // unknown condition => reject (strict)
-  return false;
+function formatDaysLabel(days) {
+  if (days == null) return "—";
+  // show as whole days (simple, clean)
+  const d = Math.round(days);
+  return `${d} day${d === 1 ? "" : "s"}`;
 }
 
-// You said you already filter graded vs not graded.
-// This keeps a compatible “graded” detector so the ungraded policy only applies when false.
-function isGradedListing(item) {
-  const cond = normText(item?.condition || "");
-  const title = normText(item?.title || "");
+function formatCurrency(amount, currency) {
+  const n = Number(amount);
+  if (!Number.isFinite(n)) return "";
 
-  if (cond.includes("graded")) return true;
-
-  const graderHints = ["psa", "bgs", "sgc", "cgc", "beckett", "gem mint", "gm mt", "9.5", "10"];
-  return graderHints.some((k) => title.includes(k));
+  const c = String(currency || "").toUpperCase();
+  if (c === "CAD") return `C$${n.toFixed(2)}`;
+  if (c === "USD") return `$${n.toFixed(2)}`;
+  return `${c} ${n.toFixed(2)}`;
 }
 
-// ✅ NEW: listing “age” (days on market) for ACTIVE listings
-function extractListingStartISO(item) {
-  // eBay Browse API commonly provides itemCreationDate for listing creation time.
-  // We also check a few defensive alternatives.
+function buildEbaySearchUrl(name, sport) {
+  const base = "https://www.ebay.ca/sch/i.html";
+  const query = encodeURIComponent(`${name} ${sport} trading card`);
+
   return (
-    item?.itemCreationDate ||
-    item?.listingStartDate ||
-    item?.startDate ||
-    item?.creationDate ||
-    null
+    `${base}?_nkw=${query}` +
+    `&_sacat=261328` + // Trading Card Singles
+    `&LH_BIN=1` + // Buy It Now only
+    `&LH_PrefLoc=1`
   );
 }
 
-function daysSince(isoString) {
-  const t = Date.parse(isoString || "");
-  if (!Number.isFinite(t)) return null;
+// ---------- UI (Sport buttons row) ----------
+function setSport(sport, btn) {
+  activeSport = sport;
 
-  const now = Date.now();
-  let diff = (now - t) / (1000 * 60 * 60 * 24);
-
-  if (!Number.isFinite(diff)) return null;
-  if (diff < 0) diff = 0;
-
-  // sanity cap (optional): ignore absurd ages
-  if (diff > 3650) return null;
-
-  return diff;
-}
-
-function getHeaderMarketplace(marketplaceId) {
-  return { "X-EBAY-C-MARKETPLACE-ID": marketplaceId };
-}
-
-// Build a search query.
-function buildQuery(name, sport) {
-  const sportHint = sport ? ` ${sport}` : "";
-  return `${name}${sportHint} card`;
-}
-
-// Map your sports to likely eBay "Sport" aspect values in Trading Card Singles.
-function sportAspectCandidates(sportRaw) {
-  const s = (sportRaw || "").toLowerCase().trim();
-
-  const map = {
-    baseball: ["Baseball"],
-    soccer: ["Soccer"],
-    football: ["Football"],
-    basketball: ["Basketball"],
-    golf: ["Golf"],
-    tennis: ["Tennis"],
-    mma: ["MMA", "Mixed Martial Arts"],
-    bowling: ["Bowling"],
-    olympics: ["Track & Field"],
-    other: [],
-  };
-
-  return map[s] || [sportRaw];
-}
-
-// Build a combined eBay aspect_filter including Manufacturer
-function buildAspectFilter({ aspectMode, aspectValue }) {
-  const parts = [];
-
-  if (aspectMode === "player" && aspectValue) {
-    parts.push(`Player/Athlete:{${aspectValue}}`);
-  } else if (aspectMode === "sport" && aspectValue) {
-    parts.push(`Sport:{${aspectValue}}`);
+  const filterBar = document.getElementById("sport-filters");
+  if (filterBar) {
+    filterBar.querySelectorAll("button").forEach((b) => {
+      b.classList.remove("text-[#f2f20d]");
+      b.classList.add("text-slate-500");
+    });
   }
 
-  const mfg = (MANUFACTURERS || []).filter(Boolean);
-  if (mfg.length) {
-    parts.push(`Manufacturer:{${mfg.join("|")}}`);
+  if (btn) {
+    btn.classList.remove("text-slate-500");
+    btn.classList.add("text-[#f2f20d]");
+  } else {
+    const buttons = filterBar?.querySelectorAll("button");
+    buttons?.forEach((x) => {
+      const t = x.textContent.trim().toLowerCase();
+      const s = String(sport || "").trim().toLowerCase();
+      if (t === s) {
+        x.classList.remove("text-slate-500");
+        x.classList.add("text-[#f2f20d]");
+      }
+    });
   }
 
-  return parts.length ? parts.join(",") : null;
+  renderGrid(athleteData);
+}
+window.setSport = setSport;
+
+// CardHedge-like card (no photos)
+function renderAthleteCard(a) {
+  const avgNum = getEbayAvgNumber(a);
+
+  // display currency to USD (your ebay script normalizes to USD)
+  const money = avgNum != null ? `USD ${formatCurrency(avgNum, "USD")}` : "—";
+
+  const cv = getMarketStabilityCV(a);
+  const stability = marketStabilityScoreFromCV(cv);
+
+  const dom = getAvgDaysOnMarket(a);
+  const domText = formatDaysLabel(dom);
+
+  const shopUrl = buildEbaySearchUrl(a.name, a.sport);
+  const initials = initialsFromName(a.name);
+
+  return `
+    <article class="athlete-card">
+      <div class="athlete-card__top">
+        <div class="athlete-card__avatar">${initials}</div>
+
+        <div class="athlete-card__head">
+          <div class="athlete-card__name">${a.name}</div>
+          <div class="athlete-card__pill">${a.sport}</div>
+        </div>
+      </div>
+
+      <div class="athlete-card__value">${money}</div>
+      <div class="athlete-card__label">eBay Avg. listing Price</div>
+
+      <div class="athlete-card__stability">
+        Market Stability Score:
+        <span class="athlete-card__stability-pill">${stability.label}</span>
+        <span class="athlete-card__stability-pct">(${stability.pctText})</span>
+      </div>
+
+      <!-- ✅ NEW: Avg days on market -->
+      <div class="athlete-card__days">
+        Avg days on market:
+        <span class="athlete-card__days-val">${domText}</span>
+      </div>
+
+      <div class="vzla-search-count">*prices may vary*</div>
+
+      <a href="${shopUrl}" target="_blank" class="athlete-card__cta">
+        Shop Collectibles
+      </a>
+
+      <div class="athlete-card__meta">
+        ${a.league} • ${a.team}
+      </div>
+    </article>
+  `;
 }
 
-// --- FX (Normalize ANY currency -> USD) ---
-const CBSA_FX_URL =
-  "https://bcd-api-dca-ipa.cbsa-asfc.cloud-nuage.canada.ca/exchange-rate-lambda/exchange-rates";
+function renderGrid(list) {
+  const grid = document.getElementById("athletes-grid");
+  if (!grid) return;
 
-async function getFxRatesToUSD() {
-  const res = await fetch(CBSA_FX_URL, {
-    headers: { "Content-Type": "application/json" },
+  const input = document.getElementById("search-input");
+  const q = norm(input?.value || "");
+
+  const catSel = document.getElementById("filter-category");
+  const leagueSel = document.getElementById("filter-league");
+  const priceSel = document.getElementById("filter-price");
+
+  const category = catSel?.value ?? activeCategory;
+  const league = leagueSel?.value ?? activeLeague;
+  const price = priceSel?.value ?? activePrice; // "all" | "low" | "high" | "none"
+
+  let filtered = (list || [])
+    // 1) Sport buttons row
+    .filter((a) => {
+      if (activeSport === "All") return true;
+      if (activeSport === "Other") {
+        return !["Baseball", "Soccer", "Basketball"].includes(a.sport);
+      }
+      return a.sport === activeSport;
+    })
+    // 2) Category dropdown
+    .filter((a) => {
+      if (!catSel) return true;
+      if (category === "all") return true;
+      if (category === "Other") return !["Baseball", "Soccer", "Basketball"].includes(a.sport);
+      return a.sport === category;
+    })
+    // 3) League dropdown
+    .filter((a) => {
+      if (!leagueSel) return true;
+      if (league === "all") return true;
+      return a.league === league;
+    })
+    // 5) Search query
+    .filter((a) => !q || norm(a.name).includes(q));
+
+  // 4) Price dropdown behavior (sorting + none filter)
+  if (priceSel) {
+    if (price === "none") {
+      filtered = filtered.filter((a) => getEbayAvgNumber(a) == null);
+    } else if (price === "low" || price === "high") {
+      filtered = filtered.slice().sort((a, b) => {
+        const pa = getEbayAvgNumber(a);
+        const pb = getEbayAvgNumber(b);
+
+        if (pa == null && pb == null) return 0;
+        if (pa == null) return 1;
+        if (pb == null) return -1;
+
+        return price === "low" ? pa - pb : pb - pa;
+      });
+    }
+  }
+
+  grid.className = "vzla-grid";
+  grid.innerHTML = filtered.map(renderAthleteCard).join("");
+
+  const countEl = document.getElementById("search-count");
+  if (countEl) {
+    countEl.innerHTML =
+      `Showing <span style="color:rgba(255,255,255,.7)">${filtered.length}</span> ` +
+      `of <span style="color:rgba(255,255,255,.7)">${(list || []).length}</span> players`;
+  }
+
+  const clearBtn = document.getElementById("search-clear");
+  if (clearBtn) {
+    clearBtn.style.display = q ? "inline-flex" : "none";
+  }
+}
+
+function formatIndexNumber(n) {
+  const num = Number(n);
+  if (!Number.isFinite(num)) return "—";
+  return new Intl.NumberFormat("en-US").format(Math.round(num));
+}
+
+function getSportCounts(list) {
+  const counts = new Map();
+  (list || []).forEach((a) => {
+    const sport = a?.sport || "Other";
+    counts.set(sport, (counts.get(sport) || 0) + 1);
+  });
+  return counts;
+}
+
+function computeIndexForSport(list, sportOrAll) {
+  let sum = 0;
+  let used = 0;
+
+  (list || []).forEach((a) => {
+    if (sportOrAll !== "All" && a.sport !== sportOrAll) return;
+
+    const v = getEbayAvgNumber(a);
+    if (v != null) {
+      sum += v;
+      used += 1;
+    }
   });
 
-  if (!res.ok) {
-    const txt = await res.text().catch(() => "");
-    throw new Error(`Failed to fetch FX rates (${res.status}): ${txt}`);
-  }
-
-  const json = await res.json();
-  const rows = json?.ForeignExchangeRates || json?.foreignExchangeRates || [];
-
-  const cadPer = { CAD: 1 };
-  let asOf = null;
-
-  for (const r of rows) {
-    const from = String(r?.FromCurrency?.Value || r?.FromCurrency || "").toUpperCase();
-    const to = String(r?.ToCurrency?.Value || r?.ToCurrency || "").toUpperCase();
-    const rate = Number(r?.Rate);
-
-    if (to === "CAD" && Number.isFinite(rate) && rate > 0 && from) {
-      cadPer[from] = rate;
-      asOf =
-        asOf ||
-        r?.ExchangeRateEffectiveTimestamp ||
-        r?.ValidStartDate ||
-        r?.ExchangeRateExpiryTimestamp ||
-        null;
-    }
-  }
-
-  const cadPerUsd = cadPer.USD;
-  if (!Number.isFinite(cadPerUsd) || cadPerUsd <= 0) {
-    throw new Error("CBSA FX: missing/invalid USD->CAD rate (needed to normalize to USD).");
-  }
-
-  const usdPer = { USD: 1 };
-
-  for (const [cur, cadPerCur] of Object.entries(cadPer)) {
-    if (!Number.isFinite(cadPerCur) || cadPerCur <= 0) continue;
-    usdPer[cur] = cadPerCur / cadPerUsd;
-  }
-
-  usdPer.CAD = 1 / cadPerUsd;
-
-  return { rates: usdPer, asOf };
+  return { sum, used };
 }
 
-function convertToUSD(amount, currency, fxRatesToUSD) {
-  const cur = String(currency || "").toUpperCase();
-  if (!Number.isFinite(amount)) return { usd: null, rateUsed: null };
+function makeIndexCardHTML({ title, badgeText, value, sub }) {
+  return `
+    <div class="vzla-index-card">
+      <div class="vzla-index-top">
+        <div class="vzla-index-title">
+          <div class="vzla-index-badge">${badgeText}</div>
+          <div>${title}</div>
+        </div>
+      </div>
 
-  const rate = fxRatesToUSD?.[cur];
-  if (!Number.isFinite(rate) || rate <= 0) return { usd: null, rateUsed: null };
-
-  return { usd: amount * rate, rateUsed: rate };
+      <div class="vzla-index-value">${value}</div>
+      <div class="vzla-index-sub">${sub}</div>
+    </div>
+  `;
 }
 
-// --- eBay auth ---
-async function getAppToken() {
-  const creds = Buffer.from(`${EBAY_CLIENT_ID}:${EBAY_CLIENT_SECRET}`).toString("base64");
+function renderIndexCards() {
+  const row = document.getElementById("vzlaIndexRow");
+  if (!row) return;
 
-  const res = await fetch("https://api.ebay.com/identity/v1/oauth2/token", {
-    method: "POST",
-    headers: {
-      Authorization: `Basic ${creds}`,
-      "Content-Type": "application/x-www-form-urlencoded",
-    },
-    body: new URLSearchParams({
-      grant_type: "client_credentials",
-      scope: "https://api.ebay.com/oauth/api_scope",
-    }),
-  });
+  const counts = getSportCounts(athleteData);
 
-  if (!res.ok) {
-    const txt = await res.text().catch(() => "");
-    throw new Error(`Failed to get eBay token (${res.status}): ${txt}`);
-  }
+  const entries = Array.from(counts.entries())
+    .filter(([sport]) => sport !== "Other")
+    .sort((a, b) => b[1] - a[1]);
 
-  const json = await res.json();
-  if (!json.access_token) throw new Error("No access_token in token response");
-  return json.access_token;
-}
+  const top1 = entries[0]?.[0] || "Baseball";
+  const top2 = entries[1]?.[0] || "Soccer";
 
-// --- eBay Browse Search ---
-async function ebayBrowseSearch({
-  token,
-  marketplaceId,
-  q,
-  categoryId,
-  limit,
-  offset,
-  aspectFilter,
-}) {
-  const url = new URL("https://api.ebay.com/buy/browse/v1/item_summary/search");
-  url.searchParams.set("q", q);
-  url.searchParams.set("limit", String(limit));
-  url.searchParams.set("offset", String(offset));
-  url.searchParams.set("category_ids", categoryId);
+  const i1 = computeIndexForSport(athleteData, top1);
+  const i2 = computeIndexForSport(athleteData, top2);
+  const iAll = computeIndexForSport(athleteData, "All");
 
-  url.searchParams.append("filter", "buyingOptions:{FIXED_PRICE}");
-
-  if (aspectFilter) {
-    url.searchParams.set("aspect_filter", aspectFilter);
-  }
-
-  const res = await fetch(url.toString(), {
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-      ...getHeaderMarketplace(marketplaceId),
-    },
-  });
-
-  if (!res.ok) {
-    const txt = await res.text().catch(() => "");
-    throw new Error(`Browse search failed (${marketplaceId}) ${res.status}: ${txt}`);
-  }
-
-  return res.json();
-}
-
-// --- Matching / Validation ---
-function candidateAspectValuesForName(name) {
-  const raw = normSpaces(name);
-
-  const ascii = normSpaces(stripDiacritics(raw));
-  const noDotsRaw = raw.replace(/\./g, "");
-  const noDotsAscii = ascii.replace(/\./g, "");
-
-  const noJrRaw = raw.replace(/\s+Jr\.?$/i, "").trim();
-  const noJrAscii = ascii.replace(/\s+Jr\.?$/i, "").trim();
-
-  const variants = new Set([raw, ascii, noDotsRaw, noDotsAscii, noJrRaw, noJrAscii]);
-  return [...variants].map(normSpaces).filter(Boolean);
-}
-
-async function validatePlayerAthleteMatch({ token, marketplaceId, name, sport }) {
-  const q = buildQuery(name, sport);
-
-  for (const cand of candidateAspectValuesForName(name)) {
-    const aspectFilter = `Player/Athlete:{${cand}}`;
-    const data = await ebayBrowseSearch({
-      token,
-      marketplaceId,
-      q,
-      categoryId: CATEGORY_ID,
-      limit: 1,
-      offset: 0,
-      aspectFilter,
+  row.innerHTML =
+    makeIndexCardHTML({
+      title: `${top1} Index`,
+      badgeText: "I",
+      value: formatIndexNumber(i1.sum),
+      sub: `${counts.get(top1) || 0} athletes • ${i1.used} priced`,
+    }) +
+    makeIndexCardHTML({
+      title: `${top2} Index`,
+      badgeText: "I",
+      value: formatIndexNumber(i2.sum),
+      sub: `${counts.get(top2) || 0} athletes • ${i2.used} priced`,
+    }) +
+    makeIndexCardHTML({
+      title: `All Index`,
+      badgeText: "I",
+      value: formatIndexNumber(iAll.sum),
+      sub: `${athleteData.length} athletes • ${iAll.used} priced`,
     });
-
-    const total = safeNum(data?.total) ?? 0;
-    if (total > 0) return { ok: true, aspectValue: cand };
-
-    await sleep(120);
-  }
-
-  return { ok: false, aspectValue: null };
 }
 
-async function validateSportMatch({ token, marketplaceId, name, sport }) {
-  const q = buildQuery(name, sport);
-  const candidates = sportAspectCandidates(sport);
+// ---------- Init ----------
+async function init() {
+  if (!document.getElementById("athletes-grid")) return;
 
-  for (const s of candidates) {
-    if (!s) continue;
+  const [fetchedAthletes, fetchedEbayAvg] = await Promise.all([
+    fetchJsonWithFallback("data/athletes.json"),
+    fetchJsonWithFallback("data/ebay-avg.json"),
+  ]);
 
-    const aspectFilter = `Sport:{${s}}`;
-    const data = await ebayBrowseSearch({
-      token,
-      marketplaceId,
-      q,
-      categoryId: CATEGORY_ID,
-      limit: 1,
-      offset: 0,
-      aspectFilter,
+  athleteData = mergeByNameSportKeepBest(athleteDataRaw, fetchedAthletes || []);
+  ebayAvgRaw = fetchedEbayAvg && typeof fetchedEbayAvg === "object" ? fetchedEbayAvg : {};
+
+  buildEbayIndexes(ebayAvgRaw);
+
+  updateEbayLastUpdatedLabelFrom(ebayAvgRaw);
+  setInterval(() => updateEbayLastUpdatedLabelFrom(ebayAvgRaw), 60 * 1000);
+
+  setKbdHint();
+  fillFilterOptions();
+
+  const search = document.getElementById("search-input");
+  const clearBtn = document.getElementById("search-clear");
+
+  const rerenderDebounced = debounce(() => renderGrid(athleteData), 150);
+
+  if (search) {
+    search.addEventListener("input", rerenderDebounced);
+
+    window.addEventListener("keydown", (e) => {
+      const isK = String(e.key || "").toLowerCase() === "k";
+      if ((e.metaKey || e.ctrlKey) && isK) {
+        e.preventDefault();
+        search.focus();
+      }
+      if (e.key === "Escape") {
+        search.blur();
+      }
     });
-
-    const total = safeNum(data?.total) ?? 0;
-    if (total > 0) return { ok: true, sportAspectValue: s };
-
-    await sleep(120);
   }
 
-  return { ok: false, sportAspectValue: null };
-}
-
-// --- computations ---
-async function computeAvgActiveListing({
-  token,
-  marketplaceId,
-  name,
-  sport,
-  aspectMode,
-  aspectValue,
-  fxRates,
-}) {
-  const q = buildQuery(name, sport);
-  const aspectFilter = buildAspectFilter({ aspectMode, aspectValue });
-
-  let offset = 0;
-
-  // included samples
-  const pricesUSD = [];
-  const daysOnMarket = [];
-
-  let originalCurrency = null;
-  let fxRateUsed = null;
-
-  while (offset < LISTING_PAGE_LIMIT) {
-    const data = await ebayBrowseSearch({
-      token,
-      marketplaceId,
-      q,
-      categoryId: CATEGORY_ID,
-      limit: PAGE_SIZE,
-      offset,
-      aspectFilter,
+  if (clearBtn && search) {
+    clearBtn.addEventListener("click", () => {
+      search.value = "";
+      renderGrid(athleteData);
+      search.focus();
     });
-
-    const items = data?.itemSummaries || [];
-
-    for (const it of items) {
-      // ✅ enforce ungraded policy
-      const graded = isGradedListing(it);
-      if (!graded) {
-        const okUngraded = ungradedPassesConditionPolicy(it);
-        if (!okUngraded) continue;
-      }
-
-      const p = it?.price;
-      const v = safeNum(p?.value);
-      if (v == null) continue;
-
-      const cur = p?.currency || null;
-      originalCurrency = originalCurrency || cur;
-
-      const { usd, rateUsed } = convertToUSD(v, cur, fxRates);
-      if (usd == null) continue;
-
-      // ✅ days on market (active listing age)
-      const iso = extractListingStartISO(it);
-      const d = daysSince(iso);
-
-      // price gets included regardless; days are included only if date parse works
-      pricesUSD.push(usd);
-      if (d != null) daysOnMarket.push(d);
-
-      fxRateUsed = fxRateUsed || rateUsed;
-    }
-
-    if (items.length < PAGE_SIZE) break;
-    offset += PAGE_SIZE;
-    await sleep(120);
   }
 
-  const taguchiListing = taguchiTrimmedMean(pricesUSD, TAGUCHI_TRIM_PCT);
-  const marketStabilityCV = taguchiCV(pricesUSD, TAGUCHI_TRIM_PCT);
+  const catSel = document.getElementById("filter-category");
+  const leagueSel = document.getElementById("filter-league");
+  const priceSel = document.getElementById("filter-price");
 
-  // average days on market for the included listings that had a valid start date
-  const avgDaysOnMarket = avg(daysOnMarket);
+  const rerenderNow = () => renderGrid(athleteData);
 
-  return {
-    avgListing: taguchiListing,
-    taguchiListing,
-    marketStabilityCV,
-    avgDaysOnMarket, // ✅ NEW
-    nListing: pricesUSD.length,
-    nDaysOnMarket: daysOnMarket.length, // debug/transparency
-    currency: "USD",
-    originalCurrency: originalCurrency || null,
-    fxRateUsed: fxRateUsed || null,
-  };
+  if (catSel) catSel.addEventListener("change", rerenderNow);
+  if (leagueSel) leagueSel.addEventListener("change", rerenderNow);
+  if (priceSel) priceSel.addEventListener("change", rerenderNow);
+
+  renderGrid(athleteData);
+  renderIndexCards();
 }
 
-// --- data loading ---
-function loadAthletes() {
-  if (!fs.existsSync(ATHLETES_PATH)) {
-    throw new Error(
-      `Missing ${ATHLETES_PATH}. Create data/athletes.json with [{name,sport}, ...] or adjust script.`
-    );
-  }
-
-  const raw = fs.readFileSync(ATHLETES_PATH, "utf8");
-  const arr = JSON.parse(raw);
-
-  return (arr || [])
-    .map((x) => ({
-      name: normSpaces(x?.name),
-      sport: normSpaces(x?.sport),
-    }))
-    .filter((x) => x.name);
-}
-
-// --- main ---
-async function main() {
-  const token = await getAppToken();
-  const fx = await getFxRatesToUSD();
-  const athletes = loadAthletes();
-
-  const out = {
-    _meta: {
-      updatedAt: new Date().toISOString(),
-      minSampleSize: MIN_EBAY_SAMPLE_SIZE,
-      marketplaces: MARKETPLACES,
-      categoryId: CATEGORY_ID,
-      note:
-        "Active listing robust mean (Browse API FIXED_PRICE). No sold data. Prices normalized to USD. Includes market stability CV (sd/mean). Ungraded restricted to Near Mint or Better / Excellent (damaged excluded). Includes avg days-on-market for active listings (listing age).",
-      fx: {
-        source: "CBSA Exchange Rates API",
-        asOf: fx.asOf,
-        ratesToUSD: {
-          USD: 1,
-          CAD: fx.rates?.CAD ?? null,
-          EUR: fx.rates?.EUR ?? null,
-        },
-      },
-      manufacturers: MANUFACTURERS,
-      listingStat: { method: "taguchi_winsorized_mean", trimPercent: TAGUCHI_TRIM_PCT },
-      stabilityStat: {
-        method: "cv",
-        formula: "sd/mean",
-        sample: "winsorized",
-        trimPercent: TAGUCHI_TRIM_PCT,
-      },
-      ungradedPolicy: {
-        allow: ["Near Mint or Better", "Excellent"],
-        blocklist: "damaged/low-condition keywords",
-      },
-      daysOnMarket: {
-        meaning: "Average age of ACTIVE listings (not time-to-sell).",
-        field: "avgDaysOnMarket",
-      },
-    },
-  };
-
-  for (let i = 0; i < athletes.length; i++) {
-    const { name, sport } = athletes[i];
-    console.log(`[${i + 1}/${athletes.length}] ${name} (${sport || "Unknown"})`);
-
-    let match = null;
-
-    for (const marketplaceId of ["EBAY_CA", "EBAY_US"]) {
-      const v = await validatePlayerAthleteMatch({ token, marketplaceId, name, sport });
-      if (v.ok) {
-        match = { mode: "player", value: v.aspectValue, validatedOn: marketplaceId };
-        break;
-      }
-    }
-
-    if (!match) {
-      for (const marketplaceId of ["EBAY_CA", "EBAY_US"]) {
-        const s = await validateSportMatch({ token, marketplaceId, name, sport });
-        if (s.ok) {
-          match = { mode: "sport", value: s.sportAspectValue, validatedOn: marketplaceId };
-          break;
-        }
-      }
-    }
-
-    if (!match) {
-      console.log(`${name}: SKIPPED (no Player/Athlete match AND sport did not match)`);
-      continue;
-    }
-
-    const rec = {
-      match,
-      marketplaces: {},
-      avg: null,
-      n: 0,
-      avgListing: null,
-      taguchiListing: null,
-      marketStabilityCV: null,
-      avgDaysOnMarket: null, // ✅ NEW
-      nListing: 0,
-      currency: "USD",
-    };
-
-    for (const marketplaceId of MARKETPLACES) {
-      try {
-        const listing = await computeAvgActiveListing({
-          token,
-          marketplaceId,
-          name,
-          sport,
-          aspectMode: match.mode,
-          aspectValue: match.value,
-          fxRates: fx.rates,
-        });
-
-        rec.marketplaces[marketplaceId] = {
-          aspectMode: match.mode,
-          aspectValue: match.value,
-
-          avgListing: listing.avgListing,
-          taguchiListing: listing.taguchiListing,
-          marketStabilityCV: listing.marketStabilityCV,
-          avgDaysOnMarket: listing.avgDaysOnMarket, // ✅ NEW
-          nListing: listing.nListing,
-          nDaysOnMarket: listing.nDaysOnMarket, // debug
-          currency: listing.currency,
-
-          originalCurrency: listing.originalCurrency,
-          fxRateUsed: listing.fxRateUsed,
-        };
-      } catch (e) {
-        console.log(`${name} (${marketplaceId}): ERROR ${e?.message || e}`);
-      }
-    }
-
-    const ca = rec.marketplaces.EBAY_CA;
-    const us = rec.marketplaces.EBAY_US;
-
-    const pick =
-      (ca && ca.taguchiListing != null ? ca : null) ||
-      (us && us.taguchiListing != null ? us : null) ||
-      ca ||
-      us;
-
-    rec.taguchiListing = pick?.taguchiListing ?? null;
-    rec.avgListing = pick?.avgListing ?? null;
-    rec.marketStabilityCV = pick?.marketStabilityCV ?? null;
-    rec.avgDaysOnMarket = pick?.avgDaysOnMarket ?? null; // ✅ NEW
-    rec.nListing = pick?.nListing ?? 0;
-    rec.currency = "USD";
-
-    rec.avg = rec.avgListing;
-    rec.n = rec.nListing;
-
-    out[name] = rec;
-
-    await sleep(500);
-  }
-
-  fs.mkdirSync(path.dirname(OUT_PATH), { recursive: true });
-  fs.writeFileSync(OUT_PATH, JSON.stringify(out, null, 2));
-  console.log(`Wrote ${OUT_PATH}`);
-}
-
-main().catch((err) => {
-  console.error(err);
-  process.exit(1);
-});
+document.addEventListener("DOMContentLoaded", init);
