@@ -67,7 +67,7 @@ const MARKETPLACES = ["EBAY_US", "EBAY_CA"];
 const MANUFACTURERS = ["Topps", "Panini", "Upper Deck", "Leaf", "Topps NOW"];
 
 // Taguchi caps
-const TAGUCHI_TRIM_PCT = 0.1;
+const TAGUCHI_TRIM_PCT = 0.4;
 
 // --- helpers ---
 function sleep(ms) {
