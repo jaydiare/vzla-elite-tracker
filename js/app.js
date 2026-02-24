@@ -42,9 +42,6 @@ let activeCategory = "all";
 let activeLeague = "all";
 let activePrice = "all";
 
-// Price threshold used by the Price dropdown (Low/High). Adjust as you like.
-const PRICE_LOW_MAX = 20;
-
 // ---------- Helpers ----------
 function norm(s) {
   return String(s || "").trim().toLowerCase();
@@ -164,7 +161,7 @@ function updateEbayLastUpdatedLabelFrom(ebayJson) {
   el.textContent = updatedAt ? `Last updated: ${timeAgo(updatedAt)}` : "Last updated: —";
 }
 
-// ---------- eBay Avg Index ----------
+// ---------- eBay indexes ----------
 const ebayAvgByName = {};
 const ebayAvgByKey = {};
 
@@ -176,12 +173,21 @@ function buildEbayIndexes(obj) {
 
   for (const k of Object.keys(obj)) {
     if (k === "_meta") continue;
-
     const rec = obj[k];
     if (!rec) continue;
 
+    // If you ever output "name|sport" keys, support that too
+    if (k.includes("|")) {
+      ebayAvgByKey[k] = rec;
+      // also store by-name fallback if we can infer it
+      const inferredName = k.split("|")[0] || "";
+      if (inferredName) ebayAvgByName[inferredName] = rec;
+      continue;
+    }
+
     ebayAvgByName[k] = rec;
 
+    // If the record ever includes sport, index it
     if (rec?.sport) {
       ebayAvgByKey[makeNameSportKey(k, rec.sport)] = rec;
     }
@@ -214,15 +220,35 @@ function getEbayAvgNumber(athlete) {
   return v;
 }
 
-// Market stability CV -> label
+// ✅ NEW: more robust CV lookup (top-level OR marketplace fallback)
 function getMarketStabilityCV(athlete) {
   const rec = getEbayAvgFor(athlete);
-  const v = rec?.marketStabilityCV ?? null;
+  if (!rec) return null;
 
-  const n = Number(v);
-  return Number.isFinite(n) && n >= 0 ? n : null; // ratio (0.12 = 12%)
+  // preferred: top-level field you now write
+  const direct = Number(rec?.marketStabilityCV);
+  if (Number.isFinite(direct) && direct >= 0) return direct;
+
+  // fallback: look inside marketplaces if present
+  const m = rec?.marketplaces;
+  if (m && typeof m === "object") {
+    const ca = m.EBAY_CA;
+    const us = m.EBAY_US;
+
+    const pick =
+      (ca && ca.marketStabilityCV != null ? ca : null) ||
+      (us && us.marketStabilityCV != null ? us : null) ||
+      ca ||
+      us;
+
+    const inner = Number(pick?.marketStabilityCV);
+    if (Number.isFinite(inner) && inner >= 0) return inner;
+  }
+
+  return null;
 }
 
+// ✅ UPDATED buckets to match your consumer explanation
 function marketStabilityScoreFromCV(cv) {
   if (cv == null) return { label: "—", pctText: "—" };
 
@@ -231,7 +257,8 @@ function marketStabilityScoreFromCV(cv) {
 
   if (pct < 10) return { label: "Stable", pctText };
   if (pct < 20) return { label: "Active", pctText };
-  return { label: "Volatile", pctText };
+  if (pct < 35) return { label: "Volatile", pctText };
+  return { label: "Highly Unstable", pctText };
 }
 
 function formatCurrency(amount, currency) {
@@ -251,7 +278,7 @@ function buildEbaySearchUrl(name, sport) {
   return (
     `${base}?_nkw=${query}` +
     `&_sacat=261328` + // Trading Card Singles
-    `&LH_BIN=1` + // Buy It Now only
+    `&LH_BIN=1` +      // Buy It Now only
     `&LH_PrefLoc=1`
   );
 }
@@ -287,11 +314,9 @@ function setSport(sport, btn) {
 }
 window.setSport = setSport;
 
-// CardHedge-like card (no photos)
+// ---------- Card ----------
 function renderAthleteCard(a) {
   const avgNum = getEbayAvgNumber(a);
-
-  // display currency to USD (your ebay script normalizes to USD)
   const money = avgNum != null ? `USD ${formatCurrency(avgNum, "USD")}` : "—";
 
   const cv = getMarketStabilityCV(a);
