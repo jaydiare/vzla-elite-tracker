@@ -196,6 +196,7 @@ function buildEbayIndexes(obj) {
 
     ebayAvgByName[k] = rec;
 
+    // Only build key index if sport exists
     if (rec?.sport) {
       ebayAvgByKey[makeNameSportKey(k, rec.sport)] = rec;
     }
@@ -231,10 +232,31 @@ function getEbayAvgNumber(athlete) {
 // Market stability CV -> label
 function getMarketStabilityCV(athlete) {
   const rec = getEbayAvgFor(athlete);
-  const v = rec?.marketStabilityCV ?? null;
+
+  // ✅ Support both shapes:
+  // - top-level: rec.marketStabilityCV
+  // - marketplace: rec.marketplaces.EBAY_US.marketStabilityCV, etc.
+  const v =
+    rec?.marketStabilityCV ??
+    rec?.marketplaces?.EBAY_US?.marketStabilityCV ??
+    rec?.marketplaces?.EBAY_CA?.marketStabilityCV ??
+    null;
 
   const n = Number(v);
   return Number.isFinite(n) && n >= 0 ? n : null; // ratio (0.12 = 12%)
+}
+
+function getAvgDaysOnMarket(athlete) {
+  const rec = getEbayAvgFor(athlete);
+
+  const v =
+    rec?.avgDaysOnMarket ??
+    rec?.marketplaces?.EBAY_US?.avgDaysOnMarket ??
+    rec?.marketplaces?.EBAY_CA?.avgDaysOnMarket ??
+    null;
+
+  const n = Number(v);
+  return Number.isFinite(n) && n >= 0 ? n : null;
 }
 
 // ✅ UPDATED tiers to include Highly Unstable (35%+)
@@ -318,6 +340,9 @@ function renderAthleteCard(a) {
   const cv = getMarketStabilityCV(a);
   const stability = marketStabilityScoreFromCV(cv);
 
+  const dom = getAvgDaysOnMarket(a);
+  const domText = dom != null ? `${Math.round(dom)} days` : "—";
+
   const shopUrl = buildEbaySearchUrl(a.name, a.sport);
   const initials = initialsFromName(a.name);
 
@@ -335,11 +360,16 @@ function renderAthleteCard(a) {
       <div class="athlete-card__value">${money}</div>
       <div class="athlete-card__label">eBay Avg. listing Price</div>
 
-      <div class="athlete-card__stability">
-        Market Stability Score:
-        <span class="athlete-card__stability-pill">${stability.label}</span>
-        <span class="athlete-card__stability-pct">(${stability.pctText})</span>
-      </div>
+    <div class="athlete-card__stability">
+      MS Score:
+      <span class="athlete-card__stability-pill">${stability.label}</span>
+      <span class="athlete-card__stability-pct">(${stability.pctText})</span>
+    </div>
+    
+    <div class="vzla-search-count">
+      Avg. time listed:
+      <span class="athlete-card__days-val">${domText}</span>
+    </div>
 
       <div class="vzla-search-count">*prices may vary*</div>
 
@@ -364,12 +394,12 @@ function renderGrid(list) {
   const catSel = document.getElementById("filter-category");
   const leagueSel = document.getElementById("filter-league");
   const priceSel = document.getElementById("filter-price");
-  const stabilitySel = document.getElementById("filter-stability"); // ✅ NEW
+  const stabilitySel = document.getElementById("filter-stability");
 
   const category = catSel?.value ?? activeCategory;
   const league = leagueSel?.value ?? activeLeague;
   const price = priceSel?.value ?? activePrice; // "all" | "low" | "high" | "none"
-  const stability = stabilitySel?.value ?? activeStability; // ✅ NEW
+  const stability = stabilitySel?.value ?? activeStability; // "all" | buckets... | "none"
 
   let filtered = (list || [])
     // 1) Sport buttons row
@@ -393,19 +423,29 @@ function renderGrid(list) {
       if (league === "all") return true;
       return a.league === league;
     })
-    // ✅ NEW: Stability dropdown
+    // ✅ 4) Stability dropdown (FIXED so “Stable” doesn’t include “No Score” or “No Price”)
     .filter((a) => {
       if (!stabilitySel) return true;
       if (stability === "all") return true;
 
-      const bucket = getStabilityBucketForAthlete(a);
-      if (stability === "none") return bucket === "none";
+      const cv = getMarketStabilityCV(a);
+      const bucket = marketStabilityScoreFromCV(cv).bucket;
+
+      // explicitly show "No Score" only when requested
+      if (stability === "none") return cv == null || bucket === "none";
+
+      // if user selected a real bucket, require BOTH:
+      // - a valid CV score
+      // - a valid price estimate (prevents weird cards slipping in)
+      if (cv == null) return false;
+      if (getEbayAvgNumber(a) == null) return false;
+
       return bucket === stability;
     })
     // 5) Search query
     .filter((a) => !q || norm(a.name).includes(q));
 
-  // 4) Price dropdown behavior (sorting + none filter)
+  // 6) Price dropdown behavior (sorting + none filter)
   if (priceSel) {
     if (price === "none") {
       filtered = filtered.filter((a) => getEbayAvgNumber(a) == null);
@@ -576,14 +616,14 @@ async function init() {
   const catSel = document.getElementById("filter-category");
   const leagueSel = document.getElementById("filter-league");
   const priceSel = document.getElementById("filter-price");
-  const stabilitySel = document.getElementById("filter-stability"); // ✅ NEW
+  const stabilitySel = document.getElementById("filter-stability");
 
   const rerenderNow = () => renderGrid(athleteData);
 
   if (catSel) catSel.addEventListener("change", rerenderNow);
   if (leagueSel) leagueSel.addEventListener("change", rerenderNow);
   if (priceSel) priceSel.addEventListener("change", rerenderNow);
-  if (stabilitySel) stabilitySel.addEventListener("change", rerenderNow); // ✅ NEW
+  if (stabilitySel) stabilitySel.addEventListener("change", rerenderNow);
 
   renderGrid(athleteData);
   renderIndexCards();
