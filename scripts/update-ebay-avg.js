@@ -3,7 +3,7 @@
 //
 // Computes ACTIVE listing price from eBay Browse API:
 // - Buy It Now only (FIXED_PRICE) => excludes auctions
-// - Dual marketplace: EBAY_US + EBAY_CA (+ EBAY_ES if you keep it)
+// - Dual marketplace: EBAY_US + EBAY_CA
 //
 // Env vars required:
 //   EBAY_CLIENT_ID
@@ -12,22 +12,21 @@
 // Output:
 //   data/ebay-avg.json
 //
-// Matching rules (your latest):
+// Matching rules:
 // 1) Prefer Player/Athlete aspect_filter match (with name variations / accents).
 // 2) If Player/Athlete is NOT matched, then only proceed if Sport aspect matches.
 // 3) If no Player/Athlete AND sport does not match => skip (avoid fake info).
 //
 // Notes:
 // - Includes graded + listings under $1 (no price floor).
-// - Category used: Trading Card Singles (261328) - keep or change as needed.
-// - Normalizes listing prices to USD using CBSA Exchange Rates API as a base.
-//        (CBSA returns CAD per 1 unit; we convert that to USD-per-currency.)
-// - Adds Manufacturer aspect filter to focus on major sports card makers.
-// - Uses TAGUCHI trimmed mean (winsorized mean, 10%) for listing prices.
-// - NEW: Adds market stability CV (Coefficient of Variation) on the SAME winsorized sample:
-//        CV = s / mean  (lower CV => more stable)
-
-// -------------------------------
+// - Category: Trading Card Singles (261328)
+// - Normalizes listing prices to USD using CBSA FX.
+// - Manufacturer aspect filter to focus on major card makers.
+// - Uses TAGUCHI trimmed mean (winsorized mean, TAGUCHI_TRIM_PCT) for listing prices.
+// - Adds market stability CV (Coefficient of Variation) on the SAME winsorized sample:
+//     CV = s / mean  (lower CV => more stable)
+// - NEW: Adds Avg Days on Market (from itemCreationDate) for ACTIVE listings:
+//     avgDaysOnMarket = mean( (now - itemCreationDate) in days ) for items included in the sample.
 
 import fs from "node:fs";
 import path from "node:path";
@@ -54,7 +53,7 @@ const ATHLETES_PATH = path.join(__dirname, "..", "data", "athletes.json");
 const CATEGORY_ID = "261328";
 
 // Listing sampling
-const LISTING_PAGE_LIMIT = 60; // max active listings to average per marketplace
+const LISTING_PAGE_LIMIT = 60; // max active listings to sample per marketplace
 const PAGE_SIZE = 60;
 
 // Your UI threshold
@@ -66,7 +65,7 @@ const MARKETPLACES = ["EBAY_US", "EBAY_CA"];
 // restrict to major manufacturers (sports card makers)
 const MANUFACTURERS = ["Topps", "Panini", "Upper Deck", "Leaf", "Topps NOW"];
 
-// Taguchi caps
+// Taguchi caps (winsorization % per tail)
 const TAGUCHI_TRIM_PCT = 0.4;
 
 // --- helpers ---
@@ -89,7 +88,7 @@ function normalizeNameForCompare(s) {
   return normSpaces(
     stripDiacritics(s)
       .toLowerCase()
-      .replace(/[.'’"]/g, "") // remove common punctuation in names
+      .replace(/[.'’"]/g, "")
       .replace(/\b(jr|jr\.|sr|sr\.)\b/g, "")
   );
 }
@@ -125,6 +124,19 @@ function stdev(values) {
   return Number.isFinite(sd) ? sd : null;
 }
 
+// Parse eBay timestamps safely
+function parseDateMs(x) {
+  const t = new Date(x).getTime();
+  return Number.isFinite(t) ? t : null;
+}
+
+function daysSince(isoOrDate) {
+  const ms = parseDateMs(isoOrDate);
+  if (ms == null) return null;
+  const d = (Date.now() - ms) / (1000 * 60 * 60 * 24);
+  return Number.isFinite(d) && d >= 0 ? d : null;
+}
+
 // Taguchi "trimmed mean" (winsorized mean).
 // trimPercent = 0.10 means cap bottom 10% and top 10%, then average.
 // If sample too small to winsorize, fallback to median.
@@ -150,7 +162,7 @@ function taguchiTrimmedMean(values, trimPercent = TAGUCHI_TRIM_PCT) {
   return sum / n;
 }
 
-// ✅ NEW: Taguchi winsorized sample (same caps) for stability CV
+// Taguchi winsorized sample (same caps) for stability CV
 function taguchiWinsorizedSample(values, trimPercent = TAGUCHI_TRIM_PCT) {
   if (!values || !values.length) return [];
 
@@ -158,7 +170,7 @@ function taguchiWinsorizedSample(values, trimPercent = TAGUCHI_TRIM_PCT) {
   const n = sorted.length;
   const k = Math.floor(n * trimPercent);
 
-  // Too small to cap meaningfully => return sorted (caller can fallback)
+  // Too small to cap meaningfully => return sorted
   if (n < 3 || k === 0 || n <= 2 * k) return sorted;
 
   const lowCap = sorted[k];
@@ -167,14 +179,12 @@ function taguchiWinsorizedSample(values, trimPercent = TAGUCHI_TRIM_PCT) {
   return sorted.map((v) => (v < lowCap ? lowCap : v > highCap ? highCap : v));
 }
 
-// ✅ NEW: Market Stability CV (Coefficient of Variation) on winsorized sample
+// Market Stability CV (Coefficient of Variation) on winsorized sample
 // CV = s / mean  (lower is more stable)
 function taguchiCV(values, trimPercent = TAGUCHI_TRIM_PCT) {
   if (!values || values.length < 3) return null;
 
   const wins = taguchiWinsorizedSample(values, trimPercent);
-
-  // If still tiny, CV isn’t meaningful
   if (!wins || wins.length < 3) return null;
 
   const m = avg(wins);
@@ -182,8 +192,6 @@ function taguchiCV(values, trimPercent = TAGUCHI_TRIM_PCT) {
 
   if (m == null || sd == null) return null;
   if (!Number.isFinite(m) || !Number.isFinite(sd)) return null;
-
-  // avoid divide-by-0 or negative mean
   if (m <= 0) return null;
 
   return sd / m; // ratio (e.g. 0.12 => 12%)
@@ -193,13 +201,13 @@ function getHeaderMarketplace(marketplaceId) {
   return { "X-EBAY-C-MARKETPLACE-ID": marketplaceId };
 }
 
-// Build a search query. Keep it broad enough to find inventory but specific enough to reduce junk.
+// Build a search query.
 function buildQuery(name, sport) {
   const sportHint = sport ? ` ${sport}` : "";
   return `${name}${sportHint} card`;
 }
 
-// Map your sports to likely eBay "Sport" aspect values in Trading Card Singles.
+// Map sports to likely eBay "Sport" aspect values.
 function sportAspectCandidates(sportRaw) {
   const s = (sportRaw || "").toLowerCase().trim();
 
@@ -229,7 +237,6 @@ function buildAspectFilter({ aspectMode, aspectValue }) {
     parts.push(`Sport:{${aspectValue}}`);
   }
 
-  // Always restrict to known card manufacturers (sports card makers)
   const mfg = (MANUFACTURERS || []).filter(Boolean);
   if (mfg.length) {
     parts.push(`Manufacturer:{${mfg.join("|")}}`);
@@ -279,7 +286,7 @@ async function getFxRatesToUSD() {
     throw new Error("CBSA FX: missing/invalid USD->CAD rate (needed to normalize to USD).");
   }
 
-  // Convert CAD-per to USD-per using: usdPer[cur] = cadPer[cur] / cadPer[USD]
+  // usdPer[cur] = cadPer[cur] / cadPer[USD]
   const usdPer = { USD: 1 };
 
   for (const [cur, cadPerCur] of Object.entries(cadPer)) {
@@ -330,15 +337,7 @@ async function getAppToken() {
 }
 
 // --- eBay Browse Search ---
-async function ebayBrowseSearch({
-  token,
-  marketplaceId,
-  q,
-  categoryId,
-  limit,
-  offset,
-  aspectFilter,
-}) {
+async function ebayBrowseSearch({ token, marketplaceId, q, categoryId, limit, offset, aspectFilter }) {
   const url = new URL("https://api.ebay.com/buy/browse/v1/item_summary/search");
   url.searchParams.set("q", q);
   url.searchParams.set("limit", String(limit));
@@ -348,9 +347,7 @@ async function ebayBrowseSearch({
   // Buy It Now only (exclude auctions)
   url.searchParams.append("filter", "buyingOptions:{FIXED_PRICE}");
 
-  if (aspectFilter) {
-    url.searchParams.set("aspect_filter", aspectFilter);
-  }
+  if (aspectFilter) url.searchParams.set("aspect_filter", aspectFilter);
 
   const res = await fetch(url.toString(), {
     headers: {
@@ -435,20 +432,15 @@ async function validateSportMatch({ token, marketplaceId, name, sport }) {
 }
 
 // --- computations ---
-async function computeAvgActiveListing({
-  token,
-  marketplaceId,
-  name,
-  sport,
-  aspectMode,
-  aspectValue,
-  fxRates,
-}) {
+async function computeAvgActiveListing({ token, marketplaceId, name, sport, aspectMode, aspectValue, fxRates }) {
   const q = buildQuery(name, sport);
   const aspectFilter = buildAspectFilter({ aspectMode, aspectValue });
 
   let offset = 0;
   const pricesUSD = [];
+
+  // NEW: track days on market for the same included items
+  const daysOnMarket = [];
 
   let originalCurrency = null;
   let fxRateUsed = null;
@@ -479,6 +471,11 @@ async function computeAvgActiveListing({
 
       pricesUSD.push(usd);
       fxRateUsed = fxRateUsed || rateUsed;
+
+      // NEW: itemCreationDate -> days on market (only for items we kept)
+      const created = it?.itemCreationDate || it?.itemCreationDate?.value || null;
+      const d = created ? daysSince(created) : null;
+      if (d != null) daysOnMarket.push(d);
     }
 
     if (items.length < PAGE_SIZE) break;
@@ -487,14 +484,17 @@ async function computeAvgActiveListing({
   }
 
   const taguchiListing = taguchiTrimmedMean(pricesUSD, TAGUCHI_TRIM_PCT);
-
-  // ✅ NEW: compute stability CV on the SAME winsorized sample
   const marketStabilityCV = taguchiCV(pricesUSD, TAGUCHI_TRIM_PCT);
+
+  // NEW: average days on market
+  const avgDaysOnMarket = avg(daysOnMarket);
 
   return {
     avgListing: taguchiListing, // stable field name for frontend
     taguchiListing,
-    marketStabilityCV, // ✅ NEW
+    marketStabilityCV,
+    avgDaysOnMarket, // ✅ NEW
+    nDaysOnMarket: daysOnMarket.length, // ✅ NEW (how many listings had a usable creation date)
     nListing: pricesUSD.length,
     currency: "USD",
     originalCurrency: originalCurrency || null,
@@ -533,7 +533,9 @@ async function main() {
       minSampleSize: MIN_EBAY_SAMPLE_SIZE,
       marketplaces: MARKETPLACES,
       categoryId: CATEGORY_ID,
-      note: "Active listing TAGUCHI trimmed mean (winsorized mean, 10%) (Browse API FIXED_PRICE). No sold data. Prices normalized to USD. Includes market stability CV (sd/mean).",
+      note:
+        `Active listing robust mean (Browse API FIXED_PRICE). No sold data. ` +
+        `Prices normalized to USD. Includes market stability CV (sd/mean) and avg days-on-market.`,
       fx: {
         source: "CBSA Exchange Rates API",
         asOf: fx.asOf,
@@ -545,7 +547,17 @@ async function main() {
       },
       manufacturers: MANUFACTURERS,
       listingStat: { method: "taguchi_winsorized_mean", trimPercent: TAGUCHI_TRIM_PCT },
-      stabilityStat: { method: "cv", formula: "sd/mean", sample: "winsorized", trimPercent: TAGUCHI_TRIM_PCT },
+      stabilityStat: {
+        method: "cv",
+        formula: "sd/mean",
+        sample: "winsorized",
+        trimPercent: TAGUCHI_TRIM_PCT,
+      },
+      daysOnMarketStat: {
+        method: "mean_days_since_itemCreationDate",
+        field: "itemCreationDate",
+        note: "Computed only on included listings with a valid itemCreationDate.",
+      },
     },
   };
 
@@ -585,7 +597,9 @@ async function main() {
       n: 0,
       avgListing: null,
       taguchiListing: null,
-      marketStabilityCV: null, // ✅ NEW
+      marketStabilityCV: null,
+      avgDaysOnMarket: null, // ✅ NEW
+      nDaysOnMarket: 0, // ✅ NEW
       nListing: 0,
       currency: "USD",
     };
@@ -608,7 +622,9 @@ async function main() {
 
           avgListing: listing.avgListing,
           taguchiListing: listing.taguchiListing,
-          marketStabilityCV: listing.marketStabilityCV, // ✅ NEW
+          marketStabilityCV: listing.marketStabilityCV,
+          avgDaysOnMarket: listing.avgDaysOnMarket, // ✅ NEW
+          nDaysOnMarket: listing.nDaysOnMarket, // ✅ NEW
           nListing: listing.nListing,
           currency: listing.currency,
 
@@ -631,11 +647,13 @@ async function main() {
 
     rec.taguchiListing = pick?.taguchiListing ?? null;
     rec.avgListing = pick?.avgListing ?? null;
-    rec.marketStabilityCV = pick?.marketStabilityCV ?? null; // ✅ NEW
+    rec.marketStabilityCV = pick?.marketStabilityCV ?? null;
+    rec.avgDaysOnMarket = pick?.avgDaysOnMarket ?? null; // ✅ NEW
+    rec.nDaysOnMarket = pick?.nDaysOnMarket ?? 0; // ✅ NEW
     rec.nListing = pick?.nListing ?? 0;
     rec.currency = "USD";
 
-    // Backward-compatible fields (so your UI can read rec.avg / rec.n)
+    // Backward-compatible fields
     rec.avg = rec.avgListing;
     rec.n = rec.nListing;
 
