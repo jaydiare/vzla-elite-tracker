@@ -20,10 +20,14 @@
 // Notes:
 // - Includes graded + listings under $1 (no price floor).
 // - Category used: Trading Card Singles (261328) - keep or change as needed.
-// - NEW: Normalizes listing prices to USD using CBSA Exchange Rates API as a base.
+// - Normalizes listing prices to USD using CBSA Exchange Rates API as a base.
 //        (CBSA returns CAD per 1 unit; we convert that to USD-per-currency.)
-// - NEW: Adds Manufacturer aspect filter to focus on major sports card makers.
-// - NEW: Uses TAGUCHI trimmed mean (winsorized mean, 10%) for listing prices.
+// - Adds Manufacturer aspect filter to focus on major sports card makers.
+// - Uses TAGUCHI trimmed mean (winsorized mean, 10%) for listing prices.
+// - NEW: Adds market stability CV (Coefficient of Variation) on the SAME winsorized sample:
+//        CV = s / mean  (lower CV => more stable)
+
+// -------------------------------
 
 import fs from "node:fs";
 import path from "node:path";
@@ -59,8 +63,11 @@ const MIN_EBAY_SAMPLE_SIZE = 4;
 // Marketplaces to compute
 const MARKETPLACES = ["EBAY_US", "EBAY_CA"];
 
-// NEW: restrict to major manufacturers (sports card makers)
+// restrict to major manufacturers (sports card makers)
 const MANUFACTURERS = ["Topps", "Panini", "Upper Deck", "Leaf", "Topps NOW"];
+
+// Taguchi caps
+const TAGUCHI_TRIM_PCT = 0.1;
 
 // --- helpers ---
 function sleep(ms) {
@@ -106,15 +113,26 @@ function median(values) {
   return sorted.length % 2 ? sorted[mid] : (sorted[mid - 1] + sorted[mid]) / 2;
 }
 
-// ✅ NEW: Taguchi "trimmed mean" (winsorized mean).
+// Sample standard deviation
+function stdev(values) {
+  if (!values || values.length < 2) return null;
+  const m = avg(values);
+  if (m == null) return null;
+  let s = 0;
+  for (const v of values) s += (v - m) * (v - m);
+  const varSample = s / (values.length - 1);
+  const sd = Math.sqrt(varSample);
+  return Number.isFinite(sd) ? sd : null;
+}
+
+// Taguchi "trimmed mean" (winsorized mean).
 // trimPercent = 0.10 means cap bottom 10% and top 10%, then average.
 // If sample too small to winsorize, fallback to median.
-function taguchiTrimmedMean(values, trimPercent = 0.1) {
+function taguchiTrimmedMean(values, trimPercent = TAGUCHI_TRIM_PCT) {
   if (!values || !values.length) return null;
 
   const sorted = [...values].sort((a, b) => a - b);
   const n = sorted.length;
-
   const k = Math.floor(n * trimPercent);
 
   // Too small to cap meaningfully
@@ -132,6 +150,45 @@ function taguchiTrimmedMean(values, trimPercent = 0.1) {
   return sum / n;
 }
 
+// ✅ NEW: Taguchi winsorized sample (same caps) for stability CV
+function taguchiWinsorizedSample(values, trimPercent = TAGUCHI_TRIM_PCT) {
+  if (!values || !values.length) return [];
+
+  const sorted = [...values].sort((a, b) => a - b);
+  const n = sorted.length;
+  const k = Math.floor(n * trimPercent);
+
+  // Too small to cap meaningfully => return sorted (caller can fallback)
+  if (n < 3 || k === 0 || n <= 2 * k) return sorted;
+
+  const lowCap = sorted[k];
+  const highCap = sorted[n - k - 1];
+
+  return sorted.map((v) => (v < lowCap ? lowCap : v > highCap ? highCap : v));
+}
+
+// ✅ NEW: Market Stability CV (Coefficient of Variation) on winsorized sample
+// CV = s / mean  (lower is more stable)
+function taguchiCV(values, trimPercent = TAGUCHI_TRIM_PCT) {
+  if (!values || values.length < 3) return null;
+
+  const wins = taguchiWinsorizedSample(values, trimPercent);
+
+  // If still tiny, CV isn’t meaningful
+  if (!wins || wins.length < 3) return null;
+
+  const m = avg(wins);
+  const sd = stdev(wins);
+
+  if (m == null || sd == null) return null;
+  if (!Number.isFinite(m) || !Number.isFinite(sd)) return null;
+
+  // avoid divide-by-0 or negative mean
+  if (m <= 0) return null;
+
+  return sd / m; // ratio (e.g. 0.12 => 12%)
+}
+
 function getHeaderMarketplace(marketplaceId) {
   return { "X-EBAY-C-MARKETPLACE-ID": marketplaceId };
 }
@@ -143,7 +200,6 @@ function buildQuery(name, sport) {
 }
 
 // Map your sports to likely eBay "Sport" aspect values in Trading Card Singles.
-// (We try multiple candidates for safety.)
 function sportAspectCandidates(sportRaw) {
   const s = (sportRaw || "").toLowerCase().trim();
 
@@ -163,7 +219,7 @@ function sportAspectCandidates(sportRaw) {
   return map[s] || [sportRaw];
 }
 
-// NEW: build a combined eBay aspect_filter including Manufacturer
+// Build a combined eBay aspect_filter including Manufacturer
 function buildAspectFilter({ aspectMode, aspectValue }) {
   const parts = [];
 
@@ -183,12 +239,9 @@ function buildAspectFilter({ aspectMode, aspectValue }) {
 }
 
 // --- FX (Normalize ANY currency -> USD) ---
-// CBSA Exchange Rates API (rates are CAD per 1 unit of foreign currency)
 const CBSA_FX_URL =
   "https://bcd-api-dca-ipa.cbsa-asfc.cloud-nuage.canada.ca/exchange-rate-lambda/exchange-rates";
 
-// Returns rates as "USD per 1 unit of currency":
-// { USD: 1, CAD: <usd_per_cad>, EUR: <usd_per_eur>, ... }
 async function getFxRatesToUSD() {
   const res = await fetch(CBSA_FX_URL, {
     headers: { "Content-Type": "application/json" },
@@ -202,7 +255,6 @@ async function getFxRatesToUSD() {
   const json = await res.json();
   const rows = json?.ForeignExchangeRates || json?.foreignExchangeRates || [];
 
-  // Build CAD per 1 unit first
   const cadPer = { CAD: 1 };
   let asOf = null;
 
@@ -227,8 +279,7 @@ async function getFxRatesToUSD() {
     throw new Error("CBSA FX: missing/invalid USD->CAD rate (needed to normalize to USD).");
   }
 
-  // Convert CAD-per to USD-per using:
-  // usdPer[cur] = cadPer[cur] / cadPer[USD]
+  // Convert CAD-per to USD-per using: usdPer[cur] = cadPer[cur] / cadPer[USD]
   const usdPer = { USD: 1 };
 
   for (const [cur, cadPerCur] of Object.entries(cadPer)) {
@@ -264,7 +315,6 @@ async function getAppToken() {
     },
     body: new URLSearchParams({
       grant_type: "client_credentials",
-      // Browse API only (no marketplace insights scope)
       scope: "https://api.ebay.com/oauth/api_scope",
     }),
   });
@@ -299,7 +349,6 @@ async function ebayBrowseSearch({
   url.searchParams.append("filter", "buyingOptions:{FIXED_PRICE}");
 
   if (aspectFilter) {
-    // aspect_filter format: "Player/Athlete:{Jose Altuve},Manufacturer:{Topps|Panini|Upper Deck}"
     url.searchParams.set("aspect_filter", aspectFilter);
   }
 
@@ -320,7 +369,6 @@ async function ebayBrowseSearch({
 }
 
 // --- Matching / Validation ---
-
 function candidateAspectValuesForName(name) {
   const raw = normSpaces(name);
 
@@ -332,7 +380,6 @@ function candidateAspectValuesForName(name) {
   const noJrAscii = ascii.replace(/\s+Jr\.?$/i, "").trim();
 
   const variants = new Set([raw, ascii, noDotsRaw, noDotsAscii, noJrRaw, noJrAscii]);
-
   return [...variants].map(normSpaces).filter(Boolean);
 }
 
@@ -366,8 +413,8 @@ async function validateSportMatch({ token, marketplaceId, name, sport }) {
 
   for (const s of candidates) {
     if (!s) continue;
-    const aspectFilter = `Sport:{${s}}`;
 
+    const aspectFilter = `Sport:{${s}}`;
     const data = await ebayBrowseSearch({
       token,
       marketplaceId,
@@ -388,7 +435,6 @@ async function validateSportMatch({ token, marketplaceId, name, sport }) {
 }
 
 // --- computations ---
-
 async function computeAvgActiveListing({
   token,
   marketplaceId,
@@ -440,13 +486,15 @@ async function computeAvgActiveListing({
     await sleep(120);
   }
 
-  // ✅ CHANGE: Taguchi trimmed mean (winsorized mean), 10% caps
-  const taguchiListing = taguchiTrimmedMean(pricesUSD, 0.1);
+  const taguchiListing = taguchiTrimmedMean(pricesUSD, TAGUCHI_TRIM_PCT);
+
+  // ✅ NEW: compute stability CV on the SAME winsorized sample
+  const marketStabilityCV = taguchiCV(pricesUSD, TAGUCHI_TRIM_PCT);
 
   return {
-    // keep field names stable for your frontend: avgListing now represents Taguchi robust mean
-    avgListing: taguchiListing,
-    taguchiListing, // explicit
+    avgListing: taguchiListing, // stable field name for frontend
+    taguchiListing,
+    marketStabilityCV, // ✅ NEW
     nListing: pricesUSD.length,
     currency: "USD",
     originalCurrency: originalCurrency || null,
@@ -485,7 +533,7 @@ async function main() {
       minSampleSize: MIN_EBAY_SAMPLE_SIZE,
       marketplaces: MARKETPLACES,
       categoryId: CATEGORY_ID,
-      note: "Active listing TAGUCHI trimmed mean (winsorized mean, 10%) (Browse API FIXED_PRICE). No sold data. Prices normalized to USD.",
+      note: "Active listing TAGUCHI trimmed mean (winsorized mean, 10%) (Browse API FIXED_PRICE). No sold data. Prices normalized to USD. Includes market stability CV (sd/mean).",
       fx: {
         source: "CBSA Exchange Rates API",
         asOf: fx.asOf,
@@ -496,7 +544,8 @@ async function main() {
         },
       },
       manufacturers: MANUFACTURERS,
-      listingStat: { method: "taguchi_winsorized_mean", trimPercent: 0.1 },
+      listingStat: { method: "taguchi_winsorized_mean", trimPercent: TAGUCHI_TRIM_PCT },
+      stabilityStat: { method: "cv", formula: "sd/mean", sample: "winsorized", trimPercent: TAGUCHI_TRIM_PCT },
     },
   };
 
@@ -536,6 +585,7 @@ async function main() {
       n: 0,
       avgListing: null,
       taguchiListing: null,
+      marketStabilityCV: null, // ✅ NEW
       nListing: 0,
       currency: "USD",
     };
@@ -556,9 +606,9 @@ async function main() {
           aspectMode: match.mode,
           aspectValue: match.value,
 
-          // USD-normalized (avgListing now Taguchi winsorized mean)
           avgListing: listing.avgListing,
           taguchiListing: listing.taguchiListing,
+          marketStabilityCV: listing.marketStabilityCV, // ✅ NEW
           nListing: listing.nListing,
           currency: listing.currency,
 
@@ -580,12 +630,13 @@ async function main() {
       us;
 
     rec.taguchiListing = pick?.taguchiListing ?? null;
-    rec.avgListing = pick?.avgListing ?? null; // same value (Taguchi)
+    rec.avgListing = pick?.avgListing ?? null;
+    rec.marketStabilityCV = pick?.marketStabilityCV ?? null; // ✅ NEW
     rec.nListing = pick?.nListing ?? 0;
     rec.currency = "USD";
 
     // Backward-compatible fields (so your UI can read rec.avg / rec.n)
-    rec.avg = rec.avgListing; // now Taguchi winsorized mean
+    rec.avg = rec.avgListing;
     rec.n = rec.nListing;
 
     out[name] = rec;
