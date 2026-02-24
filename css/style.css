@@ -1036,6 +1036,12 @@ details.mobile-dd summary::-webkit-details-marker{ display:none; }
 }
 
 .vzla-nav{
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10050;
+
   background:
     linear-gradient(
       90deg,
@@ -1074,4 +1080,8 @@ details.mobile-dd summary::-webkit-details-marker{ display:none; }
   -webkit-text-fill-color: transparent;
   background-clip: text;
   color: transparent;
+}
+/* Prevent content from hiding under fixed nav */
+body{
+  padding-top: 96px; /* adjust if needed */
 }
