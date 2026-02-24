@@ -1081,6 +1081,26 @@ details.mobile-dd summary::-webkit-details-marker{ display:none; }
   background-clip: text;
   color: transparent;
 }
+
+.athlete-card__stability {
+  margin-top: 8px;
+  font-size: 0.9rem;
+  opacity: 0.9;
+}
+
+.athlete-card__stability-pill {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.08);
+  margin-left: 6px;
+  font-weight: 600;
+}
+
+.athlete-card__stability-pct {
+  margin-left: 6px;
+  opacity: 0.75;
+}
 /* Prevent content from hiding under fixed nav */
 body{
   padding-top: 96px; /* adjust if needed */
