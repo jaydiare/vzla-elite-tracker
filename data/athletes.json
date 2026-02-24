@@ -6,12 +6,15 @@
   { "name": "Pablo Sandoval", "sport": "Baseball", "league": "MLB", "team": "Giants", "provider": "manual" },
   { "name": "Manny Trillo", "sport": "Baseball", "league": "MLB", "team": "Reds", "provider": "manual" },
   { "name": "Maglio Ordoñez", "sport": "Baseball", "league": "MLB", "team": "Tigers", "provider": "manual" },
-  
+  { "name": "Ethan Salas", "sport": "Baseball", "league": "MLB", "team": "Padres", "provider": "manual" },
+  { "name": "Maglio Ordoñez", "sport": "Baseball", "league": "MLB", "team": "Tigers", "provider": "manual" },
   { "name": "Luis Salazar", "sport": "Baseball", "league": "MLB", "team": "Cubs", "provider": "manual" },
-  { "name": "Ugeth Urbina", "sport": "Baseball", "league": "MLB", "team": "Marlins", "provider": "manual" },
+  { "name": "Ugueth Urbina", "sport": "Baseball", "league": "MLB", "team": "Marlins", "provider": "manual" },
   { "name": "Melvin Mora", "sport": "Baseball", "league": "MLB", "team": "Orioles", "provider": "manual" },
   { "name": "Roger Cedeño", "sport": "Baseball", "league": "MLB", "team": "Dodgers", "provider": "manual" },
-
+  
+  { "name": "Álex González", "sport": "Baseball", "league": "MLB", "team": "Tigers", "provider": "manual" },
+  { "name": "Willians Astudillo", "sport": "Baseball", "league": "MLB", "team": "Miami", "provider": "manual" },
   { "name": "Asdrúbal Cabrera", "sport": "Baseball", "league": "MLB", "team": "Reds", "provider": "manual" },
   { "name": "Edgardo Alfonso", "sport": "Baseball", "league": "MLB", "team": "Mets", "provider": "manual" },
   { "name": "Carlos Zambrano", "sport": "Baseball", "league": "MLB", "team": "Cubs", "provider": "manual" },
