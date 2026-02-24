@@ -22,7 +22,7 @@
 // - Category used: Trading Card Singles (261328) - keep or change as needed.
 // - Normalizes listing prices to USD using CBSA Exchange Rates API as a base.
 // - Adds Manufacturer aspect filter to focus on major sports card makers.
-// - Uses TAGUCHI trimmed mean (winsorized mean, 10%) for listing prices.
+// - Uses TAGUCHI trimmed mean (winsorized mean, X%) for listing prices.
 // - Adds market stability CV (Coefficient of Variation) on the SAME winsorized sample:
 //        CV = s / mean  (lower CV => more stable)
 //
@@ -30,6 +30,10 @@
 // - Ungraded listings must be Card Condition: Near Mint or Better OR Excellent only
 // - Excludes damaged/low-condition ungraded listings using descriptors if present,
 //   otherwise falls back to title-based detection.
+//
+// NEW (this change):
+// - Adds average days on market for ACTIVE listings (avg age in days since listing created).
+//   This is NOT "time to sell" — it's "how long current listings have been live".
 
 import fs from "node:fs";
 import path from "node:path";
@@ -56,7 +60,7 @@ const ATHLETES_PATH = path.join(__dirname, "..", "data", "athletes.json");
 const CATEGORY_ID = "261328";
 
 // Listing sampling
-const LISTING_PAGE_LIMIT = 60; // max active listings to average per marketplace
+const LISTING_PAGE_LIMIT = 60; // max active listings to sample per marketplace
 const PAGE_SIZE = 60;
 
 // Your UI threshold
@@ -68,11 +72,11 @@ const MARKETPLACES = ["EBAY_US", "EBAY_CA"];
 // restrict to major manufacturers (sports card makers)
 const MANUFACTURERS = ["Topps", "Panini", "Upper Deck", "Leaf", "Topps NOW"];
 
-// Taguchi caps
+// Taguchi caps (winsorization %)
 const TAGUCHI_TRIM_PCT = 0.4;
 
 // --------------------
-// ✅ NEW: UNGRADED condition policy
+// ✅ UNGRADED condition policy
 // --------------------
 const UNGRADED_ALLOWED_CONDITIONS = [
   "near mint or better",
@@ -226,7 +230,7 @@ function taguchiCV(values, trimPercent = TAGUCHI_TRIM_PCT) {
   return sd / m;
 }
 
-// ✅ NEW: string utilities for ungraded condition policy
+// ✅ string utilities for ungraded condition policy
 function normText(s) {
   return String(s || "")
     .toLowerCase()
@@ -240,11 +244,9 @@ function includesAny(text, arr) {
 }
 
 // Try to read condition descriptor names from multiple possible shapes.
-// (eBay responses differ across endpoints; this is defensive.)
 function extractConditionDescriptorTexts(item) {
   const out = [];
 
-  // Possible: item.conditionDescriptors: [{ name }, { descriptorName }, ...]
   const cds = item?.conditionDescriptors;
   if (Array.isArray(cds)) {
     for (const d of cds) {
@@ -256,7 +258,6 @@ function extractConditionDescriptorTexts(item) {
     }
   }
 
-  // Possible: item.conditionDescriptorValues or similar
   const cdv = item?.conditionDescriptorValues;
   if (Array.isArray(cdv)) {
     for (const d of cdv) {
@@ -271,39 +272,63 @@ function extractConditionDescriptorTexts(item) {
   return out.filter(Boolean).map(normText);
 }
 
-// ✅ NEW: decide if listing should be included when it's UNGRADED
+// ✅ decide if listing should be included when it's UNGRADED
 function ungradedPassesConditionPolicy(item) {
   const title = normText(item?.title || "");
   const cond = normText(item?.condition || "");
   const descs = extractConditionDescriptorTexts(item);
 
-  // hard reject if any blocked terms appear in descriptor/title/condition
   const joined = [title, cond, ...descs].join(" | ");
+
+  // reject damaged/low-grade hints
   if (includesAny(joined, UNGRADED_BLOCKLIST)) return false;
 
-  // accept if allowed condition appears in descriptor/condition/title
+  // accept only near mint/excellent hints
   if (includesAny(joined, UNGRADED_ALLOWED_CONDITIONS)) return true;
 
-  // If we can't detect condition clearly, reject (better to be strict than include damaged)
+  // unknown condition => reject (strict)
   return false;
 }
 
-// --------------------
-// NOTE: You said you're already filtering graded vs not graded.
-// Here we only plug in the stricter condition rule *for ungraded*
-// without changing your graded logic.
-// --------------------
+// You said you already filter graded vs not graded.
+// This keeps a compatible “graded” detector so the ungraded policy only applies when false.
 function isGradedListing(item) {
-  // Keep this simple & compatible:
-  // - if your existing code already detects graded, you can replace this with your method.
   const cond = normText(item?.condition || "");
   const title = normText(item?.title || "");
 
   if (cond.includes("graded")) return true;
 
-  // common grading keywords as fallback (won't block ungraded rule because it only runs when false)
-  const graderHints = ["psa", "bgs", "sgc", "cgc", "beckett", "gem mint", "gm mt", "10", "9.5"];
+  const graderHints = ["psa", "bgs", "sgc", "cgc", "beckett", "gem mint", "gm mt", "9.5", "10"];
   return graderHints.some((k) => title.includes(k));
+}
+
+// ✅ NEW: listing “age” (days on market) for ACTIVE listings
+function extractListingStartISO(item) {
+  // eBay Browse API commonly provides itemCreationDate for listing creation time.
+  // We also check a few defensive alternatives.
+  return (
+    item?.itemCreationDate ||
+    item?.listingStartDate ||
+    item?.startDate ||
+    item?.creationDate ||
+    null
+  );
+}
+
+function daysSince(isoString) {
+  const t = Date.parse(isoString || "");
+  if (!Number.isFinite(t)) return null;
+
+  const now = Date.now();
+  let diff = (now - t) / (1000 * 60 * 60 * 24);
+
+  if (!Number.isFinite(diff)) return null;
+  if (diff < 0) diff = 0;
+
+  // sanity cap (optional): ignore absurd ages
+  if (diff > 3650) return null;
+
+  return diff;
 }
 
 function getHeaderMarketplace(marketplaceId) {
@@ -316,6 +341,7 @@ function buildQuery(name, sport) {
   return `${name}${sportHint} card`;
 }
 
+// Map your sports to likely eBay "Sport" aspect values in Trading Card Singles.
 function sportAspectCandidates(sportRaw) {
   const s = (sportRaw || "").toLowerCase().trim();
 
@@ -335,6 +361,7 @@ function sportAspectCandidates(sportRaw) {
   return map[s] || [sportRaw];
 }
 
+// Build a combined eBay aspect_filter including Manufacturer
 function buildAspectFilter({ aspectMode, aspectValue }) {
   const parts = [];
 
@@ -559,7 +586,10 @@ async function computeAvgActiveListing({
   const aspectFilter = buildAspectFilter({ aspectMode, aspectValue });
 
   let offset = 0;
+
+  // included samples
   const pricesUSD = [];
+  const daysOnMarket = [];
 
   let originalCurrency = null;
   let fxRateUsed = null;
@@ -578,12 +608,8 @@ async function computeAvgActiveListing({
     const items = data?.itemSummaries || [];
 
     for (const it of items) {
-      // -----------------------------
-      // ✅ NEW: enforce ungraded policy
-      // -----------------------------
+      // ✅ enforce ungraded policy
       const graded = isGradedListing(it);
-
-      // If NOT graded, only allow Near Mint or Better OR Excellent (and block damaged)
       if (!graded) {
         const okUngraded = ungradedPassesConditionPolicy(it);
         if (!okUngraded) continue;
@@ -599,7 +625,14 @@ async function computeAvgActiveListing({
       const { usd, rateUsed } = convertToUSD(v, cur, fxRates);
       if (usd == null) continue;
 
+      // ✅ days on market (active listing age)
+      const iso = extractListingStartISO(it);
+      const d = daysSince(iso);
+
+      // price gets included regardless; days are included only if date parse works
       pricesUSD.push(usd);
+      if (d != null) daysOnMarket.push(d);
+
       fxRateUsed = fxRateUsed || rateUsed;
     }
 
@@ -611,11 +644,16 @@ async function computeAvgActiveListing({
   const taguchiListing = taguchiTrimmedMean(pricesUSD, TAGUCHI_TRIM_PCT);
   const marketStabilityCV = taguchiCV(pricesUSD, TAGUCHI_TRIM_PCT);
 
+  // average days on market for the included listings that had a valid start date
+  const avgDaysOnMarket = avg(daysOnMarket);
+
   return {
     avgListing: taguchiListing,
     taguchiListing,
     marketStabilityCV,
+    avgDaysOnMarket, // ✅ NEW
     nListing: pricesUSD.length,
+    nDaysOnMarket: daysOnMarket.length, // debug/transparency
     currency: "USD",
     originalCurrency: originalCurrency || null,
     fxRateUsed: fxRateUsed || null,
@@ -654,7 +692,7 @@ async function main() {
       marketplaces: MARKETPLACES,
       categoryId: CATEGORY_ID,
       note:
-        "Active listing robust mean (Browse API FIXED_PRICE). No sold data. Prices normalized to USD. Includes market stability CV (sd/mean). Ungraded listings restricted to Near Mint or Better / Excellent (damaged excluded).",
+        "Active listing robust mean (Browse API FIXED_PRICE). No sold data. Prices normalized to USD. Includes market stability CV (sd/mean). Ungraded restricted to Near Mint or Better / Excellent (damaged excluded). Includes avg days-on-market for active listings (listing age).",
       fx: {
         source: "CBSA Exchange Rates API",
         asOf: fx.asOf,
@@ -675,6 +713,10 @@ async function main() {
       ungradedPolicy: {
         allow: ["Near Mint or Better", "Excellent"],
         blocklist: "damaged/low-condition keywords",
+      },
+      daysOnMarket: {
+        meaning: "Average age of ACTIVE listings (not time-to-sell).",
+        field: "avgDaysOnMarket",
       },
     },
   };
@@ -716,6 +758,7 @@ async function main() {
       avgListing: null,
       taguchiListing: null,
       marketStabilityCV: null,
+      avgDaysOnMarket: null, // ✅ NEW
       nListing: 0,
       currency: "USD",
     };
@@ -739,7 +782,9 @@ async function main() {
           avgListing: listing.avgListing,
           taguchiListing: listing.taguchiListing,
           marketStabilityCV: listing.marketStabilityCV,
+          avgDaysOnMarket: listing.avgDaysOnMarket, // ✅ NEW
           nListing: listing.nListing,
+          nDaysOnMarket: listing.nDaysOnMarket, // debug
           currency: listing.currency,
 
           originalCurrency: listing.originalCurrency,
@@ -762,6 +807,7 @@ async function main() {
     rec.taguchiListing = pick?.taguchiListing ?? null;
     rec.avgListing = pick?.avgListing ?? null;
     rec.marketStabilityCV = pick?.marketStabilityCV ?? null;
+    rec.avgDaysOnMarket = pick?.avgDaysOnMarket ?? null; // ✅ NEW
     rec.nListing = pick?.nListing ?? 0;
     rec.currency = "USD";
 
