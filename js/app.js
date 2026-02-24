@@ -206,6 +206,25 @@ function getEbayAvgFor(athlete) {
   return ebayAvgByKey[key] || ebayAvgByName[athlete.name] || null;
 }
 
+function getMarketStabilityCV(athlete) {
+  const rec = getEbayAvgFor(athlete);
+  const v = rec?.marketStabilityCV ?? null;
+
+  const n = Number(v);
+  return Number.isFinite(n) && n >= 0 ? n : null; // ratio like 0.12
+}
+
+function marketStabilityScoreFromCV(cv) {
+  if (cv == null) return { label: "—", pctText: "—" };
+
+  const pct = cv * 100; // 0.12 -> 12%
+  const pctText = `${pct.toFixed(0)}%`;
+
+  if (pct < 10) return { label: "Stable", pctText };
+  if (pct < 20) return { label: "Active", pctText };
+  return { label: "Volatile", pctText };
+}
+
 // NEW: one canonical way to get the numeric price for filtering/sorting
 function getEbayAvgNumber(athlete) {
   const avg = getEbayAvgFor(athlete);
@@ -316,6 +335,11 @@ function renderAthleteCard(a) {
 
       <div class="athlete-card__value">${money}</div>
       <div class="athlete-card__label">eBay Avg. listing Price</div>
+      <div class="athlete-card__stability">
+  Market Stability Score:
+  <span class="athlete-card__stability-pill">${stability.label}</span>
+  <span class="athlete-card__stability-pct">(${stability.pctText})</span>
+</div>
        <div class="vzla-search-count">*prices may vary*</div>
 
       <a href="${shopUrl}" target="_blank" class="athlete-card__cta">
