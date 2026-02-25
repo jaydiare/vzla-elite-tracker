@@ -1248,3 +1248,30 @@ body.hero-collapsed #vzla-hero{
 .hero-sub::after{
   pointer-events: none;
 }
+
+/* 1) Never let hero decorative layers block clicks */
+.hero-panel::before,
+.hero-panel::after,
+.hero-sub::before,
+.hero-sub::after,
+.vzla-nav::before,
+.vzla-nav::after{
+  pointer-events: none !important;
+}
+
+/* 2) Make sure filters row is above any hero stacking context */
+.vzla-controls-row{
+  position: relative;
+  z-index: 5;
+}
+
+/* 3) And keep index cards normal */
+.vzla-index-row{
+  position: relative;
+  z-index: 1;
+}
+
+/* 4) When hero collapses, it must stop capturing taps */
+body.hero-collapsed #vzla-hero{
+  pointer-events: none;
+}
