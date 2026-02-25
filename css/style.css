@@ -511,22 +511,25 @@ details.mobile-dd summary::-webkit-details-marker{ display:none; }
 
 .hero-sub{
   position: relative;
+  isolation: isolate;        /* prevents weird stacking artifacts */
   overflow: hidden;
   border-radius: 18px;
+
   padding: 22px 26px;
   max-width: 820px;
   margin: 18px auto 0;
 
-  /* REMOVE old background */
   background: transparent;
+  color: rgba(255,255,255,0.92);
+  line-height: 1.55;
 }
 
-/* 🇻🇪 Same gradient as nav */
+/* 🇻🇪 gradient BEHIND text */
 .hero-sub::before{
   content:"";
   position:absolute;
   inset:0;
-  z-index:0;
+  z-index:-2;                /* key: behind content */
 
   background: linear-gradient(
     90deg,
@@ -536,21 +539,17 @@ details.mobile-dd summary::-webkit-details-marker{ display:none; }
   );
 }
 
-/* dark overlay for readability */
+/* dark glass overlay BEHIND text (still behind content) */
 .hero-sub::after{
   content:"";
   position:absolute;
   inset:0;
-  z-index:0;
-  background: rgba(0,0,0,0.65);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-}
+  z-index:-1;                /* key: behind content */
 
-/* keep text above gradient */
-.hero-sub > *{
-  position: relative;
-  z-index: 2;
+  background: rgba(0,0,0,0.60);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255,255,255,0.06);
 }
 
 @media (max-width:768px){
