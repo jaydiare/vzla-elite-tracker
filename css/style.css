@@ -1167,3 +1167,31 @@ body.hero-collapsed #vzla-hero{
   background-clip: text;
   color: transparent;
 }
+
+.vzla-loadmore-wrap{
+  display:flex;
+  justify-content:center;
+  margin: 18px 0 6px;
+}
+
+.vzla-loadmore-btn{
+  height: 44px;
+  padding: 0 18px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.06);
+  color: rgba(255,255,255,0.9);
+  cursor: pointer;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: background .15s ease, border-color .15s ease, transform .05s ease;
+}
+
+.vzla-loadmore-btn:hover{
+  background: rgba(255,255,255,0.10);
+  border-color: rgba(255,255,255,0.18);
+}
+
+.vzla-loadmore-btn:active{
+  transform: translateY(1px);
+}
