@@ -1248,9 +1248,3 @@ body.hero-collapsed #vzla-hero{
 .hero-sub::after{
   pointer-events: none;
 }
-
-/* OPTIONAL: explicitly keep index cards above anything weird */
-.vzla-index-row{
-  position: relative;
-  z-index: 1;
-}
