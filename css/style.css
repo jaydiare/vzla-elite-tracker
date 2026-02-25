@@ -27,6 +27,12 @@ h1, h2, .vzla-hero-title {
   letter-spacing: -0.01em;
 }
 
+/* tiny overlap so the gradient looks continuous */
+.vzla-hero{
+  position: relative;
+  top: -1px;              /* removes 1px seam */
+}
+
 /* =========================
    Index cards row (like CardHedge)
    ========================= */
@@ -1129,7 +1135,7 @@ details.mobile-dd summary::-webkit-details-marker{ display:none; }
   position: sticky;
   top: 0;
   z-index: 999;
-  border-bottom: none !important;
+  border-bottom: 0 !important;
 
   /* IMPORTANT: allow pseudo bg and keep blur */
   position: sticky;
@@ -1140,6 +1146,8 @@ details.mobile-dd summary::-webkit-details-marker{ display:none; }
   /* needed for ::before */
   position: sticky;
   overflow: hidden;
+
+  box-shadow: none !important;
 }
 
 .vzla-nav::before{
