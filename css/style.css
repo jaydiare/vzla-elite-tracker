@@ -825,9 +825,17 @@ body.hero-collapsed #vzla-hero{
 }
 
 @media (max-width: 980px){
-  .vzla-controls-row{ grid-template-columns: 1fr; }
-  .vzla-filters{ justify-content: flex-start; flex-wrap: wrap; }
-  .vzla-filter{ min-width: 180px; flex: 1 1 180px; }
+  .vzla-controls-row{
+    grid-template-columns: 1fr;
+  }
+  .vzla-filters{
+    justify-content: flex-start;
+    flex-wrap: wrap;
+  }
+  .vzla-filter{
+    min-width: 180px;
+    flex: 1 1 180px;
+  }
 }
 
 /* =========================
