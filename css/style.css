@@ -1229,7 +1229,6 @@ body.hero-collapsed #vzla-hero{
 .vzla-search-wrap,
 .vzla-filters{
   position: relative;
-  z-index: 10;
 }
 
 /* 3) Mobile: filters should be controllable (scrollable row, not squished / blocked) */
