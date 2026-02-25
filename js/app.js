@@ -463,8 +463,14 @@ function renderGrid(list) {
     }
   }
 
+
   grid.className = "vzla-grid";
-  grid.innerHTML = filtered.map(renderAthleteCard).join("");
+grid.innerHTML = filtered.map(renderAthleteCard).join("");
+
+// ✅ Re-run budget suggestions after cards re-render (optional feature)
+if (typeof window.runBudgetSuggest === "function") {
+  window.runBudgetSuggest();
+}
 
   const countEl = document.getElementById("search-count");
   if (countEl) {
