@@ -354,6 +354,7 @@ function renderAthleteCard(a) {
       data-athlete-name="${String(a.name).replaceAll('"', "&quot;")}"
       data-price="${avgNum != null ? avgNum : ""}"
       data-stability-pct="${stabilityPctNum != null ? stabilityPctNum : ""}"
+      data-days-on-market="${dom != null ? dom : ""}"
     >
       <div class="athlete-card__top">
         <div class="athlete-card__avatar">${initials}</div>
@@ -470,18 +471,13 @@ function renderGrid(list) {
     }
   }
 
-
   grid.className = "vzla-grid";
-grid.innerHTML = filtered.map(renderAthleteCard).join("");
+  grid.innerHTML = filtered.map(renderAthleteCard).join("");
 
+  // ✅ Re-run budget suggestions after cards re-render (optional feature)
   if (typeof window.runBudgetSuggest === "function") {
-  window.runBudgetSuggest();
-}
-
-// ✅ Re-run budget suggestions after cards re-render (optional feature)
-if (typeof window.runBudgetSuggest === "function") {
-  window.runBudgetSuggest();
-}
+    window.runBudgetSuggest();
+  }
 
   const countEl = document.getElementById("search-count");
   if (countEl) {
