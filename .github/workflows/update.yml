@@ -5,7 +5,6 @@ on:
   schedule:
     - cron: '0 0,12 * * *'
 
-# ✅ Prevent overlapping runs (manual + scheduled) from racing and causing push rejects
 concurrency:
   group: athlete-sync-main
   cancel-in-progress: true
@@ -20,7 +19,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # ✅ needed for rebase/pull --rebase
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -35,7 +34,7 @@ jobs:
           NBA_API_KEY: ${{ secrets.NBA_API_KEY }}
           SPORTSDB_KEY: ${{ secrets.SPORTSDB_KEY }}
         run: python scripts/fetch_all_vzla.py
-      
+
       - name: Auto-dedupe athletes.json (keep oldest by name)
         run: |
           python scripts/dedupe_athletes.py \
@@ -50,10 +49,8 @@ jobs:
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
 
-          # Add outputs (cache may not exist on first run)
-          git add data/athletes.json data/tsdb_cache.json || true
+          git add data/athletes.json data/tsdb_cache.json data/athletes_dedupe_report.json || true
 
-          # Only commit/push if something actually changed
           if git diff --cached --quiet; then
             echo "No changes to commit"
             exit 0
@@ -61,9 +58,7 @@ jobs:
 
           git commit -m "Automated sync: Updated Venezuelan athletes"
 
-          # ✅ Avoid "fetch first" by rebasing on the latest remote main
           git fetch origin main
           git rebase origin/main || (git rebase --abort && git pull --rebase origin main)
 
-          # ✅ Push updated history
           git push origin HEAD:main
