@@ -1,1 +1,156 @@
-
+{
+  "input": "data/athletes.json",
+  "output": "data/athletes.json",
+  "total_before": 596,
+  "total_after": 575,
+  "removed_count": 21,
+  "removed": [
+    {
+      "normalized": "jon aramburu",
+      "kept_original_index": 511,
+      "removed_original_index": 512,
+      "kept_name": "Jon Aramburu",
+      "removed_name": "Jon Aramburu"
+    },
+    {
+      "normalized": "juan arango",
+      "kept_original_index": 503,
+      "removed_original_index": 514,
+      "kept_name": "Juan Arango",
+      "removed_name": "Juan Arango"
+    },
+    {
+      "normalized": "yangel herrera",
+      "kept_original_index": 522,
+      "removed_original_index": 523,
+      "kept_name": "Yangel Herrera",
+      "removed_name": "Yangel Herrera"
+    },
+    {
+      "normalized": "salomon rondon",
+      "kept_original_index": 520,
+      "removed_original_index": 524,
+      "kept_name": "Salomón Rondón",
+      "removed_name": "Salomón Rondón"
+    },
+    {
+      "normalized": "cristian casseres jr.",
+      "kept_original_index": 525,
+      "removed_original_index": 526,
+      "kept_name": "Cristian Cásseres Jr.",
+      "removed_name": "Cristian Cásseres Jr."
+    },
+    {
+      "normalized": "abel caputo",
+      "kept_original_index": 532,
+      "removed_original_index": 533,
+      "kept_name": "Abel Caputo",
+      "removed_name": "Abel Caputo"
+    },
+    {
+      "normalized": "alejandro fuenmayor",
+      "kept_original_index": 534,
+      "removed_original_index": 535,
+      "kept_name": "Alejandro Fuenmayor",
+      "removed_name": "Alejandro Fuenmayor"
+    },
+    {
+      "normalized": "cristian casseres jr.",
+      "kept_original_index": 525,
+      "removed_original_index": 542,
+      "kept_name": "Cristian Cásseres Jr.",
+      "removed_name": "Cristian Cásseres Jr."
+    },
+    {
+      "normalized": "david martinez",
+      "kept_original_index": 544,
+      "removed_original_index": 545,
+      "kept_name": "David Martínez",
+      "removed_name": "David Martínez"
+    },
+    {
+      "normalized": "fernando aristeguieta",
+      "kept_original_index": 527,
+      "removed_original_index": 550,
+      "kept_name": "Fernando Aristeguieta",
+      "removed_name": "Fernando Aristeguieta"
+    },
+    {
+      "normalized": "gabriel cichero",
+      "kept_original_index": 528,
+      "removed_original_index": 551,
+      "kept_name": "Gabriel Cichero",
+      "removed_name": "Gabriel Cichero"
+    },
+    {
+      "normalized": "sergio cordova",
+      "kept_original_index": 504,
+      "removed_original_index": 573,
+      "kept_name": "Sergio Córdova",
+      "removed_name": "Sergio Córdova"
+    },
+    {
+      "normalized": "yangel herrera",
+      "kept_original_index": 522,
+      "removed_original_index": 576,
+      "kept_name": "Yangel Herrera",
+      "removed_name": "Yangel Herrera"
+    },
+    {
+      "normalized": "telasco segovia",
+      "kept_original_index": 574,
+      "removed_original_index": 579,
+      "kept_name": "Telasco Segovia",
+      "removed_name": "Telasco Segovia"
+    },
+    {
+      "normalized": "alejandro marques",
+      "kept_original_index": 578,
+      "removed_original_index": 580,
+      "kept_name": "Alejandro Marqués",
+      "removed_name": "Alejandro Marqués"
+    },
+    {
+      "normalized": "alessandro milani",
+      "kept_original_index": 581,
+      "removed_original_index": 582,
+      "kept_name": "Alessandro Milani",
+      "removed_name": "Alessandro Milani"
+    },
+    {
+      "normalized": "josef martinez",
+      "kept_original_index": 557,
+      "removed_original_index": 584,
+      "kept_name": "Josef Martínez",
+      "removed_name": "Josef Martínez"
+    },
+    {
+      "normalized": "rafael romo",
+      "kept_original_index": 565,
+      "removed_original_index": 588,
+      "kept_name": "Rafael Romo",
+      "removed_name": "Rafael Romo"
+    },
+    {
+      "normalized": "rolf feltscher",
+      "kept_original_index": 569,
+      "removed_original_index": 589,
+      "kept_name": "Rolf Feltscher",
+      "removed_name": "Rolf Feltscher"
+    },
+    {
+      "normalized": "tomas rincon",
+      "kept_original_index": 505,
+      "removed_original_index": 590,
+      "kept_name": "Tomás Rincón",
+      "removed_name": "Tomás Rincón"
+    },
+    {
+      "normalized": "jefferson savarino",
+      "kept_original_index": 554,
+      "removed_original_index": 593,
+      "kept_name": "Jefferson Savarino",
+      "removed_name": "Jefferson Savarino"
+    }
+  ]
+}

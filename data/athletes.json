@@ -1,4174 +1,4027 @@
 [
-    {
-        "name": "Adbert Alzolay",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Cubs",
-        "provider": "manual"
-    },
-    {
-        "name": "Adrián Sánchez",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Nationals",
-        "provider": "manual"
-    },
-    {
-        "name": "Al Pedrique",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Tigers",
-        "provider": "manual"
-    },
-    {
-        "name": "Albert Suárez",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Orioles",
-        "provider": "manual"
-    },
-    {
-        "name": "Alberto Callaspo",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Dodgers",
-        "provider": "manual"
-    },
-    {
-        "name": "Alberto González",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Yankees",
-        "provider": "manual"
-    },
-    {
-        "name": "Alcides Escobar",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Nationals",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Alejandro Chacín",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Reds",
-        "provider": "manual"
-    },
-    {
-        "name": "Alejandro Freire",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Orioles",
-        "provider": "manual"
-    },
-    {
-        "name": "Alejandro Machado",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Red Sox",
-        "provider": "manual"
-    },
-    {
-        "name": "Alex Cabrera",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Diamondbacks",
-        "provider": "manual"
-    },
-    {
-        "name": "Alex Carrasquel",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "White Sox",
-        "provider": "manual"
-    },
-    {
-        "name": "Alex Delgado",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Red Sox",
-        "provider": "manual"
-    },
-    {
-        "name": "Alex Escobar",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Nationals",
-        "provider": "manual"
-    },
-    {
-        "name": "Alex Herrera",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Indians",
-        "provider": "manual"
-    },
-    {
-        "name": "Alex Pacheco",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Expos",
-        "provider": "manual"
-    },
-    {
-        "name": "Alex Prieto",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Twins",
-        "provider": "manual"
-    },
-    {
-        "name": "Alex Ramírez",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Pirates",
-        "provider": "manual"
-    },
-    {
-        "name": "Alex Romero",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Diamondbacks",
-        "provider": "manual"
-    },
-    {
-        "name": "Alex Serrano",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Angels",
-        "provider": "manual"
-    },
-    {
-        "name": "Alex Torres",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Mets",
-        "provider": "manual"
-    },
-    {
-        "name": "Alexi Amarista",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Rockies",
-        "provider": "manual"
-    },
-    {
-        "name": "Alexis Infante",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Braves",
-        "provider": "manual"
-    },
-    {
-        "name": "Alfredo González",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "White Sox",
-        "provider": "manual"
-    },
-    {
-        "name": "Ali Sánchez",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Red Sox",
-        "provider": "manual"
-    },
-    {
-        "name": "Alvin Colina",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Rockies",
-        "provider": "manual"
-    },
-    {
-        "name": "Amalio Carreño",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Phillies",
-        "provider": "manual"
-    },
-    {
-        "name": "Anderson Espinoza",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Cubs",
-        "provider": "manual"
-    },
-    {
-        "name": "Anderson Machado",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Rockies",
-        "provider": "manual"
-    },
-    {
-        "name": "Andres Blanco",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Phillies",
-        "provider": "manual"
-    },
-    {
-        "name": "Andres Chaparro",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Nationals",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Andres Gimenez",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Blue Jays",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Andruw Monasterio",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Red Sox",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Andry Lara",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Nationals",
-        "provider": "manual"
-    },
-    {
-        "name": "Andrés Galarraga",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Giants",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Andrés Machado",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Nationals",
-        "provider": "manual"
-    },
-    {
-        "name": "Angel Salazar",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Cubs",
-        "provider": "manual"
-    },
-    {
-        "name": "Angel Zerpa",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Royals",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Anibal Sanchez",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Nationals",
-        "provider": "manual"
-    },
-    {
-        "name": "Anthony Castro",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Guardians",
-        "provider": "manual"
-    },
-    {
-        "name": "Anthony Molina",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Rockies",
-        "provider": "manual"
-    },
-    {
-        "name": "Anthony Ortega",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Angels",
-        "provider": "manual"
-    },
-    {
-        "name": "Anthony Santander",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Blue Jays",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Antonio Senzatela",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Rockies",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Arcenio León",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Tigers",
-        "provider": "manual"
-    },
-    {
-        "name": "Argenis Díaz",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Pirates",
-        "provider": "manual"
-    },
-    {
-        "name": "Armando Galarraga",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Diamondbacks",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Asdrúbal Cabrera",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Reds",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Avisaíl García",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Marlins",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Beiker Graterol",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Tigers",
-        "provider": "manual"
-    },
-    {
-        "name": "Bo Diaz",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Reds",
-        "provider": "manual"
-    },
-    {
-        "name": "Bobby Abreu",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Mets",
-        "provider": "manual"
-    },
-    {
-        "name": "Bradgley Rodriguez",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Padres",
-        "provider": "manual"
-    },
-    {
-        "name": "Brayan Rocchio",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Guardians",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Brayan Villarreal",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Cubs",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Breyvic Valera",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Blue Jays",
-        "provider": "manual"
-    },
-    {
-        "name": "Bruce Rondón",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "White Sox",
-        "provider": "manual"
-    },
-    {
-        "name": "Brusdar Graterol",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Dodgers",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Carlos Ascanio",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Black Yankees",
-        "provider": "manual"
-    },
-    {
-        "name": "Carlos Asuaje",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Padres",
-        "provider": "manual"
-    },
-    {
-        "name": "Carlos Carrasco",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Guardians",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Carlos García",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Padres",
-        "provider": "manual"
-    },
-    {
-        "name": "Carlos González",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Cubs",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Carlos Guillén",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Tigers",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Carlos Hernández",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Guardians",
-        "provider": "manual"
-    },
-    {
-        "name": "Carlos Maldonado",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Nationals",
-        "provider": "manual"
-    },
-    {
-        "name": "Carlos Martínez",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Cardinals",
-        "provider": "manual"
-    },
-    {
-        "name": "Carlos Mendoza",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Mets",
-        "provider": "manual"
-    },
-    {
-        "name": "Carlos Monasterios",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Dodgers",
-        "provider": "manual"
-    },
-    {
-        "name": "Carlos Méndez",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Orioles",
-        "provider": "manual"
-    },
-    {
-        "name": "Carlos Narváez",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Red Sox",
-        "provider": "manual"
-    },
-    {
-        "name": "Carlos Pulido",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Twins",
-        "provider": "manual"
-    },
-    {
-        "name": "Carlos Pérez",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Athletics",
-        "provider": "manual"
-    },
-    {
-        "name": "Carlos Quintana",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Red Sox",
-        "provider": "manual"
-    },
-    {
-        "name": "Carlos Rivero",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Red Sox",
-        "provider": "manual"
-    },
-    {
-        "name": "Carlos Sanabria",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Astros",
-        "provider": "manual"
-    },
-    {
-        "name": "Carlos Silva",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Cubs",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Carlos Tocci",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Rangers",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Carlos Valderrama",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Giants",
-        "provider": "manual"
-    },
-    {
-        "name": "Carlos Zambrano",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Marlins",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Cesar Tovar",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Twins",
-        "provider": "manual"
-    },
-    {
-        "name": "Chico Carrasquel",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Orioles",
-        "provider": "manual"
-    },
-    {
-        "name": "Chucho Ramos",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Reds",
-        "provider": "manual"
-    },
-    {
-        "name": "Clemente Álvarez",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Phillies",
-        "provider": "manual"
-    },
-    {
-        "name": "Cris Colón",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Rangers",
-        "provider": "manual"
-    },
-    {
-        "name": "César Gutiérrez",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Tigers",
-        "provider": "manual"
-    },
-    {
-        "name": "César Hernández",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Nationals",
-        "provider": "manual"
-    },
-    {
-        "name": "César Izturis",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Reds",
-        "provider": "manual"
-    },
-    {
-        "name": "César Jiménez",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Brewers",
-        "provider": "manual"
-    },
-    {
-        "name": "Damaso Blanco",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Giants",
-        "provider": "manual"
-    },
-    {
-        "name": "Daniel Palencia",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Cubs",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Danny Leon",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Rangers",
-        "provider": "manual"
-    },
-    {
-        "name": "Danny Sandoval",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Phillies",
-        "provider": "manual"
-    },
-    {
-        "name": "Darwin Cubillán",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Orioles",
-        "provider": "manual"
-    },
-    {
-        "name": "Darwinzon Hernández",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Orioles",
-        "provider": "manual"
-    },
-    {
-        "name": "David Concepcion",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Reds",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "David Peralta",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Padres",
-        "provider": "manual"
-    },
-    {
-        "name": "Deolis Guerra",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Athletics",
-        "provider": "manual"
-    },
-    {
-        "name": "Diego Castillo",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Twins",
-        "provider": "manual"
-    },
-    {
-        "name": "Diego Moreno",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Rays",
-        "provider": "manual"
-    },
-    {
-        "name": "Dilson Torres",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Royals",
-        "provider": "manual"
-    },
-    {
-        "name": "Dioner Navarro",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Blue Jays",
-        "provider": "manual"
-    },
-    {
-        "name": "Dixon Machado",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Giants",
-        "provider": "manual"
-    },
-    {
-        "name": "Donaldo Méndez",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Padres",
-        "provider": "manual"
-    },
-    {
-        "name": "Eddie Pérez",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Braves",
-        "provider": "manual"
-    },
-    {
-        "name": "Eddie Zambrano",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Cubs",
-        "provider": "manual"
-    },
-    {
-        "name": "Eddy Díaz",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Brewers",
-        "provider": "manual"
-    },
-    {
-        "name": "Edgar Cáceres",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Royals",
-        "provider": "manual"
-    },
-    {
-        "name": "Edgar Ibarra",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Angels",
-        "provider": "manual"
-    },
-    {
-        "name": "Edgar Navarro",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "White Sox",
-        "provider": "manual"
-    },
-    {
-        "name": "Edgar Ramos",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Phillies",
-        "provider": "manual"
-    },
-    {
-        "name": "Edgardo Alfonzo",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Mets",
-        "provider": "manual"
-    },
-    {
-        "name": "Edgardo Henriquez",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Dodgers",
-        "provider": "manual"
-    },
-    {
-        "name": "Edgmer Escalona",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Rockies",
-        "provider": "manual"
-    },
-    {
-        "name": "Eduard Bazardo",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Mariners",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Eduardo Escobar",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Mets",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Eduardo Jiménez",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Tigers",
-        "provider": "manual"
-    },
-    {
-        "name": "Eduardo Paredes",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Angels",
-        "provider": "manual"
-    },
-    {
-        "name": "Eduardo Rodriguez",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Diamondbacks",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Eduardo Salazar",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Nationals",
-        "provider": "manual"
-    },
-    {
-        "name": "Eduardo Sánchez",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Cubs",
-        "provider": "manual"
-    },
-    {
-        "name": "Eduardo Villacis",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Royals",
-        "provider": "manual"
-    },
-    {
-        "name": "Edubray Ramos",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Phillies",
-        "provider": "manual"
-    },
-    {
-        "name": "Edwar Colina",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Twins",
-        "provider": "manual"
-    },
-    {
-        "name": "Edward Mujica",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Athletics",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Edward Olivares",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Rays",
-        "provider": "manual"
-    },
-    {
-        "name": "Edwin Bellorin",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Rockies",
-        "provider": "manual"
-    },
-    {
-        "name": "Edwin Escobar",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Diamondbacks",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Edwin Hurtado",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Mariners",
-        "provider": "manual"
-    },
-    {
-        "name": "Edwin Moreno",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Padres",
-        "provider": "manual"
-    },
-    {
-        "name": "Ehire Adrianza",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Angels",
-        "provider": "manual"
-    },
-    {
-        "name": "Eider Torres",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Orioles",
-        "provider": "manual"
-    },
-    {
-        "name": "Elias Díaz",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Rockies",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Elieser Hernández",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Brewers",
-        "provider": "manual"
-    },
-    {
-        "name": "Elio Chacón",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Mets",
-        "provider": "manual"
-    },
-    {
-        "name": "Eliézer Alfonzo",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Rockies",
-        "provider": "manual"
-    },
-    {
-        "name": "Elvis Andrus",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "White Sox",
-        "provider": "manual"
-    },
-    {
-        "name": "Elvis Araújo",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Phillies",
-        "provider": "manual"
-    },
-    {
-        "name": "Ender Inciarte",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Mets",
-        "provider": "manual"
-    },
-    {
-        "name": "Enderson Franco",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Giants",
-        "provider": "manual"
-    },
-    {
-        "name": "Endy Chavez",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Mets",
-        "provider": "manual"
-    },
-    {
-        "name": "Engelb Vielma",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Orioles",
-        "provider": "manual"
-    },
-    {
-        "name": "Enmanuel De Jesus",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Marlins",
-        "provider": "manual"
-    },
-    {
-        "name": "Enrique González",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Tigers",
-        "provider": "manual"
-    },
-    {
-        "name": "Enzo Hernández",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Dodgers",
-        "provider": "manual"
-    },
-    {
-        "name": "Erick Castillo",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Cubs",
-        "provider": "manual"
-    },
-    {
-        "name": "Ethan Salas",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Padres",
-        "provider": "manual"
-    },
-    {
-        "name": "Eugenio Suárez",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Reds",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Everson Pereira",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "White Sox",
-        "provider": "manual"
-    },
-    {
-        "name": "Ezequiel Carrera",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Blue Jays",
-        "provider": "manual"
-    },
-    {
-        "name": "Ezequiel Tovar",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Rockies",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Felipe Lira",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Expos",
-        "provider": "manual"
-    },
-    {
-        "name": "Felipe Vazquez",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Pirates",
-        "provider": "manual"
-    },
-    {
-        "name": "Fernando Lunar",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Orioles",
-        "provider": "manual"
-    },
-    {
-        "name": "Fernando Nieve",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Mets",
-        "provider": "manual"
-    },
-    {
-        "name": "Francisco Alvarez",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Mets",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Francisco Arcia",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Angels",
-        "provider": "manual"
-    },
-    {
-        "name": "Francisco Cervelli",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Padres",
-        "provider": "manual"
-    },
-    {
-        "name": "Francisco Morales",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Phillies",
-        "provider": "manual"
-    },
-    {
-        "name": "Francisco Rodríguez",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Tigers",
-        "provider": "manual"
-    },
-    {
-        "name": "Frank Mata",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Orioles",
-        "provider": "manual"
-    },
-    {
-        "name": "Franklin Barreto",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Angels",
-        "provider": "manual"
-    },
-    {
-        "name": "Franklin Gutiérrez",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Dodgers",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Franklin Morales",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Blue Jays",
-        "provider": "manual"
-    },
-    {
-        "name": "Fred Manrique",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Athletics",
-        "provider": "manual"
-    },
-    {
-        "name": "Freddy Fermin",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Padres",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Freddy Galvis",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Reds",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Freddy García",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Orioles",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Félix Doubront",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Athletics",
-        "provider": "manual"
-    },
-    {
-        "name": "Félix Escalona",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Yankees",
-        "provider": "manual"
-    },
-    {
-        "name": "Félix Hernández",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Mariners",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Gabriel Arias",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Guardians",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Gabriel Moreno",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Diamondbacks",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Gabriel Moya",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Twins",
-        "provider": "manual"
-    },
-    {
-        "name": "Gerardo Parra",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Nationals",
-        "provider": "manual"
-    },
-    {
-        "name": "Geremi González",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Brewers",
-        "provider": "manual"
-    },
-    {
-        "name": "Germán González",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Twins",
-        "provider": "manual"
-    },
-    {
-        "name": "Germán Márquez",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Rockies",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Giomar Guevara",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Mariners",
-        "provider": "manual"
-    },
-    {
-        "name": "Giovanni Carrara",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Dodgers",
-        "provider": "manual"
-    },
-    {
-        "name": "Gleyber Torres",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Tigers",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Gonzalo Marquez",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Cubs",
-        "provider": "manual"
-    },
-    {
-        "name": "Gorkys Hernández",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Red Sox",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Gregorio Petit",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Twins",
-        "provider": "manual"
-    },
-    {
-        "name": "Gregory Infante",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "White Sox",
-        "provider": "manual"
-    },
-    {
-        "name": "Grégor Blanco",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Giants",
-        "provider": "manual"
-    },
-    {
-        "name": "Guilder Rodríguez",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Rangers",
-        "provider": "manual"
-    },
-    {
-        "name": "Guillermo Moscoso",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Giants",
-        "provider": "manual"
-    },
-    {
-        "name": "Guillermo Quiroz",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Giants",
-        "provider": "manual"
-    },
-    {
-        "name": "Guillermo Rodríguez",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Orioles",
-        "provider": "manual"
-    },
-    {
-        "name": "Gus Gil",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Brewers",
-        "provider": "manual"
-    },
-    {
-        "name": "Gus Polidor",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Marlins",
-        "provider": "manual"
-    },
-    {
-        "name": "Gustavo Chacín",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Astros",
-        "provider": "manual"
-    },
-    {
-        "name": "Gustavo Molina",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Yankees",
-        "provider": "manual"
-    },
-    {
-        "name": "Harold Castro",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Rockies",
-        "provider": "manual"
-    },
-    {
-        "name": "Harvey García",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Marlins",
-        "provider": "manual"
-    },
-    {
-        "name": "Henderson Alvarez III",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Phillies",
-        "provider": "manual"
-    },
-    {
-        "name": "Henry Blanco",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Mariners",
-        "provider": "manual"
-    },
-    {
-        "name": "Henry Rodríguez",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Expos",
-        "provider": "manual"
-    },
-    {
-        "name": "Hernán Iribarren",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Reds",
-        "provider": "manual"
-    },
-    {
-        "name": "Hernán Pérez",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Nationals",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Horacio Estrada",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Rockies",
-        "provider": "manual"
-    },
-    {
-        "name": "Humberto Arteaga",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Marlins",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Humberto Quintero",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Mariners",
-        "provider": "manual"
-    },
-    {
-        "name": "Héctor Giménez",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "White Sox",
-        "provider": "manual"
-    },
-    {
-        "name": "Héctor Rondón",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Diamondbacks",
-        "provider": "manual"
-    },
-    {
-        "name": "Héctor Sánchez",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Padres",
-        "provider": "manual"
-    },
-    {
-        "name": "Ildemaro Vargas",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Nationals",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Israel Pineda",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Nationals",
-        "provider": "manual"
-    },
-    {
-        "name": "Iván Ochoa",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Giants",
-        "provider": "manual"
-    },
-    {
-        "name": "J.C. Boscán",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Cubs",
-        "provider": "manual"
-    },
-    {
-        "name": "J.C. Gutiérrez",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Giants",
-        "provider": "manual"
-    },
-    {
-        "name": "Jackson Chourio",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Brewers",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Jairo Díaz",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Rockies",
-        "provider": "manual"
-    },
-    {
-        "name": "Jairo Iriarte",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "White Sox",
-        "provider": "manual"
-    },
-    {
-        "name": "Javier Sanoja",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Marlins",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Jean Machi",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Mariners",
-        "provider": "manual"
-    },
-    {
-        "name": "Jeanmar Gómez",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Rangers",
-        "provider": "manual"
-    },
-    {
-        "name": "Jeferson Quero",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Brewers",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Jermaine Palacios",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Twins",
-        "provider": "manual"
-    },
-    {
-        "name": "Jesús Aguilar",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Athletics",
-        "provider": "manual"
-    },
-    {
-        "name": "Jesús Delgado",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Marlins",
-        "provider": "manual"
-    },
-    {
-        "name": "Jesús Flores",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Nationals",
-        "provider": "manual"
-    },
-    {
-        "name": "Jesús Guzmán",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Astros",
-        "provider": "manual"
-    },
-    {
-        "name": "Jesús Montero",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Mariners",
-        "provider": "manual"
-    },
-    {
-        "name": "Jesús Sucre",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Orioles",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Jesús Tinoco",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Cubs",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Jhonathan Díaz",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Mariners",
-        "provider": "manual"
-    },
-    {
-        "name": "Jhonny Pereda",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Mariners",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Jhostynxon Garcia",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Pirates",
-        "provider": "manual"
-    },
-    {
-        "name": "Jhoulys Chacín",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Rockies",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Joe Ortiz",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Brewers",
-        "provider": "manual"
-    },
-    {
-        "name": "Johan Santana",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Mets",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Johnny Paredes",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Tigers",
-        "provider": "manual"
-    },
-    {
-        "name": "Jonathan Herrera",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Cubs",
-        "provider": "manual"
-    },
-    {
-        "name": "Jorbit Vivas",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Yankees",
-        "provider": "manual"
-    },
-    {
-        "name": "Jorge Barrosa",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Diamondbacks",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Jorge Julio",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Brewers",
-        "provider": "manual"
-    },
-    {
-        "name": "Jorge Rondon",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Pirates",
-        "provider": "manual"
-    },
-    {
-        "name": "Jorge Velandia",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Indians",
-        "provider": "manual"
-    },
-    {
-        "name": "Jose Altuve",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Astros",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Jose Alvarado",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Phillies",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Jose Butto",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Mets",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Jose Campos",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Diamondbacks",
-        "provider": "manual"
-    },
-    {
-        "name": "Josh Barfield",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Indians",
-        "provider": "manual"
-    },
-    {
-        "name": "Josmil Pinto",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Brewers",
-        "provider": "manual"
-    },
-    {
-        "name": "José Azocar",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Braves",
-        "provider": "manual"
-    },
-    {
-        "name": "José Briceño",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Angels",
-        "provider": "manual"
-    },
-    {
-        "name": "José Castillo",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Mets",
-        "provider": "manual"
-    },
-    {
-        "name": "José Escobar",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Indians",
-        "provider": "manual"
-    },
-    {
-        "name": "José Godoy",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Pirates",
-        "provider": "manual"
-    },
-    {
-        "name": "José Herrera",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Rangers",
-        "provider": "manual"
-    },
-    {
-        "name": "José Lobatón",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Cubs",
-        "provider": "manual"
-    },
-    {
-        "name": "José López",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "White Sox",
-        "provider": "manual"
-    },
-    {
-        "name": "José Malavé",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Red Sox",
-        "provider": "manual"
-    },
-    {
-        "name": "José Martínez",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Cubs",
-        "provider": "manual"
-    },
-    {
-        "name": "José Mijares",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Giants",
-        "provider": "manual"
-    },
-    {
-        "name": "José Mujica",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Rockies",
-        "provider": "manual"
-    },
-    {
-        "name": "José Nieves",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Angels",
-        "provider": "manual"
-    },
-    {
-        "name": "José Ortega",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Tigers",
-        "provider": "manual"
-    },
-    {
-        "name": "José Osuna",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Pirates",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "José Peraza",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Mets",
-        "provider": "manual"
-    },
-    {
-        "name": "José Pirela",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Phillies",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "José Quijada",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Angels",
-        "provider": "manual"
-    },
-    {
-        "name": "José Rodríguez",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Phillies",
-        "provider": "manual"
-    },
-    {
-        "name": "José Rondón",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Cardinals",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "José Ruiz",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Phillies",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "José Suárez",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Angels",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "José Torres",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Padres",
-        "provider": "manual"
-    },
-    {
-        "name": "José Tábata",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Pirates",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "José Álvarez",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Giants",
-        "provider": "manual"
-    },
-    {
-        "name": "Juan Castillo",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Brewers",
-        "provider": "manual"
-    },
-    {
-        "name": "Juan Graterol",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Reds",
-        "provider": "manual"
-    },
-    {
-        "name": "Juan Moreno",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Padres",
-        "provider": "manual"
-    },
-    {
-        "name": "Juan Morillo",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Diamondbacks",
-        "provider": "manual"
-    },
-    {
-        "name": "Juan Rincón",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Rockies",
-        "provider": "manual"
-    },
-    {
-        "name": "Juan Rivera",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Dodgers",
-        "provider": "manual"
-    },
-    {
-        "name": "Juan Yepez",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Nationals",
-        "provider": "manual"
-    },
-    {
-        "name": "Julio Machado",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Brewers",
-        "provider": "manual"
-    },
-    {
-        "name": "Juniel Querecuto",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Cardinals",
-        "provider": "manual"
-    },
-    {
-        "name": "Junior Guerra",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Angels",
-        "provider": "manual"
-    },
-    {
-        "name": "Keibert Ruiz",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Nationals",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Keider Montero",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Tigers",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Kelvim Escobar",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Brewers",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Kenedy Corona",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Astros",
-        "provider": "manual"
-    },
-    {
-        "name": "Kervin Castro",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Yankees",
-        "provider": "manual"
-    },
-    {
-        "name": "Lenyn Sosa",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "White Sox",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Leo Hernández",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Yankees",
-        "provider": "manual"
-    },
-    {
-        "name": "Leo Rivas",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Mariners",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Leonel Campos",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Blue Jays",
-        "provider": "manual"
-    },
-    {
-        "name": "Les Straker",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Twins",
-        "provider": "manual"
-    },
-    {
-        "name": "Lester Oliveros",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Twins",
-        "provider": "manual"
-    },
-    {
-        "name": "Lino Urdaneta",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Mets",
-        "provider": "manual"
-    },
-    {
-        "name": "Liu Rodríguez",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "White Sox",
-        "provider": "manual"
-    },
-    {
-        "name": "Livan Soto",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Orioles",
-        "provider": "manual"
-    },
-    {
-        "name": "Luarbert Arias",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Marlins",
-        "provider": "manual"
-    },
-    {
-        "name": "Luinder Avila",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Royals",
-        "provider": "manual"
-    },
-    {
-        "name": "Luis Alexander Basabe",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Giants",
-        "provider": "manual"
-    },
-    {
-        "name": "Luis Aparicio",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "White Sox",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Luis Aponte",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Indians",
-        "provider": "manual"
-    },
-    {
-        "name": "Luis Arráez",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Giants",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Luis Avilán",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Nationals",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Luis Contreras",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Astros",
-        "provider": "manual"
-    },
-    {
-        "name": "Luis Curvelo",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Rangers",
-        "provider": "manual"
-    },
-    {
-        "name": "Luis Garcia",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Mets",
-        "provider": "manual"
-    },
-    {
-        "name": "Luis Guillorme",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Braves",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Luis Hernández",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Rangers",
-        "provider": "manual"
-    },
-    {
-        "name": "Luis Jiménez",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Mariners",
-        "provider": "manual"
-    },
-    {
-        "name": "Luis Leal",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Blue Jays",
-        "provider": "manual"
-    },
-    {
-        "name": "Luis Matos",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Giants",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Luis Maza",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Dodgers",
-        "provider": "manual"
-    },
-    {
-        "name": "Luis Ordaz",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Devil Rays",
-        "provider": "manual"
-    },
-    {
-        "name": "Luis Oviedo",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Pirates",
-        "provider": "manual"
-    },
-    {
-        "name": "Luis Perales",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Nationals",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Luis Rengifo",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Brewers",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Luis Rivas",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Pirates",
-        "provider": "manual"
-    },
-    {
-        "name": "Luis Rodríguez",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Mariners",
-        "provider": "manual"
-    },
-    {
-        "name": "Luis Salazar",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Cubs",
-        "provider": "manual"
-    },
-    {
-        "name": "Luis Sardiñas",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Orioles",
-        "provider": "manual"
-    },
-    {
-        "name": "Luis Sojo",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Yankees",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Luis Sánchez",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Angels",
-        "provider": "manual"
-    },
-    {
-        "name": "Luis Torrens",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Mets",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Luis Ugueto",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Mariners",
-        "provider": "manual"
-    },
-    {
-        "name": "Luis Valbuena",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Angels",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Luisangel Acuña",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "White Sox",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Luís Madero",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Marlins",
-        "provider": "manual"
-    },
-    {
-        "name": "Magglio Ordóñez",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Tigers",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Maicer Izturis",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Blue Jays",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Maikel Garcia",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Royals",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Manny Piña",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Athletics",
-        "provider": "manual"
-    },
-    {
-        "name": "Manny Sarmiento",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Pirates",
-        "provider": "manual"
-    },
-    {
-        "name": "Manny Trillo",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Reds",
-        "provider": "manual"
-    },
-    {
-        "name": "Marco Scutaro",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Giants",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Marcos Armas",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Athletics",
-        "provider": "manual"
-    },
-    {
-        "name": "Marcos Carvajal",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Marlins",
-        "provider": "manual"
-    },
-    {
-        "name": "Martín Prado",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Marlins",
-        "provider": "manual"
-    },
-    {
-        "name": "Martín Pérez",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Braves",
-        "provider": "manual"
-    },
-    {
-        "name": "Marwin González",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Yankees",
-        "provider": "manual"
-    },
-    {
-        "name": "Mauricio Llovera",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Mariners",
-        "provider": "manual"
-    },
-    {
-        "name": "Mauricio Robles",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Phillies",
-        "provider": "manual"
-    },
-    {
-        "name": "Mauro Zárate",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Marlins",
-        "provider": "manual"
-    },
-    {
-        "name": "Max Castillo",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Royals",
-        "provider": "manual"
-    },
-    {
-        "name": "Max Ramirez",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Texas",
-        "provider": "manual"
-    },
-    {
-        "name": "Maximo Acosta",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Marlins",
-        "provider": "manual"
-    },
-    {
-        "name": "Mayckol Guaipe",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Mariners",
-        "provider": "manual"
-    },
-    {
-        "name": "Melvin Dorta",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Nationals",
-        "provider": "manual"
-    },
-    {
-        "name": "Melvin Mora",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Orioles",
-        "provider": "manual"
-    },
-    {
-        "name": "Miguel Cabrera",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Tigers",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Miguel Cairo",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Reds",
-        "provider": "manual"
-    },
-    {
-        "name": "Miguel García",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Pirates",
-        "provider": "manual"
-    },
-    {
-        "name": "Miguel González",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "White Sox",
-        "provider": "manual"
-    },
-    {
-        "name": "Miguel Montero",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Nationals",
-        "provider": "manual"
-    },
-    {
-        "name": "Miguel Pérez",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Reds",
-        "provider": "manual"
-    },
-    {
-        "name": "Miguel Rojas",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Dodgers",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Miguel Socolovich",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Braves",
-        "provider": "manual"
-    },
-    {
-        "name": "Miguel Yajure",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Pirates",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Moisés Ballesteros",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Cubs",
-        "provider": "manual"
-    },
-    {
-        "name": "Niuman Romero",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Red Sox",
-        "provider": "manual"
-    },
-    {
-        "name": "Nivaldo Rodriguez",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Astros",
-        "provider": "manual"
-    },
-    {
-        "name": "Néstor Chávez",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Giants",
-        "provider": "manual"
-    },
-    {
-        "name": "Odúbel Herrera",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Phillies",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Omar Daal",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Orioles",
-        "provider": "manual"
-    },
-    {
-        "name": "Omar Infante",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Royals",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Omar Narváez",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "White Sox",
-        "provider": "manual"
-    },
-    {
-        "name": "Omar Vizquel",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Blue Jays",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Orber Moreno",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Mets",
-        "provider": "manual"
-    },
-    {
-        "name": "Orlando Arcia",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Braves",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Oscar Azócar",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Padres",
-        "provider": "manual"
-    },
-    {
-        "name": "Oscar Salazar",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Padres",
-        "provider": "manual"
-    },
-    {
-        "name": "Osleivis Basabe",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Rays",
-        "provider": "manual"
-    },
-    {
-        "name": "Osmer Morales",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Angels",
-        "provider": "manual"
-    },
-    {
-        "name": "Ossie Blanco",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Indians",
-        "provider": "manual"
-    },
-    {
-        "name": "Oswald Peraza",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Angels",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Oswaldo Arcia",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Padres",
-        "provider": "manual"
-    },
-    {
-        "name": "Oswaldo Cabrera",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Yankees",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Oswaldo Navarro",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Astros",
-        "provider": "manual"
-    },
-    {
-        "name": "Oswaldo Peraza",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Orioles",
-        "provider": "manual"
-    },
-    {
-        "name": "Ozzie Guillén",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Braves",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Pablo López",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Twins",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Pablo Sandoval",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Braves",
-        "provider": "manual"
-    },
-    {
-        "name": "Pablo Torrealba",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "White Sox",
-        "provider": "manual"
-    },
-    {
-        "name": "Pedro Avila",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Guardians",
-        "provider": "manual"
-    },
-    {
-        "name": "Pedro Castellano",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Rockies",
-        "provider": "manual"
-    },
-    {
-        "name": "Pedro Hernández",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Rockies",
-        "provider": "manual"
-    },
-    {
-        "name": "Pedro Pagés",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Cardinals",
-        "provider": "manual"
-    },
-    {
-        "name": "Pompeyo Davalillo",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Senators",
-        "provider": "manual"
-    },
-    {
-        "name": "Rafael Betancourt",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Rockies",
-        "provider": "manual"
-    },
-    {
-        "name": "Rafael Marchan",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Phillies",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Rafael Ortega",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "White Sox",
-        "provider": "manual"
-    },
-    {
-        "name": "Ramón Cabrera",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Reds",
-        "provider": "manual"
-    },
-    {
-        "name": "Ramón Castro",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Athletics",
-        "provider": "manual"
-    },
-    {
-        "name": "Ramón Flores",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Angels",
-        "provider": "manual"
-    },
-    {
-        "name": "Ramón García",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Astros",
-        "provider": "manual"
-    },
-    {
-        "name": "Ramón Hernández",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Dodgers",
-        "provider": "manual"
-    },
-    {
-        "name": "Ramón Ramírez",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Orioles",
-        "provider": "manual"
-    },
-    {
-        "name": "Ranger Suárez",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Red Sox",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Ray Monzant",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Giants",
-        "provider": "manual"
-    },
-    {
-        "name": "Ray Olmedo",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "White Sox",
-        "provider": "manual"
-    },
-    {
-        "name": "Raúl Chávez",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Blue Jays",
-        "provider": "manual"
-    },
-    {
-        "name": "Remy Hermoso",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Indians",
-        "provider": "manual"
-    },
-    {
-        "name": "Renato Núñez",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Tigers",
-        "provider": "manual"
-    },
-    {
-        "name": "Renyel Pinto",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Marlins",
-        "provider": "manual"
-    },
-    {
-        "name": "René Pinto",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Phillies",
-        "provider": "manual"
-    },
-    {
-        "name": "René Reyes",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Rockies",
-        "provider": "manual"
-    },
-    {
-        "name": "Ricardo Pinto",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Phillies",
-        "provider": "manual"
-    },
-    {
-        "name": "Ricardo Rodríguez",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Rangers",
-        "provider": "manual"
-    },
-    {
-        "name": "Ricardo Sanchez",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Cardinals",
-        "provider": "manual"
-    },
-    {
-        "name": "Rich Garcés",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Red Sox",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Richard Hidalgo",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Rangers",
-        "provider": "manual"
-    },
-    {
-        "name": "Robert Machado",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Orioles",
-        "provider": "manual"
-    },
-    {
-        "name": "Robert Pérez",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Brewers",
-        "provider": "manual"
-    },
-    {
-        "name": "Robert Suárez",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Padres",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Roberto Petagine",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Mariners",
-        "provider": "manual"
-    },
-    {
-        "name": "Roberto Rodríguez",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Cubs",
-        "provider": "manual"
-    },
-    {
-        "name": "Robinson Chirinos",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Orioles",
-        "provider": "manual"
-    },
-    {
-        "name": "Roger Cedeño",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Dodgers",
-        "provider": "manual"
-    },
-    {
-        "name": "Ronald Acuña Jr.",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Braves",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Ronald Belisario",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Rays",
-        "provider": "manual"
-    },
-    {
-        "name": "Ronald Herrera",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Yankees",
-        "provider": "manual"
-    },
-    {
-        "name": "Ronald Torreyes",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Phillies",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Ronny Cedeño",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Phillies",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Rosman García",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Rangers",
-        "provider": "manual"
-    },
-    {
-        "name": "Rougned Odor",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Padres",
-        "provider": "manual"
-    },
-    {
-        "name": "Rubén Quevedo",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Brewers",
-        "provider": "manual"
-    },
-    {
-        "name": "Rómulo Sánchez",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Yankees",
-        "provider": "manual"
-    },
-    {
-        "name": "Salvador Perez",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Royals",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Sandy León",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Braves",
-        "provider": "manual"
-    },
-    {
-        "name": "Sebastián Rivero",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Angels",
-        "provider": "manual"
-    },
-    {
-        "name": "Sergio Escalona",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Astros",
-        "provider": "manual"
-    },
-    {
-        "name": "Silvino Bracho",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Braves",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Steve Torrealba",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Braves",
-        "provider": "manual"
-    },
-    {
-        "name": "Símon Muzziotti",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Phillies",
-        "provider": "manual"
-    },
-    {
-        "name": "Thairo Estrada",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Orioles",
-        "provider": "manual"
-    },
-    {
-        "name": "Toby Hernández",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Blue Jays",
-        "provider": "manual"
-    },
-    {
-        "name": "Tomás Pérez",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Astros",
-        "provider": "manual"
-    },
-    {
-        "name": "Tomás Telis",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Marlins",
-        "provider": "manual"
-    },
-    {
-        "name": "Tony Alvarez",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Pirates",
-        "provider": "manual"
-    },
-    {
-        "name": "Tony Armas",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Angels",
-        "provider": "manual"
-    },
-    {
-        "name": "Tony Castillo",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "White Sox",
-        "provider": "manual"
-    },
-    {
-        "name": "Tucupita Marcano",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Padres",
-        "provider": "manual"
-    },
-    {
-        "name": "Ubaldo Heredia",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Expos",
-        "provider": "manual"
-    },
-    {
-        "name": "Ugueth Urbina",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Phillies",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Urbano Lugo",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Tigers",
-        "provider": "manual"
-    },
-    {
-        "name": "Vic Davalillo",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Dodgers",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Víctor Gárate",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Nationals",
-        "provider": "manual"
-    },
-    {
-        "name": "Víctor Martínez",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Tigers",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Víctor Reyes",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Tigers",
-        "provider": "manual"
-    },
-    {
-        "name": "Víctor Zambrano",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Phillies",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Wiki González",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Nationals",
-        "provider": "manual"
-    },
-    {
-        "name": "Wil Ledezma",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Blue Jays",
-        "provider": "manual"
-    },
-    {
-        "name": "Wilfredo Boscán",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Pirates",
-        "provider": "manual"
-    },
-    {
-        "name": "Wilfredo Rodríguez",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Astros",
-        "provider": "manual"
-    },
-    {
-        "name": "Wilfredo Tovar",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Mets",
-        "provider": "manual"
-    },
-    {
-        "name": "Wilkelman Gonzalez",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "White Sox",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Wilking Rodríguez",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Royals",
-        "provider": "manual"
-    },
-    {
-        "name": "William Bergolla",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "White Sox",
-        "provider": "manual"
-    },
-    {
-        "name": "William Contreras",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Brewers",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "William Cuevas",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Red Sox",
-        "provider": "manual"
-    },
-    {
-        "name": "Williams Pérez",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Braves",
-        "provider": "manual"
-    },
-    {
-        "name": "Willians Astudillo",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Marlins",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Willie Cañate",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Blue Jays",
-        "provider": "manual"
-    },
-    {
-        "name": "Willie Martínez",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Indians",
-        "provider": "manual"
-    },
-    {
-        "name": "Willson Contreras",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Red Sox",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Wilmer Flores",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Giants",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Wilmer Font",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Blue Jays",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Wilson Ramos",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Indians",
-        "provider": "manual"
-    },
-    {
-        "name": "Wilson Álvarez",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Dodgers",
-        "provider": "manual"
-    },
-    {
-        "name": "Wilyer Abreu",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Red Sox",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Yangervis Solarte",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Giants",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Yilber Diaz",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Diamondbacks",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Yoel Hernández",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Phillies",
-        "provider": "manual"
-    },
-    {
-        "name": "Yoendrys Gómez",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Rays",
-        "provider": "manual"
-    },
-    {
-        "name": "Yoervis Medina",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Cubs",
-        "provider": "manual"
-    },
-    {
-        "name": "Yohan Pino",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Royals",
-        "provider": "manual"
-    },
-    {
-        "name": "Yohander Méndez",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Rangers",
-        "provider": "manual"
-    },
-    {
-        "name": "Yohel Pozo",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Cardinals",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Yolmer Sanchez",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Mets",
-        "provider": "manual"
-    },
-    {
-        "name": "Yonathan Daza",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Rockies",
-        "provider": "manual"
-    },
-    {
-        "name": "Yonny Chirinos",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Braves",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Yonny Hernández",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Mets",
-        "provider": "manual"
-    },
-    {
-        "name": "Yorman Bazardo",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Astros",
-        "provider": "manual"
-    },
-    {
-        "name": "Yorman Rodríguez",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Reds",
-        "provider": "manual"
-    },
-    {
-        "name": "Yorvit Torrealba",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Rockies",
-        "provider": "manual"
-    },
-    {
-        "name": "Yusmeiro Petit",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Athletics",
-        "provider": "manual"
-    },
-    {
-        "name": "Álvaro Espinoza",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Mets",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Ángel Bravo",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Padres",
-        "provider": "manual"
-    },
-    {
-        "name": "Ángel Escobar",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Giants",
-        "provider": "manual"
-    },
-    {
-        "name": "Ángel Guzmán",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Rays",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Ángel Nesbitt",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Tigers",
-        "provider": "manual"
-    },
-    {
-        "name": "Óscar Henríquez",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Tigers",
-        "provider": "manual"
-    },
-    {
-        "name": "Óscar Hernández",
-        "sport": "Baseball",
-        "league": "MLB",
-        "team": "Royals",
-        "provider": "manual"
-    },
-    {
-        "name": "Michael Carrera",
-        "sport": "Basketball",
-        "league": "LEB Oro",
-        "team": "Estudiantes",
-        "provider": "manual"
-    },
-    {
-        "name": "Heissler Guillent",
-        "sport": "Basketball",
-        "league": "LNBP",
-        "team": "Astros",
-        "provider": "manual"
-    },
-    {
-        "name": "Jose Ascanio",
-        "sport": "Basketball",
-        "league": "Liga Nacional",
-        "team": "Oberá",
-        "provider": "manual"
-    },
-    {
-        "name": "Carl Herrera",
-        "sport": "Basketball",
-        "league": "NBA",
-        "team": "Rockets",
-        "provider": "manual"
-    },
-    {
-        "name": "Greivis Vasquez",
-        "sport": "Basketball",
-        "league": "NBA",
-        "team": "Nets",
-        "provider": "manual"
-    },
-    {
-        "name": "Oscar Torres",
-        "sport": "Basketball",
-        "league": "NBA",
-        "team": "Bucks",
-        "provider": "manual"
-    },
-    {
-        "name": "Pedro Chourio",
-        "sport": "Basketball",
-        "league": "NBB",
-        "team": "São José",
-        "provider": "manual"
-    },
-    {
-        "name": "David Cubillan",
-        "sport": "Basketball",
-        "league": "SLB",
-        "team": "Trotamundos",
-        "provider": "manual"
-    },
-    {
-        "name": "Amleto Monacelli",
-        "sport": "Bowling",
-        "league": "PBA50",
-        "team": "Unknown",
-        "provider": "manual"
-    },
-    {
-        "name": "Andres Borregales",
-        "sport": "Football",
-        "league": "NFL",
-        "team": "New England Patriots",
-        "provider": "manual"
-    },
-    {
-        "name": "Jhonattan Vegas",
-        "sport": "Golf",
-        "league": "PGA",
-        "team": "Venezuela",
-        "provider": "manual"
-    },
-    {
-        "name": "Marlon Vera",
-        "sport": "MMA",
-        "league": "UFC",
-        "team": "Venezuela",
-        "provider": "manual"
-    },
-    {
-        "name": "Juan Arango",
-        "sport": "Soccer",
-        "league": "Bundesliga",
-        "team": "Unknown",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Sergio Córdova",
-        "sport": "Soccer",
-        "league": "Bundesliga",
-        "team": "Unknown",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Tomás Rincón",
-        "sport": "Soccer",
-        "league": "Bundesliga",
-        "team": "Unknown",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Yohandry Orozco",
-        "sport": "Soccer",
-        "league": "Bundesliga",
-        "team": "Unknown",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Andrés Túñez",
-        "sport": "Soccer",
-        "league": "La Liga",
-        "team": "Unknown",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Christian Santos",
-        "sport": "Soccer",
-        "league": "La Liga",
-        "team": "Unknown",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Fernando Amorebieta",
-        "sport": "Soccer",
-        "league": "La Liga",
-        "team": "Unknown",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Jeffrén Suárez",
-        "sport": "Soccer",
-        "league": "La Liga",
-        "team": "Unknown",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Jon Aramburu",
-        "sport": "Soccer",
-        "league": "La Liga",
-        "team": "Real Sociedad",
-        "provider": "manual"
-    },
-    {
-        "name": "Jon Aramburu",
-        "sport": "Soccer",
-        "league": "La Liga",
-        "team": "Unknown",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Jorge Gómez",
-        "sport": "Soccer",
-        "league": "La Liga",
-        "team": "Unknown",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Juan Arango",
-        "sport": "Soccer",
-        "league": "La Liga",
-        "team": "Unknown",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Miguel Silva",
-        "sport": "Soccer",
-        "league": "La Liga",
-        "team": "Unknown",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Miku Fedor",
-        "sport": "Soccer",
-        "league": "La Liga",
-        "team": "Unknown",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Nicolas Fedor Miku",
-        "sport": "Soccer",
-        "league": "La Liga",
-        "team": "Unknown",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Roberto Rosales",
-        "sport": "Soccer",
-        "league": "La Liga",
-        "team": "Unknown",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Rubén Suárez Estrada",
-        "sport": "Soccer",
-        "league": "La Liga",
-        "team": "Unknown",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Salomón Rondón",
-        "sport": "Soccer",
-        "league": "La Liga",
-        "team": "Unknown",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Víctor García",
-        "sport": "Soccer",
-        "league": "La Liga",
-        "team": "Unknown",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Yangel Herrera",
-        "sport": "Soccer",
-        "league": "La Liga",
-        "team": "Real Sociedad",
-        "provider": "manual"
-    },
-    {
-        "name": "Yangel Herrera",
-        "sport": "Soccer",
-        "league": "La Liga",
-        "team": "Unknown",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Salomón Rondón",
-        "sport": "Soccer",
-        "league": "La Liga MX",
-        "team": "Pachuca",
-        "provider": "manual"
-    },
-    {
-        "name": "Cristian Cásseres Jr.",
-        "sport": "Soccer",
-        "league": "Ligue 1",
-        "team": "Toulouse",
-        "provider": "manual"
-    },
-    {
-        "name": "Cristian Cásseres Jr.",
-        "sport": "Soccer",
-        "league": "Ligue 1",
-        "team": "Unknown",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Fernando Aristeguieta",
-        "sport": "Soccer",
-        "league": "Ligue 1",
-        "team": "Unknown",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Gabriel Cichero",
-        "sport": "Soccer",
-        "league": "Ligue 1",
-        "team": "Unknown",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Juan Falcón",
-        "sport": "Soccer",
-        "league": "Ligue 1",
-        "team": "Unknown",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Oswaldo Vizcarrondo",
-        "sport": "Soccer",
-        "league": "Ligue 1",
-        "team": "Unknown",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Wuilker Faríñez",
-        "sport": "Soccer",
-        "league": "Ligue 1",
-        "team": "Unknown",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Abel Caputo",
-        "sport": "Soccer",
-        "league": "MLS",
-        "team": "Inter Miami",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Abel Caputo",
-        "sport": "Soccer",
-        "league": "MLS",
-        "team": "Unknown",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Alejandro Fuenmayor",
-        "sport": "Soccer",
-        "league": "MLS",
-        "team": "Phoenix Rising FC",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Alejandro Fuenmayor",
-        "sport": "Soccer",
-        "league": "MLS",
-        "team": "Unknown",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Alejandro Moreno",
-        "sport": "Soccer",
-        "league": "MLS",
-        "team": "Unknown",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Bernardo Anor",
-        "sport": "Soccer",
-        "league": "MLS",
-        "team": "Unknown",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Brayan Martínez",
-        "sport": "Soccer",
-        "league": "MLS",
-        "team": "Unknown",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Carlos Cermeño",
-        "sport": "Soccer",
-        "league": "MLS",
-        "team": "Unknown",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Carlos Varela",
-        "sport": "Soccer",
-        "league": "MLS",
-        "team": "Unknown",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Christian Makoun",
-        "sport": "Soccer",
-        "league": "MLS",
-        "team": "Unknown",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Cristian Cásseres Jr.",
-        "sport": "Soccer",
-        "league": "MLS",
-        "team": "Unknown",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Dani Pereira",
-        "sport": "Soccer",
-        "league": "MLS",
-        "team": "Unknown",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "David Martínez",
-        "sport": "Soccer",
-        "league": "MLS",
-        "team": "LAFC",
-        "provider": "manual"
-    },
-    {
-        "name": "David Martínez",
-        "sport": "Soccer",
-        "league": "MLS",
-        "team": "Unknown",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Eduardo Sosa",
-        "sport": "Soccer",
-        "league": "MLS",
-        "team": "Unknown",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Emilio Rentería",
-        "sport": "Soccer",
-        "league": "MLS",
-        "team": "Unknown",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Ender Echenique",
-        "sport": "Soccer",
-        "league": "MLS",
-        "team": "Unknown",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Erickson Gallardo",
-        "sport": "Soccer",
-        "league": "MLS",
-        "team": "Unknown",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Fernando Aristeguieta",
-        "sport": "Soccer",
-        "league": "MLS",
-        "team": "Unknown",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Gabriel Cichero",
-        "sport": "Soccer",
-        "league": "MLS",
-        "team": "Unknown",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Gustavo Caraballo",
-        "sport": "Soccer",
-        "league": "MLS",
-        "team": "Unknown",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Javier Otero",
-        "sport": "Soccer",
-        "league": "MLS",
-        "team": "Unknown",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Jefferson Savarino",
-        "sport": "Soccer",
-        "league": "MLS",
-        "team": "Unknown",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Jesús Bueno",
-        "sport": "Soccer",
-        "league": "MLS",
-        "team": "Unknown",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Jesús Castellano",
-        "sport": "Soccer",
-        "league": "MLS",
-        "team": "Unknown",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Josef Martínez",
-        "sport": "Soccer",
-        "league": "MLS",
-        "team": "Unknown",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "José Andrés Martínez",
-        "sport": "Soccer",
-        "league": "MLS",
-        "team": "Unknown",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Júnior Moreno",
-        "sport": "Soccer",
-        "league": "MLS",
-        "team": "Unknown",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Kevin Kelsy",
-        "sport": "Soccer",
-        "league": "MLS",
-        "team": "Unknown",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Luis González",
-        "sport": "Soccer",
-        "league": "MLS",
-        "team": "Unknown",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Miguel Navarro",
-        "sport": "Soccer",
-        "league": "MLS",
-        "team": "Unknown",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Moises Tablante",
-        "sport": "Soccer",
-        "league": "MLS",
-        "team": "Unknown",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Pablo Bonilla",
-        "sport": "Soccer",
-        "league": "MLS",
-        "team": "Unknown",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Rafael Romo",
-        "sport": "Soccer",
-        "league": "MLS",
-        "team": "Unknown",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Renzo Zambrano",
-        "sport": "Soccer",
-        "league": "MLS",
-        "team": "Unknown",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Rodrigo Neri",
-        "sport": "Soccer",
-        "league": "MLS",
-        "team": "Unknown",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Rolando Escobar",
-        "sport": "Soccer",
-        "league": "MLS",
-        "team": "Unknown",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Rolf Feltscher",
-        "sport": "Soccer",
-        "league": "MLS",
-        "team": "Unknown",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Ronald Hernández",
-        "sport": "Soccer",
-        "league": "MLS",
-        "team": "Unknown",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Ronaldo Peña",
-        "sport": "Soccer",
-        "league": "MLS",
-        "team": "Unknown",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Santiago Pita",
-        "sport": "Soccer",
-        "league": "MLS",
-        "team": "Unknown",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Sergio Córdova",
-        "sport": "Soccer",
-        "league": "MLS",
-        "team": "Unknown",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Telasco Segovia",
-        "sport": "Soccer",
-        "league": "MLS",
-        "team": "Unknown",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Wikelman Carmona",
-        "sport": "Soccer",
-        "league": "MLS",
-        "team": "Unknown",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Yangel Herrera",
-        "sport": "Soccer",
-        "league": "MLS",
-        "team": "Unknown",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Deyna Castellanos",
-        "sport": "Soccer",
-        "league": "NWSL",
-        "team": "Thorns",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Alejandro Marqués",
-        "sport": "Soccer",
-        "league": "Primeira Liga",
-        "team": "Estoril",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Telasco Segovia",
-        "sport": "Soccer",
-        "league": "Primeira Liga",
-        "team": "Casa Pia",
-        "provider": "manual"
-    },
-    {
-        "name": "Alejandro Marqués",
-        "sport": "Soccer",
-        "league": "Serie A",
-        "team": "Unknown",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Alessandro Milani",
-        "sport": "Soccer",
-        "league": "Serie A",
-        "team": "Lazio",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Alessandro Milani",
-        "sport": "Soccer",
-        "league": "Serie A",
-        "team": "Unknown",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Daniele Quieto",
-        "sport": "Soccer",
-        "league": "Serie A",
-        "team": "Unknown",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Josef Martínez",
-        "sport": "Soccer",
-        "league": "Serie A",
-        "team": "Unknown",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Luis Morales",
-        "sport": "Soccer",
-        "league": "Serie A",
-        "team": "Unknown",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Luís Balbo",
-        "sport": "Soccer",
-        "league": "Serie A",
-        "team": "Unknown",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Manuel Arteaga",
-        "sport": "Soccer",
-        "league": "Serie A",
-        "team": "Unknown",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Rafael Romo",
-        "sport": "Soccer",
-        "league": "Serie A",
-        "team": "Unknown",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Rolf Feltscher",
-        "sport": "Soccer",
-        "league": "Serie A",
-        "team": "Unknown",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Tomás Rincón",
-        "sport": "Soccer",
-        "league": "Serie A",
-        "team": "Unknown",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Yeferson Soteldo",
-        "sport": "Soccer",
-        "league": "Serie A",
-        "team": "Grêmio",
-        "provider": "manual"
-    },
-    {
-        "name": "Yordan Osorio",
-        "sport": "Soccer",
-        "league": "Serie A",
-        "team": "Unknown",
-        "provider": "balldontlie"
-    },
-    {
-        "name": "Jefferson Savarino",
-        "sport": "Soccer",
-        "league": "Série A",
-        "team": "Botafogo",
-        "provider": "manual"
-    },
-    {
-        "name": "Nahuel Ferraresi",
-        "sport": "Soccer",
-        "league": "Série A",
-        "team": "São Paulo",
-        "provider": "manual"
-    },
-    {
-        "name": "Garbiñe Muguruza",
-        "sport": "Tennis",
-        "league": "WTA",
-        "team": "Venezuela",
-        "provider": "manual"
-    }
+  {
+    "name": "Adbert Alzolay",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Cubs",
+    "provider": "manual"
+  },
+  {
+    "name": "Adrián Sánchez",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Nationals",
+    "provider": "manual"
+  },
+  {
+    "name": "Al Pedrique",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Tigers",
+    "provider": "manual"
+  },
+  {
+    "name": "Albert Suárez",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Orioles",
+    "provider": "manual"
+  },
+  {
+    "name": "Alberto Callaspo",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Dodgers",
+    "provider": "manual"
+  },
+  {
+    "name": "Alberto González",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Yankees",
+    "provider": "manual"
+  },
+  {
+    "name": "Alcides Escobar",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Nationals",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Alejandro Chacín",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Reds",
+    "provider": "manual"
+  },
+  {
+    "name": "Alejandro Freire",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Orioles",
+    "provider": "manual"
+  },
+  {
+    "name": "Alejandro Machado",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Red Sox",
+    "provider": "manual"
+  },
+  {
+    "name": "Alex Cabrera",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Diamondbacks",
+    "provider": "manual"
+  },
+  {
+    "name": "Alex Carrasquel",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "White Sox",
+    "provider": "manual"
+  },
+  {
+    "name": "Alex Delgado",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Red Sox",
+    "provider": "manual"
+  },
+  {
+    "name": "Alex Escobar",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Nationals",
+    "provider": "manual"
+  },
+  {
+    "name": "Alex Herrera",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Indians",
+    "provider": "manual"
+  },
+  {
+    "name": "Alex Pacheco",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Expos",
+    "provider": "manual"
+  },
+  {
+    "name": "Alex Prieto",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Twins",
+    "provider": "manual"
+  },
+  {
+    "name": "Alex Ramírez",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Pirates",
+    "provider": "manual"
+  },
+  {
+    "name": "Alex Romero",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Diamondbacks",
+    "provider": "manual"
+  },
+  {
+    "name": "Alex Serrano",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Angels",
+    "provider": "manual"
+  },
+  {
+    "name": "Alex Torres",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Mets",
+    "provider": "manual"
+  },
+  {
+    "name": "Alexi Amarista",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Rockies",
+    "provider": "manual"
+  },
+  {
+    "name": "Alexis Infante",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Braves",
+    "provider": "manual"
+  },
+  {
+    "name": "Alfredo González",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "White Sox",
+    "provider": "manual"
+  },
+  {
+    "name": "Ali Sánchez",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Red Sox",
+    "provider": "manual"
+  },
+  {
+    "name": "Alvin Colina",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Rockies",
+    "provider": "manual"
+  },
+  {
+    "name": "Amalio Carreño",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Phillies",
+    "provider": "manual"
+  },
+  {
+    "name": "Anderson Espinoza",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Cubs",
+    "provider": "manual"
+  },
+  {
+    "name": "Anderson Machado",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Rockies",
+    "provider": "manual"
+  },
+  {
+    "name": "Andres Blanco",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Phillies",
+    "provider": "manual"
+  },
+  {
+    "name": "Andres Chaparro",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Nationals",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Andres Gimenez",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Blue Jays",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Andruw Monasterio",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Red Sox",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Andry Lara",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Nationals",
+    "provider": "manual"
+  },
+  {
+    "name": "Andrés Galarraga",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Giants",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Andrés Machado",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Nationals",
+    "provider": "manual"
+  },
+  {
+    "name": "Angel Salazar",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Cubs",
+    "provider": "manual"
+  },
+  {
+    "name": "Angel Zerpa",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Royals",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Anibal Sanchez",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Nationals",
+    "provider": "manual"
+  },
+  {
+    "name": "Anthony Castro",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Guardians",
+    "provider": "manual"
+  },
+  {
+    "name": "Anthony Molina",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Rockies",
+    "provider": "manual"
+  },
+  {
+    "name": "Anthony Ortega",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Angels",
+    "provider": "manual"
+  },
+  {
+    "name": "Anthony Santander",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Blue Jays",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Antonio Senzatela",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Rockies",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Arcenio León",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Tigers",
+    "provider": "manual"
+  },
+  {
+    "name": "Argenis Díaz",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Pirates",
+    "provider": "manual"
+  },
+  {
+    "name": "Armando Galarraga",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Diamondbacks",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Asdrúbal Cabrera",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Reds",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Avisaíl García",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Marlins",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Beiker Graterol",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Tigers",
+    "provider": "manual"
+  },
+  {
+    "name": "Bo Diaz",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Reds",
+    "provider": "manual"
+  },
+  {
+    "name": "Bobby Abreu",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Mets",
+    "provider": "manual"
+  },
+  {
+    "name": "Bradgley Rodriguez",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Padres",
+    "provider": "manual"
+  },
+  {
+    "name": "Brayan Rocchio",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Guardians",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Brayan Villarreal",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Cubs",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Breyvic Valera",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Blue Jays",
+    "provider": "manual"
+  },
+  {
+    "name": "Bruce Rondón",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "White Sox",
+    "provider": "manual"
+  },
+  {
+    "name": "Brusdar Graterol",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Dodgers",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Carlos Ascanio",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Black Yankees",
+    "provider": "manual"
+  },
+  {
+    "name": "Carlos Asuaje",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Padres",
+    "provider": "manual"
+  },
+  {
+    "name": "Carlos Carrasco",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Guardians",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Carlos García",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Padres",
+    "provider": "manual"
+  },
+  {
+    "name": "Carlos González",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Cubs",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Carlos Guillén",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Tigers",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Carlos Hernández",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Guardians",
+    "provider": "manual"
+  },
+  {
+    "name": "Carlos Maldonado",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Nationals",
+    "provider": "manual"
+  },
+  {
+    "name": "Carlos Martínez",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Cardinals",
+    "provider": "manual"
+  },
+  {
+    "name": "Carlos Mendoza",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Mets",
+    "provider": "manual"
+  },
+  {
+    "name": "Carlos Monasterios",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Dodgers",
+    "provider": "manual"
+  },
+  {
+    "name": "Carlos Méndez",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Orioles",
+    "provider": "manual"
+  },
+  {
+    "name": "Carlos Narváez",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Red Sox",
+    "provider": "manual"
+  },
+  {
+    "name": "Carlos Pulido",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Twins",
+    "provider": "manual"
+  },
+  {
+    "name": "Carlos Pérez",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Athletics",
+    "provider": "manual"
+  },
+  {
+    "name": "Carlos Quintana",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Red Sox",
+    "provider": "manual"
+  },
+  {
+    "name": "Carlos Rivero",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Red Sox",
+    "provider": "manual"
+  },
+  {
+    "name": "Carlos Sanabria",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Astros",
+    "provider": "manual"
+  },
+  {
+    "name": "Carlos Silva",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Cubs",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Carlos Tocci",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Rangers",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Carlos Valderrama",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Giants",
+    "provider": "manual"
+  },
+  {
+    "name": "Carlos Zambrano",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Marlins",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Cesar Tovar",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Twins",
+    "provider": "manual"
+  },
+  {
+    "name": "Chico Carrasquel",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Orioles",
+    "provider": "manual"
+  },
+  {
+    "name": "Chucho Ramos",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Reds",
+    "provider": "manual"
+  },
+  {
+    "name": "Clemente Álvarez",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Phillies",
+    "provider": "manual"
+  },
+  {
+    "name": "Cris Colón",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Rangers",
+    "provider": "manual"
+  },
+  {
+    "name": "César Gutiérrez",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Tigers",
+    "provider": "manual"
+  },
+  {
+    "name": "César Hernández",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Nationals",
+    "provider": "manual"
+  },
+  {
+    "name": "César Izturis",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Reds",
+    "provider": "manual"
+  },
+  {
+    "name": "César Jiménez",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Brewers",
+    "provider": "manual"
+  },
+  {
+    "name": "Damaso Blanco",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Giants",
+    "provider": "manual"
+  },
+  {
+    "name": "Daniel Palencia",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Cubs",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Danny Leon",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Rangers",
+    "provider": "manual"
+  },
+  {
+    "name": "Danny Sandoval",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Phillies",
+    "provider": "manual"
+  },
+  {
+    "name": "Darwin Cubillán",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Orioles",
+    "provider": "manual"
+  },
+  {
+    "name": "Darwinzon Hernández",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Orioles",
+    "provider": "manual"
+  },
+  {
+    "name": "David Concepcion",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Reds",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "David Peralta",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Padres",
+    "provider": "manual"
+  },
+  {
+    "name": "Deolis Guerra",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Athletics",
+    "provider": "manual"
+  },
+  {
+    "name": "Diego Castillo",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Twins",
+    "provider": "manual"
+  },
+  {
+    "name": "Diego Moreno",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Rays",
+    "provider": "manual"
+  },
+  {
+    "name": "Dilson Torres",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Royals",
+    "provider": "manual"
+  },
+  {
+    "name": "Dioner Navarro",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Blue Jays",
+    "provider": "manual"
+  },
+  {
+    "name": "Dixon Machado",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Giants",
+    "provider": "manual"
+  },
+  {
+    "name": "Donaldo Méndez",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Padres",
+    "provider": "manual"
+  },
+  {
+    "name": "Eddie Pérez",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Braves",
+    "provider": "manual"
+  },
+  {
+    "name": "Eddie Zambrano",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Cubs",
+    "provider": "manual"
+  },
+  {
+    "name": "Eddy Díaz",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Brewers",
+    "provider": "manual"
+  },
+  {
+    "name": "Edgar Cáceres",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Royals",
+    "provider": "manual"
+  },
+  {
+    "name": "Edgar Ibarra",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Angels",
+    "provider": "manual"
+  },
+  {
+    "name": "Edgar Navarro",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "White Sox",
+    "provider": "manual"
+  },
+  {
+    "name": "Edgar Ramos",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Phillies",
+    "provider": "manual"
+  },
+  {
+    "name": "Edgardo Alfonzo",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Mets",
+    "provider": "manual"
+  },
+  {
+    "name": "Edgardo Henriquez",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Dodgers",
+    "provider": "manual"
+  },
+  {
+    "name": "Edgmer Escalona",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Rockies",
+    "provider": "manual"
+  },
+  {
+    "name": "Eduard Bazardo",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Mariners",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Eduardo Escobar",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Mets",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Eduardo Jiménez",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Tigers",
+    "provider": "manual"
+  },
+  {
+    "name": "Eduardo Paredes",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Angels",
+    "provider": "manual"
+  },
+  {
+    "name": "Eduardo Rodriguez",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Diamondbacks",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Eduardo Salazar",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Nationals",
+    "provider": "manual"
+  },
+  {
+    "name": "Eduardo Sánchez",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Cubs",
+    "provider": "manual"
+  },
+  {
+    "name": "Eduardo Villacis",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Royals",
+    "provider": "manual"
+  },
+  {
+    "name": "Edubray Ramos",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Phillies",
+    "provider": "manual"
+  },
+  {
+    "name": "Edwar Colina",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Twins",
+    "provider": "manual"
+  },
+  {
+    "name": "Edward Mujica",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Athletics",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Edward Olivares",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Rays",
+    "provider": "manual"
+  },
+  {
+    "name": "Edwin Bellorin",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Rockies",
+    "provider": "manual"
+  },
+  {
+    "name": "Edwin Escobar",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Diamondbacks",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Edwin Hurtado",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Mariners",
+    "provider": "manual"
+  },
+  {
+    "name": "Edwin Moreno",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Padres",
+    "provider": "manual"
+  },
+  {
+    "name": "Ehire Adrianza",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Angels",
+    "provider": "manual"
+  },
+  {
+    "name": "Eider Torres",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Orioles",
+    "provider": "manual"
+  },
+  {
+    "name": "Elias Díaz",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Rockies",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Elieser Hernández",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Brewers",
+    "provider": "manual"
+  },
+  {
+    "name": "Elio Chacón",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Mets",
+    "provider": "manual"
+  },
+  {
+    "name": "Eliézer Alfonzo",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Rockies",
+    "provider": "manual"
+  },
+  {
+    "name": "Elvis Andrus",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "White Sox",
+    "provider": "manual"
+  },
+  {
+    "name": "Elvis Araújo",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Phillies",
+    "provider": "manual"
+  },
+  {
+    "name": "Ender Inciarte",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Mets",
+    "provider": "manual"
+  },
+  {
+    "name": "Enderson Franco",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Giants",
+    "provider": "manual"
+  },
+  {
+    "name": "Endy Chavez",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Mets",
+    "provider": "manual"
+  },
+  {
+    "name": "Engelb Vielma",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Orioles",
+    "provider": "manual"
+  },
+  {
+    "name": "Enmanuel De Jesus",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Marlins",
+    "provider": "manual"
+  },
+  {
+    "name": "Enrique González",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Tigers",
+    "provider": "manual"
+  },
+  {
+    "name": "Enzo Hernández",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Dodgers",
+    "provider": "manual"
+  },
+  {
+    "name": "Erick Castillo",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Cubs",
+    "provider": "manual"
+  },
+  {
+    "name": "Ethan Salas",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Padres",
+    "provider": "manual"
+  },
+  {
+    "name": "Eugenio Suárez",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Reds",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Everson Pereira",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "White Sox",
+    "provider": "manual"
+  },
+  {
+    "name": "Ezequiel Carrera",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Blue Jays",
+    "provider": "manual"
+  },
+  {
+    "name": "Ezequiel Tovar",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Rockies",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Felipe Lira",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Expos",
+    "provider": "manual"
+  },
+  {
+    "name": "Felipe Vazquez",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Pirates",
+    "provider": "manual"
+  },
+  {
+    "name": "Fernando Lunar",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Orioles",
+    "provider": "manual"
+  },
+  {
+    "name": "Fernando Nieve",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Mets",
+    "provider": "manual"
+  },
+  {
+    "name": "Francisco Alvarez",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Mets",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Francisco Arcia",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Angels",
+    "provider": "manual"
+  },
+  {
+    "name": "Francisco Cervelli",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Padres",
+    "provider": "manual"
+  },
+  {
+    "name": "Francisco Morales",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Phillies",
+    "provider": "manual"
+  },
+  {
+    "name": "Francisco Rodríguez",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Tigers",
+    "provider": "manual"
+  },
+  {
+    "name": "Frank Mata",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Orioles",
+    "provider": "manual"
+  },
+  {
+    "name": "Franklin Barreto",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Angels",
+    "provider": "manual"
+  },
+  {
+    "name": "Franklin Gutiérrez",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Dodgers",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Franklin Morales",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Blue Jays",
+    "provider": "manual"
+  },
+  {
+    "name": "Fred Manrique",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Athletics",
+    "provider": "manual"
+  },
+  {
+    "name": "Freddy Fermin",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Padres",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Freddy Galvis",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Reds",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Freddy García",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Orioles",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Félix Doubront",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Athletics",
+    "provider": "manual"
+  },
+  {
+    "name": "Félix Escalona",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Yankees",
+    "provider": "manual"
+  },
+  {
+    "name": "Félix Hernández",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Mariners",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Gabriel Arias",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Guardians",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Gabriel Moreno",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Diamondbacks",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Gabriel Moya",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Twins",
+    "provider": "manual"
+  },
+  {
+    "name": "Gerardo Parra",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Nationals",
+    "provider": "manual"
+  },
+  {
+    "name": "Geremi González",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Brewers",
+    "provider": "manual"
+  },
+  {
+    "name": "Germán González",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Twins",
+    "provider": "manual"
+  },
+  {
+    "name": "Germán Márquez",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Rockies",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Giomar Guevara",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Mariners",
+    "provider": "manual"
+  },
+  {
+    "name": "Giovanni Carrara",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Dodgers",
+    "provider": "manual"
+  },
+  {
+    "name": "Gleyber Torres",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Tigers",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Gonzalo Marquez",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Cubs",
+    "provider": "manual"
+  },
+  {
+    "name": "Gorkys Hernández",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Red Sox",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Gregorio Petit",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Twins",
+    "provider": "manual"
+  },
+  {
+    "name": "Gregory Infante",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "White Sox",
+    "provider": "manual"
+  },
+  {
+    "name": "Grégor Blanco",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Giants",
+    "provider": "manual"
+  },
+  {
+    "name": "Guilder Rodríguez",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Rangers",
+    "provider": "manual"
+  },
+  {
+    "name": "Guillermo Moscoso",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Giants",
+    "provider": "manual"
+  },
+  {
+    "name": "Guillermo Quiroz",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Giants",
+    "provider": "manual"
+  },
+  {
+    "name": "Guillermo Rodríguez",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Orioles",
+    "provider": "manual"
+  },
+  {
+    "name": "Gus Gil",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Brewers",
+    "provider": "manual"
+  },
+  {
+    "name": "Gus Polidor",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Marlins",
+    "provider": "manual"
+  },
+  {
+    "name": "Gustavo Chacín",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Astros",
+    "provider": "manual"
+  },
+  {
+    "name": "Gustavo Molina",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Yankees",
+    "provider": "manual"
+  },
+  {
+    "name": "Harold Castro",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Rockies",
+    "provider": "manual"
+  },
+  {
+    "name": "Harvey García",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Marlins",
+    "provider": "manual"
+  },
+  {
+    "name": "Henderson Alvarez III",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Phillies",
+    "provider": "manual"
+  },
+  {
+    "name": "Henry Blanco",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Mariners",
+    "provider": "manual"
+  },
+  {
+    "name": "Henry Rodríguez",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Expos",
+    "provider": "manual"
+  },
+  {
+    "name": "Hernán Iribarren",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Reds",
+    "provider": "manual"
+  },
+  {
+    "name": "Hernán Pérez",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Nationals",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Horacio Estrada",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Rockies",
+    "provider": "manual"
+  },
+  {
+    "name": "Humberto Arteaga",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Marlins",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Humberto Quintero",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Mariners",
+    "provider": "manual"
+  },
+  {
+    "name": "Héctor Giménez",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "White Sox",
+    "provider": "manual"
+  },
+  {
+    "name": "Héctor Rondón",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Diamondbacks",
+    "provider": "manual"
+  },
+  {
+    "name": "Héctor Sánchez",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Padres",
+    "provider": "manual"
+  },
+  {
+    "name": "Ildemaro Vargas",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Nationals",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Israel Pineda",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Nationals",
+    "provider": "manual"
+  },
+  {
+    "name": "Iván Ochoa",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Giants",
+    "provider": "manual"
+  },
+  {
+    "name": "J.C. Boscán",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Cubs",
+    "provider": "manual"
+  },
+  {
+    "name": "J.C. Gutiérrez",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Giants",
+    "provider": "manual"
+  },
+  {
+    "name": "Jackson Chourio",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Brewers",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Jairo Díaz",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Rockies",
+    "provider": "manual"
+  },
+  {
+    "name": "Jairo Iriarte",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "White Sox",
+    "provider": "manual"
+  },
+  {
+    "name": "Javier Sanoja",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Marlins",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Jean Machi",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Mariners",
+    "provider": "manual"
+  },
+  {
+    "name": "Jeanmar Gómez",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Rangers",
+    "provider": "manual"
+  },
+  {
+    "name": "Jeferson Quero",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Brewers",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Jermaine Palacios",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Twins",
+    "provider": "manual"
+  },
+  {
+    "name": "Jesús Aguilar",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Athletics",
+    "provider": "manual"
+  },
+  {
+    "name": "Jesús Delgado",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Marlins",
+    "provider": "manual"
+  },
+  {
+    "name": "Jesús Flores",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Nationals",
+    "provider": "manual"
+  },
+  {
+    "name": "Jesús Guzmán",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Astros",
+    "provider": "manual"
+  },
+  {
+    "name": "Jesús Montero",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Mariners",
+    "provider": "manual"
+  },
+  {
+    "name": "Jesús Sucre",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Orioles",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Jesús Tinoco",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Cubs",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Jhonathan Díaz",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Mariners",
+    "provider": "manual"
+  },
+  {
+    "name": "Jhonny Pereda",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Mariners",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Jhostynxon Garcia",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Pirates",
+    "provider": "manual"
+  },
+  {
+    "name": "Jhoulys Chacín",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Rockies",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Joe Ortiz",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Brewers",
+    "provider": "manual"
+  },
+  {
+    "name": "Johan Santana",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Mets",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Johnny Paredes",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Tigers",
+    "provider": "manual"
+  },
+  {
+    "name": "Jonathan Herrera",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Cubs",
+    "provider": "manual"
+  },
+  {
+    "name": "Jorbit Vivas",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Yankees",
+    "provider": "manual"
+  },
+  {
+    "name": "Jorge Barrosa",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Diamondbacks",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Jorge Julio",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Brewers",
+    "provider": "manual"
+  },
+  {
+    "name": "Jorge Rondon",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Pirates",
+    "provider": "manual"
+  },
+  {
+    "name": "Jorge Velandia",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Indians",
+    "provider": "manual"
+  },
+  {
+    "name": "Jose Altuve",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Astros",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Jose Alvarado",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Phillies",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Jose Butto",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Mets",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Jose Campos",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Diamondbacks",
+    "provider": "manual"
+  },
+  {
+    "name": "Josh Barfield",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Indians",
+    "provider": "manual"
+  },
+  {
+    "name": "Josmil Pinto",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Brewers",
+    "provider": "manual"
+  },
+  {
+    "name": "José Azocar",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Braves",
+    "provider": "manual"
+  },
+  {
+    "name": "José Briceño",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Angels",
+    "provider": "manual"
+  },
+  {
+    "name": "José Castillo",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Mets",
+    "provider": "manual"
+  },
+  {
+    "name": "José Escobar",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Indians",
+    "provider": "manual"
+  },
+  {
+    "name": "José Godoy",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Pirates",
+    "provider": "manual"
+  },
+  {
+    "name": "José Herrera",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Rangers",
+    "provider": "manual"
+  },
+  {
+    "name": "José Lobatón",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Cubs",
+    "provider": "manual"
+  },
+  {
+    "name": "José López",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "White Sox",
+    "provider": "manual"
+  },
+  {
+    "name": "José Malavé",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Red Sox",
+    "provider": "manual"
+  },
+  {
+    "name": "José Martínez",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Cubs",
+    "provider": "manual"
+  },
+  {
+    "name": "José Mijares",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Giants",
+    "provider": "manual"
+  },
+  {
+    "name": "José Mujica",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Rockies",
+    "provider": "manual"
+  },
+  {
+    "name": "José Nieves",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Angels",
+    "provider": "manual"
+  },
+  {
+    "name": "José Ortega",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Tigers",
+    "provider": "manual"
+  },
+  {
+    "name": "José Osuna",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Pirates",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "José Peraza",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Mets",
+    "provider": "manual"
+  },
+  {
+    "name": "José Pirela",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Phillies",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "José Quijada",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Angels",
+    "provider": "manual"
+  },
+  {
+    "name": "José Rodríguez",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Phillies",
+    "provider": "manual"
+  },
+  {
+    "name": "José Rondón",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Cardinals",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "José Ruiz",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Phillies",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "José Suárez",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Angels",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "José Torres",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Padres",
+    "provider": "manual"
+  },
+  {
+    "name": "José Tábata",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Pirates",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "José Álvarez",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Giants",
+    "provider": "manual"
+  },
+  {
+    "name": "Juan Castillo",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Brewers",
+    "provider": "manual"
+  },
+  {
+    "name": "Juan Graterol",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Reds",
+    "provider": "manual"
+  },
+  {
+    "name": "Juan Moreno",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Padres",
+    "provider": "manual"
+  },
+  {
+    "name": "Juan Morillo",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Diamondbacks",
+    "provider": "manual"
+  },
+  {
+    "name": "Juan Rincón",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Rockies",
+    "provider": "manual"
+  },
+  {
+    "name": "Juan Rivera",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Dodgers",
+    "provider": "manual"
+  },
+  {
+    "name": "Juan Yepez",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Nationals",
+    "provider": "manual"
+  },
+  {
+    "name": "Julio Machado",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Brewers",
+    "provider": "manual"
+  },
+  {
+    "name": "Juniel Querecuto",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Cardinals",
+    "provider": "manual"
+  },
+  {
+    "name": "Junior Guerra",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Angels",
+    "provider": "manual"
+  },
+  {
+    "name": "Keibert Ruiz",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Nationals",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Keider Montero",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Tigers",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Kelvim Escobar",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Brewers",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Kenedy Corona",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Astros",
+    "provider": "manual"
+  },
+  {
+    "name": "Kervin Castro",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Yankees",
+    "provider": "manual"
+  },
+  {
+    "name": "Lenyn Sosa",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "White Sox",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Leo Hernández",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Yankees",
+    "provider": "manual"
+  },
+  {
+    "name": "Leo Rivas",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Mariners",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Leonel Campos",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Blue Jays",
+    "provider": "manual"
+  },
+  {
+    "name": "Les Straker",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Twins",
+    "provider": "manual"
+  },
+  {
+    "name": "Lester Oliveros",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Twins",
+    "provider": "manual"
+  },
+  {
+    "name": "Lino Urdaneta",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Mets",
+    "provider": "manual"
+  },
+  {
+    "name": "Liu Rodríguez",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "White Sox",
+    "provider": "manual"
+  },
+  {
+    "name": "Livan Soto",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Orioles",
+    "provider": "manual"
+  },
+  {
+    "name": "Luarbert Arias",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Marlins",
+    "provider": "manual"
+  },
+  {
+    "name": "Luinder Avila",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Royals",
+    "provider": "manual"
+  },
+  {
+    "name": "Luis Alexander Basabe",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Giants",
+    "provider": "manual"
+  },
+  {
+    "name": "Luis Aparicio",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "White Sox",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Luis Aponte",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Indians",
+    "provider": "manual"
+  },
+  {
+    "name": "Luis Arráez",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Giants",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Luis Avilán",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Nationals",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Luis Contreras",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Astros",
+    "provider": "manual"
+  },
+  {
+    "name": "Luis Curvelo",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Rangers",
+    "provider": "manual"
+  },
+  {
+    "name": "Luis Garcia",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Mets",
+    "provider": "manual"
+  },
+  {
+    "name": "Luis Guillorme",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Braves",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Luis Hernández",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Rangers",
+    "provider": "manual"
+  },
+  {
+    "name": "Luis Jiménez",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Mariners",
+    "provider": "manual"
+  },
+  {
+    "name": "Luis Leal",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Blue Jays",
+    "provider": "manual"
+  },
+  {
+    "name": "Luis Matos",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Giants",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Luis Maza",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Dodgers",
+    "provider": "manual"
+  },
+  {
+    "name": "Luis Ordaz",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Devil Rays",
+    "provider": "manual"
+  },
+  {
+    "name": "Luis Oviedo",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Pirates",
+    "provider": "manual"
+  },
+  {
+    "name": "Luis Perales",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Nationals",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Luis Rengifo",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Brewers",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Luis Rivas",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Pirates",
+    "provider": "manual"
+  },
+  {
+    "name": "Luis Rodríguez",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Mariners",
+    "provider": "manual"
+  },
+  {
+    "name": "Luis Salazar",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Cubs",
+    "provider": "manual"
+  },
+  {
+    "name": "Luis Sardiñas",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Orioles",
+    "provider": "manual"
+  },
+  {
+    "name": "Luis Sojo",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Yankees",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Luis Sánchez",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Angels",
+    "provider": "manual"
+  },
+  {
+    "name": "Luis Torrens",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Mets",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Luis Ugueto",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Mariners",
+    "provider": "manual"
+  },
+  {
+    "name": "Luis Valbuena",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Angels",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Luisangel Acuña",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "White Sox",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Luís Madero",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Marlins",
+    "provider": "manual"
+  },
+  {
+    "name": "Magglio Ordóñez",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Tigers",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Maicer Izturis",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Blue Jays",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Maikel Garcia",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Royals",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Manny Piña",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Athletics",
+    "provider": "manual"
+  },
+  {
+    "name": "Manny Sarmiento",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Pirates",
+    "provider": "manual"
+  },
+  {
+    "name": "Manny Trillo",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Reds",
+    "provider": "manual"
+  },
+  {
+    "name": "Marco Scutaro",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Giants",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Marcos Armas",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Athletics",
+    "provider": "manual"
+  },
+  {
+    "name": "Marcos Carvajal",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Marlins",
+    "provider": "manual"
+  },
+  {
+    "name": "Martín Prado",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Marlins",
+    "provider": "manual"
+  },
+  {
+    "name": "Martín Pérez",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Braves",
+    "provider": "manual"
+  },
+  {
+    "name": "Marwin González",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Yankees",
+    "provider": "manual"
+  },
+  {
+    "name": "Mauricio Llovera",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Mariners",
+    "provider": "manual"
+  },
+  {
+    "name": "Mauricio Robles",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Phillies",
+    "provider": "manual"
+  },
+  {
+    "name": "Mauro Zárate",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Marlins",
+    "provider": "manual"
+  },
+  {
+    "name": "Max Castillo",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Royals",
+    "provider": "manual"
+  },
+  {
+    "name": "Max Ramirez",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Texas",
+    "provider": "manual"
+  },
+  {
+    "name": "Maximo Acosta",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Marlins",
+    "provider": "manual"
+  },
+  {
+    "name": "Mayckol Guaipe",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Mariners",
+    "provider": "manual"
+  },
+  {
+    "name": "Melvin Dorta",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Nationals",
+    "provider": "manual"
+  },
+  {
+    "name": "Melvin Mora",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Orioles",
+    "provider": "manual"
+  },
+  {
+    "name": "Miguel Cabrera",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Tigers",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Miguel Cairo",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Reds",
+    "provider": "manual"
+  },
+  {
+    "name": "Miguel García",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Pirates",
+    "provider": "manual"
+  },
+  {
+    "name": "Miguel González",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "White Sox",
+    "provider": "manual"
+  },
+  {
+    "name": "Miguel Montero",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Nationals",
+    "provider": "manual"
+  },
+  {
+    "name": "Miguel Pérez",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Reds",
+    "provider": "manual"
+  },
+  {
+    "name": "Miguel Rojas",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Dodgers",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Miguel Socolovich",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Braves",
+    "provider": "manual"
+  },
+  {
+    "name": "Miguel Yajure",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Pirates",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Moisés Ballesteros",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Cubs",
+    "provider": "manual"
+  },
+  {
+    "name": "Niuman Romero",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Red Sox",
+    "provider": "manual"
+  },
+  {
+    "name": "Nivaldo Rodriguez",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Astros",
+    "provider": "manual"
+  },
+  {
+    "name": "Néstor Chávez",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Giants",
+    "provider": "manual"
+  },
+  {
+    "name": "Odúbel Herrera",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Phillies",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Omar Daal",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Orioles",
+    "provider": "manual"
+  },
+  {
+    "name": "Omar Infante",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Royals",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Omar Narváez",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "White Sox",
+    "provider": "manual"
+  },
+  {
+    "name": "Omar Vizquel",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Blue Jays",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Orber Moreno",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Mets",
+    "provider": "manual"
+  },
+  {
+    "name": "Orlando Arcia",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Braves",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Oscar Azócar",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Padres",
+    "provider": "manual"
+  },
+  {
+    "name": "Oscar Salazar",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Padres",
+    "provider": "manual"
+  },
+  {
+    "name": "Osleivis Basabe",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Rays",
+    "provider": "manual"
+  },
+  {
+    "name": "Osmer Morales",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Angels",
+    "provider": "manual"
+  },
+  {
+    "name": "Ossie Blanco",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Indians",
+    "provider": "manual"
+  },
+  {
+    "name": "Oswald Peraza",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Angels",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Oswaldo Arcia",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Padres",
+    "provider": "manual"
+  },
+  {
+    "name": "Oswaldo Cabrera",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Yankees",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Oswaldo Navarro",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Astros",
+    "provider": "manual"
+  },
+  {
+    "name": "Oswaldo Peraza",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Orioles",
+    "provider": "manual"
+  },
+  {
+    "name": "Ozzie Guillén",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Braves",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Pablo López",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Twins",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Pablo Sandoval",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Braves",
+    "provider": "manual"
+  },
+  {
+    "name": "Pablo Torrealba",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "White Sox",
+    "provider": "manual"
+  },
+  {
+    "name": "Pedro Avila",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Guardians",
+    "provider": "manual"
+  },
+  {
+    "name": "Pedro Castellano",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Rockies",
+    "provider": "manual"
+  },
+  {
+    "name": "Pedro Hernández",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Rockies",
+    "provider": "manual"
+  },
+  {
+    "name": "Pedro Pagés",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Cardinals",
+    "provider": "manual"
+  },
+  {
+    "name": "Pompeyo Davalillo",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Senators",
+    "provider": "manual"
+  },
+  {
+    "name": "Rafael Betancourt",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Rockies",
+    "provider": "manual"
+  },
+  {
+    "name": "Rafael Marchan",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Phillies",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Rafael Ortega",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "White Sox",
+    "provider": "manual"
+  },
+  {
+    "name": "Ramón Cabrera",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Reds",
+    "provider": "manual"
+  },
+  {
+    "name": "Ramón Castro",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Athletics",
+    "provider": "manual"
+  },
+  {
+    "name": "Ramón Flores",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Angels",
+    "provider": "manual"
+  },
+  {
+    "name": "Ramón García",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Astros",
+    "provider": "manual"
+  },
+  {
+    "name": "Ramón Hernández",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Dodgers",
+    "provider": "manual"
+  },
+  {
+    "name": "Ramón Ramírez",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Orioles",
+    "provider": "manual"
+  },
+  {
+    "name": "Ranger Suárez",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Red Sox",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Ray Monzant",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Giants",
+    "provider": "manual"
+  },
+  {
+    "name": "Ray Olmedo",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "White Sox",
+    "provider": "manual"
+  },
+  {
+    "name": "Raúl Chávez",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Blue Jays",
+    "provider": "manual"
+  },
+  {
+    "name": "Remy Hermoso",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Indians",
+    "provider": "manual"
+  },
+  {
+    "name": "Renato Núñez",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Tigers",
+    "provider": "manual"
+  },
+  {
+    "name": "Renyel Pinto",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Marlins",
+    "provider": "manual"
+  },
+  {
+    "name": "René Pinto",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Phillies",
+    "provider": "manual"
+  },
+  {
+    "name": "René Reyes",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Rockies",
+    "provider": "manual"
+  },
+  {
+    "name": "Ricardo Pinto",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Phillies",
+    "provider": "manual"
+  },
+  {
+    "name": "Ricardo Rodríguez",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Rangers",
+    "provider": "manual"
+  },
+  {
+    "name": "Ricardo Sanchez",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Cardinals",
+    "provider": "manual"
+  },
+  {
+    "name": "Rich Garcés",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Red Sox",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Richard Hidalgo",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Rangers",
+    "provider": "manual"
+  },
+  {
+    "name": "Robert Machado",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Orioles",
+    "provider": "manual"
+  },
+  {
+    "name": "Robert Pérez",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Brewers",
+    "provider": "manual"
+  },
+  {
+    "name": "Robert Suárez",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Padres",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Roberto Petagine",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Mariners",
+    "provider": "manual"
+  },
+  {
+    "name": "Roberto Rodríguez",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Cubs",
+    "provider": "manual"
+  },
+  {
+    "name": "Robinson Chirinos",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Orioles",
+    "provider": "manual"
+  },
+  {
+    "name": "Roger Cedeño",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Dodgers",
+    "provider": "manual"
+  },
+  {
+    "name": "Ronald Acuña Jr.",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Braves",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Ronald Belisario",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Rays",
+    "provider": "manual"
+  },
+  {
+    "name": "Ronald Herrera",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Yankees",
+    "provider": "manual"
+  },
+  {
+    "name": "Ronald Torreyes",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Phillies",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Ronny Cedeño",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Phillies",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Rosman García",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Rangers",
+    "provider": "manual"
+  },
+  {
+    "name": "Rougned Odor",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Padres",
+    "provider": "manual"
+  },
+  {
+    "name": "Rubén Quevedo",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Brewers",
+    "provider": "manual"
+  },
+  {
+    "name": "Rómulo Sánchez",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Yankees",
+    "provider": "manual"
+  },
+  {
+    "name": "Salvador Perez",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Royals",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Sandy León",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Braves",
+    "provider": "manual"
+  },
+  {
+    "name": "Sebastián Rivero",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Angels",
+    "provider": "manual"
+  },
+  {
+    "name": "Sergio Escalona",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Astros",
+    "provider": "manual"
+  },
+  {
+    "name": "Silvino Bracho",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Braves",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Steve Torrealba",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Braves",
+    "provider": "manual"
+  },
+  {
+    "name": "Símon Muzziotti",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Phillies",
+    "provider": "manual"
+  },
+  {
+    "name": "Thairo Estrada",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Orioles",
+    "provider": "manual"
+  },
+  {
+    "name": "Toby Hernández",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Blue Jays",
+    "provider": "manual"
+  },
+  {
+    "name": "Tomás Pérez",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Astros",
+    "provider": "manual"
+  },
+  {
+    "name": "Tomás Telis",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Marlins",
+    "provider": "manual"
+  },
+  {
+    "name": "Tony Alvarez",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Pirates",
+    "provider": "manual"
+  },
+  {
+    "name": "Tony Armas",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Angels",
+    "provider": "manual"
+  },
+  {
+    "name": "Tony Castillo",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "White Sox",
+    "provider": "manual"
+  },
+  {
+    "name": "Tucupita Marcano",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Padres",
+    "provider": "manual"
+  },
+  {
+    "name": "Ubaldo Heredia",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Expos",
+    "provider": "manual"
+  },
+  {
+    "name": "Ugueth Urbina",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Phillies",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Urbano Lugo",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Tigers",
+    "provider": "manual"
+  },
+  {
+    "name": "Vic Davalillo",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Dodgers",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Víctor Gárate",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Nationals",
+    "provider": "manual"
+  },
+  {
+    "name": "Víctor Martínez",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Tigers",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Víctor Reyes",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Tigers",
+    "provider": "manual"
+  },
+  {
+    "name": "Víctor Zambrano",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Phillies",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Wiki González",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Nationals",
+    "provider": "manual"
+  },
+  {
+    "name": "Wil Ledezma",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Blue Jays",
+    "provider": "manual"
+  },
+  {
+    "name": "Wilfredo Boscán",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Pirates",
+    "provider": "manual"
+  },
+  {
+    "name": "Wilfredo Rodríguez",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Astros",
+    "provider": "manual"
+  },
+  {
+    "name": "Wilfredo Tovar",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Mets",
+    "provider": "manual"
+  },
+  {
+    "name": "Wilkelman Gonzalez",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "White Sox",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Wilking Rodríguez",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Royals",
+    "provider": "manual"
+  },
+  {
+    "name": "William Bergolla",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "White Sox",
+    "provider": "manual"
+  },
+  {
+    "name": "William Contreras",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Brewers",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "William Cuevas",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Red Sox",
+    "provider": "manual"
+  },
+  {
+    "name": "Williams Pérez",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Braves",
+    "provider": "manual"
+  },
+  {
+    "name": "Willians Astudillo",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Marlins",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Willie Cañate",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Blue Jays",
+    "provider": "manual"
+  },
+  {
+    "name": "Willie Martínez",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Indians",
+    "provider": "manual"
+  },
+  {
+    "name": "Willson Contreras",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Red Sox",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Wilmer Flores",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Giants",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Wilmer Font",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Blue Jays",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Wilson Ramos",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Indians",
+    "provider": "manual"
+  },
+  {
+    "name": "Wilson Álvarez",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Dodgers",
+    "provider": "manual"
+  },
+  {
+    "name": "Wilyer Abreu",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Red Sox",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Yangervis Solarte",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Giants",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Yilber Diaz",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Diamondbacks",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Yoel Hernández",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Phillies",
+    "provider": "manual"
+  },
+  {
+    "name": "Yoendrys Gómez",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Rays",
+    "provider": "manual"
+  },
+  {
+    "name": "Yoervis Medina",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Cubs",
+    "provider": "manual"
+  },
+  {
+    "name": "Yohan Pino",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Royals",
+    "provider": "manual"
+  },
+  {
+    "name": "Yohander Méndez",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Rangers",
+    "provider": "manual"
+  },
+  {
+    "name": "Yohel Pozo",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Cardinals",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Yolmer Sanchez",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Mets",
+    "provider": "manual"
+  },
+  {
+    "name": "Yonathan Daza",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Rockies",
+    "provider": "manual"
+  },
+  {
+    "name": "Yonny Chirinos",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Braves",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Yonny Hernández",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Mets",
+    "provider": "manual"
+  },
+  {
+    "name": "Yorman Bazardo",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Astros",
+    "provider": "manual"
+  },
+  {
+    "name": "Yorman Rodríguez",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Reds",
+    "provider": "manual"
+  },
+  {
+    "name": "Yorvit Torrealba",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Rockies",
+    "provider": "manual"
+  },
+  {
+    "name": "Yusmeiro Petit",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Athletics",
+    "provider": "manual"
+  },
+  {
+    "name": "Álvaro Espinoza",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Mets",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Ángel Bravo",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Padres",
+    "provider": "manual"
+  },
+  {
+    "name": "Ángel Escobar",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Giants",
+    "provider": "manual"
+  },
+  {
+    "name": "Ángel Guzmán",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Rays",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Ángel Nesbitt",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Tigers",
+    "provider": "manual"
+  },
+  {
+    "name": "Óscar Henríquez",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Tigers",
+    "provider": "manual"
+  },
+  {
+    "name": "Óscar Hernández",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Royals",
+    "provider": "manual"
+  },
+  {
+    "name": "Michael Carrera",
+    "sport": "Basketball",
+    "league": "LEB Oro",
+    "team": "Estudiantes",
+    "provider": "manual"
+  },
+  {
+    "name": "Heissler Guillent",
+    "sport": "Basketball",
+    "league": "LNBP",
+    "team": "Astros",
+    "provider": "manual"
+  },
+  {
+    "name": "Jose Ascanio",
+    "sport": "Basketball",
+    "league": "Liga Nacional",
+    "team": "Oberá",
+    "provider": "manual"
+  },
+  {
+    "name": "Carl Herrera",
+    "sport": "Basketball",
+    "league": "NBA",
+    "team": "Rockets",
+    "provider": "manual"
+  },
+  {
+    "name": "Greivis Vasquez",
+    "sport": "Basketball",
+    "league": "NBA",
+    "team": "Nets",
+    "provider": "manual"
+  },
+  {
+    "name": "Oscar Torres",
+    "sport": "Basketball",
+    "league": "NBA",
+    "team": "Bucks",
+    "provider": "manual"
+  },
+  {
+    "name": "Pedro Chourio",
+    "sport": "Basketball",
+    "league": "NBB",
+    "team": "São José",
+    "provider": "manual"
+  },
+  {
+    "name": "David Cubillan",
+    "sport": "Basketball",
+    "league": "SLB",
+    "team": "Trotamundos",
+    "provider": "manual"
+  },
+  {
+    "name": "Amleto Monacelli",
+    "sport": "Bowling",
+    "league": "PBA50",
+    "team": "Unknown",
+    "provider": "manual"
+  },
+  {
+    "name": "Andres Borregales",
+    "sport": "Football",
+    "league": "NFL",
+    "team": "New England Patriots",
+    "provider": "manual"
+  },
+  {
+    "name": "Jhonattan Vegas",
+    "sport": "Golf",
+    "league": "PGA",
+    "team": "Venezuela",
+    "provider": "manual"
+  },
+  {
+    "name": "Marlon Vera",
+    "sport": "MMA",
+    "league": "UFC",
+    "team": "Venezuela",
+    "provider": "manual"
+  },
+  {
+    "name": "Juan Arango",
+    "sport": "Soccer",
+    "league": "Bundesliga",
+    "team": "Unknown",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Sergio Córdova",
+    "sport": "Soccer",
+    "league": "Bundesliga",
+    "team": "Unknown",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Tomás Rincón",
+    "sport": "Soccer",
+    "league": "Bundesliga",
+    "team": "Unknown",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Yohandry Orozco",
+    "sport": "Soccer",
+    "league": "Bundesliga",
+    "team": "Unknown",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Andrés Túñez",
+    "sport": "Soccer",
+    "league": "La Liga",
+    "team": "Unknown",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Christian Santos",
+    "sport": "Soccer",
+    "league": "La Liga",
+    "team": "Unknown",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Fernando Amorebieta",
+    "sport": "Soccer",
+    "league": "La Liga",
+    "team": "Unknown",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Jeffrén Suárez",
+    "sport": "Soccer",
+    "league": "La Liga",
+    "team": "Unknown",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Jon Aramburu",
+    "sport": "Soccer",
+    "league": "La Liga",
+    "team": "Real Sociedad",
+    "provider": "manual"
+  },
+  {
+    "name": "Jorge Gómez",
+    "sport": "Soccer",
+    "league": "La Liga",
+    "team": "Unknown",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Miguel Silva",
+    "sport": "Soccer",
+    "league": "La Liga",
+    "team": "Unknown",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Miku Fedor",
+    "sport": "Soccer",
+    "league": "La Liga",
+    "team": "Unknown",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Nicolas Fedor Miku",
+    "sport": "Soccer",
+    "league": "La Liga",
+    "team": "Unknown",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Roberto Rosales",
+    "sport": "Soccer",
+    "league": "La Liga",
+    "team": "Unknown",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Rubén Suárez Estrada",
+    "sport": "Soccer",
+    "league": "La Liga",
+    "team": "Unknown",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Salomón Rondón",
+    "sport": "Soccer",
+    "league": "La Liga",
+    "team": "Unknown",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Víctor García",
+    "sport": "Soccer",
+    "league": "La Liga",
+    "team": "Unknown",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Yangel Herrera",
+    "sport": "Soccer",
+    "league": "La Liga",
+    "team": "Real Sociedad",
+    "provider": "manual"
+  },
+  {
+    "name": "Cristian Cásseres Jr.",
+    "sport": "Soccer",
+    "league": "Ligue 1",
+    "team": "Toulouse",
+    "provider": "manual"
+  },
+  {
+    "name": "Fernando Aristeguieta",
+    "sport": "Soccer",
+    "league": "Ligue 1",
+    "team": "Unknown",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Gabriel Cichero",
+    "sport": "Soccer",
+    "league": "Ligue 1",
+    "team": "Unknown",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Juan Falcón",
+    "sport": "Soccer",
+    "league": "Ligue 1",
+    "team": "Unknown",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Oswaldo Vizcarrondo",
+    "sport": "Soccer",
+    "league": "Ligue 1",
+    "team": "Unknown",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Wuilker Faríñez",
+    "sport": "Soccer",
+    "league": "Ligue 1",
+    "team": "Unknown",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Abel Caputo",
+    "sport": "Soccer",
+    "league": "MLS",
+    "team": "Inter Miami",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Alejandro Fuenmayor",
+    "sport": "Soccer",
+    "league": "MLS",
+    "team": "Phoenix Rising FC",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Alejandro Moreno",
+    "sport": "Soccer",
+    "league": "MLS",
+    "team": "Unknown",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Bernardo Anor",
+    "sport": "Soccer",
+    "league": "MLS",
+    "team": "Unknown",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Brayan Martínez",
+    "sport": "Soccer",
+    "league": "MLS",
+    "team": "Unknown",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Carlos Cermeño",
+    "sport": "Soccer",
+    "league": "MLS",
+    "team": "Unknown",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Carlos Varela",
+    "sport": "Soccer",
+    "league": "MLS",
+    "team": "Unknown",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Christian Makoun",
+    "sport": "Soccer",
+    "league": "MLS",
+    "team": "Unknown",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Dani Pereira",
+    "sport": "Soccer",
+    "league": "MLS",
+    "team": "Unknown",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "David Martínez",
+    "sport": "Soccer",
+    "league": "MLS",
+    "team": "LAFC",
+    "provider": "manual"
+  },
+  {
+    "name": "Eduardo Sosa",
+    "sport": "Soccer",
+    "league": "MLS",
+    "team": "Unknown",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Emilio Rentería",
+    "sport": "Soccer",
+    "league": "MLS",
+    "team": "Unknown",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Ender Echenique",
+    "sport": "Soccer",
+    "league": "MLS",
+    "team": "Unknown",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Erickson Gallardo",
+    "sport": "Soccer",
+    "league": "MLS",
+    "team": "Unknown",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Gustavo Caraballo",
+    "sport": "Soccer",
+    "league": "MLS",
+    "team": "Unknown",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Javier Otero",
+    "sport": "Soccer",
+    "league": "MLS",
+    "team": "Unknown",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Jefferson Savarino",
+    "sport": "Soccer",
+    "league": "MLS",
+    "team": "Unknown",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Jesús Bueno",
+    "sport": "Soccer",
+    "league": "MLS",
+    "team": "Unknown",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Jesús Castellano",
+    "sport": "Soccer",
+    "league": "MLS",
+    "team": "Unknown",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Josef Martínez",
+    "sport": "Soccer",
+    "league": "MLS",
+    "team": "Unknown",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "José Andrés Martínez",
+    "sport": "Soccer",
+    "league": "MLS",
+    "team": "Unknown",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Júnior Moreno",
+    "sport": "Soccer",
+    "league": "MLS",
+    "team": "Unknown",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Kevin Kelsy",
+    "sport": "Soccer",
+    "league": "MLS",
+    "team": "Unknown",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Luis González",
+    "sport": "Soccer",
+    "league": "MLS",
+    "team": "Unknown",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Miguel Navarro",
+    "sport": "Soccer",
+    "league": "MLS",
+    "team": "Unknown",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Moises Tablante",
+    "sport": "Soccer",
+    "league": "MLS",
+    "team": "Unknown",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Pablo Bonilla",
+    "sport": "Soccer",
+    "league": "MLS",
+    "team": "Unknown",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Rafael Romo",
+    "sport": "Soccer",
+    "league": "MLS",
+    "team": "Unknown",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Renzo Zambrano",
+    "sport": "Soccer",
+    "league": "MLS",
+    "team": "Unknown",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Rodrigo Neri",
+    "sport": "Soccer",
+    "league": "MLS",
+    "team": "Unknown",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Rolando Escobar",
+    "sport": "Soccer",
+    "league": "MLS",
+    "team": "Unknown",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Rolf Feltscher",
+    "sport": "Soccer",
+    "league": "MLS",
+    "team": "Unknown",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Ronald Hernández",
+    "sport": "Soccer",
+    "league": "MLS",
+    "team": "Unknown",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Ronaldo Peña",
+    "sport": "Soccer",
+    "league": "MLS",
+    "team": "Unknown",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Santiago Pita",
+    "sport": "Soccer",
+    "league": "MLS",
+    "team": "Unknown",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Telasco Segovia",
+    "sport": "Soccer",
+    "league": "MLS",
+    "team": "Unknown",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Wikelman Carmona",
+    "sport": "Soccer",
+    "league": "MLS",
+    "team": "Unknown",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Deyna Castellanos",
+    "sport": "Soccer",
+    "league": "NWSL",
+    "team": "Thorns",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Alejandro Marqués",
+    "sport": "Soccer",
+    "league": "Primeira Liga",
+    "team": "Estoril",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Alessandro Milani",
+    "sport": "Soccer",
+    "league": "Serie A",
+    "team": "Lazio",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Daniele Quieto",
+    "sport": "Soccer",
+    "league": "Serie A",
+    "team": "Unknown",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Luis Morales",
+    "sport": "Soccer",
+    "league": "Serie A",
+    "team": "Unknown",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Luís Balbo",
+    "sport": "Soccer",
+    "league": "Serie A",
+    "team": "Unknown",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Manuel Arteaga",
+    "sport": "Soccer",
+    "league": "Serie A",
+    "team": "Unknown",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Yeferson Soteldo",
+    "sport": "Soccer",
+    "league": "Serie A",
+    "team": "Grêmio",
+    "provider": "manual"
+  },
+  {
+    "name": "Yordan Osorio",
+    "sport": "Soccer",
+    "league": "Serie A",
+    "team": "Unknown",
+    "provider": "balldontlie"
+  },
+  {
+    "name": "Nahuel Ferraresi",
+    "sport": "Soccer",
+    "league": "Série A",
+    "team": "São Paulo",
+    "provider": "manual"
+  },
+  {
+    "name": "Garbiñe Muguruza",
+    "sport": "Tennis",
+    "league": "WTA",
+    "team": "Venezuela",
+    "provider": "manual"
+  }
 ]
