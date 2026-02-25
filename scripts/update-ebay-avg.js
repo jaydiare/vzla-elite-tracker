@@ -70,7 +70,7 @@ const MIN_EBAY_SAMPLE_SIZE = 4;
 const MARKETPLACES = ["EBAY_US", "EBAY_CA"];
 
 // restrict to major manufacturers (sports card makers)
-const MANUFACTURERS = ["Topps", "Panini", "Upper Deck", "Leaf", "Topps NOW", "Artesania Sport", "Ovenca Venezuelan", "Sport Grafico", "Ovenca"];
+const MANUFACTURERS = ["Topps", "Panini", "Upper Deck", "Leaf", "Topps NOW", "Artesania Sport", "Ovenca Venezuelan", "Sport Grafico", "Ovenca", "Line Up Venezuelan", "Venezuelan League"];
 
 // Taguchi caps (winsorization %)
 const TAGUCHI_TRIM_PCT = 0.4;
