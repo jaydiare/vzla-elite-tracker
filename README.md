@@ -1,7 +1,24 @@
-## 🌍 Adopt This for Your Country
-Want to track athletes from **Mexico 🇲🇽** or **Spain 🇪🇸**? 
-1. Click **"Use this template"**.
-2. Open `config.json` and change `"target_country": "Venezuela"` to your country.
-3. Update the `country_flag` and `site_title`.
-4. Add your API keys to GitHub Secrets.
-5. **That's it!** The GitHub Action will handle the rest.
+🌎 Vzla Sports Elite Tracker
+
+Official public tracker for Venezuelan elite athletes.
+
+This site automatically aggregates performance data, rankings, and market metrics to provide a centralized view of athlete progression and statistics.
+
+🔒 Architecture
+	•	Frontend: Static site (GitHub Pages)
+	•	Data engine: Private automation repository
+	•	Data updates: Automated via scheduled workflows
+
+📊 Features
+	•	Athlete performance tracking
+	•	Market value analysis
+	•	Automated ranking updates
+	•	Country-based filtering
+
+⚠️ Usage
+
+This repository contains the public frontend only.
+
+The data processing engine and automation scripts are private and proprietary.
+
+Unauthorized commercial use or reproduction is prohibited.
