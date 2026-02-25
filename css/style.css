@@ -150,7 +150,7 @@ h1, h2, .vzla-hero-title {
 }
 
 /* =========================
-   NAV (gradient + glass)
+   NAV (gradient + glass) — FIXED
    ========================= */
 .vzla-nav{
   position: sticky;
@@ -159,14 +159,16 @@ h1, h2, .vzla-hero-title {
   border-bottom: 0 !important;
   box-shadow: none !important;
 
-  /* glass layer */
-  background: rgba(0,0,0,0.18);
+  /* ✅ dropdowns were blocked/clipped by overflow:hidden */
+  overflow: visible !important;
+
+  /* ✅ keep the element itself transparent; we paint layers with ::before/::after */
+  background: transparent !important;
+
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
 
-  /* for pseudo backgrounds */
-  overflow: hidden;
-  isolation: isolate; /* ✅ prevents weird stacking layers */
+  isolation: isolate; /* keeps stacking clean */
 }
 
 /* gradient behind nav */
@@ -175,6 +177,7 @@ h1, h2, .vzla-hero-title {
   position:absolute;
   inset:0;
   z-index:-2;
+  pointer-events:none; /* ✅ prevents blocking clicks */
   background: linear-gradient(
     90deg,
     rgba(244,212,13,0.22) 0%,
@@ -183,17 +186,24 @@ h1, h2, .vzla-hero-title {
   );
 }
 
-/* single overlay (✅ you had this twice before) */
+/* single overlay */
 .vzla-nav::after{
   content:"";
   position:absolute;
   inset:0;
   z-index:-1;
+  pointer-events:none; /* ✅ prevents blocking clicks */
   background: linear-gradient(
     to bottom,
     rgba(0,0,0,0.10),
     rgba(0,0,0,0.40)
   );
+}
+
+/* ✅ ensure nav content is above pseudo-layers */
+.vzla-nav > *{
+  position: relative;
+  z-index: 1;
 }
 
 @media (max-width: 768px){
@@ -221,9 +231,6 @@ h1, h2, .vzla-hero-title {
   font-weight:700;
 }
 .nav-link:hover{ color: var(--vzla-yellow-solid); }
-
-/* active uses gradient text clip (below) */
-.nav-link.active{}
 
 /* Dropdowns */
 .nav-dd{ position:relative; }
@@ -253,7 +260,9 @@ h1, h2, .vzla-hero-title {
   padding:12px;
   box-shadow: 0 20px 60px rgba(0,0,0,0.65);
   backdrop-filter: blur(12px);
-  z-index:9999;
+
+  /* ✅ stronger stacking so it never appears behind anything */
+  z-index: 99999;
 }
 
 .dropdown-item{
@@ -316,7 +325,7 @@ h1, h2, .vzla-hero-title {
   position:relative;
   display:block;
   border-radius:999px;
-  background: var(--vzla-flag-grad);
+  background: #fff;
 }
 .nav-toggle-bars::before,
 .nav-toggle-bars::after{
@@ -326,7 +335,7 @@ h1, h2, .vzla-hero-title {
   width:22px;
   height:2px;
   border-radius:999px;
-  background: var(--vzla-flag-grad);
+  background: #fff;
 }
 .nav-toggle-bars::before{ top:-7px; }
 .nav-toggle-bars::after{ top:7px; }
@@ -466,7 +475,7 @@ details.mobile-dd summary::-webkit-details-marker{ display:none; }
 }
 
 /* =========================
-   HERO (gradient panel + text box)
+   HERO (gradient panel + text box) — FIXED LAYERING
    ========================= */
 .hero-panel{
   position: relative;
@@ -481,7 +490,8 @@ details.mobile-dd summary::-webkit-details-marker{ display:none; }
   content:"";
   position:absolute;
   inset:0;
-  z-index:0;
+  z-index:-2;
+  pointer-events:none;
   background: linear-gradient(
     90deg,
     rgba(244,212,13,0.22) 0%,
@@ -495,14 +505,15 @@ details.mobile-dd summary::-webkit-details-marker{ display:none; }
   content:"";
   position:absolute;
   inset:0;
-  z-index:0;
+  z-index:-1;
+  pointer-events:none;
   background: rgba(0,0,0,0.50);
 }
 
 /* keep hero content above gradient */
 .hero-panel > *{
   position: relative;
-  z-index: 2;
+  z-index: 1;
 }
 
 /* text box inside hero */
@@ -529,6 +540,7 @@ details.mobile-dd summary::-webkit-details-marker{ display:none; }
   position:absolute;
   inset:0;
   z-index:-2;
+  pointer-events:none;
   background: linear-gradient(
     90deg,
     rgba(244,212,13,0.18) 0%,
@@ -543,18 +555,13 @@ details.mobile-dd summary::-webkit-details-marker{ display:none; }
   position:absolute;
   inset:0;
   z-index:-1;
+  pointer-events:none;
   background: rgba(0,0,0,0.42);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
 
-  /* ✅ removed border line (you asked to hide it) */
+  /* ✅ removed border line */
   border: none;
-}
-
-/* Seam fix between nav and hero */
-.vzla-hero{
-  position: relative;
-  top: -1px;
 }
 
 /* Mobile hero fixes */
@@ -575,6 +582,28 @@ details.mobile-dd summary::-webkit-details-marker{ display:none; }
     padding: 12px 14px;
     margin-top: 12px;
   }
+}
+
+/* =========================
+   Hero collapse behavior (hero-scroll.js)
+   NOTE: requires <section id="vzla-hero" ...>
+   ========================= */
+#vzla-hero{
+  max-height: 1200px;
+  opacity: 1;
+  transform: translateY(0);
+  transition: max-height .35s ease, opacity .25s ease, transform .35s ease;
+  will-change: max-height, opacity, transform;
+}
+
+body.hero-collapsed #vzla-hero{
+  max-height: 0;
+  opacity: 0;
+  transform: translateY(-10px);
+  margin: 0 !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  overflow: hidden;
 }
 
 /* =========================
@@ -950,7 +979,7 @@ details.mobile-dd summary::-webkit-details-marker{ display:none; }
 }
 
 /* =========================
-   Footer + ebay bar
+   Footer + ebay bar — MATCH SITE BG
    ========================= */
 .vzla-footer{
   margin-top: 54px;
@@ -1022,9 +1051,12 @@ details.mobile-dd summary::-webkit-details-marker{ display:none; }
   position: fixed;
   left:0; right:0; bottom:0;
   z-index:9999;
-  background: rgba(0,0,0,0.88);
+
+  /* ✅ blend with site bg */
+  background: rgba(0, 10, 39, 0.88); /* based on --vzla-bg (#000A27) */
   backdrop-filter: blur(10px);
   border-top: 1px solid rgba(255,255,255,0.08);
+
   display:flex;
   justify-content:center;
   padding: 10px 10px;
