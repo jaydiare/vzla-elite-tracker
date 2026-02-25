@@ -43,6 +43,10 @@ let activeLeague = "all";
 let activePrice = "all";
 let activeStability = "all"; // ✅ NEW
 
+// Load more pagination
+const PAGE_SIZE = 100;
+let visibleCount = PAGE_SIZE;
+
 // Price threshold used by the Price dropdown (Low/High). Adjust as you like.
 const PRICE_LOW_MAX = 20;
 
@@ -326,6 +330,24 @@ function setSport(sport, btn) {
     });
   }
 
+function resetVisibleCount() {
+  visibleCount = PAGE_SIZE;
+}
+
+function updateLoadMoreButton(totalFiltered) {
+  const btn = document.getElementById("loadMoreBtn");
+  if (!btn) return;
+
+  const remaining = totalFiltered - visibleCount;
+  if (remaining > 0) {
+    btn.style.display = "inline-flex";
+    btn.textContent = `Load More (${Math.min(PAGE_SIZE, remaining)} more)`;
+  } else {
+    btn.style.display = "none";
+  }
+}
+
+  resetVisibleCount();
   renderGrid(athleteData);
 }
 window.setSport = setSport;
@@ -471,8 +493,12 @@ function renderGrid(list) {
     }
   }
 
-  grid.className = "vzla-grid";
-  grid.innerHTML = filtered.map(renderAthleteCard).join("");
+    grid.className = "vzla-grid";
+    
+    const page = filtered.slice(0, visibleCount);
+    grid.innerHTML = page.map(renderAthleteCard).join("");
+    
+    updateLoadMoreButton(filtered.length);
 
   // ✅ Re-run budget suggestions after cards re-render (optional feature)
   if (typeof window.runBudgetSuggest === "function") {
@@ -601,7 +627,10 @@ async function init() {
   const search = document.getElementById("search-input");
   const clearBtn = document.getElementById("search-clear");
 
-  const rerenderDebounced = debounce(() => renderGrid(athleteData), 150);
+ const rerenderDebounced = debounce(() => {
+      resetVisibleCount();
+      renderGrid(athleteData);
+    }, 150);
 
   if (search) {
     search.addEventListener("input", rerenderDebounced);
@@ -619,11 +648,12 @@ async function init() {
   }
 
   if (clearBtn && search) {
-    clearBtn.addEventListener("click", () => {
-      search.value = "";
-      renderGrid(athleteData);
-      search.focus();
-    });
+      clearBtn.addEventListener("click", () => {
+        search.value = "";
+        resetVisibleCount();
+        renderGrid(athleteData);
+        search.focus();
+      });
   }
 
   const catSel = document.getElementById("filter-category");
@@ -631,7 +661,18 @@ async function init() {
   const priceSel = document.getElementById("filter-price");
   const stabilitySel = document.getElementById("filter-stability");
 
-  const rerenderNow = () => renderGrid(athleteData);
+  const rerenderNow = () => {
+  resetVisibleCount();
+  renderGrid(athleteData);
+    };
+
+  const loadMoreBtn = document.getElementById("loadMoreBtn");
+  if (loadMoreBtn) {
+    loadMoreBtn.addEventListener("click", () => {
+      visibleCount += PAGE_SIZE;
+      renderGrid(athleteData);
+    });
+  }
 
   if (catSel) catSel.addEventListener("change", rerenderNow);
   if (leagueSel) leagueSel.addEventListener("change", rerenderNow);
