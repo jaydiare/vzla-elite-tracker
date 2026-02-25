@@ -17,8 +17,6 @@ This site automatically aggregates performance data, rankings, and market metric
 
 ⚠️ Usage
 
-This repository contains the public frontend only.
-
 The data processing engine and automation scripts are private and proprietary.
 
 Unauthorized commercial use or reproduction is prohibited.
