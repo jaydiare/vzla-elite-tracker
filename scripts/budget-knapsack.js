@@ -100,12 +100,16 @@ function renderRecommendations(chosen, budgetCents) {
 }
 
 function runBudgetSuggest() {
+  // ✅ Guard: if budget UI isn't present, do nothing (keeps feature optional)
+  const inputEl = document.querySelector("#budgetInput");
   const out = document.querySelector("#budgetRecommendations");
-  const budgetCents = dollarsToCents(document.querySelector("#budgetInput")?.value);
+  if (!inputEl || !out) return;
+
+  const budgetCents = dollarsToCents(inputEl.value);
 
   // optional: blank budget => no UI
   if (!budgetCents) {
-    if (out) out.innerHTML = "";
+    out.innerHTML = "";
     return;
   }
 
@@ -127,6 +131,10 @@ function clearBudgetSuggest() {
   if (input) input.value = "";
   if (out) out.innerHTML = "";
 }
+
+/* ✅ STEP 3: expose to window so app.js can call it from renderGrid() */
+window.runBudgetSuggest = runBudgetSuggest;
+window.clearBudgetSuggest = clearBudgetSuggest;
 
 document.addEventListener("DOMContentLoaded", () => {
   document.querySelector("#budgetBtn")?.addEventListener("click", runBudgetSuggest);
