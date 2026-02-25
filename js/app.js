@@ -334,11 +334,13 @@ window.setSport = setSport;
 function renderAthleteCard(a) {
   const avgNum = getEbayAvgNumber(a);
 
-  // display currency to USD (your ebay script normalizes to USD)
   const money = avgNum != null ? `USD ${formatCurrency(avgNum, "USD")}` : "—";
 
   const cv = getMarketStabilityCV(a);
   const stability = marketStabilityScoreFromCV(cv);
+
+  // numeric percent 0..100 for the dataset
+  const stabilityPctNum = cv != null ? (cv * 100) : null;
 
   const dom = getAvgDaysOnMarket(a);
   const domText = dom != null ? `${Math.round(dom)} days` : "—";
@@ -347,7 +349,12 @@ function renderAthleteCard(a) {
   const initials = initialsFromName(a.name);
 
   return `
-    <article class="athlete-card">
+    <article
+      class="athlete-card"
+      data-athlete-name="${String(a.name).replaceAll('"', "&quot;")}"
+      data-price="${avgNum != null ? avgNum : ""}"
+      data-stability-pct="${stabilityPctNum != null ? stabilityPctNum : ""}"
+    >
       <div class="athlete-card__top">
         <div class="athlete-card__avatar">${initials}</div>
 
@@ -360,16 +367,16 @@ function renderAthleteCard(a) {
       <div class="athlete-card__value">${money}</div>
       <div class="athlete-card__label">eBay Avg. listing Price</div>
 
-    <div class="vzla-search-count">
-      Market Stability :
-      <span class="athlete-card__stability-pill">${stability.label}</span>
-      <span class="athlete-card__stability-pct">(${stability.pctText})</span>
-    </div>
-    
-    <div class="vzla-search-count">
-      Avg. time listed:
-      <span class="athlete-card__days-val">${domText}</span>
-    </div>
+      <div class="vzla-search-count">
+        Market Stability :
+        <span class="athlete-card__stability-pill">${stability.label}</span>
+        <span class="athlete-card__stability-pct">(${stability.pctText})</span>
+      </div>
+
+      <div class="vzla-search-count">
+        Avg. time listed:
+        <span class="athlete-card__days-val">${domText}</span>
+      </div>
 
       <div class="vzla-search-count">*prices may vary*</div>
 
