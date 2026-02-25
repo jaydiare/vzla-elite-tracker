@@ -1,117 +1,41 @@
+/* =========================
+   Root variables
+   ========================= */
 :root{
---vzla-yellow: linear-gradient(
-  90deg,
-  #f4d40d 0%,
-  #1b4fb3 45%,
-  #b11226 100%
-);
-  --vzla-bg:#000A27;
-  --vzla-panel:#0b0b0b;
-  --vzla-mint:#7fffe1;
-}
+  --vzla-bg: #000A27;
+  --vzla-panel: #0b0b0b;
+  --vzla-mint: #7fffe1;
+
+  /* Gradient (used for backgrounds / clipped text) */
+  --vzla-flag-grad: linear-gradient(
+    90deg,
+    #f4d40d 0%,
+    #1b4fb3 45%,
+    #b11226 100%
+  );
+
+  /* Solid yellow for hover states (because gradients can't be used as color:) */
+  --vzla-yellow-solid: #f4d40d;
 
   --font-sans: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
 }
 
-html, body {
-  font-family: var(--font-sans);
-}
-
-h1, h2, .vzla-hero-title {
-  font-weight: 800;
-  letter-spacing: -0.02em;
-}
-
-.vzla-hero-subtitle, .vzla-body-text {
-  font-weight: 500;
-  letter-spacing: -0.01em;
-}
-
-/* tiny overlap so the gradient looks continuous */
-.vzla-hero{
-  position: relative;
-  top: -1px;              /* removes 1px seam */
-}
-
 /* =========================
-   Index cards row (like CardHedge)
-   ========================= */
-.vzla-index-row{
-  display:grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 14px;
-  margin: 18px 0 18px;
-}
-
-.vzla-index-card{
-  background: rgba(18,18,18,0.65);
-  border: 1px solid rgba(255,255,255,0.08);
-  border-radius: 18px;
-  padding: 16px 16px;
-  box-shadow: 0 18px 45px rgba(0,0,0,0.35);
-}
-
-.vzla-index-top{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap: 10px;
-  margin-bottom: 10px;
-}
-
-.vzla-index-title{
-  display:flex;
-  align-items:center;
-  gap: 10px;
-  font-weight: 900;
-  letter-spacing: 0.02em;
-}
-
-.vzla-index-badge{
-  width: 26px;
-  height: 26px;
-  border-radius: 8px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size: 12px;
-  font-weight: 950;
-  color: #000;
-  background: var(--vzla-yellow) !important;
-  -webkit-text-fill-color: initial; 
-}
-
-.vzla-index-value{
-  font-size: 26px;
-  font-weight: 950;
-  letter-spacing: -0.02em;
-}
-
-.vzla-index-sub{
-  margin-top: 6px;
-  color: rgba(255,255,255,0.60);
-  font-weight: 800;
-  font-size: 12px;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-}
-
-@media (max-width: 900px){
-  .vzla-index-row{ grid-template-columns: 1fr; }
-}
-
-/* =========================
-   Base reset (prevents “broken” mobile look)
+   Base reset
    ========================= */
 *,
 *::before,
 *::after{ box-sizing:border-box; }
 
 html, body{ height:100%; }
+html, body{
+  margin:0;
+  padding:0;
+  font-family: var(--font-sans);
+}
 
 body{
-  margin:0;
-  background: var(--vzla-bg);
+  background: var(--vzla-bg); /* ✅ KEEP PAGE BG SOLID */
   color:#fff;
   min-height:100vh;
   overflow-x:hidden;
@@ -122,26 +46,28 @@ ul{ margin:0; padding:0; }
 li{ list-style:none; }
 a{ color:inherit; }
 
+/* Typography */
+h1, h2, .vzla-hero-title {
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+.vzla-hero-subtitle, .vzla-body-text {
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
 /* =========================
    Layout shell + side banners
    ========================= */
 .page-shell{
-  max-width: 1700px; /* slightly tighter overall */
-  margin: 0 auto;
-  padding: 18px 18px 120px;
-  display: grid;
-  grid-template-columns: 200px 1fr 200px; /* slimmer banners */
-  gap: 20px;
-  align-items: start;
-}
-
-/* CRITICAL: prevents grid children from overflowing */
-.page-shell{
   max-width: 1700px;
   margin: 0 auto;
-  padding: 18px 18px 120px;
+
+  /* ✅ IMPORTANT: reduce top padding so hero feels flush with nav */
+  padding: 0 18px 120px;
+
   display: grid;
-  grid-template-columns: 160px 1fr 160px; /* ✅ slimmer columns */
+  grid-template-columns: 160px 1fr 160px;
   gap: 20px;
   align-items: start;
 }
@@ -157,16 +83,30 @@ a{ color:inherit; }
   scrollbar-width: none;
   -webkit-overflow-scrolling: touch;
   align-items: center;
-
-  width: 100%; /* ✅ fill grid column */
+  width: 100%;
 }
 
 .side-banner img{
   width: 100%;
-  max-width: 140px; /* ✅ actual slimness */
+  max-width: 140px;
   height: auto;
   border-radius: 10px;
   box-shadow: 0 6px 18px rgba(0,0,0,0.45);
+}
+
+/* MOBILE: stop 3-column layout */
+@media (max-width: 980px){
+  .page-shell{
+    grid-template-columns: 1fr;
+    gap: 16px;
+    padding: 0 14px 120px;
+  }
+  .page-shell > main{
+    grid-column: 1;
+    padding: 16px !important; /* overrides Tailwind */
+    padding-top: 0 !important;
+  }
+  .page-shell > .side-banner{ display:none; }
 }
 
 /* =========================
@@ -210,15 +150,66 @@ a{ color:inherit; }
 }
 
 /* =========================
-   Desktop nav + dropdowns
+   NAV (gradient + glass)
    ========================= */
+.vzla-nav{
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  border-bottom: 0 !important;
+  box-shadow: none !important;
+
+  /* glass layer */
+  background: rgba(0,0,0,0.18);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+
+  /* for pseudo backgrounds */
+  overflow: hidden;
+  isolation: isolate; /* ✅ prevents weird stacking layers */
+}
+
+/* gradient behind nav */
+.vzla-nav::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:-2;
+  background: linear-gradient(
+    90deg,
+    rgba(244,212,13,0.22) 0%,
+    rgba(0,51,160,0.22) 50%,
+    rgba(207,20,43,0.22) 100%
+  );
+}
+
+/* single overlay (✅ you had this twice before) */
+.vzla-nav::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:-1;
+  background: linear-gradient(
+    to bottom,
+    rgba(0,0,0,0.10),
+    rgba(0,0,0,0.40)
+  );
+}
+
+@media (max-width: 768px){
+  .vzla-nav::before{ filter: saturate(1.2); }
+  .vzla-nav::after{
+    background: rgba(0,0,0,0.55);
+  }
+}
+
+/* Desktop nav links */
 .nav-links{
   display:flex;
   gap:28px;
   align-items:center;
   font-size:18px;
   letter-spacing:0.02em;
-  list-style:none;
   margin:0;
   padding:0;
 }
@@ -229,11 +220,13 @@ a{ color:inherit; }
   transition:color 0.15s ease;
   font-weight:700;
 }
-.nav-link:hover{ color:var(--vzla-yellow); }
-.nav-link.active{ color:var(--vzla-yellow); }
+.nav-link:hover{ color: var(--vzla-yellow-solid); }
 
+/* active uses gradient text clip (below) */
+.nav-link.active{}
+
+/* Dropdowns */
 .nav-dd{ position:relative; }
-
 .dropdown summary{ list-style:none; cursor:pointer; }
 .dropdown summary::-webkit-details-marker{ display:none; }
 
@@ -273,7 +266,7 @@ a{ color:inherit; }
 }
 .dropdown-item:hover{
   background: rgba(242,242,13,0.12);
-  color: var(--vzla-yellow);
+  color: var(--vzla-yellow-solid);
 }
 
 .contact-icons{
@@ -295,14 +288,12 @@ a{ color:inherit; }
 }
 .icon-btn:hover{
   background: rgba(242,242,13,0.12);
-  color: var(--vzla-yellow);
+  color: var(--vzla-yellow-solid);
   border-color: rgba(242,242,13,0.25);
 }
 .icon-btn svg{ display:block; }
 
-/* =========================
-   Mobile hamburger + overlay
-   ========================= */
+/* Mobile hamburger */
 .nav-toggle{
   display:none;
   width:44px;
@@ -322,10 +313,10 @@ a{ color:inherit; }
 .nav-toggle-bars{
   width:22px;
   height:2px;
-  background: var(--vzla-yellow);
   position:relative;
   display:block;
   border-radius:999px;
+  background: var(--vzla-flag-grad);
 }
 .nav-toggle-bars::before,
 .nav-toggle-bars::after{
@@ -334,8 +325,8 @@ a{ color:inherit; }
   left:0;
   width:22px;
   height:2px;
-  background: var(--vzla-yellow);
   border-radius:999px;
+  background: var(--vzla-flag-grad);
 }
 .nav-toggle-bars::before{ top:-7px; }
 .nav-toggle-bars::after{ top:7px; }
@@ -374,7 +365,7 @@ a{ color:inherit; }
   border-radius:14px;
   border:1px solid rgba(255,255,255,0.12);
   background: rgba(255,255,255,0.06);
-  color: var(--vzla-yellow);
+  color: var(--vzla-yellow-solid);
   font-size:28px;
   line-height:1;
   cursor:pointer;
@@ -406,7 +397,7 @@ a{ color:inherit; }
   letter-spacing: 0.01em;
 }
 .mobile-link:hover{
-  color: var(--vzla-yellow);
+  color: var(--vzla-yellow-solid);
   border-color: rgba(242,242,13,0.25);
   background: rgba(242,242,13,0.08);
 }
@@ -440,7 +431,7 @@ details.mobile-dd summary::-webkit-details-marker{ display:none; }
   border: 1px solid rgba(255,255,255,0.10);
 }
 .mobile-sub:hover{
-  color: var(--vzla-yellow);
+  color: var(--vzla-yellow-solid);
   border-color: rgba(242,242,13,0.25);
   background: rgba(242,242,13,0.10);
 }
@@ -459,7 +450,7 @@ details.mobile-dd summary::-webkit-details-marker{ display:none; }
   padding: 16px 18px;
   border-radius: 9999px;
   font-weight: 900;
-  background: var(--vzla-yellow);
+  background: var(--vzla-flag-grad);
   color: #000;
   text-decoration:none;
   box-shadow: 0 18px 45px rgba(0,0,0,0.55);
@@ -468,7 +459,6 @@ details.mobile-dd summary::-webkit-details-marker{ display:none; }
 @media (max-width: 768px){
   .nav-toggle{ display:flex; }
   .nav-links{ display:none !important; }
-
   .vzla-brand-wrap{ gap:10px; }
   .vzla-brand-top{ font-size:13px; letter-spacing:0.10em; }
   .vzla-brand-bottom{ font-size:8px; letter-spacing:0.28em; }
@@ -476,22 +466,22 @@ details.mobile-dd summary::-webkit-details-marker{ display:none; }
 }
 
 /* =========================
-   Hero + filters + footer + ebay bar
+   HERO (gradient panel + text box)
    ========================= */
-/* HERO outer panel uses same 🇻🇪 gradient as nav */
 .hero-panel{
   position: relative;
   overflow: hidden;
   border-radius: 20px;
-  background: transparent; /* important */
+  background: transparent;
+  margin-top: 0;
 }
 
+/* gradient behind hero */
 .hero-panel::before{
   content:"";
   position:absolute;
   inset:0;
   z-index:0;
-
   background: linear-gradient(
     90deg,
     rgba(244,212,13,0.22) 0%,
@@ -500,13 +490,13 @@ details.mobile-dd summary::-webkit-details-marker{ display:none; }
   );
 }
 
-/* dark overlay for readability */
+/* readable overlay */
 .hero-panel::after{
   content:"";
   position:absolute;
   inset:0;
   z-index:0;
-  background: rgba(0,0,0,0.55);
+  background: rgba(0,0,0,0.50);
 }
 
 /* keep hero content above gradient */
@@ -515,85 +505,161 @@ details.mobile-dd summary::-webkit-details-marker{ display:none; }
   z-index: 2;
 }
 
+/* text box inside hero */
 .hero-sub{
   position: relative;
-  isolation: isolate;        /* prevents weird stacking artifacts */
+  isolation: isolate;
   overflow: hidden;
-  border-radius: 18px;
+  border-radius: 16px;
 
-  padding: 14px 30px;
-  max-width: 820px;
-  margin: 18px auto 0;
+  /* slimmer + wider */
+  padding: 14px 18px;
+  max-width: 1100px;
+  width: 100%;
+  margin: 14px auto 0;
 
   background: transparent;
   color: rgba(255,255,255,0.92);
   line-height: 1.55;
 }
 
-/* 🇻🇪 gradient BEHIND text */
+/* gradient behind hero-sub */
 .hero-sub::before{
   content:"";
   position:absolute;
   inset:0;
-  z-index:-2;                /* key: behind content */
-
+  z-index:-2;
   background: linear-gradient(
     90deg,
-    rgba(244,212,13,0.22) 0%,
-    rgba(0,51,160,0.22) 50%,
-    rgba(207,20,43,0.22) 100%
+    rgba(244,212,13,0.18) 0%,
+    rgba(0,51,160,0.18) 50%,
+    rgba(207,20,43,0.18) 100%
   );
 }
 
-/* dark glass overlay BEHIND text (still behind content) */
+/* glass overlay behind text */
 .hero-sub::after{
   content:"";
   position:absolute;
   inset:0;
-  z-index:-1;                /* key: behind content */
-
-  background: rgba(0,0,0,0.45);
+  z-index:-1;
+  background: rgba(0,0,0,0.42);
   backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(14px);
-  border: 1px solid rgba(255,255,255,0.06);
+  -webkit-backdrop-filter: blur(12px);
+
+  /* ✅ removed border line (you asked to hide it) */
+  border: none;
 }
 
+/* Seam fix between nav and hero */
+.vzla-hero{
+  position: relative;
+  top: -1px;
+}
+
+/* Mobile hero fixes */
 @media (max-width:768px){
-  .hero-sub{ font-size:16px; padding:14px 16px; }
-}
+  .hero-panel{
+    padding: 22px 14px !important;
+    border-radius: 18px;
+  }
 
-/* ✅ Keep legacy pill rounding ONLY for the old class.
-   The new search uses .vzla-search styles. */
-.search-input{ border-radius: 9999px !important; }
+  .hero-panel h1{
+    font-size: 44px !important;
+    line-height: 1.05 !important;
+    margin-bottom: 10px !important;
+  }
 
-/* =========================
-   Upgraded Search Bar (CardHedge style)
-   ========================= */
-.vzla-search-wrap{
-  width: 100%;
-}
-
-@media (min-width: 981px){
-  .vzla-search-wrap{
-    padding-top: 22px; /* 14px label height + 8px gap */
+  .hero-sub{
+    font-size: 14px;
+    padding: 12px 14px;
+    margin-top: 12px;
   }
 }
 
+/* =========================
+   Index cards row
+   ========================= */
+.vzla-index-row{
+  display:grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin: 18px 0 18px;
+}
+
+.vzla-index-card{
+  background: rgba(18,18,18,0.65);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 18px;
+  padding: 16px 16px;
+  box-shadow: 0 18px 45px rgba(0,0,0,0.35);
+}
+
+.vzla-index-top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.vzla-index-title{
+  display:flex;
+  align-items:center;
+  gap: 10px;
+  font-weight: 900;
+  letter-spacing: 0.02em;
+}
+
+.vzla-index-badge{
+  width: 26px;
+  height: 26px;
+  border-radius: 8px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size: 12px;
+  font-weight: 950;
+  color: #000;
+  background: var(--vzla-flag-grad);
+  -webkit-text-fill-color: initial;
+}
+
+.vzla-index-value{
+  font-size: 26px;
+  font-weight: 950;
+  letter-spacing: -0.02em;
+}
+
+.vzla-index-sub{
+  margin-top: 6px;
+  color: rgba(255,255,255,0.60);
+  font-weight: 800;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+@media (max-width: 900px){
+  .vzla-index-row{ grid-template-columns: 1fr; }
+}
+
+/* =========================
+   Search Bar (CardHedge style)
+   ========================= */
+.vzla-search-wrap{ width: 100%; }
 .vzla-search{
   position: relative;
   display: flex;
   align-items: center;
   gap: 10px;
-
   height: 44px;
   width: 100%;
   padding: 0 12px;
   border-radius: 14px;
-
   background: rgba(11, 18, 32, 0.72);
   border: 1px solid rgba(255, 255, 255, 0.10);
   backdrop-filter: blur(10px);
-
   box-shadow: 0 10px 30px rgba(0,0,0,0.35);
   transition: border-color .15s ease, box-shadow .15s ease;
 }
@@ -618,128 +684,71 @@ details.mobile-dd summary::-webkit-details-marker{ display:none; }
   border: 0;
   outline: none;
   background: transparent;
-
   color: rgba(255,255,255,0.92);
   font-size: 13px;
   letter-spacing: 0.2px;
-
-  padding-right: 92px; /* space for clear + kbd */
+  padding-right: 92px;
 }
 
-.vzla-search__input::placeholder{
-  color: rgba(255,255,255,0.35);
-}
+.vzla-search__input::placeholder{ color: rgba(255,255,255,0.35); }
 
-/* Clear button toggled by JS */
 .vzla-search__clear{
   position: absolute;
   right: 56px;
-
   height: 30px;
   width: 30px;
   border-radius: 10px;
-
   border: 1px solid rgba(255,255,255,0.10);
   background: rgba(255,255,255,0.06);
   color: rgba(255,255,255,0.75);
-
-  display: none; /* JS shows when there is text */
+  display: none;
   align-items: center;
   justify-content: center;
-
   cursor: pointer;
   transition: background .15s ease, color .15s ease, transform .05s ease;
 }
-
 .vzla-search__clear:hover{
   background: rgba(255,255,255,0.10);
   color: rgba(255,255,255,0.90);
 }
+.vzla-search__clear:active{ transform: translateY(1px); }
 
-.vzla-search__clear:active{
-  transform: translateY(1px);
-}
-
-/* KBD hint */
-.vzla-search__kbd{
-  position: absolute;
-  right: 12px;
-  display: none; /* shown on >= 640px */
-  align-items: center;
-  gap: 6px;
-
-  border-radius: 10px;
-  padding: 6px 8px;
-
-  border: 1px solid rgba(255,255,255,0.10);
-  background: rgba(255,255,255,0.06);
-
-  color: rgba(255,255,255,0.55);
-  font-size: 11px;
-  user-select: none;
-}
-.vzla-search__kbd .kbd{ font-weight: 600; }
-
-@media (min-width: 640px){
-  .vzla-search__kbd{ display: flex; }
-}
-
-/* Count line under the bar */
 .vzla-search-count{
   margin-top: 6px;
   font-size: 11px;
   color: rgba(255,255,255,0.45);
 }
 
-/* Desktop spacing fix for search count alignment */
-@media (min-width: 981px){
-  .vzla-search-count{
-    margin-top: 22px; /* matches label height + gap */
-  }
-}
-
-/* =========================
-   NEW: Search + Filters row (CardHedge style)
-   ========================= */
+/* Controls row */
 .vzla-controls-row{
   width: 100%;
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   gap: 16px;
-
-  /* KEY: align everything from the top */
   align-items: start;
 }
-
-/* keep left column from overflowing */
 .vzla-search-wrap{ min-width: 0; }
 
-/* Filters container */
-/* Filters should also align from the top */
 .vzla-filters{
   display: flex;
   gap: 14px;
-  align-items: start;      /* KEY */
+  align-items: start;
   justify-content: flex-end;
   flex-wrap: nowrap;
 }
 
-/* Each filter block */
-/* Each filter is label + select stacked */
 .vzla-filter{
   display: flex;
   flex-direction: column;
-  gap: 8px;                /* consistent spacing */
-  min-width: 220px;        /* helps match the look */
+  gap: 8px;
+  min-width: 220px;
 }
 
-/* Label above select (like screenshot) */
 .vzla-filter__label{
-  height: 14px;            /* KEY: fixed label height */
+  height: 14px;
   line-height: 14px;
   margin: 0;
   padding-left: 6px;
-
   font-size: 10px;
   letter-spacing: 0.18em;
   text-transform: uppercase;
@@ -747,43 +756,21 @@ details.mobile-dd summary::-webkit-details-marker{ display:none; }
   color: rgba(255,255,255,0.55);
 }
 
-/* Mobile: stack */
-@media (max-width: 980px){
-  .vzla-controls-row{
-    grid-template-columns: 1fr;
-  }
-  .vzla-filters{
-    justify-content: flex-start;
-    flex-wrap: wrap;
-  }
-  .vzla-filter{
-    min-width: 180px;
-    flex: 1 1 180px;
-  }
-}
-
-/* Select styling */
 .vzla-filter__select{
   height: 44px;
   padding: 0 40px 0 14px;
   border-radius: 14px;
-
   background: rgba(11, 18, 32, 0.72);
   border: 1px solid rgba(255, 255, 255, 0.10);
   color: rgba(255,255,255,0.92);
-
   box-shadow: 0 10px 30px rgba(0,0,0,0.28);
   backdrop-filter: blur(10px);
-
   font-size: 13px;
   outline: none;
-
-  /* remove default arrows */
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
 
-  /* custom arrow */
   background-image:
     linear-gradient(45deg, transparent 50%, rgba(255,255,255,.6) 50%),
     linear-gradient(135deg, rgba(255,255,255,.6) 50%, transparent 50%),
@@ -808,40 +795,163 @@ details.mobile-dd summary::-webkit-details-marker{ display:none; }
     0 10px 30px rgba(0,0,0,0.28);
 }
 
-/* Make it stack on smaller screens */
 @media (max-width: 980px){
-  .vzla-controls-row{
-    grid-template-columns: 1fr;
-  }
-  .vzla-filters{
-    justify-content: flex-start;
-  }
-  .vzla-filter{
-    flex: 1 1 180px;
-    min-width: 180px;
-  }
+  .vzla-controls-row{ grid-template-columns: 1fr; }
+  .vzla-filters{ justify-content: flex-start; flex-wrap: wrap; }
+  .vzla-filter{ min-width: 180px; flex: 1 1 180px; }
 }
 
 /* =========================
-   Sport buttons row (existing)
+   Card grid/cards
    ========================= */
-.filters-row{
-  display:flex;
-  gap:16px;
-  justify-content:center;
-  padding: 10px 16px 0;
-  font-size: 10px;
-  font-weight: 900;
-  text-transform: uppercase;
-  letter-spacing: 0.22em;
-  border-top: 1px solid rgba(255,255,255,0.06);
-  margin-top: 12px;
-  margin-bottom: 28px;
-}
-@media (max-width:768px){
-  .filters-row{ gap:10px; letter-spacing:0.16em; }
+.vzla-grid{
+  display:grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 18px;
+  margin-top: 18px;
 }
 
+@media (min-width: 1280px){
+  .vzla-grid{ grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); }
+}
+@media (min-width: 1600px){
+  .vzla-grid{ grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
+}
+
+.athlete-card{
+  min-width: 0;
+  padding: 16px;
+  background: rgba(255,255,255,.03) !important;
+  border-radius: 18px;
+  border: 1px solid rgba(255,255,255,.08);
+  box-shadow: 0 18px 45px rgba(0,0,0,0.55);
+  display:flex;
+  flex-direction:column;
+  min-height: 240px;
+  text-align:left;
+  transition: transform .15s ease, border-color .15s ease;
+}
+.athlete-card:hover{
+  transform: translateY(-2px);
+  border-color: rgba(255,255,255,0.14);
+}
+
+.athlete-card__top{
+  display:flex;
+  gap:14px;
+  align-items:flex-start;
+}
+
+.athlete-card__avatar{
+  width:64px;
+  height:64px;
+  border-radius: 16px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight: 950;
+  font-size: 20px;
+  letter-spacing: 0.06em;
+  background: rgba(242,242,13,0.12);
+  border: 1px solid rgba(242,242,13,0.18);
+  color: var(--vzla-yellow-solid);
+}
+
+.athlete-card__head{
+  min-width:0;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+
+.athlete-card__name{
+  font-weight: 950;
+  font-size: 20px;
+  line-height: 1.05;
+  white-space: normal;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.athlete-card__pill{
+  display:inline-flex;
+  align-self:flex-start;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 800;
+  background: rgba(242,242,13,0.12);
+  border: 1px solid rgba(242,242,13,0.18);
+}
+
+.athlete-card__value{
+  margin-top: 14px;
+  font-size: 12px;
+  font-weight: 950;
+  letter-spacing: -0.02em;
+}
+
+.athlete-card__label{
+  margin-top: 2px;
+  font-size: 12px;
+  color: rgba(255,255,255,0.55);
+  font-weight: 700;
+}
+
+.athlete-card__cta{
+  margin-top: 14px;
+  align-self:flex-start;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding: 12px 16px;
+  border-radius: 9999px;
+  background: linear-gradient(180deg,#f7f73a 0%,#f2f20d 60%,#d4d400 100%) !important;
+  color:#000 !important;
+  text-decoration:none;
+  font-weight: 950;
+  transition: transform .15s ease;
+}
+.athlete-card__cta:hover{ transform: scale(1.02); }
+
+.athlete-card__meta{
+  margin-top: 10px;
+  color: rgba(255,255,255,0.55);
+  font-weight: 800;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* =========================
+   Stability pill
+   ========================= */
+.athlete-card__stability-pill {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.08);
+  margin-left: 6px;
+  font-weight: 600;
+}
+
+.athlete-card__stability-pct {
+  margin-left: 6px;
+  opacity: 0.75;
+}
+
+/* Recommended outline */
+.athlete-card.is-recommended {
+  outline: 2px solid rgba(242, 242, 13, 0.65);
+  box-shadow: 0 0 0 6px rgba(242, 242, 13, 0.10);
+}
+
+/* =========================
+   Footer + ebay bar
+   ========================= */
 .vzla-footer{
   margin-top: 54px;
   border-top: 1px solid rgba(255,255,255,0.08);
@@ -888,7 +998,7 @@ details.mobile-dd summary::-webkit-details-marker{ display:none; }
   transition: 0.15s ease;
 }
 .footer-links a:hover{
-  color:var(--vzla-yellow);
+  color: var(--vzla-yellow-solid);
   background: rgba(242,242,13,0.08);
 }
 
@@ -929,321 +1039,8 @@ details.mobile-dd summary::-webkit-details-marker{ display:none; }
 }
 
 /* =========================
-   Card grid/cards (MORE columns like CardHedge)
+   Budget bar
    ========================= */
-.vzla-grid{
-  display:grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 18px;
-  margin-top: 18px;
-}
-
-@media (min-width: 1280px){
-  .vzla-grid{ grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); }
-}
-@media (min-width: 1600px){
-  .vzla-grid{ grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
-}
-
-.athlete-card{
-  min-width: 0;
-  padding: 16px;
-  background: rgba(255,255,255,.03) !important; /* subtle lift */
-  border-radius: 18px;
-  border: 1px solid rgba(255,255,255,.08);
-  box-shadow: 0 18px 45px rgba(0,0,0,0.55);
-  display:flex;
-  flex-direction:column;
-  min-height: 240px;
-  text-align:left;
-  transition: transform .15s ease, border-color .15s ease;
-}
-
-.athlete-card:hover{
-  transform: translateY(-2px);
-  border-color: rgba(255,255,255,0.14);
-}
-
-.athlete-card__top{
-  display:flex;
-  gap:14px;
-  align-items:flex-start;
-}
-
-.athlete-card__avatar{
-  width:64px;
-  height:64px;
-  border-radius: 16px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-weight: 950;
-  font-size: 20px;
-  letter-spacing: 0.06em;
-  background: rgba(242,242,13,0.12);
-  border: 1px solid rgba(242,242,13,0.18);
-  color: var(--vzla-yellow);
-}
-
-.athlete-card__head{
-  min-width:0;
-  display:flex;
-  flex-direction:column;
-  gap:8px;
-}
-
-.athlete-card__name{
-  font-weight: 950;
-  font-size: 20px;
-  line-height: 1.05;
-
-  /* allow wrapping + clamp */
-  white-space: normal;
-  overflow: hidden;
-  text-overflow: ellipsis;
-
-  display: -webkit-box;
-  -webkit-line-clamp: 2;      /* show up to 2 lines */
-  -webkit-box-orient: vertical;
-}
-
-.athlete-card__pill{
-  display:inline-flex;
-  align-self:flex-start;
-  padding: 6px 12px;
-  border-radius: 999px;
-  font-size: 12px;
-  font-weight: 800;
-  background: rgba(242,242,13,0.12);
-  border: 1px solid rgba(242,242,13,0.18);
-  color: var(--vzla-yellow);
-  width: fit-content;
-}
-
-.athlete-card__spark { 
-  display: none !important; 
-}
-
-.athlete-card__days {
-  margin-top: 6px; 
-  font-size: 12px; 
-  opacity: .9; 
-}
-
-.athlete-card__days-val { 
-  font-weight: 600; 
-  margin-left: 6px; 
-}
-
-.athlete-card__value{
-  margin-top: 14px;
-  font-size: 12px;
-  font-weight: 950;
-  letter-spacing: -0.02em;
-}
-
-.athlete-card__label{
-  margin-top: 2px;
-  font-size: 12px;
-  color: rgba(255,255,255,0.55);
-  font-weight: 700;
-}
-
-.athlete-card__bottom{
-  margin-top:auto;
-  display:flex;
-  align-items:flex-end;
-  justify-content:space-between;
-  gap: 14px;
-  padding-top: 14px;
-}
-
-.athlete-card__spark{
-  width: 150px;
-  height: 52px;
-  border-radius: 12px;
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.06);
-  position:relative;
-  overflow:hidden;
-}
-.athlete-card__spark::after{
-  content:"";
-  position:absolute;
-  inset:0;
-  background: radial-gradient(circle at 30% 70%, rgba(242,242,13,0.12), transparent 60%);
-  opacity:0.8;
-}
-
-.athlete-card__cta{
-  margin-top: 14px;
-  align-self:flex-start;
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  padding: 12px 16px;
-  border-radius: 9999px;
-  background: linear-gradient(
-    180deg,
-    #f7f73a 0%,
-    #f2f20d 60%,
-    #d4d400 100%
-  ) !important;
-  color:#000; !important;
-  text-decoration:none;
-  font-weight: 950;
-  transition: transform .15s ease;
-}
-.athlete-card__cta:hover{ transform: scale(1.02); }
-
-.athlete-card__meta{
-  margin-top: 10px;
-  color: rgba(255,255,255,0.55);
-  font-weight: 800;
-  font-size: 12px;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-}
-
-@media (max-width: 520px){
-  .athlete-card__value{ font-size: 34px; }
-  .athlete-card__name{ font-size: 20px; }
-  .athlete-card__spark{ width: 140px; }
-}
-
-/* MOBILE: stop 3-column layout */
-@media (max-width: 980px){
-  .page-shell{
-    grid-template-columns: 1fr;
-    gap: 16px;
-    padding: 14px 14px 120px;
-  }
-
-  /* Make main full width */
-  .page-shell > main{
-    grid-column: 1;
-    padding: 16px !important; /* overrides Tailwind p-8 */
-  }
-
-  /* Hide side banners on mobile */
-  .page-shell > .side-banner{
-    display: none;
-  }
-} 
-
-.vzla-nav{
-  position: sticky;
-  top: 0;
-  z-index: 999;
-  border-bottom: 0 !important;
-
-  /* IMPORTANT: allow pseudo bg and keep blur */
-  position: sticky;
-  background: rgba(0,0,0,0.25);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-
-  /* needed for ::before */
-  position: sticky;
-  overflow: hidden;
-
-  box-shadow: none !important;
-}
-
-.vzla-nav::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  z-index:-1;
-
-  /* 🇻🇪 flag gradient */
-  background: linear-gradient(
-    90deg,
-    rgba(244,212,13,0.22) 0%,
-    rgba(0,51,160,0.22) 50%,
-    rgba(207,20,43,0.22) 100%
-  );
-}
-
-/* dark overlay so text stays readable */
-.vzla-nav::after{
-  content:"";
-  position:absolute;
-  inset:0;
-  z-index:-1;
-  background: rgba(0,0,0,0.35);
-}
-
-/* Optional: fade the nav gradient a bit as it goes down */
-.vzla-nav::after{
-  content:"";
-  position:absolute;
-  inset:0;
-  z-index:-1;
-  background: linear-gradient(to bottom, rgba(0,0,0,0.15), rgba(0,0,0,0.45));
-}
-
-@media (max-width: 768px){
-  .vzla-nav::before{
-    opacity: 1;
-    filter: saturate(1.2);
-  }
-  .vzla-nav::after{
-    background: rgba(0,0,0,0.55);
-  }
-}
-
-/* =========================
-   Gradient replacement for vzla-yellow text
-   ========================= */
-
-.text-\[\#f2f20d\],
-.nav-link.active,
-.vzla-index-badge,
-.athlete-card__pill {
-  background: var(--vzla-yellow);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  color: transparent;
-}
-
-.athlete-card__stability {
-  margin-top: 8px;
-  font-size: 0.9rem;
-  opacity: 0.9;
-}
-
-.athlete-card__stability-pill {
-  display: inline-block;
-  padding: 2px 8px;
-  border-radius: 999px;
-  background: rgba(255,255,255,0.08);
-  margin-left: 6px;
-  font-weight: 600;
-}
-
-.athlete-card__stability-pct {
-  margin-left: 6px;
-  opacity: 0.75;
-}
-/* Prevent content from hiding under fixed nav */
-body{
-  margin: 0;
-  background:
-    linear-gradient(
-      90deg,
-      rgba(244,212,13,0.20) 0%,
-      rgba(0,51,160,0.20) 50%,
-      rgba(207,20,43,0.20) 100%
-    ),
-    #020617; /* your dark base */
-}
-
-/* =========================
-   Budget bar (optional)
-   ========================= */
-
 .budget-bar {
   display: flex;
   align-items: center;
@@ -1268,7 +1065,6 @@ body{
   min-width: 260px;
 }
 
-/* Match your “glass pill” inputs */
 #budgetInput {
   flex: 1;
   min-width: 190px;
@@ -1283,11 +1079,8 @@ body{
   -webkit-backdrop-filter: blur(10px);
 }
 
-#budgetInput::placeholder {
-  color: rgba(255,255,255,.45);
-}
+#budgetInput::placeholder { color: rgba(255,255,255,.45); }
 
-/* Buttons that feel like your filter pills */
 #budgetBtn,
 #budgetClear {
   height: 44px;
@@ -1309,18 +1102,14 @@ body{
 }
 
 #budgetBtn:active,
-#budgetClear:active {
-  transform: translateY(1px);
-}
+#budgetClear:active { transform: translateY(1px); }
 
-/* If you want “Suggest” to be the highlighted action */
 #budgetBtn {
-  background: rgba(242,242,13,.14);            /* matches your yellow */
+  background: rgba(242,242,13,.14);
   border-color: rgba(242,242,13,.25);
   color: rgba(255,255,255,.95);
 }
 
-/* Results container */
 #budgetRecommendations {
   width: 100%;
   margin-top: 8px;
@@ -1333,23 +1122,16 @@ body{
   -webkit-backdrop-filter: blur(10px);
 }
 
-/* Clean list style inside results */
-#budgetRecommendations ol {
-  margin: 8px 0 0;
-  padding-left: 18px;
-}
-
-#budgetRecommendations li {
-  margin: 6px 0;
-  line-height: 1.25rem;
-}
-
-#budgetRecommendations small,
-#budgetRecommendations span {
-  color: rgba(255,255,255,.65);
-}
-
-.athlete-card.is-recommended {
-  outline: 2px solid rgba(242, 242, 13, 0.65);
-  box-shadow: 0 0 0 6px rgba(242, 242, 13, 0.10);
+/* =========================
+   Gradient text clip targets
+   ========================= */
+.text-\[\#f2f20d\],
+.nav-link.active,
+.vzla-index-badge,
+.athlete-card__pill{
+  background: var(--vzla-flag-grad);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
 }
