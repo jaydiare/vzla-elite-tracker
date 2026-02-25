@@ -62,9 +62,9 @@ BDB_ENDPOINTS: List[Dict[str, Any]] = [
     #{"sport": "Soccer", "league": "La Liga",    "provider": "balldontlie", "path": "/laliga/v1/players",     "field": "birth_place"},
     #{"sport": "Soccer", "league": "MLS",        "provider": "balldontlie", "path": "/mls/v1/players",        "field": "birth_place"},
     #{"sport": "Soccer", "league": "UCL",        "provider": "balldontlie", "path": "/ucl/v1/players",        "field": "birth_place"},
-    {"sport": "Soccer", "league": "Ligue 1",    "provider": "balldontlie", "path": "/ligue1/v1/players",     "field": "birth_place"},
-    {"sport": "Soccer", "league": "Bundesliga", "provider": "balldontlie", "path": "/bundesliga/v1/players", "field": "birth_place"},
-    {"sport": "Soccer", "league": "Serie A",    "provider": "balldontlie", "path": "/seriea/v1/players",     "field": "birth_place"},
+    #{"sport": "Soccer", "league": "Ligue 1",    "provider": "balldontlie", "path": "/ligue1/v1/players",     "field": "birth_place"},
+    #{"sport": "Soccer", "league": "Bundesliga", "provider": "balldontlie", "path": "/bundesliga/v1/players", "field": "birth_place"},
+    #{"sport": "Soccer", "league": "Serie A",    "provider": "balldontlie", "path": "/seriea/v1/players",     "field": "birth_place"},
 
     #{"sport": "MMA",        "league": "MMA",       "provider": "balldontlie", "path": "/mma/v1/fighters",   "field": "birth_place"},
     #{"sport": "Golf",       "league": "PGA Tour",  "provider": "balldontlie", "path": "/pga/v1/players",    "field": "birth_place"},
@@ -93,7 +93,7 @@ TSDB_TOP_DIVISIONS: List[Dict[str, Any]] = [
     #{"sport": "Baseball", "country": "Mexico", "league": "Liga Mexicana de Béisbol", "league_id": "5064"},
     #{"sport": "Baseball", "country": "Mexico", "league": "Mexican Pacific League",   "league_id": "5109"},
     {"sport": "Baseball", "country": "Japan",  "league": "Nippon Baseball League",    "league_id": "4591"},
-    #{"sport": "Baseball", "country": "Korea",  "league": "Korean KBO League",         "league_id": "4830"},
+    {"sport": "Baseball", "country": "Korea",  "league": "Korean KBO League",         "league_id": "4830"},
 ]
 
 TSDB_GOLF_TOP_TOURS: List[Dict[str, str]] = [
