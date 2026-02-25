@@ -81,7 +81,7 @@ TSDB_TOP_DIVISIONS: List[Dict[str, Any]] = [
     {"sport": "Soccer", "country": "Argentina", "league": "Argentinian Primera Division", "league_id": "4406"},
     {"sport": "Soccer", "country": "Brazil",    "league": "Brazilian Serie A",            "league_id": "4351"},
     #{"sport": "Soccer", "country": "Chile",     "league": "Chile Primera Division",       "league_id": "4627"},
-    {"sport": "Soccer", "country": "Italy",     "league": "Italian Serie A",              "league_id": "4332"},
+    #{"sport": "Soccer", "country": "Italy",     "league": "Italian Serie A",              "league_id": "4332"},
     #{"sport": "Soccer", "country": "France",    "league": "French Ligue 1",               "league_id": "4334"},
     {"sport": "Soccer", "country": "United States",    "league": "American NWSL",          "league_id": "4521"},
     
@@ -96,12 +96,12 @@ TSDB_TOP_DIVISIONS: List[Dict[str, Any]] = [
     #{"sport": "Baseball", "country": "Korea",  "league": "Korean KBO League",         "league_id": "4830"},
 ]
 
-#TSDB_GOLF_TOP_TOURS: List[Dict[str, str]] = [
-    #{"league_id": "4486", "league": "European Tour"},
-    #{"league_id": "4425", "league": "PGA Tour"},
-    #{"league_id": "4553", "league": "LPGA Tour"},
-    #{"league_id": "4426", "league": "European Tour"},
-#]
+TSDB_GOLF_TOP_TOURS: List[Dict[str, str]] = [
+    {"league_id": "4486", "league": "European Tour"},
+    {"league_id": "4425", "league": "PGA Tour"},
+    {"league_id": "4553", "league": "LPGA Tour"},
+    {"league_id": "4426", "league": "European Tour"},
+]
 
 # =========================
 # HELPERS
