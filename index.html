@@ -9,7 +9,6 @@
 
   <meta name="impact-site-verification" value="01c83abd-89b3-4408-b3a4-78e22587515e">
 
-
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -60,7 +59,9 @@
   <!-- <header class="bg-[#f2f20d] text-black px-6 py-2 flex justify-between items-center text-[10px] font-black uppercase tracking-tighter">
     <span>© 2026 VZLA Sports Elite</span>
   </header>-->
-    <nav class="p-6 border-b border-white/5 flex items-center justify-between backdrop-blur-md z-50 relative vzla-nav">
+  
+  <!-- ✅ Added: site-header class (for sticky/hide behavior if you add CSS) -->
+  <nav class="site-header p-6 border-b border-white/5 flex items-center justify-between backdrop-blur-md z-50 relative vzla-nav">
     <a href="index.html" class="vzla-brand-wrap" aria-label="Vzla Sports Elite Home">
       <!-- <span class="vzla-flag">🇻🇪</span>-->
       <span class="vzla-brand">
@@ -201,7 +202,8 @@
   </aside>
 
     <main class="max-w-none mx-auto w-full p-8">
-      <section class="hero-panel text-center mb-8 p-12">
+      <!-- ✅ Added: id="vzla-hero" + class "vzla-hero" so hero-scroll.js can collapse it -->
+      <section id="vzla-hero" class="hero-panel vzla-hero text-center mb-8 p-12">
         <h1 class="text-5xl font-black mb-2 uppercase leading-tight">
           VZLA <span class="text-[#f2f20d] italic">Sports Cards</span> Index
         </h1>
@@ -222,30 +224,30 @@
         <!-- Filled by JS -->
       </section>
 
-<!-- Budget Suggestion Bar -->
-<div class="budget-bar">
-  <div class="budget-label">Optional budget (USD)</div>
+      <!-- Budget Suggestion Bar -->
+      <div class="budget-bar">
+        <div class="budget-label">Optional budget (USD)</div>
 
-  <div class="budget-controls">
-    <input 
-      id="budgetInput"
-      type="number"
-      min="1"
-      step="1"
-      placeholder="e.g. 250"
-    />
+        <div class="budget-controls">
+          <input 
+            id="budgetInput"
+            type="number"
+            min="1"
+            step="1"
+            placeholder="e.g. 250"
+          />
 
-    <button id="budgetBtn" type="button">
-      Suggest
-    </button>
+          <button id="budgetBtn" type="button">
+            Suggest
+          </button>
 
-    <button id="budgetClear" type="button">
-      Clear
-    </button>
-  </div>
+          <button id="budgetClear" type="button">
+            Clear
+          </button>
+        </div>
 
-  <div id="budgetRecommendations"></div>
-</div>
+        <div id="budgetRecommendations"></div>
+      </div>
 
       <!-- ✅ Search + Filters row -->
       <div class="flex justify-center mb-4">
@@ -333,13 +335,15 @@
       </div>
 
       <!-- Existing sport buttons (still supported) -->
-       <!--<div class="filters-row" id="sport-filters">
+      <!--
+      <div class="filters-row" id="sport-filters">
         <button onclick="setSport('All', this)" class="text-[#f2f20d]">All</button>
         <button onclick="setSport('Baseball', this)" class="text-slate-500">Baseball</button>
         <button onclick="setSport('Soccer', this)" class="text-slate-500">Soccer</button>
         <button onclick="setSport('Basketball', this)" class="text-slate-500">Basketball</button>
         <button onclick="setSport('Other', this)" class="text-slate-500">Other</button>
-      </div>  -->
+      </div>
+      -->
 
       <div id="athletes-grid" class="vzla-grid"></div>
 
@@ -390,7 +394,6 @@
     </main>
 
     <aside class="side-banner">
-
       <a href="https://www.cardhedger.com?via=vzlaelite" target="_blank" rel="noopener noreferrer" title="Card Hedge Sports & Trading Card Analytics">
         <img src="./assets/cardhedge.jpg" alt="Card Hedge Sports & Trading Card Analytics">
       </a>
