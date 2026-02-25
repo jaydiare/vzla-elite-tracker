@@ -472,11 +472,41 @@ details.mobile-dd summary::-webkit-details-marker{ display:none; }
 /* =========================
    Hero + filters + footer + ebay bar
    ========================= */
+/* HERO outer panel uses same 🇻🇪 gradient as nav */
 .hero-panel{
-  background: var(--vzla-panel);
-  border: 1px solid rgba(255,255,255,0.08);
-  border-radius: 28px;
-  box-shadow: 0 25px 70px rgba(0,0,0,0.65);
+  position: relative;
+  overflow: hidden;
+  border-radius: 20px;
+  background: transparent; /* important */
+}
+
+.hero-panel::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:0;
+
+  background: linear-gradient(
+    90deg,
+    rgba(244,212,13,0.22) 0%,
+    rgba(0,51,160,0.22) 50%,
+    rgba(207,20,43,0.22) 100%
+  );
+}
+
+/* dark overlay for readability */
+.hero-panel::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:0;
+  background: rgba(0,0,0,0.55);
+}
+
+/* keep hero content above gradient */
+.hero-panel > *{
+  position: relative;
+  z-index: 2;
 }
 
 .hero-sub{
@@ -1067,36 +1097,42 @@ details.mobile-dd summary::-webkit-details-marker{ display:none; }
 .vzla-nav{
   position: sticky;
   top: 0;
-  left: 0;
-  right: 0;
   z-index: 999;
   border-bottom: none !important;
 
-  /* glass */
-  background: rgba(0,0,0,0.18);
+  /* IMPORTANT: allow pseudo bg and keep blur */
+  position: sticky;
+  background: transparent !important;
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
 
-  /* required for ::before layer */
+  /* needed for ::before */
+  position: sticky;
   overflow: hidden;
 }
 
-/* Venezuelan-flag style gradient layer */
 .vzla-nav::before{
   content:"";
   position:absolute;
   inset:0;
   z-index:-1;
 
+  /* 🇻🇪 flag gradient */
   background: linear-gradient(
     90deg,
     rgba(244,212,13,0.22) 0%,
     rgba(0,51,160,0.22) 50%,
     rgba(207,20,43,0.22) 100%
   );
+}
 
-  /* helps it blend (not a harsh bar) */
-  filter: saturate(1.15);
+/* dark overlay so text stays readable */
+.vzla-nav::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:-1;
+  background: rgba(0,0,0,0.35);
 }
 
 /* Optional: fade the nav gradient a bit as it goes down */
@@ -1109,17 +1145,12 @@ details.mobile-dd summary::-webkit-details-marker{ display:none; }
 }
 
 @media (max-width: 768px){
-  .vzla-nav{
-    background:
-      linear-gradient(
-        90deg,
-        rgba(244,212,13,0.15) 0%,
-        rgba(0,51,160,0.15) 50%,
-        rgba(207,20,43,0.15) 100%
-      ),
-      rgba(0,0,0,0.55); /* was 0.92 */
-    -webkit-backdrop-filter: blur(12px);
-    backdrop-filter: blur(12px);
+  .vzla-nav::before{
+    opacity: 1;
+    filter: saturate(1.2);
+  }
+  .vzla-nav::after{
+    background: rgba(0,0,0,0.55);
   }
 }
 
