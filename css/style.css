@@ -1203,61 +1203,54 @@ body.hero-collapsed #vzla-hero{
 .vzla-loadmore-btn:active{
   transform: translateY(1px);
 }
-
 /* =========================
-   FIX: Search + Filters alignment + mobile usability
-   Paste at END of style.css
+   SAFE FIX: Search alignment + mobile filters (won’t affect index cards)
    ========================= */
 
-/* 1) Desktop alignment: search input should line up with the filter selects
-   (filters have labels on top, search doesn't — so we pad the search column) */
+/* Desktop alignment: only inside the controls row */
 @media (min-width: 981px){
-  .vzla-search-wrap{
+  .vzla-controls-row .vzla-search-wrap{
     padding-top: 22px; /* label height (14) + gap (8) */
   }
 }
 
-/* Keep the count line right under the search bar (like before) */
-.vzla-search-count{
+/* Search count line (keeps it right under the search bar) */
+.vzla-controls-row .vzla-search-count{
   margin-top: 8px;
   font-size: 11px;
   color: rgba(255,255,255,0.45);
 }
 
-/* 2) Make sure nothing “invisible” is sitting on top of the controls row (mobile taps) */
-.vzla-controls-row,
-.vzla-search-wrap,
-.vzla-filters{
-  position: relative;
-}
-
-/* 3) Mobile: filters should be controllable (scrollable row, not squished / blocked) */
+/* Mobile: make filters usable (scrollable row) */
 @media (max-width: 980px){
-  .vzla-filters{
-    overflow-x: auto;                 /* ✅ lets you swipe horizontally */
+  .vzla-controls-row .vzla-filters{
+    overflow-x: auto;
     -webkit-overflow-scrolling: touch;
-    padding-bottom: 6px;
+    flex-wrap: nowrap;
     gap: 12px;
-    flex-wrap: nowrap;                /* ✅ keep them in one row */
+    padding-bottom: 6px;
   }
 
-  /* each filter becomes a “chip” width that’s easy to tap */
-  .vzla-filter{
+  .vzla-controls-row .vzla-filter{
     flex: 0 0 auto;
     min-width: 210px;
   }
 
-  /* hide the scrollbar (still scrolls) */
-  .vzla-filters::-webkit-scrollbar{
+  .vzla-controls-row .vzla-filters::-webkit-scrollbar{
     height: 0;
   }
 }
 
-/* 4) If any hero overlay is capturing touches above/below (rare, but happens on iOS),
-   this guarantees hero pseudo layers never block clicks outside the hero */
+/* Ensure hero decorative layers never block clicks anywhere */
 .hero-panel::before,
 .hero-panel::after,
 .hero-sub::before,
 .hero-sub::after{
   pointer-events: none;
+}
+
+/* OPTIONAL: explicitly keep index cards above anything weird */
+.vzla-index-row{
+  position: relative;
+  z-index: 1;
 }
