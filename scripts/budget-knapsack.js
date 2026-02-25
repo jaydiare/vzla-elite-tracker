@@ -22,12 +22,11 @@ function stabilityPoints(stabilityPct0to100) {
  */
 function liquidityMultiplier(daysOnMarket) {
   if (!Number.isFinite(daysOnMarket)) return 1.0; // unknown => neutral
-
-  if (daysOnMarket <= 7) return 1.30;   // very liquid
+  if (daysOnMarket <= 7) return 1.30;
   if (daysOnMarket <= 14) return 1.15;
-  if (daysOnMarket <= 30) return 1.00;  // baseline
+  if (daysOnMarket <= 30) return 1.00;
   if (daysOnMarket <= 60) return 0.90;
-  return 0.75;                          // slow-moving market
+  return 0.75;
 }
 
 // 0/1 knapsack: maximize points under budget
@@ -60,22 +59,29 @@ function knapsackPick(items, budgetCents) {
   return chosen;
 }
 
-function getVisibleCards() {
-  return Array.from(document.querySelectorAll(".athlete-card"))
-    .filter(el => el.offsetParent !== null); // visible (not display:none)
+/**
+ * ✅ IMPORTANT FIX:
+ * Only consider athlete cards that are actually in the grid below.
+ */
+function getVisibleCardsInGrid() {
+  const grid = document.getElementById("athletes-grid");
+  if (!grid) return [];
+  return Array.from(grid.querySelectorAll(".athlete-card"))
+    .filter(el => el.offsetParent !== null);
 }
 
 function getListingsFromDOM() {
-  const cards = getVisibleCards();
+  const cards = getVisibleCardsInGrid();
 
   return cards.map(el => {
-    const name = el.dataset.athleteName
-      || el.querySelector(".athlete-card__name")?.textContent?.trim()
-      || "Unknown";
+    const name =
+      el.dataset.athleteName ||
+      el.querySelector(".athlete-card__name")?.textContent?.trim() ||
+      "Unknown";
 
     const price = Number(el.dataset.price); // dollars
     const stabilityPct = Number(el.dataset.stabilityPct); // 0..100
-    const daysOnMarket = Number(el.dataset.daysOnMarket); // days (e.g., 12.3)
+    const daysOnMarket = Number(el.dataset.daysOnMarket); // days
 
     return {
       id: name,
@@ -87,7 +93,30 @@ function getListingsFromDOM() {
   }).filter(x => Number.isFinite(x.priceCents) && x.priceCents > 0);
 }
 
-function renderRecommendations(chosen, budgetCents) {
+/**
+ * Highlight chosen cards in the grid instead of showing random names.
+ */
+function applyHighlights(chosen) {
+  const grid = document.getElementById("athletes-grid");
+  if (!grid) return;
+
+  // remove old highlights
+  grid.querySelectorAll(".athlete-card.is-recommended").forEach(el => {
+    el.classList.remove("is-recommended");
+  });
+
+  // add highlight to chosen
+  const chosenSet = new Set(chosen.map(x => x.name));
+  grid.querySelectorAll(".athlete-card").forEach(el => {
+    const name = el.dataset.athleteName || el.querySelector(".athlete-card__name")?.textContent?.trim();
+    if (name && chosenSet.has(name)) el.classList.add("is-recommended");
+  });
+}
+
+/**
+ * Keep output minimal: show spent + count, not a different “portfolio list”.
+ */
+function renderRecommendationsSummary(chosen, budgetCents) {
   const out = document.querySelector("#budgetRecommendations");
   if (!out) return;
 
@@ -97,39 +126,25 @@ function renderRecommendations(chosen, budgetCents) {
   }
 
   const spent = chosen.reduce((s, it) => s + it.priceCents, 0);
-
   out.innerHTML = `
-    <div style="margin-top:10px;">
-      <div style="opacity:.85;margin-bottom:8px;">
-        Suggested picks — Spent $${(spent/100).toFixed(2)} of $${(budgetCents/100).toFixed(2)}
-      </div>
-      <ol>
-        ${chosen.map(it => {
-          const domText = Number.isFinite(it.daysOnMarket) ? `${Math.round(it.daysOnMarket)}d` : "—";
-          return `
-            <li>
-              <strong>${it.name}</strong> — $${(it.priceCents/100).toFixed(2)}
-              <span style="opacity:.75;">(${it.stabilityPct.toFixed(1)}%)</span>
-              <span style="opacity:.65;"> • DOM ${domText}</span>
-            </li>
-          `;
-        }).join("")}
-      </ol>
+    <div style="margin-top:10px; opacity:.9;">
+      Highlighted <strong>${chosen.length}</strong> card(s) below —
+      Spent <strong>$${(spent / 100).toFixed(2)}</strong> of <strong>$${(budgetCents / 100).toFixed(2)}</strong>
     </div>
   `;
 }
 
 function runBudgetSuggest() {
-  // ✅ Guard: if budget UI isn't present, do nothing (keeps feature optional)
   const inputEl = document.querySelector("#budgetInput");
   const out = document.querySelector("#budgetRecommendations");
   if (!inputEl || !out) return;
 
   const budgetCents = dollarsToCents(inputEl.value);
 
-  // optional: blank budget => no UI
+  // optional: blank budget => clear UI + clear highlights
   if (!budgetCents) {
     out.innerHTML = "";
+    applyHighlights([]);
     return;
   }
 
@@ -140,14 +155,15 @@ function runBudgetSuggest() {
     const liq = liquidityMultiplier(x.daysOnMarket);
     return {
       ...x,
-      // ✅ value uses BOTH stability + time-on-market (liquidity)
-      valueScore: base * liq,
+      valueScore: base * liq, // ✅ stability + time-on-market
     };
-  })
-  .filter(x => x.valueScore > 0 && x.priceCents <= budgetCents);
+  }).filter(x => x.valueScore > 0 && x.priceCents <= budgetCents);
 
   const chosen = knapsackPick(items, budgetCents);
-  renderRecommendations(chosen, budgetCents);
+
+  // ✅ Highlight cards below + show summary
+  applyHighlights(chosen);
+  renderRecommendationsSummary(chosen, budgetCents);
 }
 
 function clearBudgetSuggest() {
@@ -155,9 +171,10 @@ function clearBudgetSuggest() {
   const out = document.querySelector("#budgetRecommendations");
   if (input) input.value = "";
   if (out) out.innerHTML = "";
+  applyHighlights([]);
 }
 
-/* ✅ expose to window so app.js can call it from renderGrid() */
+// expose to window so app.js can call it from renderGrid()
 window.runBudgetSuggest = runBudgetSuggest;
 window.clearBudgetSuggest = clearBudgetSuggest;
 
