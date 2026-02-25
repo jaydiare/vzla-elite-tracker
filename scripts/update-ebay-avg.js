@@ -815,6 +815,8 @@ async function main() {
     rec.n = rec.nListing;
 
     out[name] = rec;
+    
+    fs.writeFileSync(OUT_PATH, JSON.stringify(out, null, 2));
 
     await sleep(500);
   }
