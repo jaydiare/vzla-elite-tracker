@@ -35,6 +35,13 @@ jobs:
           NBA_API_KEY: ${{ secrets.NBA_API_KEY }}
           SPORTSDB_KEY: ${{ secrets.SPORTSDB_KEY }}
         run: python scripts/fetch_all_vzla.py
+      
+      - name: Auto-dedupe athletes.json (keep oldest by name)
+        run: |
+          python scripts/dedupe_athletes.py \
+            --input data/athletes.json \
+            --output data/athletes.json \
+            --report data/athletes_dedupe_report.json
 
       - name: Commit and Push changes
         run: |
