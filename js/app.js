@@ -382,7 +382,7 @@ function renderAthleteCard(a) {
       <div class="vzla-search-count">*prices may vary*</div>
 
       <a href="${shopUrl}" target="_blank" class="athlete-card__cta">
-        Shop Collectibles
+        Search on eBay
       </a>
 
       <div class="athlete-card__meta">
