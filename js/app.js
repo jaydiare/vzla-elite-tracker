@@ -500,6 +500,12 @@ function renderGrid(list) {
     
     updateLoadMoreButton(filtered.length);
 
+  function updateLoadMoreButton() {
+  const btn = document.getElementById("loadMoreBtn");
+  if (!btn) return;
+  // If your code already toggles visibility elsewhere, this can stay empty safely.
+}
+
   // ✅ Re-run budget suggestions after cards re-render (optional feature)
   if (typeof window.runBudgetSuggest === "function") {
     window.runBudgetSuggest();
