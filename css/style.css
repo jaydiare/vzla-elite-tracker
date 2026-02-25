@@ -1065,22 +1065,15 @@ details.mobile-dd summary::-webkit-details-marker{ display:none; }
 }
 
 .vzla-nav{
-  position: fixed;
+  position: sticky;
   top: 0;
   left: 0;
   right: 0;
-  z-index: 10050;
-
-  background:
-    linear-gradient(
-      90deg,
-      rgba(244,212,13,0.22) 0%,
-      rgba(0,51,160,0.22) 50%,
-      rgba(207,20,43,0.22) 100%
-    ),
-    rgba(0,0,0,0.88);
-
+  z-index: 999;
+  background: rgba(0,0,0,0.10) !important; /* small tint so blur works */
+  border-bottom: none !important;
   backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 
 @media (max-width: 768px){
@@ -1092,7 +1085,9 @@ details.mobile-dd summary::-webkit-details-marker{ display:none; }
         rgba(0,51,160,0.15) 50%,
         rgba(207,20,43,0.15) 100%
       ),
-      rgba(0,0,0,0.92);
+      rgba(0,0,0,0.55); /* was 0.92 */
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
   }
 }
 
