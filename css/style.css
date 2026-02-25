@@ -510,17 +510,16 @@ details.mobile-dd summary::-webkit-details-marker{ display:none; }
 }
 
 .hero-sub{
-  display:inline-block;
-  margin-top:18px;
-  padding:18px 22px;
-  border-radius:14px;
-  background: #070707;
-  color: rgba(255,255,255,0.84);
-  font-size:20px;
-  line-height:1.45;
-  box-shadow: 0 10px 40px rgba(0,0,0,0.55);
-  max-width:760px;
+  background: rgba(0,0,0,0.55);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 16px;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  padding: 18px 22px;
+  max-width: 800px;
+  margin: 12px auto 0;
 }
+
 @media (max-width:768px){
   .hero-sub{ font-size:16px; padding:14px 16px; }
 }
