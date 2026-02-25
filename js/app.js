@@ -499,7 +499,6 @@ function renderGrid(list) {
     grid.innerHTML = page.map(renderAthleteCard).join("");
     
     updateLoadMoreButton(filtered.length);
-}
 
   // ✅ Re-run budget suggestions after cards re-render (optional feature)
   if (typeof window.runBudgetSuggest === "function") {
