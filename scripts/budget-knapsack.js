@@ -16,6 +16,20 @@ function stabilityPoints(stabilityPct0to100) {
   return 10;                 // Highly Unstable
 }
 
+/**
+ * Liquidity multiplier from Avg. Days on Market (DOM)
+ * Lower DOM => more liquid => boost score
+ */
+function liquidityMultiplier(daysOnMarket) {
+  if (!Number.isFinite(daysOnMarket)) return 1.0; // unknown => neutral
+
+  if (daysOnMarket <= 7) return 1.30;   // very liquid
+  if (daysOnMarket <= 14) return 1.15;
+  if (daysOnMarket <= 30) return 1.00;  // baseline
+  if (daysOnMarket <= 60) return 0.90;
+  return 0.75;                          // slow-moving market
+}
+
 // 0/1 knapsack: maximize points under budget
 function knapsackPick(items, budgetCents) {
   const dp = Array(budgetCents + 1).fill(0);
@@ -61,12 +75,14 @@ function getListingsFromDOM() {
 
     const price = Number(el.dataset.price); // dollars
     const stabilityPct = Number(el.dataset.stabilityPct); // 0..100
+    const daysOnMarket = Number(el.dataset.daysOnMarket); // days (e.g., 12.3)
 
     return {
       id: name,
       name,
       priceCents: Number.isFinite(price) ? Math.round(price * 100) : NaN,
       stabilityPct: Number.isFinite(stabilityPct) ? stabilityPct : NaN,
+      daysOnMarket: Number.isFinite(daysOnMarket) ? daysOnMarket : NaN,
     };
   }).filter(x => Number.isFinite(x.priceCents) && x.priceCents > 0);
 }
@@ -88,12 +104,16 @@ function renderRecommendations(chosen, budgetCents) {
         Suggested picks — Spent $${(spent/100).toFixed(2)} of $${(budgetCents/100).toFixed(2)}
       </div>
       <ol>
-        ${chosen.map(it => `
-          <li>
-            <strong>${it.name}</strong> — $${(it.priceCents/100).toFixed(2)}
-            <span style="opacity:.75;">(${it.stabilityPct.toFixed(1)}%)</span>
-          </li>
-        `).join("")}
+        ${chosen.map(it => {
+          const domText = Number.isFinite(it.daysOnMarket) ? `${Math.round(it.daysOnMarket)}d` : "—";
+          return `
+            <li>
+              <strong>${it.name}</strong> — $${(it.priceCents/100).toFixed(2)}
+              <span style="opacity:.75;">(${it.stabilityPct.toFixed(1)}%)</span>
+              <span style="opacity:.65;"> • DOM ${domText}</span>
+            </li>
+          `;
+        }).join("")}
       </ol>
     </div>
   `;
@@ -115,10 +135,15 @@ function runBudgetSuggest() {
 
   const raw = getListingsFromDOM();
 
-  const items = raw.map(x => ({
-    ...x,
-    valueScore: stabilityPoints(x.stabilityPct),
-  }))
+  const items = raw.map(x => {
+    const base = stabilityPoints(x.stabilityPct);
+    const liq = liquidityMultiplier(x.daysOnMarket);
+    return {
+      ...x,
+      // ✅ value uses BOTH stability + time-on-market (liquidity)
+      valueScore: base * liq,
+    };
+  })
   .filter(x => x.valueScore > 0 && x.priceCents <= budgetCents);
 
   const chosen = knapsackPick(items, budgetCents);
@@ -132,7 +157,7 @@ function clearBudgetSuggest() {
   if (out) out.innerHTML = "";
 }
 
-/* ✅ STEP 3: expose to window so app.js can call it from renderGrid() */
+/* ✅ expose to window so app.js can call it from renderGrid() */
 window.runBudgetSuggest = runBudgetSuggest;
 window.clearBudgetSuggest = clearBudgetSuggest;
 
