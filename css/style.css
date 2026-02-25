@@ -1117,3 +1117,112 @@ details.mobile-dd summary::-webkit-details-marker{ display:none; }
 body{
   padding-top: 96px; /* adjust if needed */
 }
+
+/* =========================
+   Budget bar (optional)
+   ========================= */
+
+.budget-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin: 14px 0 10px;
+}
+
+.budget-label {
+  color: rgba(255,255,255,.70);
+  font-size: 14px;
+  letter-spacing: .02em;
+  white-space: nowrap;
+}
+
+.budget-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  min-width: 260px;
+}
+
+/* Match your “glass pill” inputs */
+#budgetInput {
+  flex: 1;
+  min-width: 190px;
+  height: 44px;
+  padding: 0 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,.10);
+  background: rgba(0,0,0,.25);
+  color: rgba(255,255,255,.92);
+  outline: none;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+#budgetInput::placeholder {
+  color: rgba(255,255,255,.45);
+}
+
+/* Buttons that feel like your filter pills */
+#budgetBtn,
+#budgetClear {
+  height: 44px;
+  padding: 0 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,.10);
+  background: rgba(255,255,255,.06);
+  color: rgba(255,255,255,.88);
+  cursor: pointer;
+  transition: transform .12s ease, background .12s ease, border-color .12s ease;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+#budgetBtn:hover,
+#budgetClear:hover {
+  background: rgba(255,255,255,.10);
+  border-color: rgba(255,255,255,.16);
+}
+
+#budgetBtn:active,
+#budgetClear:active {
+  transform: translateY(1px);
+}
+
+/* If you want “Suggest” to be the highlighted action */
+#budgetBtn {
+  background: rgba(242,242,13,.14);            /* matches your yellow */
+  border-color: rgba(242,242,13,.25);
+  color: rgba(255,255,255,.95);
+}
+
+/* Results container */
+#budgetRecommendations {
+  width: 100%;
+  margin-top: 8px;
+  padding: 12px 14px;
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,.10);
+  background: rgba(0,0,0,.22);
+  color: rgba(255,255,255,.88);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+/* Clean list style inside results */
+#budgetRecommendations ol {
+  margin: 8px 0 0;
+  padding-left: 18px;
+}
+
+#budgetRecommendations li {
+  margin: 6px 0;
+  line-height: 1.25rem;
+}
+
+#budgetRecommendations small,
+#budgetRecommendations span {
+  color: rgba(255,255,255,.65);
+}
