@@ -1275,3 +1275,34 @@ body.hero-collapsed #vzla-hero{
   margin-top: 8px;
   display: block;
 }
+
+@media (max-width: 768px){
+  .vzla-controls-row{
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+  }
+
+  /* Make filters a 2-column grid on mobile */
+  .vzla-filters{
+    display: grid !important;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px !important;
+    justify-content: initial !important;
+  }
+
+  /* Allow filters to shrink */
+  .vzla-filter{
+    min-width: 0 !important;
+  }
+
+  .vzla-filter__select{
+    width: 100%;
+  }
+}
+
+/* Extra small phones: stack filters into 1 column */
+@media (max-width: 420px){
+  .vzla-filters{
+    grid-template-columns: 1fr;
+  }
+}
