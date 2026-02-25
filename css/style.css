@@ -1270,3 +1270,8 @@ body.hero-collapsed #vzla-hero{
   position: relative;
   z-index: 1;
 }
+/* ✅ ensure search count shows consistently */
+.search-count.vzla-search-count{
+  margin-top: 8px;
+  display: block;
+}
