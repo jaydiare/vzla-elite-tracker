@@ -1270,8 +1270,3 @@ body.hero-collapsed #vzla-hero{
   position: relative;
   z-index: 1;
 }
-
-/* 4) When hero collapses, it must stop capturing taps */
-body.hero-collapsed #vzla-hero{
-  pointer-events: none;
-}
