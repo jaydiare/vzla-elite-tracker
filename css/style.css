@@ -1175,11 +1175,6 @@ details.mobile-dd summary::-webkit-details-marker{ display:none; }
   font-size: 0.9rem;
   opacity: 0.9;
 }
-
-#budgetRecommendations.is-visible {
-  display: inline-flex;
-  align-items: center;
-}
 /* =========================
    Gradient text clip targets
    ========================= */
