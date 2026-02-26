@@ -1157,6 +1157,7 @@ details.mobile-dd summary::-webkit-details-marker{ display:none; }
 
 /* Results container */
 #budgetRecommendations {
+  display: none;
   width: 100%;
   margin-top: 8px;
   padding: 12px 14px;
@@ -1167,7 +1168,10 @@ details.mobile-dd summary::-webkit-details-marker{ display:none; }
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
 }
-
+/* Show only when JS adds this class */
+#budgetRecommendations.is-visible {
+  display: block;
+}
 /* =========================
    Gradient text clip targets
    ========================= */
