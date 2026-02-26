@@ -225,31 +225,31 @@
         <!-- Filled by JS -->
       </section>
 
-      <!-- Budget Suggestion Bar -->
-      <div class="budget-bar">
-        <div class="budget-controls">
-          <input 
-            id="budgetInput"
-            type="number"
-            min="1"
-            step="1"
-            placeholder="Optional My budget e.g. 250$"
-          />
-      
-          <input
-            id="cardsInput"
-            type="number"
-            min="1"
-            step="1"
-            placeholder="Optional # of cards"
-          />
-      
-          <button id="budgetBtn" type="button">Suggest</button>
-          <button id="budgetClear" type="button">Clear</button>
-      
-          <div id="budgetRecommendations"></div>
+     <!-- Budget Suggestion Bar -->
+        <div class="budget-bar">
+          <div class="budget-controls">
+            <input
+              id="budgetInput"
+              type="number"
+              min="1"
+              step="1"
+              placeholder="Optional budget e.g. 250"
+            />
+        
+            <input
+              id="cardsInput"
+              type="number"
+              min="1"
+              step="1"
+              placeholder="Optional # of cards"
+            />
+        
+            <button id="budgetBtn" type="button">Suggest</button>
+            <button id="budgetClear" type="button">Clear</button>
+          </div>
+        
+          <div id="budgetRecommendations" aria-live="polite"></div>
         </div>
-      </div>
 
       <!-- ✅ Search + Filters row -->
       <div class="flex justify-center mb-4">
