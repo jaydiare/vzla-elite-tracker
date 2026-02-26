@@ -41,7 +41,7 @@ let activeSport = "All"; // sport buttons row
 let activeCategory = "all";
 let activeLeague = "all";
 let activePrice = "all";
-let activeStability = "all"; // ✅ NEW
+let activeStability = "all";
 
 // Load more pagination
 const PAGE_SIZE = 100;
@@ -126,7 +126,7 @@ function setKbdHint() {
 function fillFilterOptions() {
   const catSel = document.getElementById("filter-category");
   const leagueSel = document.getElementById("filter-league");
-  const stabilitySel = document.getElementById("filter-stability"); // ✅ NEW
+  const stabilitySel = document.getElementById("filter-stability");
 
   if (catSel && leagueSel) {
     const sports = Array.from(new Set((athleteData || []).map((a) => a?.sport).filter(Boolean))).sort();
@@ -143,7 +143,6 @@ function fillFilterOptions() {
       leagues.map((l) => `<option value="${l}">${l}</option>`).join("");
   }
 
-  // ✅ NEW: Stability filter options (only if the select exists)
   if (stabilitySel) {
     stabilitySel.innerHTML =
       `<option value="all">All</option>` +
@@ -200,7 +199,6 @@ function buildEbayIndexes(obj) {
 
     ebayAvgByName[k] = rec;
 
-    // Only build key index if sport exists
     if (rec?.sport) {
       ebayAvgByKey[makeNameSportKey(k, rec.sport)] = rec;
     }
@@ -244,7 +242,7 @@ function getMarketStabilityCV(athlete) {
     null;
 
   const n = Number(v);
-  return Number.isFinite(n) && n >= 0 ? n : null; // ratio (0.12 = 12%)
+  return Number.isFinite(n) && n >= 0 ? n : null;
 }
 
 function getAvgDaysOnMarket(athlete) {
@@ -260,7 +258,6 @@ function getAvgDaysOnMarket(athlete) {
   return Number.isFinite(n) && n >= 0 ? n : null;
 }
 
-// ✅ UPDATED tiers to include Highly Unstable (35%+)
 function marketStabilityScoreFromCV(cv) {
   if (cv == null) return { label: "—", pctText: "—", bucket: "none" };
 
@@ -434,9 +431,6 @@ function renderGrid(list) {
   const price = priceSel?.value ?? activePrice;
   const stability = stabilitySel?.value ?? activeStability;
 
-  // ✅ Save FULL filtered list (not paginated) for budget suggestions
-  window.__vzlaBudgetFiltered = filtered.slice();
-
   let filtered = (list || [])
     .filter((a) => {
       if (activeSport === "All") return true;
@@ -488,6 +482,9 @@ function renderGrid(list) {
       });
     }
   }
+
+  // ✅ CRITICAL FIX: Save FULL filtered list (not paginated) for budget suggestions
+  window.__vzlaBudgetFiltered = filtered.slice();
 
   grid.className = "vzla-grid";
 
@@ -576,7 +573,8 @@ window.getBudgetCandidates = function () {
       const stabilityPct = cv != null ? (cv * 100) : null;
 
       return {
-        id: norm(a?.name),
+        // stronger normalization to match budget-knapsack.js highlighting
+        id: String(a?.name || "").trim().toLowerCase().replace(/\s+/g, " "),
         name: a?.name || "Unknown",
         priceCents: Number.isFinite(price) ? Math.round(price * 100) : NaN,
         stabilityPct: Number.isFinite(stabilityPct) ? stabilityPct : NaN,
@@ -676,7 +674,7 @@ async function init() {
     });
   }
 
-  // ✅ Auto-run budget suggest when user edits inputs (optional, feels great)
+  // ✅ Auto-run budget suggest when user edits inputs
   const budgetInput = document.getElementById("budgetInput");
   const cardsInput = document.getElementById("cardsInput");
   const rerunBudgetDebounced = debounce(() => {
