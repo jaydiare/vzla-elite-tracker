@@ -6,6 +6,10 @@
   // false = only highlight picks (HIGHLIGHT ONLY)
   const FILTER_TO_CHOSEN = true;
 
+  // ✅ When user sets a target card count, try to spend at least this % of budget
+  // (prevents "2 cards" picking two $2 cards when budget is $50)
+  const MIN_SPEND_FRACTION_WHEN_CARD_TARGET = 0.85;
+
   function dollarsToCents(v) {
     const cleaned = String(v).replace(/[^0-9.]/g, "");
     const num = Number(cleaned);
@@ -77,6 +81,8 @@
 
   // ============================
   // Knapsack WITH max card count
+  // - maximizes valueScore
+  // - prefers using more of the budget when card target is set
   // ============================
   function knapsackPickWithMaxCount(items, budgetCents, maxCount) {
     const B = budgetCents;
@@ -85,10 +91,12 @@
     const width = B + 1;
     const size = (K + 1) * width;
 
+    // dp[k,b] = best value using exactly k items with total cost exactly b
     const dp = new Float64Array(size);
     dp.fill(-Infinity);
     dp[0 * width + 0] = 0;
 
+    // reconstruction pointers
     const choice = new Int32Array(size);
     const prevB = new Int32Array(size);
     choice.fill(-1);
@@ -98,6 +106,7 @@
       const w = items[i].priceCents;
       const v = items[i].valueScore;
 
+      // descend to enforce 0/1 (no reuse)
       for (let k = K; k >= 1; k--) {
         const row = k * width;
         const prevRow = (k - 1) * width;
@@ -123,11 +132,21 @@
     let bestK = 0;
     let bestBudget = 0;
 
+    // ✅ Pass 1: enforce spending at least a fraction of the budget (when card target is set)
+    const minSpend = Math.floor(B * MIN_SPEND_FRACTION_WHEN_CARD_TARGET);
+
     for (let k = 1; k <= K; k++) {
       const row = k * width;
-      for (let b = 0; b <= B; b++) {
+      for (let b = minSpend; b <= B; b++) {
         const val = dp[row + b];
-        if (val > bestVal || (val === bestVal && k > bestK)) {
+        if (val === -Infinity) continue;
+
+        // pick highest value; tie-break: spend more; then more cards
+        if (
+          val > bestVal ||
+          (val === bestVal && b > bestBudget) ||
+          (val === bestVal && b === bestBudget && k > bestK)
+        ) {
           bestVal = val;
           bestK = k;
           bestBudget = b;
@@ -135,8 +154,30 @@
       }
     }
 
+    // ✅ Pass 2 fallback: if nothing meets minSpend, choose best overall but still prefer spending more
+    if (bestVal === -Infinity) {
+      for (let k = 1; k <= K; k++) {
+        const row = k * width;
+        for (let b = 0; b <= B; b++) {
+          const val = dp[row + b];
+          if (val === -Infinity) continue;
+
+          if (
+            val > bestVal ||
+            (val === bestVal && b > bestBudget) ||
+            (val === bestVal && b === bestBudget && k > bestK)
+          ) {
+            bestVal = val;
+            bestK = k;
+            bestBudget = b;
+          }
+        }
+      }
+    }
+
     if (bestVal === -Infinity) return [];
 
+    // reconstruct
     const chosen = [];
     let k = bestK;
     let b = bestBudget;
@@ -186,15 +227,9 @@
         return {
           id: normKey(name),
           name,
-          priceCents: Number.isFinite(price)
-            ? Math.round(price * 100)
-            : NaN,
-          stabilityPct: Number.isFinite(stabilityPct)
-            ? stabilityPct
-            : NaN,
-          daysOnMarket: Number.isFinite(daysOnMarket)
-            ? daysOnMarket
-            : NaN
+          priceCents: Number.isFinite(price) ? Math.round(price * 100) : NaN,
+          stabilityPct: Number.isFinite(stabilityPct) ? stabilityPct : NaN,
+          daysOnMarket: Number.isFinite(daysOnMarket) ? daysOnMarket : NaN
         };
       })
       .filter(x => Number.isFinite(x.priceCents) && x.priceCents > 0);
@@ -275,10 +310,9 @@
     if (!inputEl || !out) return;
 
     const budgetCents = dollarsToCents(inputEl.value);
-    const maxCards = cardsInputEl
-      ? toPositiveInt(cardsInputEl.value)
-      : null;
+    const maxCards = cardsInputEl ? toPositiveInt(cardsInputEl.value) : null;
 
+    // blank budget => clear UI + restore grid
     if (!budgetCents) {
       out.innerHTML = "";
       applyHighlights([]);
@@ -298,10 +332,7 @@
           valueScore: base * liq
         };
       })
-      .filter(x =>
-        x.valueScore > 0 &&
-        x.priceCents <= budgetCents
-      );
+      .filter(x => x.valueScore > 0 && x.priceCents <= budgetCents);
 
     const chosen = maxCards
       ? knapsackPickWithMaxCount(items, budgetCents, maxCards)
