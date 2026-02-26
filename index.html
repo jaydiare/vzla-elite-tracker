@@ -227,36 +227,28 @@
 
       <!-- Budget Suggestion Bar -->
       <div class="budget-bar">
-        <!--<div class="budget-label">Optional budget (USD)</div>-->
-
         <div class="budget-controls">
           <input 
             id="budgetInput"
             type="number"
             min="1"
             step="1"
-            placeholder="Optional budget e.g. 250$"
+            placeholder="Optional My budget e.g. 250$"
           />
-        <!--<div class="budget-label">Optional number of cards</div>-->     <!-- NEW: Optional Number of Cards -->
-        <div class="budget-controls">
+      
           <input
-              id="cardsInput"
-              type="number"
-              min="1"
-              step="1"
-              placeholder="Optional # of cards"
-            />
-
-          <button id="budgetBtn" type="button">
-            Suggest
-          </button>
-
-          <button id="budgetClear" type="button">
-            Clear
-          </button>
-        </div>        
-
-        <div id="budgetRecommendations"></div>
+            id="cardsInput"
+            type="number"
+            min="1"
+            step="1"
+            placeholder="Optional # of cards"
+          />
+      
+          <button id="budgetBtn" type="button">Suggest</button>
+          <button id="budgetClear" type="button">Clear</button>
+      
+          <div id="budgetRecommendations"></div>
+        </div>
       </div>
 
       <!-- ✅ Search + Filters row -->
