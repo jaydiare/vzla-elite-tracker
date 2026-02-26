@@ -1167,7 +1167,6 @@ body.hero-collapsed #vzla-hero{
    ========================= */
 .text-\[\#f2f20d\],
 .nav-link.active,
-.vzla-index-badge,
 .athlete-card__pill{
   background: var(--vzla-flag-grad);
   -webkit-background-clip: text;
