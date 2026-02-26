@@ -35,9 +35,9 @@ const athleteDataRaw = [
 
 let athleteData = [];
 let ebayAvgRaw = {};
-let activeSport = "All"; // sport buttons row
+let activeSport = "All";
 
-// Dropdown filters (optional; only used if the elements exist in HTML)
+// Dropdown filters
 let activeCategory = "all";
 let activeLeague = "all";
 let activePrice = "all";
@@ -47,12 +47,13 @@ let activeStability = "all";
 const PAGE_SIZE = 100;
 let visibleCount = PAGE_SIZE;
 
-// Price threshold used by the Price dropdown (Low/High). Adjust as you like.
-const PRICE_LOW_MAX = 20;
-
 // ---------- Helpers ----------
 function norm(s) {
   return String(s || "").trim().toLowerCase();
+}
+
+function normKey(s) {
+  return String(s || "").trim().toLowerCase().replace(/\s+/g, " ");
 }
 
 function makeNameSportKey(name, sport) {
@@ -90,7 +91,6 @@ async function fetchJsonWithFallback(path) {
   }
 }
 
-// Initials avatar (no photos)
 function initialsFromName(name) {
   const parts = String(name || "").trim().split(/\s+/).filter(Boolean);
   if (!parts.length) return "VZ";
@@ -99,7 +99,6 @@ function initialsFromName(name) {
   return (a + b).toUpperCase();
 }
 
-// Debounce (for smoother input feel)
 function debounce(fn, delay = 150) {
   let t;
   return (...args) => {
@@ -108,13 +107,12 @@ function debounce(fn, delay = 150) {
   };
 }
 
-// OS hint for the ⌘K bubble (so Windows shows Ctrl K)
 function isMacPlatform() {
   return /Mac|iPhone|iPad|iPod/i.test(navigator.platform) || /Mac/i.test(navigator.userAgent);
 }
 
 function setKbdHint() {
-  const el = document.getElementById("search-kbd"); // optional
+  const el = document.getElementById("search-kbd");
   if (!el) return;
 
   el.innerHTML = isMacPlatform()
@@ -122,63 +120,27 @@ function setKbdHint() {
     : `<span class="kbd">Ctrl</span><span class="kbd">K</span>`;
 }
 
-// Fill dropdown filter options (only if selects exist)
-function fillFilterOptions() {
-  const catSel = document.getElementById("filter-category");
-  const leagueSel = document.getElementById("filter-league");
-  const stabilitySel = document.getElementById("filter-stability");
-
-  if (catSel && leagueSel) {
-    const sports = Array.from(new Set((athleteData || []).map((a) => a?.sport).filter(Boolean))).sort();
-
-    catSel.innerHTML =
-      `<option value="all">All</option>` +
-      sports.map((s) => `<option value="${s}">${s}</option>`).join("") +
-      `<option value="Other">Other</option>`;
-
-    const leagues = Array.from(new Set((athleteData || []).map((a) => a?.league).filter(Boolean))).sort();
-
-    leagueSel.innerHTML =
-      `<option value="all">All</option>` +
-      leagues.map((l) => `<option value="${l}">${l}</option>`).join("");
-  }
-
-  if (stabilitySel) {
-    stabilitySel.innerHTML =
-      `<option value="all">All</option>` +
-      `<option value="stable">Stable (0–10%)</option>` +
-      `<option value="active">Active (10–20%)</option>` +
-      `<option value="volatile">Volatile (20–35%)</option>` +
-      `<option value="highly_unstable">Highly Unstable (35%+)</option>` +
-      `<option value="none">No Score</option>`;
-  }
+// ---------- Pagination helpers (SINGLE SOURCE OF TRUTH) ----------
+function resetVisibleCount() {
+  visibleCount = PAGE_SIZE;
 }
 
-// ---------- "Last updated" label (from ebay-avg.json _meta.updatedAt) ----------
-function timeAgo(isoString) {
-  const then = new Date(isoString);
-  if (Number.isNaN(then.getTime())) return "—";
+function updateLoadMoreButton(totalFiltered) {
+  const btn = document.getElementById("loadMoreBtn");
+  if (!btn) return;
 
-  const now = new Date();
-  let seconds = Math.floor((now - then) / 1000);
-  if (seconds < 0) seconds = 0;
+  if (!Number.isFinite(totalFiltered)) {
+    btn.style.display = "none";
+    return;
+  }
 
-  const mins = Math.floor(seconds / 60);
-  const hrs = Math.floor(mins / 60);
-  const days = Math.floor(hrs / 24);
-
-  if (seconds < 60) return `${seconds}s ago`;
-  if (mins < 60) return `${mins}m ago`;
-  if (hrs < 24) return `${hrs}h ago`;
-  return `${days}d ago`;
-}
-
-function updateEbayLastUpdatedLabelFrom(ebayJson) {
-  const el = document.getElementById("ebay-last-updated");
-  if (!el) return;
-
-  const updatedAt = ebayJson?._meta?.updatedAt;
-  el.textContent = updatedAt ? `Last updated: ${timeAgo(updatedAt)}` : "Last updated: —";
+  const remaining = totalFiltered - visibleCount;
+  if (remaining > 0) {
+    btn.style.display = "inline-flex";
+    btn.textContent = `Load More (${Math.min(PAGE_SIZE, remaining)} more)`;
+  } else {
+    btn.style.display = "none";
+  }
 }
 
 // ---------- eBay Avg Index ----------
@@ -211,7 +173,6 @@ function getEbayAvgFor(athlete) {
   return ebayAvgByKey[key] || ebayAvgByName[athlete.name] || null;
 }
 
-// Canonical numeric price (works for avgListing / taguchiListing / legacy avg)
 function getEbayAvgNumber(athlete) {
   const avg = getEbayAvgFor(athlete);
 
@@ -231,7 +192,6 @@ function getEbayAvgNumber(athlete) {
   return v;
 }
 
-// Market stability CV -> label
 function getMarketStabilityCV(athlete) {
   const rec = getEbayAvgFor(athlete);
 
@@ -270,11 +230,6 @@ function marketStabilityScoreFromCV(cv) {
   return { label: "Highly Unstable", pctText, bucket: "highly_unstable" };
 }
 
-function getStabilityBucketForAthlete(athlete) {
-  const cv = getMarketStabilityCV(athlete);
-  return marketStabilityScoreFromCV(cv).bucket;
-}
-
 function formatCurrency(amount, currency) {
   const n = Number(amount);
   if (!Number.isFinite(n)) return "";
@@ -297,31 +252,66 @@ function buildEbaySearchUrl(name, sport) {
   );
 }
 
-// ✅ Pagination helpers (SINGLE SOURCE OF TRUTH)
-function resetVisibleCount() {
-  visibleCount = PAGE_SIZE;
-}
+// ---------- Filter dropdown options ----------
+function fillFilterOptions() {
+  const catSel = document.getElementById("filter-category");
+  const leagueSel = document.getElementById("filter-league");
+  const stabilitySel = document.getElementById("filter-stability");
 
-// ✅ Defensive: works even if called with bad/missing args
-function updateLoadMoreButton(totalFiltered) {
-  const btn = document.getElementById("loadMoreBtn");
-  if (!btn) return;
+  if (catSel && leagueSel) {
+    const sports = Array.from(new Set((athleteData || []).map((a) => a?.sport).filter(Boolean))).sort();
 
-  if (!Number.isFinite(totalFiltered)) {
-    btn.style.display = "none";
-    return;
+    catSel.innerHTML =
+      `<option value="all">All</option>` +
+      sports.map((s) => `<option value="${s}">${s}</option>`).join("") +
+      `<option value="Other">Other</option>`;
+
+    const leagues = Array.from(new Set((athleteData || []).map((a) => a?.league).filter(Boolean))).sort();
+
+    leagueSel.innerHTML =
+      `<option value="all">All</option>` +
+      leagues.map((l) => `<option value="${l}">${l}</option>`).join("");
   }
 
-  const remaining = totalFiltered - visibleCount;
-  if (remaining > 0) {
-    btn.style.display = "inline-flex";
-    btn.textContent = `Load More (${Math.min(PAGE_SIZE, remaining)} more)`;
-  } else {
-    btn.style.display = "none";
+  if (stabilitySel) {
+    stabilitySel.innerHTML =
+      `<option value="all">All</option>` +
+      `<option value="stable">Stable (0–10%)</option>` +
+      `<option value="active">Active (10–20%)</option>` +
+      `<option value="volatile">Volatile (20–35%)</option>` +
+      `<option value="highly_unstable">Highly Unstable (35%+)</option>` +
+      `<option value="none">No Score</option>`;
   }
 }
 
-// ---------- UI (Sport buttons row) ----------
+// ---------- "Last updated" label ----------
+function timeAgo(isoString) {
+  const then = new Date(isoString);
+  if (Number.isNaN(then.getTime())) return "—";
+
+  const now = new Date();
+  let seconds = Math.floor((now - then) / 1000);
+  if (seconds < 0) seconds = 0;
+
+  const mins = Math.floor(seconds / 60);
+  const hrs = Math.floor(mins / 60);
+  const days = Math.floor(hrs / 24);
+
+  if (seconds < 60) return `${seconds}s ago`;
+  if (mins < 60) return `${mins}m ago`;
+  if (hrs < 24) return `${hrs}h ago`;
+  return `${days}d ago`;
+}
+
+function updateEbayLastUpdatedLabelFrom(ebayJson) {
+  const el = document.getElementById("ebay-last-updated");
+  if (!el) return;
+
+  const updatedAt = ebayJson?._meta?.updatedAt;
+  el.textContent = updatedAt ? `Last updated: ${timeAgo(updatedAt)}` : "Last updated: —";
+}
+
+// ---------- Sport buttons row ----------
 function setSport(sport, btn) {
   activeSport = sport;
 
@@ -353,15 +343,13 @@ function setSport(sport, btn) {
 }
 window.setSport = setSport;
 
-// CardHedge-like card (no photos)
+// ---------- Card rendering ----------
 function renderAthleteCard(a) {
   const avgNum = getEbayAvgNumber(a);
-
   const money = avgNum != null ? `USD ${formatCurrency(avgNum, "USD")}` : "—";
 
   const cv = getMarketStabilityCV(a);
   const stability = marketStabilityScoreFromCV(cv);
-
   const stabilityPctNum = cv != null ? (cv * 100) : null;
 
   const dom = getAvgDaysOnMarket(a);
@@ -414,6 +402,29 @@ function renderAthleteCard(a) {
   `;
 }
 
+// ✅ Expose budget candidates (budget-knapsack.js will use this if present)
+window.__vzlaBudgetFiltered = [];
+window.getBudgetCandidates = function () {
+  const list = window.__vzlaBudgetFiltered || [];
+
+  return (list || [])
+    .map((a) => {
+      const price = getEbayAvgNumber(a);
+      const cv = getMarketStabilityCV(a);
+      const dom = getAvgDaysOnMarket(a);
+      const stabilityPct = cv != null ? (cv * 100) : null;
+
+      return {
+        id: normKey(a?.name),
+        name: a?.name || "Unknown",
+        priceCents: Number.isFinite(price) ? Math.round(price * 100) : NaN,
+        stabilityPct: Number.isFinite(stabilityPct) ? stabilityPct : NaN,
+        daysOnMarket: Number.isFinite(dom) ? dom : NaN,
+      };
+    })
+    .filter((x) => Number.isFinite(x.priceCents) && x.priceCents > 0);
+};
+
 function renderGrid(list) {
   const grid = document.getElementById("athletes-grid");
   if (!grid) return;
@@ -434,9 +445,7 @@ function renderGrid(list) {
   let filtered = (list || [])
     .filter((a) => {
       if (activeSport === "All") return true;
-      if (activeSport === "Other") {
-        return !["Baseball", "Soccer", "Basketball"].includes(a.sport);
-      }
+      if (activeSport === "Other") return !["Baseball", "Soccer", "Basketball"].includes(a.sport);
       return a.sport === activeSport;
     })
     .filter((a) => {
@@ -511,6 +520,7 @@ function renderGrid(list) {
   }
 }
 
+// ---------- Index cards ----------
 function formatIndexNumber(n) {
   const num = Number(n);
   if (!Number.isFinite(num)) return "—";
@@ -558,31 +568,6 @@ function makeIndexCardHTML({ title, badgeText, value, sub }) {
     </div>
   `;
 }
-
-// ✅ Expose full filtered results (not paginated) for budget-knapsack.js
-window.__vzlaBudgetFiltered = [];
-window.getBudgetCandidates = function () {
-  const list = window.__vzlaBudgetFiltered || [];
-
-  return (list || [])
-    .map((a) => {
-      const price = getEbayAvgNumber(a);
-      const cv = getMarketStabilityCV(a);
-      const dom = getAvgDaysOnMarket(a);
-
-      const stabilityPct = cv != null ? (cv * 100) : null;
-
-      return {
-        // stronger normalization to match budget-knapsack.js highlighting
-        id: String(a?.name || "").trim().toLowerCase().replace(/\s+/g, " "),
-        name: a?.name || "Unknown",
-        priceCents: Number.isFinite(price) ? Math.round(price * 100) : NaN,
-        stabilityPct: Number.isFinite(stabilityPct) ? stabilityPct : NaN,
-        daysOnMarket: Number.isFinite(dom) ? dom : NaN,
-      };
-    })
-    .filter((x) => Number.isFinite(x.priceCents) && x.priceCents > 0);
-};
 
 function renderIndexCards() {
   const row = document.getElementById("vzlaIndexRow");
