@@ -44,7 +44,7 @@ let activePrice = "all";
 let activeStability = "all";
 
 // Load more pagination
-const PAGE_SIZE = 100;
+const PAGE_SIZE = 400;
 let visibleCount = PAGE_SIZE;
 
 // ---------- Helpers ----------
