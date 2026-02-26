@@ -41,7 +41,7 @@
   }
 
   // ============================
-  // Standard 0/1 Knapsack (budget only)
+  // Standard 0/1 Knapsack (budget only): maximize valueScore under budget
   // ============================
   function knapsackPick(items, budgetCents) {
     const dp = Array(budgetCents + 1).fill(0);
@@ -77,10 +77,10 @@
 
   // ============================
   // Knapsack WITH max card count
-  // ✅ Behavior when card target is set:
-  //  1) Spend as much of the budget as possible (primary)
-  //  2) Then maximize valueScore (secondary)
-  //  3) Tie-breaker: prefer more cards (closer to target)
+  // ✅ When card target is set:
+  //   1) spend as much budget as possible (primary)
+  //   2) then maximize valueScore (secondary)
+  //   3) tie-break: prefer more cards (closer to target)
   // ============================
   function knapsackPickWithMaxCount(items, budgetCents, maxCount) {
     const B = budgetCents;
@@ -104,7 +104,6 @@
       const w = items[i].priceCents;
       const v = items[i].valueScore;
 
-      // descend to enforce 0/1 (no reuse)
       for (let k = K; k >= 1; k--) {
         const row = k * width;
         const prevRow = (k - 1) * width;
@@ -126,17 +125,13 @@
       }
     }
 
-    // ✅ Pick best solution by:
-    // 1) highest spend (b closest to B)
-    // 2) highest value
-    // 3) highest k
+    // ✅ Find max spend first (b closest to B), then best value at that spend
     let bestB = -1;
     let bestK = 0;
     let bestVal = -Infinity;
 
-    // Search budgets from high to low; first budget level that has ANY valid solution wins (max spend)
     for (let b = B; b >= 0; b--) {
-      let foundAnyAtB = false;
+      let foundAny = false;
       let localBestVal = -Infinity;
       let localBestK = 0;
 
@@ -144,15 +139,14 @@
         const val = dp[k * width + b];
         if (val === -Infinity) continue;
 
-        foundAnyAtB = true;
-
+        foundAny = true;
         if (val > localBestVal || (val === localBestVal && k > localBestK)) {
           localBestVal = val;
           localBestK = k;
         }
       }
 
-      if (foundAnyAtB) {
+      if (foundAny) {
         bestB = b;
         bestK = localBestK;
         bestVal = localBestVal;
@@ -188,6 +182,16 @@
       .replace(/\s+/g, " ");
   }
 
+  // ✅ Prefer full filtered dataset from app.js (not paginated)
+  function getListingsPreferred() {
+    if (typeof window.getBudgetCandidates === "function") {
+      const list = window.getBudgetCandidates();
+      if (Array.isArray(list) && list.length) return list;
+    }
+    return getListingsFromDOM();
+  }
+
+  // DOM fallback
   function getVisibleCardsInGrid() {
     const grid = document.getElementById("athletes-grid");
     if (!grid) return [];
@@ -297,7 +301,6 @@
     const budgetCents = dollarsToCents(inputEl.value);
     const maxCards = cardsInputEl ? toPositiveInt(cardsInputEl.value) : null;
 
-    // blank budget => clear UI + restore grid
     if (!budgetCents) {
       out.innerHTML = "";
       applyHighlights([]);
@@ -305,7 +308,7 @@
       return;
     }
 
-    const raw = getListingsFromDOM();
+    const raw = getListingsPreferred();
 
     const items = raw
       .map(x => {
@@ -314,6 +317,7 @@
 
         return {
           ...x,
+          id: normKey(x.name),
           valueScore: base * liq
         };
       })
