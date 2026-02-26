@@ -196,14 +196,14 @@
     const grid = document.getElementById("athletes-grid");
     if (!grid) return [];
     return Array.from(grid.querySelectorAll(".athlete-card"))
-      .filter(el => el.offsetParent !== null);
+      .filter((el) => el.offsetParent !== null);
   }
 
   function getListingsFromDOM() {
     const cards = getVisibleCardsInGrid();
 
     return cards
-      .map(el => {
+      .map((el) => {
         const name =
           el.dataset.athleteName ||
           el.querySelector(".athlete-card__name")?.textContent?.trim() ||
@@ -218,10 +218,10 @@
           name,
           priceCents: Number.isFinite(price) ? Math.round(price * 100) : NaN,
           stabilityPct: Number.isFinite(stabilityPct) ? stabilityPct : NaN,
-          daysOnMarket: Number.isFinite(daysOnMarket) ? daysOnMarket : NaN
+          daysOnMarket: Number.isFinite(daysOnMarket) ? daysOnMarket : NaN,
         };
       })
-      .filter(x => Number.isFinite(x.priceCents) && x.priceCents > 0);
+      .filter((x) => Number.isFinite(x.priceCents) && x.priceCents > 0);
   }
 
   function applyHighlights(chosen) {
@@ -229,11 +229,11 @@
     if (!grid) return;
 
     grid.querySelectorAll(".athlete-card.is-recommended")
-      .forEach(el => el.classList.remove("is-recommended"));
+      .forEach((el) => el.classList.remove("is-recommended"));
 
-    const chosenSet = new Set(chosen.map(x => x.id));
+    const chosenSet = new Set(chosen.map((x) => x.id));
 
-    grid.querySelectorAll(".athlete-card").forEach(el => {
+    grid.querySelectorAll(".athlete-card").forEach((el) => {
       const name =
         el.dataset.athleteName ||
         el.querySelector(".athlete-card__name")?.textContent?.trim() ||
@@ -249,9 +249,9 @@
     const grid = document.getElementById("athletes-grid");
     if (!grid) return;
 
-    const chosenSet = new Set(chosen.map(x => x.id));
+    const chosenSet = new Set(chosen.map((x) => x.id));
 
-    grid.querySelectorAll(".athlete-card").forEach(el => {
+    grid.querySelectorAll(".athlete-card").forEach((el) => {
       const name =
         el.dataset.athleteName ||
         el.querySelector(".athlete-card__name")?.textContent?.trim() ||
@@ -266,39 +266,41 @@
     const grid = document.getElementById("athletes-grid");
     if (!grid) return;
     grid.querySelectorAll(".athlete-card")
-      .forEach(el => el.style.display = "");
+      .forEach((el) => (el.style.display = ""));
   }
 
-  // ✅ Show/hide recommendations cleanly
-  function setRecommendationsVisible(isVisible) {
+  // ============================
+  // ✅ Visibility helpers for #budgetRecommendations
+  // ============================
+  function setRecommendationsVisible(show) {
     const out = document.querySelector("#budgetRecommendations");
     if (!out) return;
-    out.classList.toggle("is-visible", !!isVisible);
+    out.classList.toggle("is-visible", !!show);
   }
 
   function renderRecommendationsSummary(chosen, budgetCents, maxCards) {
     const out = document.querySelector("#budgetRecommendations");
     if (!out) return;
 
-    // always show when we have something to say
-    setRecommendationsVisible(true);
-
     if (!chosen.length) {
-      out.innerHTML = `<div style="opacity:.8;">No picks found within this budget.</div>`;
+      out.innerHTML = `<span style="opacity:.8;">No picks found within this budget.</span>`;
+      setRecommendationsVisible(true);
       return;
     }
 
     const spent = chosen.reduce((s, it) => s + it.priceCents, 0);
 
     out.innerHTML = `
-      <div style="opacity:.9;">
+      <span style="opacity:.9;">
         ${FILTER_TO_CHOSEN ? "Showing" : "Highlighted"}
         <strong>${chosen.length}</strong> card(s)
         ${maxCards ? `(target ≤ <strong>${maxCards}</strong>)` : ""}
         — Spent <strong>$${(spent / 100).toFixed(2)}</strong>
         of <strong>$${(budgetCents / 100).toFixed(2)}</strong>
-      </div>
+      </span>
     `;
+
+    setRecommendationsVisible(true);
   }
 
   function runBudgetSuggest() {
@@ -311,7 +313,7 @@
     const budgetCents = dollarsToCents(inputEl.value);
     const maxCards = cardsInputEl ? toPositiveInt(cardsInputEl.value) : null;
 
-    // blank budget => clear UI + restore grid + hide status
+    // blank budget => clear UI + restore grid + hide recommendations
     if (!budgetCents) {
       out.innerHTML = "";
       setRecommendationsVisible(false);
@@ -323,17 +325,17 @@
     const raw = getListingsPreferred();
 
     const items = raw
-      .map(x => {
+      .map((x) => {
         const base = stabilityPoints(x.stabilityPct);
         const liq = liquidityMultiplier(x.daysOnMarket);
 
         return {
           ...x,
           id: normKey(x.name),
-          valueScore: base * liq
+          valueScore: base * liq,
         };
       })
-      .filter(x => x.valueScore > 0 && x.priceCents <= budgetCents);
+      .filter((x) => x.valueScore > 0 && x.priceCents <= budgetCents);
 
     const chosen = maxCards
       ? knapsackPickWithMaxCount(items, budgetCents, maxCards)
@@ -341,11 +343,8 @@
 
     applyHighlights(chosen);
 
-    if (FILTER_TO_CHOSEN) {
-      applyFilterToChosen(chosen);
-    } else {
-      clearFilter();
-    }
+    if (FILTER_TO_CHOSEN) applyFilterToChosen(chosen);
+    else clearFilter();
 
     renderRecommendationsSummary(chosen, budgetCents, maxCards);
   }
@@ -357,8 +356,8 @@
 
     if (input) input.value = "";
     if (cardsInput) cardsInput.value = "";
-
     if (out) out.innerHTML = "";
+
     setRecommendationsVisible(false);
 
     applyHighlights([]);
@@ -369,15 +368,13 @@
   window.clearBudgetSuggest = clearBudgetSuggest;
 
   document.addEventListener("DOMContentLoaded", () => {
-    document
-      .querySelector("#budgetBtn")
+    document.querySelector("#budgetBtn")
       ?.addEventListener("click", runBudgetSuggest);
 
-    document
-      .querySelector("#budgetClear")
+    document.querySelector("#budgetClear")
       ?.addEventListener("click", clearBudgetSuggest);
 
-    // ensure hidden on load
+    // ✅ ensure hidden on load
     setRecommendationsVisible(false);
   });
 })();
