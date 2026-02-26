@@ -1168,6 +1168,22 @@ details.mobile-dd summary::-webkit-details-marker{ display:none; }
   -webkit-backdrop-filter: blur(10px);
 }
 
+/* Clean list style inside results */
+#budgetRecommendations ol {
+  margin: 8px 0 0;
+  padding-left: 18px;
+}
+
+#budgetRecommendations li {
+  margin: 6px 0;
+  line-height: 1.25rem;
+}
+
+#budgetRecommendations small,
+#budgetRecommendations span {
+  color: rgba(255,255,255,.65);
+}
+
 /* =========================
    Gradient text clip targets
    ========================= */
