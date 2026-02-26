@@ -434,6 +434,9 @@ function renderGrid(list) {
   const price = priceSel?.value ?? activePrice;
   const stability = stabilitySel?.value ?? activeStability;
 
+  // ✅ Save FULL filtered list (not paginated) for budget suggestions
+  window.__vzlaBudgetFiltered = filtered.slice();
+
   let filtered = (list || [])
     .filter((a) => {
       if (activeSport === "All") return true;
