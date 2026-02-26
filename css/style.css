@@ -1087,12 +1087,21 @@ details.mobile-dd summary::-webkit-details-marker{ display:none; }
   white-space: nowrap;
 }
 
-.budget-controls {
-  display: flex;
-  align-items: center;
+.budget-controls{
+  display: grid;
+  grid-template-columns: minmax(180px, 1fr) minmax(180px, 1fr) auto auto;
   gap: 10px;
-  flex: 1;
-  min-width: 260px;
+  align-items: center;
+}
+
+@media (max-width: 768px){
+  .budget-controls{
+    grid-template-columns: 1fr;
+  }
+  #budgetBtn, #budgetClear{
+    width: 100%;
+    justify-content: center;
+  }
 }
 
 #budgetInput {
