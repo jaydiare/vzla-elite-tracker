@@ -6,10 +6,6 @@
   // false = only highlight picks (HIGHLIGHT ONLY)
   const FILTER_TO_CHOSEN = true;
 
-  // ✅ When user sets a target card count, try to spend at least this % of budget
-  // (prevents "2 cards" picking two $2 cards when budget is $50)
-  const MIN_SPEND_FRACTION_WHEN_CARD_TARGET = 0.85;
-
   function dollarsToCents(v) {
     const cleaned = String(v).replace(/[^0-9.]/g, "");
     const num = Number(cleaned);
@@ -81,8 +77,10 @@
 
   // ============================
   // Knapsack WITH max card count
-  // - maximizes valueScore
-  // - prefers using more of the budget when card target is set
+  // ✅ Behavior when card target is set:
+  //  1) Spend as much of the budget as possible (primary)
+  //  2) Then maximize valueScore (secondary)
+  //  3) Tie-breaker: prefer more cards (closer to target)
   // ============================
   function knapsackPickWithMaxCount(items, budgetCents, maxCount) {
     const B = budgetCents;
@@ -128,59 +126,46 @@
       }
     }
 
-    let bestVal = -Infinity;
+    // ✅ Pick best solution by:
+    // 1) highest spend (b closest to B)
+    // 2) highest value
+    // 3) highest k
+    let bestB = -1;
     let bestK = 0;
-    let bestBudget = 0;
+    let bestVal = -Infinity;
 
-    // ✅ Pass 1: enforce spending at least a fraction of the budget (when card target is set)
-    const minSpend = Math.floor(B * MIN_SPEND_FRACTION_WHEN_CARD_TARGET);
+    // Search budgets from high to low; first budget level that has ANY valid solution wins (max spend)
+    for (let b = B; b >= 0; b--) {
+      let foundAnyAtB = false;
+      let localBestVal = -Infinity;
+      let localBestK = 0;
 
-    for (let k = 1; k <= K; k++) {
-      const row = k * width;
-      for (let b = minSpend; b <= B; b++) {
-        const val = dp[row + b];
+      for (let k = 1; k <= K; k++) {
+        const val = dp[k * width + b];
         if (val === -Infinity) continue;
 
-        // pick highest value; tie-break: spend more; then more cards
-        if (
-          val > bestVal ||
-          (val === bestVal && b > bestBudget) ||
-          (val === bestVal && b === bestBudget && k > bestK)
-        ) {
-          bestVal = val;
-          bestK = k;
-          bestBudget = b;
+        foundAnyAtB = true;
+
+        if (val > localBestVal || (val === localBestVal && k > localBestK)) {
+          localBestVal = val;
+          localBestK = k;
         }
+      }
+
+      if (foundAnyAtB) {
+        bestB = b;
+        bestK = localBestK;
+        bestVal = localBestVal;
+        break;
       }
     }
 
-    // ✅ Pass 2 fallback: if nothing meets minSpend, choose best overall but still prefer spending more
-    if (bestVal === -Infinity) {
-      for (let k = 1; k <= K; k++) {
-        const row = k * width;
-        for (let b = 0; b <= B; b++) {
-          const val = dp[row + b];
-          if (val === -Infinity) continue;
-
-          if (
-            val > bestVal ||
-            (val === bestVal && b > bestBudget) ||
-            (val === bestVal && b === bestBudget && k > bestK)
-          ) {
-            bestVal = val;
-            bestK = k;
-            bestBudget = b;
-          }
-        }
-      }
-    }
-
-    if (bestVal === -Infinity) return [];
+    if (bestB < 0 || bestVal === -Infinity) return [];
 
     // reconstruct
     const chosen = [];
     let k = bestK;
-    let b = bestBudget;
+    let b = bestB;
 
     while (k > 0) {
       const idx = k * width + b;
