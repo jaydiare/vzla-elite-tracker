@@ -237,6 +237,9 @@ function getEbayAvgNumber(athlete) {
 function getMarketStabilityCV(athlete) {
   const rec = getEbayAvgFor(athlete);
 
+  // ✅ Support both shapes:
+  // - top-level: rec.marketStabilityCV
+  // - marketplace: rec.marketplaces.EBAY_US.marketStabilityCV, etc.
   const v =
     rec?.marketStabilityCV ??
     rec?.marketplaces?.EBAY_US?.marketStabilityCV ??
@@ -294,34 +297,10 @@ function buildEbaySearchUrl(name, sport) {
 
   return (
     `${base}?_nkw=${query}` +
-    `&_sacat=261328` +
-    `&LH_BIN=1` +
+    `&_sacat=261328` + // Trading Card Singles
+    `&LH_BIN=1` + // Buy It Now only
     `&LH_PrefLoc=1`
   );
-}
-
-// ✅ Pagination helpers (SINGLE SOURCE OF TRUTH)
-function resetVisibleCount() {
-  visibleCount = PAGE_SIZE;
-}
-
-// ✅ Defensive: works even if called with bad/missing args
-function updateLoadMoreButton(totalFiltered) {
-  const btn = document.getElementById("loadMoreBtn");
-  if (!btn) return;
-
-  if (!Number.isFinite(totalFiltered)) {
-    btn.style.display = "none";
-    return;
-  }
-
-  const remaining = totalFiltered - visibleCount;
-  if (remaining > 0) {
-    btn.style.display = "inline-flex";
-    btn.textContent = `Load More (${Math.min(PAGE_SIZE, remaining)} more)`;
-  } else {
-    btn.style.display = "none";
-  }
 }
 
 // ---------- UI (Sport buttons row) ----------
@@ -351,6 +330,23 @@ function setSport(sport, btn) {
     });
   }
 
+function resetVisibleCount() {
+  visibleCount = PAGE_SIZE;
+}
+
+function updateLoadMoreButton(totalFiltered) {
+  const btn = document.getElementById("loadMoreBtn");
+  if (!btn) return;
+
+  const remaining = totalFiltered - visibleCount;
+  if (remaining > 0) {
+    btn.style.display = "inline-flex";
+    btn.textContent = `Load More (${Math.min(PAGE_SIZE, remaining)} more)`;
+  } else {
+    btn.style.display = "none";
+  }
+}
+
   resetVisibleCount();
   renderGrid(athleteData);
 }
@@ -365,6 +361,7 @@ function renderAthleteCard(a) {
   const cv = getMarketStabilityCV(a);
   const stability = marketStabilityScoreFromCV(cv);
 
+  // numeric percent 0..100 for the dataset
   const stabilityPctNum = cv != null ? (cv * 100) : null;
 
   const dom = getAvgDaysOnMarket(a);
@@ -431,10 +428,11 @@ function renderGrid(list) {
 
   const category = catSel?.value ?? activeCategory;
   const league = leagueSel?.value ?? activeLeague;
-  const price = priceSel?.value ?? activePrice;
-  const stability = stabilitySel?.value ?? activeStability;
+  const price = priceSel?.value ?? activePrice; // "all" | "low" | "high" | "none"
+  const stability = stabilitySel?.value ?? activeStability; // "all" | buckets... | "none"
 
   let filtered = (list || [])
+    // 1) Sport buttons row
     .filter((a) => {
       if (activeSport === "All") return true;
       if (activeSport === "Other") {
@@ -442,17 +440,20 @@ function renderGrid(list) {
       }
       return a.sport === activeSport;
     })
+    // 2) Category dropdown
     .filter((a) => {
       if (!catSel) return true;
       if (category === "all") return true;
       if (category === "Other") return !["Baseball", "Soccer", "Basketball"].includes(a.sport);
       return a.sport === category;
     })
+    // 3) League dropdown
     .filter((a) => {
       if (!leagueSel) return true;
       if (league === "all") return true;
       return a.league === league;
     })
+    // ✅ 4) Stability dropdown (FIXED so “Stable” doesn’t include “No Score” or “No Price”)
     .filter((a) => {
       if (!stabilitySel) return true;
       if (stability === "all") return true;
@@ -460,15 +461,21 @@ function renderGrid(list) {
       const cv = getMarketStabilityCV(a);
       const bucket = marketStabilityScoreFromCV(cv).bucket;
 
+      // explicitly show "No Score" only when requested
       if (stability === "none") return cv == null || bucket === "none";
 
+      // if user selected a real bucket, require BOTH:
+      // - a valid CV score
+      // - a valid price estimate (prevents weird cards slipping in)
       if (cv == null) return false;
       if (getEbayAvgNumber(a) == null) return false;
 
       return bucket === stability;
     })
+    // 5) Search query
     .filter((a) => !q || norm(a.name).includes(q));
 
+  // 6) Price dropdown behavior (sorting + none filter)
   if (priceSel) {
     if (price === "none") {
       filtered = filtered.filter((a) => getEbayAvgNumber(a) == null);
@@ -486,14 +493,20 @@ function renderGrid(list) {
     }
   }
 
-  grid.className = "vzla-grid";
+    grid.className = "vzla-grid";
+    
+    const page = filtered.slice(0, visibleCount);
+    grid.innerHTML = page.map(renderAthleteCard).join("");
+    
+    updateLoadMoreButton(filtered.length);
 
-  const page = filtered.slice(0, visibleCount);
-  grid.innerHTML = page.map(renderAthleteCard).join("");
+  function updateLoadMoreButton() {
+  const btn = document.getElementById("loadMoreBtn");
+  if (!btn) return;
+  // If your code already toggles visibility elsewhere, this can stay empty safely.
+}
 
-  updateLoadMoreButton(filtered.length);
-
-  // ✅ Re-run budget suggestions after cards re-render
+  // ✅ Re-run budget suggestions after cards re-render (optional feature)
   if (typeof window.runBudgetSuggest === "function") {
     window.runBudgetSuggest();
   }
@@ -620,10 +633,10 @@ async function init() {
   const search = document.getElementById("search-input");
   const clearBtn = document.getElementById("search-clear");
 
-  const rerenderDebounced = debounce(() => {
-    resetVisibleCount();
-    renderGrid(athleteData);
-  }, 150);
+ const rerenderDebounced = debounce(() => {
+      resetVisibleCount();
+      renderGrid(athleteData);
+    }, 150);
 
   if (search) {
     search.addEventListener("input", rerenderDebounced);
@@ -641,22 +654,13 @@ async function init() {
   }
 
   if (clearBtn && search) {
-    clearBtn.addEventListener("click", () => {
-      search.value = "";
-      resetVisibleCount();
-      renderGrid(athleteData);
-      search.focus();
-    });
+      clearBtn.addEventListener("click", () => {
+        search.value = "";
+        resetVisibleCount();
+        renderGrid(athleteData);
+        search.focus();
+      });
   }
-
-  // ✅ Auto-run budget suggest when user edits inputs (optional, feels great)
-  const budgetInput = document.getElementById("budgetInput");
-  const cardsInput = document.getElementById("cardsInput");
-  const rerunBudgetDebounced = debounce(() => {
-    if (typeof window.runBudgetSuggest === "function") window.runBudgetSuggest();
-  }, 150);
-  budgetInput?.addEventListener("input", rerunBudgetDebounced);
-  cardsInput?.addEventListener("input", rerunBudgetDebounced);
 
   const catSel = document.getElementById("filter-category");
   const leagueSel = document.getElementById("filter-league");
@@ -664,9 +668,9 @@ async function init() {
   const stabilitySel = document.getElementById("filter-stability");
 
   const rerenderNow = () => {
-    resetVisibleCount();
-    renderGrid(athleteData);
-  };
+  resetVisibleCount();
+  renderGrid(athleteData);
+    };
 
   const loadMoreBtn = document.getElementById("loadMoreBtn");
   if (loadMoreBtn) {
