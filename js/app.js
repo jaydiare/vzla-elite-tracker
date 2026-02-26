@@ -559,6 +559,30 @@ function makeIndexCardHTML({ title, badgeText, value, sub }) {
   `;
 }
 
+// ✅ Expose full filtered results (not paginated) for budget-knapsack.js
+window.__vzlaBudgetFiltered = [];
+window.getBudgetCandidates = function () {
+  const list = window.__vzlaBudgetFiltered || [];
+
+  return (list || [])
+    .map((a) => {
+      const price = getEbayAvgNumber(a);
+      const cv = getMarketStabilityCV(a);
+      const dom = getAvgDaysOnMarket(a);
+
+      const stabilityPct = cv != null ? (cv * 100) : null;
+
+      return {
+        id: norm(a?.name),
+        name: a?.name || "Unknown",
+        priceCents: Number.isFinite(price) ? Math.round(price * 100) : NaN,
+        stabilityPct: Number.isFinite(stabilityPct) ? stabilityPct : NaN,
+        daysOnMarket: Number.isFinite(dom) ? dom : NaN,
+      };
+    })
+    .filter((x) => Number.isFinite(x.priceCents) && x.priceCents > 0);
+};
+
 function renderIndexCards() {
   const row = document.getElementById("vzlaIndexRow");
   if (!row) return;
