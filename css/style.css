@@ -1164,22 +1164,21 @@ details.mobile-dd summary::-webkit-details-marker{ display:none; }
   color: rgba(255,255,255,.95);
 }
 
-/* Results container */
-#budgetRecommendations {
-  display: none;
-  width: 100%;
-  margin-top: 8px;
-  padding: 12px 14px;
-  border-radius: 16px;
-  border: 1px solid rgba(255,255,255,.10);
-  background: rgba(0,0,0,.22);
-  color: rgba(255,255,255,.88);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-}
 /* Show only when JS adds this class */
 #budgetRecommendations.is-visible {
   display: block;
+}
+
+#budgetRecommendations {
+  display: none;
+  margin-left: 12px;
+  font-size: 0.9rem;
+  opacity: 0.9;
+}
+
+#budgetRecommendations.is-visible {
+  display: inline-flex;
+  align-items: center;
 }
 /* =========================
    Gradient text clip targets
