@@ -1215,3 +1215,72 @@ details.mobile-dd summary::-webkit-details-marker{ display:none; }
 .vzla-loadmore-btn:active{
   transform: translateY(1px);
 }
+
+/* =========================
+   Budget bar alignment FIX (no HTML refactor)
+   ========================= */
+
+/* Turn the bar into a clean 4-column grid */
+.budget-bar{
+  display: grid;
+  grid-template-columns: minmax(180px, 1fr) minmax(180px, 1fr) auto auto;
+  align-items: center;
+  gap: 12px;
+  margin: 14px 0 22px; /* more space before filters/cards */
+}
+
+/* Flatten wrappers so both nested .budget-controls don't break layout */
+.budget-bar .budget-controls{
+  display: contents;
+}
+
+/* Inputs */
+#budgetInput,
+#cardsInput{
+  width: 100%;
+  min-width: 0; /* important for grid */
+}
+
+/* Buttons keep their natural width */
+#budgetBtn,
+#budgetClear{
+  justify-self: start;
+  white-space: nowrap;
+}
+
+/* Recommendations: hidden by default, appears only when JS adds .is-visible */
+#budgetRecommendations{
+  display: none;
+  grid-column: 1 / -1;  /* full width row under inputs */
+  margin-top: 10px;
+}
+
+#budgetRecommendations.is-visible{
+  display: block;
+}
+
+/* Give the filters row a bit more space before the cards */
+.vzla-controls-row{
+  margin-bottom: 18px;
+}
+
+/* More breathing room above the cards */
+.vzla-grid{
+  margin-top: 26px;
+}
+
+/* Mobile: stack nicely */
+@media (max-width: 768px){
+  .budget-bar{
+    grid-template-columns: 1fr;
+  }
+
+  #budgetBtn,
+  #budgetClear{
+    width: 100%;
+  }
+
+  #budgetRecommendations{
+    margin-top: 8px;
+  }
+}
