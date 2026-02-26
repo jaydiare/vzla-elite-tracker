@@ -269,9 +269,19 @@
       .forEach(el => el.style.display = "");
   }
 
+  // ✅ Show/hide recommendations cleanly
+  function setRecommendationsVisible(isVisible) {
+    const out = document.querySelector("#budgetRecommendations");
+    if (!out) return;
+    out.classList.toggle("is-visible", !!isVisible);
+  }
+
   function renderRecommendationsSummary(chosen, budgetCents, maxCards) {
     const out = document.querySelector("#budgetRecommendations");
     if (!out) return;
+
+    // always show when we have something to say
+    setRecommendationsVisible(true);
 
     if (!chosen.length) {
       out.innerHTML = `<div style="opacity:.8;">No picks found within this budget.</div>`;
@@ -301,8 +311,10 @@
     const budgetCents = dollarsToCents(inputEl.value);
     const maxCards = cardsInputEl ? toPositiveInt(cardsInputEl.value) : null;
 
+    // blank budget => clear UI + restore grid + hide status
     if (!budgetCents) {
       out.innerHTML = "";
+      setRecommendationsVisible(false);
       applyHighlights([]);
       clearFilter();
       return;
@@ -345,7 +357,9 @@
 
     if (input) input.value = "";
     if (cardsInput) cardsInput.value = "";
+
     if (out) out.innerHTML = "";
+    setRecommendationsVisible(false);
 
     applyHighlights([]);
     clearFilter();
@@ -362,5 +376,8 @@
     document
       .querySelector("#budgetClear")
       ?.addEventListener("click", clearBudgetSuggest);
+
+    // ensure hidden on load
+    setRecommendationsVisible(false);
   });
 })();
