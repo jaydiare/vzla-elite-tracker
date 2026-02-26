@@ -13,23 +13,26 @@
     return Math.round(num * 100);
   }
 
-  // points based on your stability ranges
-  function stabilityPoints(stabilityPct0to100) {
-    if (!Number.isFinite(stabilityPct0to100)) return 0;
-    const pct = stabilityPct0to100;
-
-    if (pct <= 10) return 100; // Stable
-    if (pct <= 20) return 70;  // Active
-    if (pct <= 35) return 35;  // Volatile
-    return 10;                 // Highly Unstable
+  function toPositiveInt(v) {
+    const cleaned = String(v ?? "").replace(/[^0-9]/g, "");
+    const n = Number(cleaned);
+    if (!Number.isFinite(n) || n <= 0) return null;
+    return Math.floor(n);
   }
 
-  /**
-   * Liquidity multiplier from Avg. Days on Market (DOM)
-   * Lower DOM => more liquid => boost score
-   */
+  // stability scoring
+  function stabilityPoints(stabilityPct0to100) {
+    if (!Number.isFinite(stabilityPct0to100)) return 0;
+
+    if (stabilityPct0to100 <= 10) return 100;
+    if (stabilityPct0to100 <= 20) return 70;
+    if (stabilityPct0to100 <= 35) return 35;
+    return 10;
+  }
+
+  // liquidity multiplier
   function liquidityMultiplier(daysOnMarket) {
-    if (!Number.isFinite(daysOnMarket)) return 1.0; // unknown => neutral
+    if (!Number.isFinite(daysOnMarket)) return 1.0;
     if (daysOnMarket <= 7) return 1.30;
     if (daysOnMarket <= 14) return 1.15;
     if (daysOnMarket <= 30) return 1.00;
@@ -37,10 +40,14 @@
     return 0.75;
   }
 
-  // 0/1 knapsack: maximize points under budget
+  // ============================
+  // Standard 0/1 Knapsack (budget only)
+  // ============================
   function knapsackPick(items, budgetCents) {
     const dp = Array(budgetCents + 1).fill(0);
-    const pick = Array.from({ length: items.length }, () => Array(budgetCents + 1).fill(false));
+    const pick = Array.from({ length: items.length }, () =>
+      Array(budgetCents + 1).fill(false)
+    );
 
     for (let i = 0; i < items.length; i++) {
       const w = items[i].priceCents;
@@ -63,11 +70,91 @@
         b -= items[i].priceCents;
       }
     }
+
     chosen.reverse();
     return chosen;
   }
 
-  // safer matching (prevents "I see more than chosen" surprises)
+  // ============================
+  // Knapsack WITH max card count
+  // ============================
+  function knapsackPickWithMaxCount(items, budgetCents, maxCount) {
+    const B = budgetCents;
+    const K = Math.max(1, maxCount | 0);
+
+    const width = B + 1;
+    const size = (K + 1) * width;
+
+    const dp = new Float64Array(size);
+    dp.fill(-Infinity);
+    dp[0 * width + 0] = 0;
+
+    const choice = new Int32Array(size);
+    const prevB = new Int32Array(size);
+    choice.fill(-1);
+    prevB.fill(-1);
+
+    for (let i = 0; i < items.length; i++) {
+      const w = items[i].priceCents;
+      const v = items[i].valueScore;
+
+      for (let k = K; k >= 1; k--) {
+        const row = k * width;
+        const prevRow = (k - 1) * width;
+
+        for (let b = B; b >= w; b--) {
+          const from = prevRow + (b - w);
+          const to = row + b;
+
+          const base = dp[from];
+          if (base === -Infinity) continue;
+
+          const cand = base + v;
+          if (cand > dp[to]) {
+            dp[to] = cand;
+            choice[to] = i;
+            prevB[to] = b - w;
+          }
+        }
+      }
+    }
+
+    let bestVal = -Infinity;
+    let bestK = 0;
+    let bestBudget = 0;
+
+    for (let k = 1; k <= K; k++) {
+      const row = k * width;
+      for (let b = 0; b <= B; b++) {
+        const val = dp[row + b];
+        if (val > bestVal || (val === bestVal && k > bestK)) {
+          bestVal = val;
+          bestK = k;
+          bestBudget = b;
+        }
+      }
+    }
+
+    if (bestVal === -Infinity) return [];
+
+    const chosen = [];
+    let k = bestK;
+    let b = bestBudget;
+
+    while (k > 0) {
+      const idx = k * width + b;
+      const i = choice[idx];
+      if (i < 0) break;
+
+      chosen.push(items[i]);
+      b = prevB[idx];
+      k--;
+    }
+
+    chosen.reverse();
+    return chosen;
+  }
+
   function normKey(s) {
     return String(s || "")
       .trim()
@@ -75,10 +162,6 @@
       .replace(/\s+/g, " ");
   }
 
-  /**
-   * ✅ IMPORTANT:
-   * Only consider athlete cards actually in the grid below.
-   */
   function getVisibleCardsInGrid() {
     const grid = document.getElementById("athletes-grid");
     if (!grid) return [];
@@ -89,38 +172,40 @@
   function getListingsFromDOM() {
     const cards = getVisibleCardsInGrid();
 
-    return cards.map(el => {
-      const name =
-        el.dataset.athleteName ||
-        el.querySelector(".athlete-card__name")?.textContent?.trim() ||
-        "Unknown";
+    return cards
+      .map(el => {
+        const name =
+          el.dataset.athleteName ||
+          el.querySelector(".athlete-card__name")?.textContent?.trim() ||
+          "Unknown";
 
-      const price = Number(el.dataset.price); // dollars
-      const stabilityPct = Number(el.dataset.stabilityPct); // 0..100
+        const price = Number(el.dataset.price);
+        const stabilityPct = Number(el.dataset.stabilityPct);
+        const daysOnMarket = Number(el.dataset.daysOnMarket);
 
-      // ✅ expects: data-days-on-market="123"
-      const daysOnMarket = Number(el.dataset.daysOnMarket);
-
-      return {
-        id: normKey(name),
-        name,
-        priceCents: Number.isFinite(price) ? Math.round(price * 100) : NaN,
-        stabilityPct: Number.isFinite(stabilityPct) ? stabilityPct : NaN,
-        daysOnMarket: Number.isFinite(daysOnMarket) ? daysOnMarket : NaN,
-      };
-    }).filter(x => Number.isFinite(x.priceCents) && x.priceCents > 0);
+        return {
+          id: normKey(name),
+          name,
+          priceCents: Number.isFinite(price)
+            ? Math.round(price * 100)
+            : NaN,
+          stabilityPct: Number.isFinite(stabilityPct)
+            ? stabilityPct
+            : NaN,
+          daysOnMarket: Number.isFinite(daysOnMarket)
+            ? daysOnMarket
+            : NaN
+        };
+      })
+      .filter(x => Number.isFinite(x.priceCents) && x.priceCents > 0);
   }
 
-  /**
-   * Highlight chosen cards in the grid
-   */
   function applyHighlights(chosen) {
     const grid = document.getElementById("athletes-grid");
     if (!grid) return;
 
-    grid.querySelectorAll(".athlete-card.is-recommended").forEach(el => {
-      el.classList.remove("is-recommended");
-    });
+    grid.querySelectorAll(".athlete-card.is-recommended")
+      .forEach(el => el.classList.remove("is-recommended"));
 
     const chosenSet = new Set(chosen.map(x => x.id));
 
@@ -136,9 +221,6 @@
     });
   }
 
-  /**
-   * OPTIONAL: hide all non-chosen cards
-   */
   function applyFilterToChosen(chosen) {
     const grid = document.getElementById("athletes-grid");
     if (!grid) return;
@@ -152,24 +234,18 @@
         "";
 
       const isChosen = chosenSet.has(normKey(name));
-
-      // Use inline style so you don't need extra CSS
       el.style.display = isChosen ? "" : "none";
     });
   }
 
-  /**
-   * Restore grid visibility (undo filter)
-   */
   function clearFilter() {
     const grid = document.getElementById("athletes-grid");
     if (!grid) return;
-    grid.querySelectorAll(".athlete-card").forEach(el => {
-      el.style.display = "";
-    });
+    grid.querySelectorAll(".athlete-card")
+      .forEach(el => el.style.display = "");
   }
 
-  function renderRecommendationsSummary(chosen, budgetCents) {
+  function renderRecommendationsSummary(chosen, budgetCents, maxCards) {
     const out = document.querySelector("#budgetRecommendations");
     if (!out) return;
 
@@ -183,20 +259,26 @@
     out.innerHTML = `
       <div style="opacity:.9;">
         ${FILTER_TO_CHOSEN ? "Showing" : "Highlighted"}
-        <strong>${chosen.length}</strong> card(s) —
-        Spent <strong>$${(spent / 100).toFixed(2)}</strong> of <strong>$${(budgetCents / 100).toFixed(2)}</strong>
+        <strong>${chosen.length}</strong> card(s)
+        ${maxCards ? `(target ≤ <strong>${maxCards}</strong>)` : ""}
+        — Spent <strong>$${(spent / 100).toFixed(2)}</strong>
+        of <strong>$${(budgetCents / 100).toFixed(2)}</strong>
       </div>
     `;
   }
 
   function runBudgetSuggest() {
     const inputEl = document.querySelector("#budgetInput");
+    const cardsInputEl = document.querySelector("#cardsInput");
     const out = document.querySelector("#budgetRecommendations");
+
     if (!inputEl || !out) return;
 
     const budgetCents = dollarsToCents(inputEl.value);
+    const maxCards = cardsInputEl
+      ? toPositiveInt(cardsInputEl.value)
+      : null;
 
-    // blank budget => clear UI + restore grid
     if (!budgetCents) {
       out.innerHTML = "";
       applyHighlights([]);
@@ -206,18 +288,25 @@
 
     const raw = getListingsFromDOM();
 
-    const items = raw.map(x => {
-      const base = stabilityPoints(x.stabilityPct);
-      const liq = liquidityMultiplier(x.daysOnMarket);
-      return {
-        ...x,
-        valueScore: base * liq,
-      };
-    }).filter(x => x.valueScore > 0 && x.priceCents <= budgetCents);
+    const items = raw
+      .map(x => {
+        const base = stabilityPoints(x.stabilityPct);
+        const liq = liquidityMultiplier(x.daysOnMarket);
 
-    const chosen = knapsackPick(items, budgetCents);
+        return {
+          ...x,
+          valueScore: base * liq
+        };
+      })
+      .filter(x =>
+        x.valueScore > 0 &&
+        x.priceCents <= budgetCents
+      );
 
-    // ✅ apply UI behavior
+    const chosen = maxCards
+      ? knapsackPickWithMaxCount(items, budgetCents, maxCards)
+      : knapsackPick(items, budgetCents);
+
     applyHighlights(chosen);
 
     if (FILTER_TO_CHOSEN) {
@@ -226,24 +315,32 @@
       clearFilter();
     }
 
-    renderRecommendationsSummary(chosen, budgetCents);
+    renderRecommendationsSummary(chosen, budgetCents, maxCards);
   }
 
   function clearBudgetSuggest() {
     const input = document.querySelector("#budgetInput");
+    const cardsInput = document.querySelector("#cardsInput");
     const out = document.querySelector("#budgetRecommendations");
+
     if (input) input.value = "";
+    if (cardsInput) cardsInput.value = "";
     if (out) out.innerHTML = "";
+
     applyHighlights([]);
     clearFilter();
   }
 
-  // expose to window so app.js can call it from renderGrid()
   window.runBudgetSuggest = runBudgetSuggest;
   window.clearBudgetSuggest = clearBudgetSuggest;
 
   document.addEventListener("DOMContentLoaded", () => {
-    document.querySelector("#budgetBtn")?.addEventListener("click", runBudgetSuggest);
-    document.querySelector("#budgetClear")?.addEventListener("click", clearBudgetSuggest);
+    document
+      .querySelector("#budgetBtn")
+      ?.addEventListener("click", runBudgetSuggest);
+
+    document
+      .querySelector("#budgetClear")
+      ?.addEventListener("click", clearBudgetSuggest);
   });
 })();
