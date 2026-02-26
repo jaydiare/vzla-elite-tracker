@@ -596,16 +596,6 @@ details.mobile-dd summary::-webkit-details-marker{ display:none; }
   will-change: max-height, opacity, transform;
 }
 
-body.hero-collapsed #vzla-hero{
-  max-height: 0;
-  opacity: 0;
-  transform: translateY(-10px);
-  margin: 0 !important;
-  padding-top: 0 !important;
-  padding-bottom: 0 !important;
-  overflow: hidden;
-}
-
 /* =========================
    Index cards row
    ========================= */
