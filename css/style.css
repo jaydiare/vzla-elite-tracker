@@ -1166,19 +1166,21 @@ body.hero-collapsed #vzla-hero{
 }
 
 #budgetRecommendations {
+  flex: 1;
   width: 100%;
   margin-top: 8px;
-  padding: 12px 14px;
-  border-radius: 16px;
+  padding: 0 14px;
+  border-radius: 999px;
   border: 1px solid rgba(255,255,255,.10);
   background: rgba(0,0,0,.22);
   color: rgba(255,255,255,.88);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
+  outline: none;
    
 }
 
-#budgetRecommendations::placeholder:placeholder { color: rgba(255,255,255,.45); }
+#budgetRecommendations::placeholder: { color: rgba(255,255,255,.45); }
 
 /* =========================
    Gradient text clip targets
