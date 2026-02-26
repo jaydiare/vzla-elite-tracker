@@ -1119,7 +1119,22 @@ body.hero-collapsed #vzla-hero{
   -webkit-backdrop-filter: blur(10px);
 }
 
+#cardsInput {
+  flex: 1;
+  min-width: 190px;
+  height: 44px;
+  padding: 0 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,.10);
+  background: rgba(0,0,0,.25);
+  color: rgba(255,255,255,.92);
+  outline: none;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
 #budgetInput::placeholder { color: rgba(255,255,255,.45); }
+#cardsInput::placeholder { color: rgba(255,255,255,.45); }
 
 #budgetBtn,
 #budgetClear {
@@ -1160,7 +1175,10 @@ body.hero-collapsed #vzla-hero{
   color: rgba(255,255,255,.88);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
+   
 }
+
+#budgetRecommendations::placeholder:placeholder { color: rgba(255,255,255,.45); }
 
 /* =========================
    Gradient text clip targets
