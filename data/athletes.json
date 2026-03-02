@@ -4023,5 +4023,55 @@
     "league": "WTA",
     "team": "Venezuela",
     "provider": "manual"
+  },
+  {
+    "name": "Juan Castillo",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Mets",
+    "provider": "manual"
+  },
+  {
+    "name": "Orber Moreno",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Royals",
+    "provider": "manual"
+  },
+  {
+    "name": "Kennedy Corona",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Astros",
+    "provider": "manual"
+  },
+  {
+    "name": "Bradgley Rodríguez",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Padres",
+    "provider": "manual"
+  },
+  {
+    "name": "Juan Morillo",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Diamondbacks",
+    "provider": "manual"
+  },
+  {
+    "name": "Simón Muzziotti",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Phillies",
+    "provider": "manual"
+  },
+  {
+    "name": "Jose Butto",
+    "sport": "Baseball",
+    "league": "MLB",
+    "team": "Mets",
+    "provider": "manual"
   }
+  
 ]
